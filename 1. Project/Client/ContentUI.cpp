@@ -3,6 +3,9 @@
 
 #include "TreeUI.h"
 
+#include "InspectorUI.h"
+#include "CImguiMgr.h"
+
 #include <Engine/CResMgr.h>
 
 ContentUI::ContentUI()
@@ -14,6 +17,8 @@ ContentUI::ContentUI()
 
 	m_Tree->SetShowSeperator(false);
 	m_Tree->SetDummyRoot(true);
+
+	m_Tree->AddDynamic_Selected(this, (FUNC_1)&ContentUI::SetResourceToInspector);
 
 
 	ResetContent();
@@ -65,5 +70,10 @@ void ContentUI::ResetContent()
 
 void ContentUI::SetResourceToInspector(DWORD_PTR _res)
 {
+	TreeNode* pNode = (TreeNode*)_res;
+	Ptr<CRes> pRes = (CRes*)pNode->GetData();
+
+	InspectorUI* pInspectorUI = (InspectorUI*)CImGuiMgr::GetInst()->FindUI("Inspector");
+	pInspectorUI->SetTargetRes(pRes);
 }
 

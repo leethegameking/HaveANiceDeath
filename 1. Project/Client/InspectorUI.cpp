@@ -9,6 +9,11 @@
 #include "ParticleSystemUI.h"
 #include "TileMapUI.h"
 
+#include "MeshUI.h"
+#include "ComputeShaderUI.h"
+#include "GraphicsShaderUI.h"
+
+
 #include <Engine/CLevelMgr.h>
 #include <Engine/CGameObject.h>
 
@@ -40,6 +45,24 @@ InspectorUI::InspectorUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP] = new TileMapUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP]->SetSize(ImVec2(0.f, 500.f));
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP]);
+
+
+	//==================================================================================
+
+	m_arrResUI[(UINT)RES_TYPE::COMPUTE_SHADER] = new ComputeShaderUI;
+	m_arrResUI[(UINT)RES_TYPE::COMPUTE_SHADER]->SetSize(Vec2(0.f, 100.f));
+	m_arrResUI[(UINT)RES_TYPE::COMPUTE_SHADER]->Close();
+	AddChild(m_arrResUI[(UINT)RES_TYPE::COMPUTE_SHADER]);
+
+	m_arrResUI[(UINT)RES_TYPE::GRAPHICS_SHADER] = new GraphicsShaderUI;
+	m_arrResUI[(UINT)RES_TYPE::GRAPHICS_SHADER]->SetSize(Vec2(0.f, 100.f));
+	m_arrResUI[(UINT)RES_TYPE::GRAPHICS_SHADER]->Close();
+	AddChild(m_arrResUI[(UINT)RES_TYPE::GRAPHICS_SHADER]);
+
+	m_arrResUI[(UINT)RES_TYPE::MESH] = new MeshUI;
+	m_arrResUI[(UINT)RES_TYPE::MESH]->SetSize(Vec2(0.f, 100.f));
+	m_arrResUI[(UINT)RES_TYPE::MESH]->Close();
+	AddChild(m_arrResUI[(UINT)RES_TYPE::MESH]);
 }
 
 InspectorUI::~InspectorUI()
@@ -50,7 +73,7 @@ void InspectorUI::update()
 {
 	if (!IsValid(m_TargetObj))
 	{
-		SetTarget(nullptr);
+		SetTargetObj(nullptr);
 	}
 
 	UI::update();
@@ -67,11 +90,13 @@ void InspectorUI::render_update()
 	}
 }
 
-void InspectorUI::SetTarget(CGameObject* _Target)
+void InspectorUI::SetTargetObj(CGameObject* _Target)
 {
+	if (_Target)
+		SetTargetRes(nullptr);
+
 	m_TargetObj = _Target;
 	
-
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
 		// 임시 if 아직 모든 컴포넌트에 대응 X
@@ -95,6 +120,41 @@ void InspectorUI::SetTarget(CGameObject* _Target)
 			{
 				m_arrComUI[i]->SetTarget(nullptr);
 				m_arrComUI[i]->Close();
+			}
+		}
+	}
+
+}
+
+void InspectorUI::SetTargetRes(Ptr<CRes> _Res)
+{
+	if (_Res.Get())
+		SetTargetObj(nullptr);
+
+	if (_Res.Get())
+	{
+		if (m_TargetRes.Get() && m_arrResUI[(UINT)m_TargetRes->GetResType()])
+		{
+			m_arrResUI[(UINT)m_TargetRes->GetResType()]->Close();
+		}
+
+		m_TargetRes = _Res;
+		RES_TYPE eType = m_TargetRes->GetResType();
+
+		if (m_arrResUI[(UINT)eType])
+		{
+			m_arrResUI[(UINT)eType]->SetTarget(m_TargetRes);
+			m_arrResUI[(UINT)eType]->Open();
+		}
+	}
+	else
+	{
+		for (UINT i = 0; i < (UINT)RES_TYPE::END; ++i)
+		{
+			if (m_arrResUI[i])
+			{
+				m_arrResUI[i]->SetTarget(nullptr);
+				m_arrResUI[i]->Close();
 			}
 		}
 	}

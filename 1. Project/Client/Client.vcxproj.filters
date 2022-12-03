@@ -74,6 +74,27 @@
     <Filter Include="03. UI\03. OutlinerUI">
       <UniqueIdentifier>{47fcf5d4-c2d3-4e26-9a2e-d0c6ec6ae565}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. UI\01. Inspector\ResUI">
+      <UniqueIdentifier>{9173ca1d-64e0-4532-884e-2177818b1c2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. UI\01. Inspector\ResUI\MaterialUI">
+      <UniqueIdentifier>{0a0b7fdd-cd53-49ff-99a0-362eb496324a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. UI\01. Inspector\ResUI\MeshUI">
+      <UniqueIdentifier>{f742442a-4442-45bf-be72-5e78e698eaa0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. UI\01. Inspector\ResUI\TextureUI">
+      <UniqueIdentifier>{50c51059-3db6-4740-a7ea-8af2f1088020}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. UI\01. Inspector\ResUI\ShaderUI">
+      <UniqueIdentifier>{b1ba4f76-c016-41a9-a3e4-18ac732fc489}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. UI\01. Inspector\ResUI\ShaderUI\Compute">
+      <UniqueIdentifier>{4e746fda-8d79-4543-86d8-a80da6c7e950}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. UI\01. Inspector\ResUI\ShaderUI\Graphics">
+      <UniqueIdentifier>{435805e4-1a43-4608-aa68-71977ac0da7b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -169,6 +190,27 @@
     <ClInclude Include="OutlinerUI.h">
       <Filter>03. UI\03. OutlinerUI</Filter>
     </ClInclude>
+    <ClInclude Include="Animator2DUI.h">
+      <Filter>03. UI\01. Inspector\ComponentUI\Animator2DUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ResUI.h">
+      <Filter>03. UI\01. Inspector\ResUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshUI.h">
+      <Filter>03. UI\01. Inspector\ResUI\MeshUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureUI.h">
+      <Filter>03. UI\01. Inspector\ResUI\TextureUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialUI.h">
+      <Filter>03. UI\01. Inspector\ResUI\MaterialUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ComputeShaderUI.h">
+      <Filter>03. UI\01. Inspector\ResUI\ShaderUI\Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsShaderUI.h">
+      <Filter>03. UI\01. Inspector\ResUI\ShaderUI\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -262,6 +304,27 @@
     </ClCompile>
     <ClCompile Include="OutlinerUI.cpp">
       <Filter>03. UI\03. OutlinerUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator2DUI.cpp">
+      <Filter>03. UI\01. Inspector\ComponentUI\Animator2DUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ResUI.cpp">
+      <Filter>03. UI\01. Inspector\ResUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshUI.cpp">
+      <Filter>03. UI\01. Inspector\ResUI\MeshUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureUI.cpp">
+      <Filter>03. UI\01. Inspector\ResUI\TextureUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialUI.cpp">
+      <Filter>03. UI\01. Inspector\ResUI\MaterialUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ComputeShaderUI.cpp">
+      <Filter>03. UI\01. Inspector\ResUI\ShaderUI\Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsShaderUI.cpp">
+      <Filter>03. UI\01. Inspector\ResUI\ShaderUI\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -98,7 +98,7 @@ void OutlinerUI::SetObjectToInspector(DWORD_PTR _obj)
 	CGameObject* pObject = (CGameObject*)pSelectedNode->GetData();
 
 	InspectorUI* Inspector = (InspectorUI*)CImGuiMgr::GetInst()->FindUI("Inspector");
-	Inspector->SetTarget(pObject);
+	Inspector->SetTargetObj(pObject);
 }
 
 void OutlinerUI::AddGameObjectToTree(TreeUI* _TreeUI ,TreeNode* _ParentNode, CGameObject* _Object)

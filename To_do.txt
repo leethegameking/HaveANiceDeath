@@ -5,7 +5,7 @@
 ! InspectorUI 구조 개선 
 ! drag & drop 메서드 AddChild
 ! EditorObj도 Outliner에 들어오게
-* ResUI 구현
+! ResUI 구현
 * animator component 만들기
 * tilemap 컴포넌트 구조 변경 -> UI에서 완성해서 화면에 Set
 * menu bar 만들기

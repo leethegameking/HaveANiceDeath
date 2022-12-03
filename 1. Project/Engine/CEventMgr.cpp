@@ -34,6 +34,7 @@ void CEventMgr::tick()
 		{
 		case EVENT_TYPE::CREATE_OBJECT:
 		{
+			m_bLevelChanged = true;
 			// wParam : GameObject Adress
 			// lParam : Layer Index
 			CGameObject* pNewObj = (CGameObject*)m_vecEvent[i].wParam;
@@ -45,6 +46,7 @@ void CEventMgr::tick()
 			break;
 		case EVENT_TYPE::DELETE_OBJECT:
 		{
+			m_bLevelChanged = true;
 			// wParam : GameObject Adress
 			CGameObject* pObj = (CGameObject*)m_vecEvent[i].wParam;
 
@@ -74,15 +76,20 @@ void CEventMgr::tick()
 			break;
 		case EVENT_TYPE::ADD_CHILD:
 		{
+			m_bLevelChanged = true;
+
 			CGameObject* pChildObj = (CGameObject*)m_vecEvent[i].wParam;
 			CGameObject* pParentObj = (CGameObject*)m_vecEvent[i].lParam;
 
 			pParentObj->AddChild(pChildObj);
 
-			m_bLevelChanged = true;
+			
 		}
 			break;
 		case EVENT_TYPE::CHANGE_LEVEL:
+		{
+			m_bLevelChanged = true;
+		}
 			break;
 		case EVENT_TYPE::END:
 			break;
