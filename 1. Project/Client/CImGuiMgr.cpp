@@ -125,8 +125,14 @@ void CImGuiMgr::CreateUI()
     pUI = new OutlinerUI;
     m_mapUI.insert({ pUI->GetName(), pUI });
 
-    pUI = new ListUI;
+    pUI = new ListUI("ListUIModal");
+    pUI->SetSize(Vec2(200.f, 500.f));
     pUI->SetModal(true);
+    m_mapUI.insert({ pUI->GetName(), pUI });
+
+    pUI = new ListUI("ListUI");
+    pUI->SetSize(Vec2(200.f, 500.f));
+    pUI->SetPopUp(true);
     m_mapUI.insert({ pUI->GetName(), pUI });
 }
 

@@ -8,6 +8,7 @@ UI::UI(const string& _strName)
 	, m_ParentUI(nullptr)
 	, m_bOpen(true)
 	, m_bModal(false)
+	, m_bPopUp(false)
 	, m_bShowSeperator(true)
 {
 }

@@ -180,6 +180,28 @@ void DebugDrawCircle(Vec4 _vColor, Vec3 _vPosition, float _fRadius, float _fDura
 	CRenderMgr::GetInst()->DebugDraw(DEBUG_SHAPE::CIRCLE, _vColor, _vPosition, Vec3::Zero, Vec3::Zero, _fRadius, _fDuration);
 }
 
+vector<wstring> StrToWStrVec(const vector<string>& _vecStr)
+{
+	vector<wstring> vecWstr;
+
+	for (size_t i = 0; i < _vecStr.size(); ++i)
+	{
+		vecWstr.push_back(StrToWStr(_vecStr[i]));
+	}
+	return vecWstr;
+}
+
+vector<string> WstrToStrVec(const vector<wstring>& _vecWstr)
+{
+	vector<string> vecStr;
+
+	for (size_t i = 0; i <_vecWstr.size(); ++i)
+	{
+		vecStr.push_back(WstrToStr(_vecWstr[i]));
+	}
+	return vecStr;
+}
+
 const char* ToString(COMPONENT_TYPE _type)
 {
 	return COMPONENT_TYPE_CHAR[(UINT)_type];

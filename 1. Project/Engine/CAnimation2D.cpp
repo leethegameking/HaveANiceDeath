@@ -4,6 +4,8 @@
 #include "CDevice.h"
 #include "CConstBuffer.h"
 
+#include "CResMgr.h"
+
 #include "CTimeMgr.h"
 #include "CTexture.h"
 
@@ -74,6 +76,8 @@ void CAnimation2D::Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex
 
 		m_vecFrm.push_back(frm);
 	}
+
+	CResMgr::GetInst()->AddRes<CAnimation2D>(this->GetName(), (CAnimation2D*)this);
 }
 
 

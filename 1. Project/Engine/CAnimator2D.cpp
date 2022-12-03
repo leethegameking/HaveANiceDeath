@@ -44,11 +44,7 @@ void CAnimator2D::CreateAnimation(const wstring& _strKey, Ptr<CTexture> _AtlasTe
 	pAnim = new CAnimation2D;
 	pAnim->Create(_strKey, _AtlasTex, _vLeftTop, _vSlice, _fStep, _iMaxFrm, _FPS);
 
-	
-	CResMgr::GetInst()->AddRes<CAnimation2D>(pAnim->GetName(), (CAnimation2D*)pAnim);
-
 	CAnimation2D* pAnimClone = pAnim->Clone();
-
 	m_mapAnim.insert(make_pair(pAnimClone->GetKey(), pAnimClone));
 	pAnimClone->m_pOwner = this;
 }
@@ -61,6 +57,18 @@ CAnimation2D* CAnimator2D::FindAnimation(const wstring& _strKey)
 		return nullptr;
 
 	return iter->second;
+}
+
+void CAnimator2D::AddAnimation(wstring _key)
+{
+	Ptr<CAnimation2D> pAnim = CResMgr::GetInst()->FindRes<CAnimation2D>(_key);
+	
+	if (m_mapAnim.find(pAnim->GetKey()) == m_mapAnim.end())
+	{
+		CAnimation2D* pAnimClone = pAnim->Clone();
+		m_mapAnim.insert(make_pair(pAnimClone->GetKey(), pAnimClone));
+		pAnimClone->m_pOwner = this;
+	}
 }
 
 void CAnimator2D::Play(const wstring& _strKey, bool _bRepeat)

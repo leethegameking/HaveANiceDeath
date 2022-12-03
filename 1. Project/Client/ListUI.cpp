@@ -9,7 +9,6 @@ ListUI::ListUI()
 	, m_DBCInst(nullptr)
 	, m_DBCFunc(nullptr)
 	, m_bMultiSelect(false)
-	, m_iIntial(-1)
 	, m_bIntialized(false)
 	, m_ID(ID)
 {
@@ -23,18 +22,35 @@ ListUI::ListUI()
 	++ID;
 }
 
+ListUI::ListUI(const string& _name)
+	: UI(_name)
+	, m_iSelectIdx(-1)
+	, m_DBCInst(nullptr)
+	, m_DBCFunc(nullptr)
+	, m_bMultiSelect(false)
+	, m_bIntialized(false)
+	, m_ID(ID)
+{
+	Close();
+	
+	++ID;
+}
+
 ListUI::~ListUI()
 {
 }
 
 
-void ListUI::init()
+
+void ListUI::init(vector<string> _itemList, int _bitInitial)
 {
+	SetItemList(_itemList);
+
 	if (!m_bIntialized)
 	{
-		for (int i = 0; i < m_ItemList.size(); ++i)
+		for (int i = 0; i < _itemList.size(); ++i)
 		{
-			m_bMultiSelectIdx[i] = (m_iIntial >> (m_ItemList.size() - i - 1)) % 2;
+			m_bMultiSelectIdx.push_back((_bitInitial >> (_itemList.size() - i - 1)) % 2);
 		}
 		m_bIntialized = true;
 	}
@@ -45,11 +61,11 @@ void ListUI::render_update()
 	ImVec2 vRegion = {};
 
 
-	if (IsModal())
+	if (IsPopUp() || IsModal())
 	{
 		vRegion = ImGui::GetContentRegionAvail();
 		vRegion.x += 18.f;
-		vRegion.y += 3.f;
+		vRegion.y -= 20.f;
 
 		ImVec2 vCurPos = ImGui::GetWindowPos();
 		vCurPos.x -= 0.f;
@@ -57,7 +73,6 @@ void ListUI::render_update()
 
 		ImGui::SetNextWindowPos(vCurPos);
 	}
-
 
 	string str = "##ListBox" + to_string(m_ID);
 	if (ImGui::BeginListBox(str.c_str(), vRegion))
@@ -76,9 +91,12 @@ void ListUI::render_update()
 						//memset(m_bMultiSelectIdx., 0, sizeof(m_bMultiSelectIdx));
 					m_bMultiSelectIdx[i] = m_bMultiSelectIdx[i] ^ 1;
 				}
-			}
 
-			(m_SelectInst->*m_SelectFunc)();
+				if (m_SelectInst && m_SelectFunc)
+				{
+					(m_SelectInst->*m_SelectFunc)();
+				}
+			}
 		}
 		else
 		{ 
@@ -111,6 +129,16 @@ void ListUI::render_update()
 			}
 		}
 		ImGui::EndListBox();
+
+		if (ButtonCenteredOnLine("Confirm", 0.5f))
+		{
+			if (m_ConfirmInst && m_ConfirmFunc)
+			{
+				(m_ConfirmInst->*m_ConfirmFunc)((DWORD_PTR)&m_bMultiSelectIdx);
+			}
+			if (IsPopUp() || IsModal())
+				Close();
+		}
 	}
 }
 
@@ -124,6 +152,9 @@ void ListUI::Close()
 
 	m_SelectInst = nullptr;
 	m_SelectFunc = nullptr;
+
+	m_bMultiSelectIdx.clear();
+	m_bIntialized = false;
 
 	ResetFocus();
 }

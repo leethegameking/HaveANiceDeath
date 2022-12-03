@@ -51,7 +51,7 @@ void MeshRenderUI::render_update()
 	ImGui::SameLine();
 	if (ImGui::Button("##MeshBtn", Vec2(15.f, 15.f)))
 	{
-		ListUI* pListUI = dynamic_cast<ListUI*>(CImGuiMgr::GetInst()->FindUI("ListUI"));
+		ListUI* pListUI = dynamic_cast<ListUI*>(CImGuiMgr::GetInst()->FindUI("ListUIModal"));
 		assert(pListUI);
 
 		// 메쉬 목록을 받아와서 ListUI에 전달
@@ -66,7 +66,7 @@ void MeshRenderUI::render_update()
 			vecRes.push_back(iter->first);
 		}
 		// 이름 ItemList로 복사
-		pListUI->SetItemList(vecRes);
+		pListUI->init(WstrToStrVec(vecRes));
 
 		// Item이 DoubleClick되었을때 이 객체의 SetMesh함수를 호출한다. 
 		pListUI->AddDynamicDBClicked(this, (FUNC_1)&MeshRenderUI::SetMesh);
@@ -80,7 +80,7 @@ void MeshRenderUI::render_update()
 	ImGui::SameLine();
 	if (ImGui::Button("##MtrlBtn", Vec2(15.f, 15.f)))
 	{
-		ListUI* pListUI = dynamic_cast<ListUI*>(CImGuiMgr::GetInst()->FindUI("ListUI"));
+		ListUI* pListUI = dynamic_cast<ListUI*>(CImGuiMgr::GetInst()->FindUI("ListUIModal"));
 		assert(pListUI);
 
 		// 재질 목록을 받아와서 ListUI에 전달

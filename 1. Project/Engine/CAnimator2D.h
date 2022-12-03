@@ -20,6 +20,7 @@ public:
 public:
     void CreateAnimation(const wstring& _strKey, Ptr<CTexture> _AtlasTex, Vec2 _vLeftTop, Vec2 _vSlice, float _fStep, int _iMaxFrm, float _FPS);
     CAnimation2D* FindAnimation(const wstring& _strKey);
+    void AddAnimation(wstring _key);
 
     void Play(const wstring& _strKey, bool _bRepeat = true);
 

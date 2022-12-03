@@ -107,7 +107,7 @@ void CResMgr::CreateDefaultMesh()
 	{
 		v.vPos = Vec3(fRadius * cosf(fTheta * (float)i), fRadius * sinf(fTheta * (float)i), 0.f);
 		v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
-		v.vUV = Vec2(0.5f + v.vPos.x, 1.f - (v.vPos.y - 0.5f));
+		v.vUV = Vec2(0.5f + v.vPos.x, 1.f - (v.vPos.y + 0.5f));
 		vecVtx.push_back(v);
 	}
 

@@ -15,6 +15,7 @@ private:
 	bool m_bOpen;
 
 	bool m_bModal;
+	bool m_bPopUp;
 	bool m_bShowSeperator;
 
 public:
@@ -34,6 +35,9 @@ public:
 
 	void SetModal(bool _modal) { m_bModal = _modal; }
 	bool IsModal() { return m_bModal; }
+
+	void SetPopUp(bool _popup) { m_bPopUp = _popup; }
+	bool IsPopUp() { return m_bPopUp; }
 
 	void SetShowSeperator(bool _show) { m_bShowSeperator = _show; }
 	bool ShowSeperator() { return m_bShowSeperator; }

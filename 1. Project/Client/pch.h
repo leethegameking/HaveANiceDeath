@@ -10,6 +10,7 @@
 #include "imgui.h"
 
 #include "define.h"
+#include "CommonUI.h"
 
 #ifdef _DEBUG
 #pragma comment(lib, "Engine\\Engine_debug.lib")

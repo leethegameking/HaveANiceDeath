@@ -50,6 +50,20 @@ inline bool IsValid(CEntity* _pCom)
 	return true;
 }
 
+inline wstring StrToWStr(const string& _str)
+{
+	return wstring(_str.begin(), _str.end());
+}
+
+vector<wstring> StrToWStrVec(const vector<string>& _vecStr);
+
+inline string WstrToStr(const wstring& _wstr)
+{
+	return string(_wstr.begin(), _wstr.end());
+}
+
+vector<string> WstrToStrVec(const vector<wstring>& _vecWstr);
+
 const char* ToString(COMPONENT_TYPE _type);
 const wchar_t* ToWString(COMPONENT_TYPE _type);
 const char* ToString(RES_TYPE _type);
