@@ -3,6 +3,22 @@
 
 #include "CGameObject.h"
 
+void CLayer::DeregisterObject(CGameObject* _pObj)
+{
+	vector<CGameObject*>::iterator iter = m_vecParent.begin();
+
+	for (; iter != m_vecParent.end(); ++iter)
+	{
+		if (*iter == _pObj)
+		{
+			m_vecParent.erase(iter);
+			return;
+		}
+	}
+
+	assert(nullptr);
+}
+
 CLayer::CLayer()
 	: m_iLayerIdx(-1)
 {

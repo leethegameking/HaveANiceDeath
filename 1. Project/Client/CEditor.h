@@ -14,6 +14,9 @@ private:
 
 
 public:
+	vector<CGameObjectEx*>& GetEditorObject() { return m_vecEditorObj; }
+
+public:
 	void init();
 	void progress();
 
@@ -23,6 +26,7 @@ private:
 
 private:
 	void CreateDebugDrawObject();
+	
 	void DebugDraw(tDebugShapeInfo& _info);
 
 public:

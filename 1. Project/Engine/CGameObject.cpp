@@ -9,6 +9,7 @@
 
 #include "CLevelMgr.h"
 #include "CLevel.h"
+#include "CLayer.h"
 
 CGameObject::CGameObject()
 	: m_pParent(nullptr)
@@ -136,6 +137,26 @@ void CGameObject::render()
 		m_pRenderComponent->render();
 }
 
+void CGameObject::DisconnectFromParent()
+{
+	vector<CGameObject*>& vecChild = m_pParent->m_vecChild;
+	
+	vector<CGameObject*>::iterator iter = vecChild.begin();
+	for(; iter != vecChild.end(); ++iter)
+	{
+		if (*iter == this)
+		{
+			vecChild.erase(iter);
+			m_pParent = nullptr;
+
+			return;
+		}
+	}
+
+	// 자식벡터에 자식이 없었음.
+	assert(nullptr);
+}
+
 void CGameObject::AddComponent(CComponent* _pComponent)
 {
 	COMPONENT_TYPE eComType = _pComponent->GetType();
@@ -168,6 +189,25 @@ void CGameObject::AddComponent(CComponent* _pComponent)
 
 void CGameObject::AddChild(CGameObject* _pChild)
 {
+	if (_pChild->GetParent())
+	{
+		_pChild->DisconnectFromParent();
+	}
+	else
+	{
+		// 막 생성됨과 같은 이유로 레이어 미정인 상태의 오브젝트
+		if (_pChild->m_iLayerIdx == -1)
+		{
+			_pChild->m_iLayerIdx = m_iLayerIdx;
+		}
+		else
+		{
+			CLayer* pChildLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(_pChild->m_iLayerIdx);
+			pChildLayer->DeregisterObject(_pChild);
+		}
+	}
+
+
 	_pChild->m_pParent = this;
 	m_vecChild.push_back(_pChild);
 }

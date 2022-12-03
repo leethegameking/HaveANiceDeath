@@ -8,6 +8,7 @@
 
 
 CEventMgr::CEventMgr()
+	: m_bLevelChanged(false)
 {
 }
 
@@ -17,6 +18,7 @@ CEventMgr::~CEventMgr()
 
 void CEventMgr::tick()
 {
+	m_bLevelChanged = false;
 	// 메모리 정리
 	for (size_t i = 0; i < m_vecGarbage.size(); ++i)
 	{		
@@ -68,6 +70,16 @@ void CEventMgr::tick()
 					pObj->m_bDead = true;
 				}
 			}
+		}
+			break;
+		case EVENT_TYPE::ADD_CHILD:
+		{
+			CGameObject* pChildObj = (CGameObject*)m_vecEvent[i].wParam;
+			CGameObject* pParentObj = (CGameObject*)m_vecEvent[i].lParam;
+
+			pParentObj->AddChild(pChildObj);
+
+			m_bLevelChanged = true;
 		}
 			break;
 		case EVENT_TYPE::CHANGE_LEVEL:

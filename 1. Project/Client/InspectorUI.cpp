@@ -48,11 +48,17 @@ InspectorUI::~InspectorUI()
 
 void InspectorUI::update()
 {
+	if (!IsValid(m_TargetObj))
+	{
+		SetTarget(nullptr);
+	}
+
 	UI::update();
 }
 
 void InspectorUI::render_update()
 {
+	// 타겟 이름
 	if (m_TargetObj)
 	{
 		string strObjName = string(m_TargetObj->GetName().begin(), m_TargetObj->GetName().end());
@@ -65,26 +71,34 @@ void InspectorUI::SetTarget(CGameObject* _Target)
 {
 	m_TargetObj = _Target;
 	
-	if (m_TargetObj)
+
+	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
-		for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
+		// 임시 if 아직 모든 컴포넌트에 대응 X
+		if (m_arrComUI[i])
 		{
-			if (m_arrComUI[i] != nullptr)
+			if (m_TargetObj)
 			{
-				if (m_TargetObj->GetComponent((COMPONENT_TYPE)i) == nullptr)
+				if (m_TargetObj->GetComponent((COMPONENT_TYPE)i))
+				{
+					m_arrComUI[i]->SetTarget(m_TargetObj);
+					m_arrComUI[i]->init();
+					m_arrComUI[i]->Open(); // TargetObject와 Component를 보장.
+				}
+				else
 				{
 					m_arrComUI[i]->SetTarget(nullptr);
 					m_arrComUI[i]->Close();
 				}
-				else
-				{
-					m_arrComUI[i]->SetTarget(m_TargetObj);
-					m_arrComUI[i]->init();
-					m_arrComUI[i]->Open();
-				}
+			}
+			else
+			{
+				m_arrComUI[i]->SetTarget(nullptr);
+				m_arrComUI[i]->Close();
 			}
 		}
 	}
+
 }
 
 

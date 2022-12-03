@@ -44,6 +44,8 @@ public:
 
 
 public:
+    void DisconnectFromParent();
+
     void AddComponent(CComponent* _pComponent);
     CComponent* GetComponent(COMPONENT_TYPE _eComType) { return m_arrCom[(UINT)_eComType]; }
     void AddChild(CGameObject* _pChild);

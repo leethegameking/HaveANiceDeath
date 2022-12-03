@@ -26,6 +26,7 @@ public:
 
 private:
     void RegisterObject(CGameObject* _pObj){m_vecObjects.push_back(_pObj);}
+    void DeregisterObject(CGameObject* _pObj);
     void clear() { m_vecObjects.clear(); }
 
 

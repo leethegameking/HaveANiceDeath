@@ -42,6 +42,14 @@ void CEditor::init()
 	pGridObj->GetScript<CGrid2DScript>()->SetThickness(2.f);
 
 	m_vecEditorObj.push_back(pGridObj);
+
+	CGameObjectEx* TestObj1 = new CGameObjectEx;
+	TestObj1->SetName(L"TestObj");
+	m_vecEditorObj.push_back(TestObj1);
+
+	CGameObjectEx* TestObj2 = new CGameObjectEx;
+	TestObj2->SetName(L"TestObj");
+	m_vecEditorObj.push_back(TestObj2);
 }
 
 void CEditor::progress()

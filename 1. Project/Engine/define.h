@@ -144,6 +144,7 @@ enum class EVENT_TYPE
 {
 	CREATE_OBJECT,  // wParam : Object Adress, lParam : Layer Index
 	DELETE_OBJECT,	// wParam : Object Adress,
+	ADD_CHILD,
 	CHANGE_LEVEL,
 
 	END,

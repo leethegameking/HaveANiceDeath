@@ -38,9 +38,42 @@ void TreeNode::render_update()
 
 	if (ImGui::TreeNodeEx(strName.c_str(), iFlag))
 	{
+		// 아이템 클릭 체크
 		if (ImGui::IsItemHovered(0) && ImGui::IsMouseClicked(0) && !m_bFrame)
 		{
 			m_TreeUI->SetSelectedNode(this);
+		}
+
+		// 아이템 드래그 체크
+		if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+		{
+			m_TreeUI->SetBeginDragNode(this);
+
+			// ImGui가 UI -> UI로 정보를 전달하는 방식 : 이름, void* 타입 데이터, 크기
+			ImGui::SetDragDropPayload(m_TreeUI->GetName().c_str(), (void*)this, sizeof(TreeNode));
+
+			// drag & drop item name 파싱 추가
+			string strSubName;
+			for (size_t i = 0; strName.length(); ++i)
+			{
+				if (strName[i] == '#')
+				{
+					strSubName = strName.substr(0, i);
+					break;
+				}
+			}
+			ImGui::Text(strSubName.c_str());
+			
+
+
+			ImGui::EndDragDropSource();
+		}
+
+		if (ImGui::BeginDragDropTarget())
+		{
+			m_TreeUI->SetDropTargetNode(this);
+
+			ImGui::EndDragDropTarget();
 		}
 
 		for (size_t i = 0; i < m_vecChildNode.size(); ++i)
@@ -71,6 +104,8 @@ TreeUI::~TreeUI()
 	Clear();
 }
 
+
+
 void TreeUI::update()
 {
 }
@@ -91,7 +126,14 @@ void TreeUI::render_update()
 		{
 			vecChildNode[i]->render_update();
 		}
-	}		
+	}
+
+	// 마우스 왼쪽 릴리즈 체크
+	if (ImGui::IsMouseReleased(0))
+	{
+		m_BeginDragNode = nullptr;
+		m_DropTargetNode = nullptr;
+	}
 }
 
 TreeNode* TreeUI::AddItem(TreeNode* _parent, const string& _strName, DWORD_PTR _data, bool _IsFrame)
@@ -140,4 +182,15 @@ void TreeUI::SetSelectedNode(TreeNode* _SelectedNode)
 	}
 }
 
+void TreeUI::SetDropTargetNode(TreeNode* _node)
+{
+	m_DropTargetNode = _node;
 
+	if (const ImGuiPayload* payLoad = ImGui::AcceptDragDropPayload(GetName().c_str()))
+	{
+		if (m_DragDropInst && m_DragDropFunc)
+		{
+			(m_DragDropInst->*m_DragDropFunc)((DWORD_PTR)m_BeginDragNode, (DWORD_PTR)m_DropTargetNode);
+		}
+	}
+}

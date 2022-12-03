@@ -151,6 +151,9 @@
     <Filter Include="HLSL\Compute\ParticleUpdateShader\ParticleFirework">
       <UniqueIdentifier>{595cb734-c136-4473-8912-d571671c830e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\06. Component\06. RigidiBody2D">
+      <UniqueIdentifier>{427132f9-914e-4c5d-9437-899a1a522b8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">

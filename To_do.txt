@@ -1,0 +1,36 @@
+!=완 *=미완
+
+- 구현 - 
+
+! InspectorUI 구조 개선 
+! drag & drop 메서드 AddChild
+! EditorObj도 Outliner에 들어오게
+* ResUI 구현
+* animator component 만들기
+* tilemap 컴포넌트 구조 변경 -> UI에서 완성해서 화면에 Set
+* menu bar 만들기
+* 우클릭 기능 만들기
+* 리지드바디 만들기
+
+- 공부 -  // 기능 단위
+0. GPU 사용하는 Device를 이용한 렌더링 방식. 
+1. 엔진 tick() render() 순서
+2. 리소스들의 저장 방식과 각 리소스들이 하는 일.
+3. 각 Component의 하는 일
+- Transform
+- Camera
+- Collider2D
+- Animator2D
+- Light2D
+- RigidBody2D
+
+- RenderComponent
+-- MeshRender
+-- ParticleSystem
+-- TileMap
+
+- Script
+
+4. Editor 구조 
+5. ImGui 설계
+6. 각 UI 구조.

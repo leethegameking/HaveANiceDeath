@@ -62,9 +62,11 @@ private:
     UI* m_SelectInst;
     FUNC_1 m_SelectFunc;
 
-public:
-    virtual void update() override;
-    virtual void render_update() override;
+    UI* m_DragDropInst;
+    FUNC_2 m_DragDropFunc;
+
+    TreeNode* m_BeginDragNode;
+    TreeNode* m_DropTargetNode;
 
 public:
     TreeNode* AddItem(TreeNode* _parent, const string& _strName, DWORD_PTR _data, bool _IsFrame = false);
@@ -77,6 +79,19 @@ public:
         m_SelectInst = _Inst;
         m_SelectFunc = _Func;
     }
+
+
+    void AddDynamic_DragDop(UI* _Inst, FUNC_2 _Func)
+    {
+        m_DragDropInst = _Inst;
+        m_DragDropFunc = _Func;
+    }
+    void SetBeginDragNode(TreeNode* _node) { m_BeginDragNode = _node; }
+    void SetDropTargetNode(TreeNode* _node);
+
+public:
+    virtual void update() override;
+    virtual void render_update() override;
 
 public:
     TreeUI(const string& _strName);

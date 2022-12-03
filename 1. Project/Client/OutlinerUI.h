@@ -9,7 +9,8 @@ class OutlinerUI :
     public UI
 {
 private:
-    TreeUI* m_Tree;
+    TreeUI* m_LevelTree;
+    TreeUI* m_EditorTree;
 
 private:
     virtual void update() override;
@@ -21,7 +22,7 @@ public:
 
 private:
     void SetObjectToInspector(DWORD_PTR _res);
-    void AddGameObjectToTree(TreeNode* _ParentNode, CGameObject* _Object);
+    void AddGameObjectToTree(TreeUI* _TreeUI ,TreeNode* _ParentNode, CGameObject* _Object);
 
 
     void AddChildObject(DWORD_PTR _ChildObject, DWORD_PTR _ParentObject);

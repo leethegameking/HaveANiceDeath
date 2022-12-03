@@ -88,8 +88,7 @@ void UI::render()
 
 			ImGui::EndChild();
 
-			ComponentUI* IsComponent = dynamic_cast<ComponentUI*>(this);
-			if (ShowSeperator() && IsComponent != nullptr && IsComponent->GetTarget())
+			if (ShowSeperator())
 				ImGui::Separator();
 		}
 
