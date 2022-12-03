@@ -32,7 +32,7 @@ private:
 
 public:
     CLONE_DUMMY(CLayer);
-
+    
 public:
     CLayer();
     ~CLayer();

@@ -95,6 +95,9 @@
     <Filter Include="03. UI\01. Inspector\ResUI\ShaderUI\Graphics">
       <UniqueIdentifier>{435805e4-1a43-4608-aa68-71977ac0da7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. UI\01. Inspector\ComponentUI\Animator2DUI\Animation2DUI">
+      <UniqueIdentifier>{aa4f6df3-5371-44c7-9c1d-a3ca9a3d0ce5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -211,6 +214,9 @@
     <ClInclude Include="GraphicsShaderUI.h">
       <Filter>03. UI\01. Inspector\ResUI\ShaderUI\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Animation2DUI.h">
+      <Filter>03. UI\01. Inspector\ComponentUI\Animator2DUI\Animation2DUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -325,6 +331,9 @@
     </ClCompile>
     <ClCompile Include="GraphicsShaderUI.cpp">
       <Filter>03. UI\01. Inspector\ResUI\ShaderUI\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation2DUI.cpp">
+      <Filter>03. UI\01. Inspector\ComponentUI\Animator2DUI\Animation2DUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Animation2DUI.h" />
     <ClInclude Include="Animator2DUI.h" />
     <ClInclude Include="CameraUI.h" />
     <ClInclude Include="CEditor.h" />
@@ -189,6 +190,7 @@
     <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animation2DUI.cpp" />
     <ClCompile Include="Animator2DUI.cpp" />
     <ClCompile Include="CameraUI.cpp" />
     <ClCompile Include="CEditor.cpp" />

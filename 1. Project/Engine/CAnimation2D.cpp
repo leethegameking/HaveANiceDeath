@@ -28,6 +28,7 @@ void CAnimation2D::finaltick()
 	// 시간 체크
 	m_fAccTime += DT;
 
+
 	// 누적 시간이 해당 프레임 유지시간을 넘어서면 다음프레임으로 넘어감
 	if (m_vecFrm[m_iCurIdx].fDuration < m_fAccTime)
 	{
@@ -63,7 +64,7 @@ void CAnimation2D::Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex
 		frm.vSlice = Vec2(_vSlice.x / fWidth, _vSlice.y / fHeight);
 		frm.fDuration = 1.f / _FPS;
 
-		frm.vFullSize = Vec2(200.f / fWidth, 200.f / fHeight);
+		frm.vFullSize = Vec2(400.f / fWidth, 400.f / fHeight);
 		/*if (i == 5)
 		{
 			frm.vOffset = Vec2(20.f / fWidth, 30.f / fHeight);

@@ -27,6 +27,7 @@ public:
 
 	void AddChild(UI* _ChildUI);
 
+	virtual void init() {};
 	virtual void Open() { m_bOpen = true; }
 	virtual void Close() { m_bOpen = false; }
 

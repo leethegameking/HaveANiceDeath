@@ -15,8 +15,6 @@ public:
 	CGameObject* GetTarget() { return m_TargetObj; }
 	COMPONENT_TYPE GetComponentType() { return m_eType; }
 
-	virtual void init() {};
-
 	virtual void render_update() override;
 
 public:

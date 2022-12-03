@@ -12,6 +12,7 @@
 #include "MeshUI.h"
 #include "ComputeShaderUI.h"
 #include "GraphicsShaderUI.h"
+#include "Animator2DUI.h"
 
 
 #include <Engine/CLevelMgr.h>
@@ -45,6 +46,10 @@ InspectorUI::InspectorUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP] = new TileMapUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP]->SetSize(ImVec2(0.f, 500.f));
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D] = new Animator2DUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]->SetSize(ImVec2(0.f, 500.f));
+	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]);
 
 
 	//==================================================================================
@@ -144,6 +149,7 @@ void InspectorUI::SetTargetRes(Ptr<CRes> _Res)
 		if (m_arrResUI[(UINT)eType])
 		{
 			m_arrResUI[(UINT)eType]->SetTarget(m_TargetRes);
+			m_arrResUI[(UINT)eType]->init();
 			m_arrResUI[(UINT)eType]->Open();
 		}
 	}

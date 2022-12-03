@@ -28,9 +28,11 @@ public:
     
 
 public:
-    void init(int _idx);
+    void init( vector<string> _itemList, int _idx);
     void render_update() override;
     void update();
+
+
 
 public:
     ComboBox();

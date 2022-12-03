@@ -18,8 +18,9 @@ void ComboBox::update()
 }
 
 
-void ComboBox::init( int _idx)
+void ComboBox::init(vector<string> _itemList, int _idx)
 {
+    SetItem(_itemList);
     m_iCurItemIdx = _idx;
 }
 

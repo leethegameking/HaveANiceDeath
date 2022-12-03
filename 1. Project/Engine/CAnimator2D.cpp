@@ -62,6 +62,8 @@ void CAnimator2D::Play(const wstring& _strKey, bool _bRepeat)
 
 	if (IsValid(pAnim))
 	{
+		if(m_pCurAnim)
+			m_pCurAnim->Reset();
 		m_pCurAnim = pAnim;
 	}
 

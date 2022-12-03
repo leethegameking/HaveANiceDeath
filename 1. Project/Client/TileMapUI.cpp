@@ -24,16 +24,6 @@ TileMapUI::TileMapUI()
 {
 	m_AtlasComboBox = new ComboBox;
 
-	const map<wstring, Ptr<CRes>>& mapRes = CResMgr::GetInst()->GetResource(RES_TYPE::TEXTURE);
-
-	map<wstring, Ptr<CRes>>::const_iterator iter = mapRes.begin();
-
-	for (; iter != mapRes.end(); ++iter)
-	{
-		m_vecRes.push_back(string(iter->first.begin(), iter->first.end()));
-	}
-
-	m_AtlasComboBox->SetItem(m_vecRes);
 	m_AtlasComboBox->AddSelectedFunc(this, (FUNC_1)&TileMapUI::SetAtlasTex);
 
 	m_SelectedMark = CResMgr::GetInst()->FindRes<CTexture>(L"Bubbles50px");
@@ -114,11 +104,20 @@ void TileMapUI::ArrangeTile()
 
 void TileMapUI::init()
 {
+	const map<wstring, Ptr<CRes>>& mapRes = CResMgr::GetInst()->GetResource(RES_TYPE::TEXTURE);
+
+	map<wstring, Ptr<CRes>>::const_iterator iter = mapRes.begin();
+
+	for (; iter != mapRes.end(); ++iter)
+	{
+		m_vecRes.push_back(string(iter->first.begin(), iter->first.end()));
+	}
+
 	m_AtlasTex = GetTarget()->TileMap()->GetTileAtlas();
 	for (int i = 0; i < m_vecRes.size(); ++i)
 	{
 		if (m_AtlasTex.Get()->GetKey() == wstring(m_vecRes[i].begin(), m_vecRes[i].end()))
-			m_AtlasComboBox->init(i);
+			m_AtlasComboBox->init(m_vecRes, i);
 	}
 
 	m_vecTile = GetTarget()->TileMap()->GetTileInfo();

@@ -18,8 +18,10 @@ private:
     bool                m_bFinish;
 
 public:
-    void finaltick();
+    Ptr<CTexture> GetAtlas() { return m_AtlasTex; }
 
+public:
+    void finaltick();
 
 public:
     void Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex, Vec2 _vLeftTop, Vec2 _vSlice, float _fStep, int _iMaxFrm, float _FPS);
