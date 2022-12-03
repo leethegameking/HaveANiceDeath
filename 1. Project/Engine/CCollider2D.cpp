@@ -1,0 +1,101 @@
+#include "pch.h"
+#include "CCollider2D.h"
+
+#include "CTransform.h"
+#include "CScript.h"
+
+CCollider2D::CCollider2D()
+	: CComponent(COMPONENT_TYPE::COLLIDER2D)
+	, m_vScale(Vec2(1.f, 1.f))
+	, m_eType(COLLIDER2D_TYPE::COLLIDER2D_RECT)
+	, m_iOverlapCount(0)
+	, m_vIdleColor(Vec4(0.f, 1.f, 0.f, 1.f))
+	, m_vCollisionColor(Vec4(1.f, 0.f, 0.f, 1.f))
+	, m_bIgnorObjectScale(false)
+{
+}
+
+CCollider2D::~CCollider2D()
+{
+}
+
+void CCollider2D::finaltick()
+{
+	// FinalPos 계산
+	Vec3 vObjectPos = Transform()->GetWorldPos();
+	m_vFinalPos = m_vOffsetPos + Vec2(vObjectPos.x, vObjectPos.y);
+
+	// 행렬 연산
+	// 크 회 이
+	m_vFinalScale = Vec2(m_vScale.x, m_vScale.y);
+	if (!m_bIgnorObjectScale)
+	{
+		Vec3 vWorldScale = Transform()->GetWorldScale();
+		m_vFinalScale *= Vec2(vWorldScale.x, vWorldScale.y);
+	}
+		
+	Matrix matScale = XMMatrixScaling(m_vFinalScale.x, m_vFinalScale.y, 1.f);
+
+	Matrix matRot = XMMatrixRotationX(m_vRot.x);
+	matRot *= XMMatrixRotationY(m_vRot.y);
+	matRot *= XMMatrixRotationZ(m_vRot.z);
+
+	Matrix matTrans = XMMatrixTranslation(m_vFinalPos.x, m_vFinalPos.y, 0.f);
+
+	// 충돌체 월드 행렬
+	m_matWorld = matScale * matRot * matTrans;
+
+	// DebugDraw 요청
+#ifdef _DEBUG
+	// 오버랩이 1개 이상이면 빨간색으로 그린다.
+	Vec4 color = m_vIdleColor;
+	if (0 < m_iOverlapCount)
+		color = m_vCollisionColor;
+
+	if (COLLIDER2D_TYPE::COLLIDER2D_RECT == m_eType)
+	{
+		DebugDrawRect(m_vIdleColor, Vec3(m_vFinalPos.x, m_vFinalPos.y, 0.f), Vec3(m_vFinalScale.x, m_vFinalScale.y, 1.f), m_vRot);
+	}
+	else
+	{
+		DebugDrawCircle(m_vIdleColor, Vec3(m_vFinalPos.x, m_vFinalPos.y, 0.f), m_vFinalScale.x);
+	}
+#endif
+}
+
+
+
+// ==========
+// 충돌 이벤트
+// ==========
+void CCollider2D::BeginOverlap(CCollider2D* _pOther)
+{
+	++m_iOverlapCount;
+
+
+	const vector<CScript*>& vecScripts = GetOwner()->GetScripts();
+	for (size_t i = 0; i < vecScripts.size(); ++i)
+	{
+		vecScripts[i]->BeginOverlap(_pOther);
+	}
+}
+
+void CCollider2D::Overlap(CCollider2D* _pOther)
+{
+	const vector<CScript*>& vecScripts = GetOwner()->GetScripts();
+	for (size_t i = 0; i < vecScripts.size(); ++i)
+	{
+		vecScripts[i]->Overlap(_pOther);
+	}
+}
+
+void CCollider2D::EndOverlap(CCollider2D* _pOther)
+{
+	--m_iOverlapCount;
+
+	const vector<CScript*>& vecScripts = GetOwner()->GetScripts();
+	for (size_t i = 0; i < vecScripts.size(); ++i)
+	{
+		vecScripts[i]->EndOverlap(_pOther);
+	}
+}
