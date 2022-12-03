@@ -9,6 +9,7 @@
 #include "CComputeShader.h"
 #include "CMaterial.h"
 #include "CPrefab.h"
+#include "CAnimation2D.h"
 
 
 class CResMgr
@@ -86,6 +87,9 @@ RES_TYPE GetType()
 
 	if (typeid(T).hash_code() == typeid(CPrefab).hash_code())
 		return RES_TYPE::PREFAB;
+
+	if (typeid(T).hash_code() == typeid(CAnimation2D).hash_code())
+		return RES_TYPE::ANIMATION2D;
 
 	else
 		return RES_TYPE::END;

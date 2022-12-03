@@ -10,11 +10,13 @@
 
 
 CAnimation2D::CAnimation2D()
-	: m_iCurIdx(-1)
+	: CRes(RES_TYPE::ANIMATION2D)
+	, m_iCurIdx(-1)
 	, m_pOwner(nullptr)
 	, m_fAccTime(0.f)
 {
 }
+
 
 CAnimation2D::~CAnimation2D()
 {

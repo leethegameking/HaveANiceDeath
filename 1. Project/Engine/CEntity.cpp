@@ -11,7 +11,7 @@ CEntity::CEntity()
 
 CEntity::CEntity(const CEntity& _other)
 	: m_ID(g_ID++)
-	, m_strName(_other.m_strName)
+	, m_strName(_other.m_strName + L"_clone")
 {
 }
 

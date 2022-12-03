@@ -1,11 +1,11 @@
 #pragma once
-#include "CEntity.h"
+#include "CRes.h"
 
 #include "CTexture.h"
 class CAnimator2D;
 
 class CAnimation2D :
-    public CEntity
+    public CRes
 {
 private:
     vector<tAnim2DFrm>  m_vecFrm;
@@ -32,6 +32,7 @@ public:
         m_bFinish = false;
     }
 
+    virtual int Load(const wstring& _strFilePath) { return  true; };
 
     void UpdateData();
     void Clear();

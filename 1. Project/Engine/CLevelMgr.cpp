@@ -117,9 +117,11 @@ void CLevelMgr::init()
 	//m_pCurLevel->AddGameObject(pPointLight, 0);
 		
 
-	// GameObject 초기화
+	
 	CGameObject* pObject = nullptr;
 
+
+	// Player
 	pObject = new CGameObject;
 	pObject->SetName(L"Player");
 
@@ -136,7 +138,7 @@ void CLevelMgr::init()
 	pObject->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"));
 
 	pObject->Collider2D()->SetCollider2DType(COLLIDER2D_TYPE::COLLIDER2D_RECT);
-	pObject->Collider2D()->SetOffsetPos(Vec2(100.f, 200.f));
+	pObject->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
 
 	pObject->Animator2D()->CreateAnimation(L"LeftWalk", CResMgr::GetInst()->FindRes<CTexture>(L"Link"), Vec2(0.f, 650.f), Vec2(120.f, 130.f), 120.f, 10, 16);
 	pObject->Animator2D()->CreateAnimation(L"RightWalk", CResMgr::GetInst()->FindRes<CTexture>(L"Link"), Vec2(0.f, 910.f), Vec2(120.f, 130.f), 120.f, 10, 16);
@@ -148,7 +150,44 @@ void CLevelMgr::init()
 	pObject->MeshRender()->GetSharedMaterial()->SetScalarParam(SCALAR_PARAM::INT_0, &a);
 	pObject->MeshRender()->GetSharedMaterial()->SetTexParam(TEX_PARAM::TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"Character"));
 	
+	m_pCurLevel->AddGameObject(pObject, 0);
+
+	// 충돌 Test Obj
+	pObject = new CGameObject;
+	pObject->SetName(L"CollisionTestObj1");
+
+	pObject->AddComponent(new CTransform);
+	pObject->AddComponent(new CCollider2D);
+	pObject->AddComponent(new CMeshRender);
+
+	pObject->Transform()->SetRelativePos(Vec3(500.f, 0.f, 800.f));
+	pObject->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
+
+	pObject->Collider2D()->SetCollider2DType(COLLIDER2D_TYPE::COLLIDER2D_RECT);
+
+	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pObject->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"));
+
+	m_pCurLevel->AddGameObject(pObject, 1);
+
+	pObject = new CGameObject;
+	pObject->SetName(L"CollisionTestObj2");
+
+	pObject->AddComponent(new CTransform);
+	pObject->AddComponent(new CCollider2D);
+	pObject->AddComponent(new CMeshRender);
+
+	pObject->Transform()->SetRelativePos(Vec3(-500.f, 0.f, 800.f));
+	pObject->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 1.f));
+
+	pObject->Collider2D()->SetCollider2DType(COLLIDER2D_TYPE::COLLIDER2D_RECT);
+
+	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pObject->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"));
+
+	m_pCurLevel->AddGameObject(pObject, 2);
 	
+
 
 
 	//CGameObject* pChild = new CGameObject;
@@ -166,7 +205,7 @@ void CLevelMgr::init()
 	//pChild->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"));
 	//pChild->MeshRender()->GetCurMaterial()->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"UAVTex"));
 
-	m_pCurLevel->AddGameObject(pObject, 0);
+	
 	//m_pCurLevel->AddGameObject(pChild, 1);
 
 	// Particle

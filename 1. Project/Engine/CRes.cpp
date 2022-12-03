@@ -10,6 +10,7 @@ CRes::CRes(RES_TYPE _eResType)
 CRes::CRes(const CRes& _other)
 	: CEntity(_other)
 	, m_eResType(_other.m_eResType)
+	, m_strKey(_other.m_strKey)
 	, m_iRefCount(0)
 {
 }

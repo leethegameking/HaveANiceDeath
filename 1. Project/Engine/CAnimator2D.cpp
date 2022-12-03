@@ -2,6 +2,8 @@
 #include "CAnimator2D.h"
 #include "CAnimation2D.h"
 
+#include "CResMgr.h"
+
 #include "CDevice.h"
 #include "CTexture.h"
 
@@ -42,8 +44,13 @@ void CAnimator2D::CreateAnimation(const wstring& _strKey, Ptr<CTexture> _AtlasTe
 	pAnim = new CAnimation2D;
 	pAnim->Create(_strKey, _AtlasTex, _vLeftTop, _vSlice, _fStep, _iMaxFrm, _FPS);
 
-	pAnim->m_pOwner = this;
-	m_mapAnim.insert(make_pair(pAnim->GetName(), pAnim));
+	
+	CResMgr::GetInst()->AddRes<CAnimation2D>(pAnim->GetName(), (CAnimation2D*)pAnim);
+
+	CAnimation2D* pAnimClone = pAnim->Clone();
+
+	m_mapAnim.insert(make_pair(pAnimClone->GetKey(), pAnimClone));
+	pAnimClone->m_pOwner = this;
 }
 
 CAnimation2D* CAnimator2D::FindAnimation(const wstring& _strKey)

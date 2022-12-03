@@ -106,6 +106,8 @@ enum class RES_TYPE
 	TEXTURE,	
 	SOUND,
 	GRAPHICS_SHADER,
+
+	ANIMATION2D,
 	
 	END,
 };

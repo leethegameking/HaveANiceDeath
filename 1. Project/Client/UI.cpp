@@ -17,9 +17,10 @@ UI::~UI()
 	Safe_Del_Vec(m_vecChildUI);
 }
 
+// Imgui에서 생성된 창들중에 focus된 것이 없도록 한다.
 void UI::ResetFocus()
 {
-	ImGui::SetWindowFocus(nullptr); // Imgui에서 생성된 창들중에 focus된 것이 없도록 한다.
+	ImGui::SetWindowFocus(nullptr); 
 }
 
 void UI::update()
