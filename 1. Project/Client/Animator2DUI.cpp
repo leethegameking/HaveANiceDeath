@@ -8,6 +8,7 @@
 #include "CImGuiMgr.h"
 #include "ComboBox.h"
 #include "ListUI.h"
+#include "Animation2DUI.h"
 
 
 
@@ -65,8 +66,7 @@ void Animator2DUI::render_update()
 	}
 	ImGui::Text("Animation"); ImGui::SameLine(); m_AnimComboBox->render_update();
 
-
-	
+	// Add Animation Button
 	if(ButtonCenteredOnLine("Add Animation", 0.5f))
 	{
 		ListUI* pListUI = (ListUI*)CImGuiMgr::GetInst()->FindUI("ListUI");
@@ -75,6 +75,14 @@ void Animator2DUI::render_update()
 		// pListUI->SetItemList(vecAnim);
 		pListUI->init(m_vecResAnim);
 		pListUI->Open();
+	}
+
+	// Create Animation
+	if (ButtonCenteredOnLine("Create Animation", 0.5f))
+	{
+		Animation2DUI* pAnimUI = (Animation2DUI*)CImGuiMgr::GetInst()->FindUI("AnimationUI");
+		pAnimUI->init();
+		pAnimUI->Open();
 	}
 }
 

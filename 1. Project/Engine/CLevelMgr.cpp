@@ -99,8 +99,13 @@ void CLevelMgr::init()
 
 	m_pCurLevel->AddGameObject(pTileMapObj, 0);
 
-	CAnimation2D* Animation = new CAnimation2D;
-	Animation->Create(L"FrontWalk", CResMgr::GetInst()->FindRes<CTexture>(L"Link"), Vec2(0.f, 520.f), Vec2(120.f, 130.f), 120.f, 10, 16);
+	CAnimation2D* pAnimation = nullptr;
+
+	pAnimation = new CAnimation2D;
+	pAnimation->Create(L"UpWalk", CResMgr::GetInst()->FindRes<CTexture>(L"Link"), Vec2(0.f, 520.f), Vec2(120.f, 130.f), 120.f, 10, 16);
+
+	pAnimation = new CAnimation2D;
+	pAnimation->Create(L"DownWalk", CResMgr::GetInst()->FindRes<CTexture>(L"Link"), Vec2(0.f, 780.f), Vec2(120.f, 130.f), 120.f, 10, 16);
 	
 	// PointLight Ãß°¡
 	//CGameObject* pPointLight = new CGameObject;

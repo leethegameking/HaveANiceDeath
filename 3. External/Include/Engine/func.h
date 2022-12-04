@@ -50,7 +50,7 @@ inline bool IsValid(CEntity* _pCom)
 	return true;
 }
 
-inline wstring StrToWStr(const string& _str)
+inline wstring StrToWstr(const string& _str)
 {
 	return wstring(_str.begin(), _str.end());
 }

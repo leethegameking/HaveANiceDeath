@@ -186,7 +186,7 @@ vector<wstring> StrToWStrVec(const vector<string>& _vecStr)
 
 	for (size_t i = 0; i < _vecStr.size(); ++i)
 	{
-		vecWstr.push_back(StrToWStr(_vecStr[i]));
+		vecWstr.push_back(StrToWstr(_vecStr[i]));
 	}
 	return vecWstr;
 }

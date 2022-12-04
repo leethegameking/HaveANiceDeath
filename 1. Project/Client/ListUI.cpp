@@ -46,13 +46,9 @@ void ListUI::init(vector<string> _itemList, int _bitInitial)
 {
 	SetItemList(_itemList);
 
-	if (!m_bIntialized)
+	for (int i = 0; i < _itemList.size(); ++i)
 	{
-		for (int i = 0; i < _itemList.size(); ++i)
-		{
-			m_bMultiSelectIdx.push_back((_bitInitial >> (_itemList.size() - i - 1)) % 2);
-		}
-		m_bIntialized = true;
+		m_bMultiSelectIdx.push_back((_bitInitial >> (_itemList.size() - i - 1)) % 2);
 	}
 }
 
@@ -136,7 +132,7 @@ void ListUI::render_update()
 			{
 				(m_ConfirmInst->*m_ConfirmFunc)((DWORD_PTR)&m_bMultiSelectIdx);
 			}
-			if (IsPopUp() || IsModal())
+			if (IsPopUp() || IsModal()) 
 				Close();
 		}
 	}
@@ -147,11 +143,17 @@ void ListUI::Close()
 	UI::Close();
 	m_ItemList.clear();
 
+	m_iSelectIdx = 0;
+
 	m_DBCInst = nullptr;
 	m_DBCFunc = nullptr;
 
 	m_SelectInst = nullptr;
 	m_SelectFunc = nullptr;
+
+
+	UI* m_ConfirmInst = nullptr;
+	FUNC_1 m_ConfirmFunc = nullptr;
 
 	m_bMultiSelectIdx.clear();
 	m_bIntialized = false;
