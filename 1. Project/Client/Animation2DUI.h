@@ -1,46 +1,32 @@
 #pragma once
-#include "UI.h"
+#include "ResUI.h"
 
-#include <Engine/Ptr.h>
-#include <Engine/CTexture.h>
-
-class ComboBox;
 class CAnimation2D;
-class CAnimator2D;
 
 class Animation2DUI :
-    public UI
+    public ResUI
 {
 private:
-    Ptr<CTexture>       m_AtlasTex;
+	wstring m_wstrKey;
+	const vector<tAnim2DFrm>* m_vecFrm;
 
-    Vec2                m_vImageScale;
-    bool                m_bUniformed;
-    Vec2                m_vSliceCount;
+	Vec2 m_vImageScale;
+	bool m_bAnimPlay;
+	bool m_bFullsizeCheck;
 
-    bool                IsVertical;
-
-    Vec2                m_vClickedIdx;
-    bool                m_bHasSelected;
-
-    ComboBox*           m_AtlasComboBox;
-
-    vector<string>      m_vecRes;
+	CAnimation2D* m_prevAnim;
 
 public:
-    Vec2 GetClickedIdx(Vec2 _vCursorPos);
-
-    void SetAtlasTex(DWORD_PTR _texKey);
-
-
-public:
-    void init() override;
-    void update() override;
-    void render_update() override;
-    void Close() override;
+	virtual void init() override;
+	virtual void update() override;
+	virtual void render_update() override;
 
 public:
-    Animation2DUI();
-    ~Animation2DUI();
+	void DrawAnimation();
+
+public:
+	Animation2DUI();
+	~Animation2DUI();
 };
+
 

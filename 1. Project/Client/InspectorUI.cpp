@@ -8,11 +8,13 @@
 #include "Collider2DUI.h"
 #include "ParticleSystemUI.h"
 #include "TileMapUI.h"
+#include "Animator2DUI.h"
 
 #include "MeshUI.h"
 #include "ComputeShaderUI.h"
 #include "GraphicsShaderUI.h"
-#include "Animator2DUI.h"
+
+#include "Animation2DUI.h"
 
 
 #include <Engine/CLevelMgr.h>
@@ -68,6 +70,11 @@ InspectorUI::InspectorUI()
 	m_arrResUI[(UINT)RES_TYPE::MESH]->SetSize(Vec2(0.f, 100.f));
 	m_arrResUI[(UINT)RES_TYPE::MESH]->Close();
 	AddChild(m_arrResUI[(UINT)RES_TYPE::MESH]);
+
+	m_arrResUI[(UINT)RES_TYPE::ANIMATION2D] = new Animation2DUI;
+	m_arrResUI[(UINT)RES_TYPE::ANIMATION2D]->SetSize(Vec2(0.f, 500.f));
+	m_arrResUI[(UINT)RES_TYPE::ANIMATION2D]->Close();
+	AddChild(m_arrResUI[(UINT)RES_TYPE::ANIMATION2D]);
 }
 
 InspectorUI::~InspectorUI()

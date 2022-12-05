@@ -19,6 +19,7 @@ private:
 
 public:
     Ptr<CTexture> GetAtlas() { return m_AtlasTex; }
+    const vector<tAnim2DFrm>* GetFrmVec() { return &m_vecFrm; }
 
 public:
     void finaltick();

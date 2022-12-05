@@ -111,7 +111,7 @@ void CImGuiMgr::clear()
 #include "ListUI.h"
 #include "ContentUI.h"
 #include "OutlinerUI.h"
-#include "Animation2DUI.h"
+#include "AnimCreateTool.h"
 
 void CImGuiMgr::CreateUI()
 {
@@ -136,7 +136,7 @@ void CImGuiMgr::CreateUI()
     pUI->SetPopUp(true);
     m_mapUI.insert({ pUI->GetName(), pUI });
 
-    pUI = new Animation2DUI;
+    pUI = new AnimCreateTool;
     pUI->SetSize(Vec2(200.f, 500.f));
     pUI->SetPopUp(true);
     m_mapUI.insert({ pUI->GetName(), pUI });

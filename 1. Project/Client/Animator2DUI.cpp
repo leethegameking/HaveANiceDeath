@@ -8,7 +8,7 @@
 #include "CImGuiMgr.h"
 #include "ComboBox.h"
 #include "ListUI.h"
-#include "Animation2DUI.h"
+#include "AnimCreateTool.h"
 #include <Engine/CEventMgr.h>
 
 
@@ -97,9 +97,11 @@ void Animator2DUI::render_update()
 	// Create Animation
 	if (ButtonCenteredOnLine("Create Animation", 0.5f))
 	{
-		Animation2DUI* pAnimUI = (Animation2DUI*)CImGuiMgr::GetInst()->FindUI("AnimationUI");
+		AnimCreateTool* pAnimUI = (AnimCreateTool*)CImGuiMgr::GetInst()->FindUI("AnimCreateTool");
 		pAnimUI->init();
 		pAnimUI->Open();
+
+
 	}
 }
 
