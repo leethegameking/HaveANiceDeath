@@ -143,7 +143,25 @@ void AnimCreateTool::render_update()
 			// Animation Create
 			CAnimation2D* pAnimation = new CAnimation2D;
 			pAnimation->Create(StrToWstr(strKey), m_AtlasTex, LT, vSlice, fStep, iMaxFrm, fFPS, fFullsize, IsVertical);
+
+			ImGui::OpenPopup("Created");
 		}
+
+		// 확인 팝업.
+		if (ImGui::BeginPopupModal("Created"))
+		{
+			ImGui::Text("Animation Created!!!");
+			if (ButtonCenteredOnLine("Close", 0.5f))
+			{
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::EndPopup();
+		}
+		//if (ImGui::BeginPopup("Confirmed"))
+		//{
+		//	ImGui::Text("Animation Created!!!");
+		//	ImGui::EndPopup();
+		//}
 
 		// 선택 네모 그리기
 		if (m_bHasSelected)

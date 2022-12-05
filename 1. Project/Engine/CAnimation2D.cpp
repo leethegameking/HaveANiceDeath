@@ -13,9 +13,24 @@
 
 CAnimation2D::CAnimation2D()
 	: CRes(RES_TYPE::ANIMATION2D)
+	, m_pMasterAnim(nullptr)
 	, m_iCurIdx(-1)
 	, m_pOwner(nullptr)
 	, m_fAccTime(0.f)
+	, m_vecAnim{}
+{
+}
+
+CAnimation2D::CAnimation2D(CAnimation2D& _origin)
+	: CRes(_origin)
+	, m_pMasterAnim(&_origin)
+	, m_iCurIdx(-1)
+	, m_pOwner(nullptr)
+	, m_AtlasTex(_origin.m_AtlasTex)
+	, m_fAccTime(0.f)
+	, m_bFinish(false)
+	, m_vecFrm(_origin.m_vecFrm)
+	, m_vecAnim{}
 {
 }
 
@@ -26,6 +41,8 @@ CAnimation2D::~CAnimation2D()
 
 void CAnimation2D::finaltick()
 {
+
+
 	if (m_bFinish)
 		return;
 
@@ -84,6 +101,14 @@ void CAnimation2D::Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex
 }
 
 
+
+void CAnimation2D::Reallocate()
+{
+	for (size_t i = 0; i < m_vecAnim.size(); ++i)
+	{
+		m_vecAnim[i]->m_vecFrm.assign(m_vecFrm.begin(), m_vecFrm.end());
+	}
+}
 
 void CAnimation2D::UpdateData()
 {

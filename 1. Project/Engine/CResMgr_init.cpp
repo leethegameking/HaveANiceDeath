@@ -164,6 +164,7 @@ void CResMgr::CreateDefaultTexture()
 	Load<CTexture>(L"HardCircle", L"texture\\particle\\HardCircle.png");
 	Load<CTexture>(L"AlphaCircle", L"texture\\particle\\AlphaCircle.png");
 	Load<CTexture>(L"TileTex", L"texture\\TILE.bmp");
+	Load<CTexture>(L"PlusButton", L"texture\\plus.png");
 
 	
 	// NoiseTexture

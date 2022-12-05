@@ -17,9 +17,14 @@ private:
     float               m_fAccTime;
     bool                m_bFinish;
 
+    CAnimation2D*       m_pMasterAnim;
+    vector<CAnimation2D*> m_vecAnim;
+
+
 public:
     Ptr<CTexture> GetAtlas() { return m_AtlasTex; }
-    const vector<tAnim2DFrm>* GetFrmVec() { return &m_vecFrm; }
+    vector<tAnim2DFrm>* GetFrmVec() { return &m_vecFrm; }
+
 
 public:
     void finaltick();
@@ -32,6 +37,7 @@ public:
         m_iCurIdx = 0;
         m_bFinish = false;
     }
+    void Reallocate();
 
     virtual int Load(const wstring& _strFilePath) { return  true; };
 
@@ -41,6 +47,7 @@ public:
     CLONE(CAnimation2D);
 public:
     CAnimation2D();
+    CAnimation2D(CAnimation2D& _origin);
     ~CAnimation2D();
 
     friend class CAnimator2D;

@@ -1,8 +1,12 @@
 #include "pch.h"
 #include "Animation2DUI.h"
 
+#include "CImGuiMgr.h"
+
 #include <Engine/CTimeMgr.h>
 #include <Engine/CAnimation2D.h>
+
+#include "FrameTool.h"
 
 Animation2DUI::Animation2DUI()
 	: ResUI("##Animation2D", RES_TYPE::ANIMATION2D)
@@ -50,15 +54,14 @@ void Animation2DUI::render_update()
 
 	DrawAnimation();
 
-
-
 	if (ButtonCenteredOnLine("Edit Animation", 0.5f))
 	{
-		// FrameUI Open
+		FrameTool* pFrameTool = (FrameTool*)CImGuiMgr::GetInst()->FindUI("FrameTool");
+
+		pFrameTool->Init_Frame(pAnim);
+		pFrameTool->Open();
 	}
 
-
-		
 }
 
 void Animation2DUI::DrawAnimation()

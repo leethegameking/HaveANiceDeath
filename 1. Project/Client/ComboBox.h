@@ -25,8 +25,6 @@ public:
         m_SelectedFunc = _func;
     }
 
-    
-
 public:
     void init( vector<string> _itemList, int _idx);
     void render_update() override;
@@ -37,6 +35,5 @@ public:
 public:
     ComboBox();
     ~ComboBox();
-
 };
 

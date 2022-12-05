@@ -163,6 +163,7 @@
     <ClInclude Include="ComponentUI.h" />
     <ClInclude Include="ContentUI.h" />
     <ClInclude Include="define.h" />
+    <ClInclude Include="FrameTool.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GraphicsShaderUI.h" />
     <ClInclude Include="imconfig.h" />
@@ -205,6 +206,7 @@
     <ClCompile Include="ComponentUI.cpp" />
     <ClCompile Include="ContentUI.cpp" />
     <ClCompile Include="define.cpp" />
+    <ClCompile Include="FrameTool.cpp" />
     <ClCompile Include="GraphicsShaderUI.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_demo.cpp" />

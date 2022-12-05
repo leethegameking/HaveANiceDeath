@@ -101,11 +101,19 @@ void CLevelMgr::init()
 
 	CAnimation2D* pAnimation = nullptr;
 
+	// Animation
 	pAnimation = new CAnimation2D;
 	pAnimation->Create(L"UpWalk", CResMgr::GetInst()->FindRes<CTexture>(L"Link"), Vec2(0.f, 520.f), Vec2(120.f, 130.f), 120.f, 10, 16);
 
 	pAnimation = new CAnimation2D;
 	pAnimation->Create(L"DownWalk", CResMgr::GetInst()->FindRes<CTexture>(L"Link"), Vec2(0.f, 780.f), Vec2(120.f, 130.f), 120.f, 10, 16);
+
+	pAnimation = new CAnimation2D;
+	pAnimation->Create(L"LeftWalk", CResMgr::GetInst()->FindRes<CTexture>(L"Link"), Vec2(0.f, 650.f), Vec2(120.f, 130.f), 120.f, 10, 16);
+
+	pAnimation = new CAnimation2D;
+	pAnimation->Create(L"RightWalk", CResMgr::GetInst()->FindRes<CTexture>(L"Link"), Vec2(0.f, 910.f), Vec2(120.f, 130.f), 120.f, 10, 16);
+
 	
 	// PointLight Ãß°¡
 	//CGameObject* pPointLight = new CGameObject;
@@ -147,8 +155,8 @@ void CLevelMgr::init()
 	pObject->Collider2D()->SetCollider2DType(COLLIDER2D_TYPE::COLLIDER2D_RECT);
 	pObject->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
 
-	pObject->Animator2D()->CreateAnimation(L"LeftWalk", CResMgr::GetInst()->FindRes<CTexture>(L"Link"), Vec2(0.f, 650.f), Vec2(120.f, 130.f), 120.f, 10, 16);
-	pObject->Animator2D()->CreateAnimation(L"RightWalk", CResMgr::GetInst()->FindRes<CTexture>(L"Link"), Vec2(0.f, 910.f), Vec2(120.f, 130.f), 120.f, 10, 16);
+	pObject->Animator2D()->AddAnimation(L"LeftWalk");
+	pObject->Animator2D()->AddAnimation(L"RightWalk");
 	pObject->Animator2D()->Play(L"LeftWalk", true);
 
 	int a = 0;

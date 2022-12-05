@@ -229,7 +229,12 @@
     <ClInclude Include="CommonUI.h">
       <Filter>03. UI\ModuleUI\Common</Filter>
     </ClInclude>
-    <ClInclude Include="Animation2DUI.h" />
+    <ClInclude Include="FrameTool.h">
+      <Filter>03. UI\01. Inspector\ComponentUI\Animator2DUI\FrameUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation2DUI.h">
+      <Filter>03. UI\01. Inspector\ResUI\Animation2DUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -351,6 +356,11 @@
     <ClCompile Include="CommonUI.cpp">
       <Filter>03. UI\ModuleUI\Common</Filter>
     </ClCompile>
-    <ClCompile Include="Animation2DUI.cpp" />
+    <ClCompile Include="FrameTool.cpp">
+      <Filter>03. UI\01. Inspector\ComponentUI\Animator2DUI\FrameUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation2DUI.cpp">
+      <Filter>03. UI\01. Inspector\ResUI\Animation2DUI</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
