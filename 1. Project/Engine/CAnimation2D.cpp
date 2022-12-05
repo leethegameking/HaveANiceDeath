@@ -49,7 +49,7 @@ void CAnimation2D::finaltick()
 }
 
 void CAnimation2D::Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex
-	, Vec2 _vLeftTop, Vec2 _vSlice, float _fStep, int _iMaxFrm, float _FPS)
+	, Vec2 _vLeftTop, Vec2 _vSlice, float _fStep, int _iMaxFrm, float _FPS, Vec2 _vFullsize, bool _bVTHZ)
 {
 	// Animation Name
 	SetName(_strKey);
@@ -64,11 +64,14 @@ void CAnimation2D::Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex
 	for (int i = 0; i < _iMaxFrm; ++i)
 	{
 		tAnim2DFrm frm = {};
-		frm.vLeftTop = Vec2((_vLeftTop.x + _fStep * (float)i) / fWidth, _vLeftTop.y / fHeight);
+		if(_bVTHZ == HORIZONTAL)
+			frm.vLeftTop = Vec2((_vLeftTop.x + _fStep * (float)i) / fWidth, _vLeftTop.y / fHeight);
+		if(_bVTHZ == VERTICAL)
+			frm.vLeftTop = Vec2(_vLeftTop.x / fWidth, (_vLeftTop.y +_fStep * (float)i) / fHeight);
 		frm.vSlice = Vec2(_vSlice.x / fWidth, _vSlice.y / fHeight);
 		frm.fDuration = 1.f / _FPS;
 
-		frm.vFullSize = Vec2(400.f / fWidth, 400.f / fHeight);
+		frm.vFullSize = Vec2(_vFullsize.x / fWidth, _vFullsize.y / fHeight);
 		/*if (i == 5)
 		{
 			frm.vOffset = Vec2(20.f / fWidth, 30.f / fHeight);

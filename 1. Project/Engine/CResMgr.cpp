@@ -3,7 +3,6 @@
 
 CResMgr::CResMgr()
 	: m_iLayoutOffset(0)
-	, m_bChanged(false)
 {
 	
 }

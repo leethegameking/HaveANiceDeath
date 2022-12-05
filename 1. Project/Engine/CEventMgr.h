@@ -10,13 +10,18 @@ private:
     vector<CGameObject*>    m_vecGarbage;
 
     bool m_bLevelChanged;
+    bool m_bResChanged;
+    bool m_bResChangeFlag;
 
 public:
     void tick();
 
 public:
     void AddEvent(tEvent& _evn){m_vecEvent.push_back(_evn);}
-    bool IsLevelChange() { return m_bLevelChanged; }
+    bool IsLevelChanged() { return m_bLevelChanged; }
+    bool IsResChanged() { return m_bResChanged; }
+
+    void ResChangeFlagOn() { m_bResChangeFlag = true; }
 
 public:
     CEventMgr();

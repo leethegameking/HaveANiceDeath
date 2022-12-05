@@ -9,6 +9,7 @@
 #include "ComboBox.h"
 #include "ListUI.h"
 #include "Animation2DUI.h"
+#include <Engine/CEventMgr.h>
 
 
 
@@ -37,6 +38,7 @@ void Animator2DUI::init()
 	const map<wstring, Ptr<CRes>>& mapResAnim = CResMgr::GetInst()->GetResource(RES_TYPE::ANIMATION2D);
 	map<wstring, Ptr<CRes>>::const_iterator resIter = mapResAnim.begin();
 
+	m_vecResAnim.clear();
 	for (; resIter != mapResAnim.end(); ++resIter)
 	{
 		m_vecResAnim.push_back(WstrToStr(resIter->first));
@@ -57,6 +59,21 @@ void Animator2DUI::update()
 void Animator2DUI::render_update()
 {
 	ComponentUI::render_update();
+
+	if (CEventMgr::GetInst()->IsResChanged())
+	{
+		ListUI* pListUI = (ListUI*)CImGuiMgr::GetInst()->FindUI("ListUI");
+		const map<wstring, Ptr<CRes>>& mapResAnim = CResMgr::GetInst()->GetResource(RES_TYPE::ANIMATION2D);
+		map<wstring, Ptr<CRes>>::const_iterator resIter = mapResAnim.begin();
+
+		m_vecResAnim.clear();
+		for (; resIter != mapResAnim.end(); ++resIter)
+		{
+			m_vecResAnim.push_back(WstrToStr(resIter->first));
+		}
+		pListUI->SetItemList(m_vecResAnim);
+	}
+
 
 	if (IsTargetAnimChanged())
 	{

@@ -9,6 +9,8 @@
 
 CEventMgr::CEventMgr()
 	: m_bLevelChanged(false)
+	, m_bResChanged(false)
+	, m_bResChangeFlag(false)
 {
 }
 
@@ -19,6 +21,7 @@ CEventMgr::~CEventMgr()
 void CEventMgr::tick()
 {
 	m_bLevelChanged = false;
+	m_bResChanged = false;
 	// 메모리 정리
 	for (size_t i = 0; i < m_vecGarbage.size(); ++i)
 	{		
@@ -99,4 +102,11 @@ void CEventMgr::tick()
 	}
 
 	m_vecEvent.clear();
+
+	// Res 바뀌었을 경우
+	if (m_bResChangeFlag)
+	{
+		m_bResChanged = true;
+		m_bResChangeFlag = false;
+	}
 }

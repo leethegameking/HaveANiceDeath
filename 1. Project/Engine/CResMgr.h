@@ -11,6 +11,8 @@
 #include "CPrefab.h"
 #include "CAnimation2D.h"
 
+#include "CEventMgr.h"
+
 
 class CResMgr
 	: public CSingleton<CResMgr>
@@ -20,10 +22,10 @@ private:
 	vector<D3D11_INPUT_ELEMENT_DESC>	m_vecLayoutInfo;
 	UINT								m_iLayoutOffset;
 
-	bool								m_bChanged;
+	// EventMgr∑Œ ¿ß¿”
+	// bool								m_bChanged;
 
 public:
-	bool IsChanged() { return m_bChanged; }
 
 public:	
 	template<typename T>
@@ -47,7 +49,6 @@ public:
 
 public:
 	void init();
-	void tick() { m_bChanged = false; }
 
 
 	const vector<D3D11_INPUT_ELEMENT_DESC>& GetInputLayoutInfo() { return m_vecLayoutInfo; }
@@ -107,7 +108,7 @@ inline void CResMgr::AddRes(const wstring& _strKey, T* _pRes)
 
 	_pRes->SetKey(_strKey);
 	m_arrRes[(UINT)eResType].insert(make_pair(_strKey, _pRes));
-	m_bChanged = true;
+	CEventMgr::GetInst()->ResChangeFlagOn();
 }
 
 template<typename T>
@@ -149,4 +150,5 @@ Ptr<T> CResMgr::Load(const wstring& _strKey, const wstring& _strRelativePath)
 	AddRes<T>(_strKey, (T*)pResource);
 
 	return (T*)pResource;
+	CEventMgr::GetInst()->ResChangeFlagOn();
 }

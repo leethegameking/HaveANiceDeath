@@ -48,7 +48,7 @@ OutlinerUI::~OutlinerUI()
 
 void OutlinerUI::update()
 {
-	if (CEventMgr::GetInst()->IsLevelChange())
+	if (CEventMgr::GetInst()->IsLevelChanged())
 		ResetLevel();
 }
 

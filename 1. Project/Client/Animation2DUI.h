@@ -5,6 +5,7 @@
 #include <Engine/CTexture.h>
 
 class ComboBox;
+class CAnimation2D;
 class CAnimator2D;
 
 class Animation2DUI :
@@ -14,19 +15,23 @@ private:
     Ptr<CTexture>       m_AtlasTex;
 
     Vec2                m_vImageScale;
+    bool                m_bUniformed;
+    Vec2                m_vSliceCount;
 
-    vector<tAnim2DFrm>  m_vecFrm;
-    int                 m_iCurIdx;
+    bool                IsVertical;
 
-    ComboBox* m_AtlasComboBox;
+    Vec2                m_vClickedIdx;
+    bool                m_bHasSelected;
 
-    float               m_fAccTime;
-    bool                m_bFinish;
+    ComboBox*           m_AtlasComboBox;
 
     vector<string>      m_vecRes;
 
 public:
+    Vec2 GetClickedIdx(Vec2 _vCursorPos);
+
     void SetAtlasTex(DWORD_PTR _texKey);
+
 
 public:
     void init() override;

@@ -6,6 +6,7 @@
 #include "InspectorUI.h"
 #include "CImguiMgr.h"
 
+#include <Engine/CEventMgr.h>
 #include <Engine/CResMgr.h>
 
 ContentUI::ContentUI()
@@ -31,7 +32,7 @@ ContentUI::~ContentUI()
 void ContentUI::update()
 {
 	// 변경점이 있을 때만 트리구조를 reset한다
-	if (CResMgr::GetInst()->IsChanged())
+	if (CEventMgr::GetInst()->IsResChanged())
 	{
 		ResetContent();
 	}

@@ -17,6 +17,8 @@ typedef Vector4 Vec4;
 #define CLONE_DUMMY(type) public: type* Clone() { return nullptr; }
 #define CLONE_ASSERT(type) public: type* Clone() { assert(nullptr); return nullptr; }
 
+#define VERTICAL 1
+#define HORIZONTAL 0
 
 #define MAX_LAYER 32
 
@@ -178,8 +180,6 @@ enum RENDER_TYPE
 	FIRE,
 	SPARK,
 };
-
-
 
 enum SCALAR_PARAM
 {
