@@ -98,11 +98,9 @@ void Animator2DUI::render_update()
 	if (ButtonCenteredOnLine("Create Animation", 0.5f))
 	{
 		AnimCreateTool* pCreateUI = (AnimCreateTool*)CImGuiMgr::GetInst()->FindUI("AnimCreateTool");
-		pCreateUI->SetAutoSize();
+		pCreateUI->AddFlag(ImGuiWindowFlags_NoNavInputs);
 		pCreateUI->init();
 		pCreateUI->Open();
-
-
 	}
 }
 

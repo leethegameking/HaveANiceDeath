@@ -23,22 +23,22 @@ void CPlayerScript::tick()
 {
 	Vec3 vPos = Transform()->GetRelativePos();
 
-	if (KEY_PRESSED(KEY::LEFT))
+	if (KEY_PRESSED(KEY::LEFT) && KEY_PRESSED(KEY::LCTRL))
 	{
 		vPos.x -= 100.f * DT;
 	}
 
-	if (KEY_PRESSED(KEY::RIGHT))
+	if (KEY_PRESSED(KEY::RIGHT) && KEY_PRESSED(KEY::LCTRL))
 	{
 		vPos.x += 100.f * DT;
 	}
 
-	if (KEY_PRESSED(KEY::UP))
+	if (KEY_PRESSED(KEY::UP) && KEY_PRESSED(KEY::LCTRL))
 	{
 		vPos.y += 100.f * DT;
 	}
 
-	if (KEY_PRESSED(KEY::DOWN))
+	if (KEY_PRESSED(KEY::DOWN) && KEY_PRESSED(KEY::LCTRL))
 	{
 		vPos.y -= 100.f * DT;
 	}

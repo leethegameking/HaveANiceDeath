@@ -82,13 +82,13 @@ void CCameraScript::Move()
 		if (vPos != Transform()->GetRelativePos())
 			Transform()->SetRelativePos(vPos);		
 
-		if (KEY_PRESSED(KEY::NUM_1))
+		if (KEY_PRESSED(KEY::N))
 		{
 			float fScale = Camera()->GetOrthographicScale();
 			fScale += DT;
 			Camera()->SetOrthographicScale(fScale);
 		}
-		else if (KEY_PRESSED(KEY::NUM_2))
+		else if (KEY_PRESSED(KEY::M))
 		{
 			float fScale = Camera()->GetOrthographicScale();
 			fScale -= DT;

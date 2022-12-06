@@ -7,6 +7,7 @@
 #include <Engine/CAnimation2D.h>
 
 #include <Engine/CResMgr.h>
+#include <Engine/CTimeMgr.h>
 
 #include "ComboBox.h"
 
@@ -75,18 +76,15 @@ void AnimCreateTool::render_update()
 	static Vec2 fFullsize = Vec2(0.f, 0.f);
 	
 
-
-
-
 	// 이미지 크기 표시
 	ImGui::Text("Width :"); ImGui::SameLine(); ImGui::Text((to_string((int)my_tex_w) + "px"+ " |").c_str());
 	ImGui::SameLine();
 	ImGui::Text("Height :"); ImGui::SameLine(); ImGui::Text((to_string((int)my_tex_h) + "px").c_str());
 
 	// 라디오버튼 
-	if (ImGui::RadioButton("Uniformed Atlas", m_bUniformed == true)) { m_bUniformed = true; }
+	if (ImGui::RadioButton("Uniformed Atlas", m_bUniformed == true)) { m_bUniformed = true; m_bHasSelected = false; }
 	ImGui::SameLine();
-	if (ImGui::RadioButton("Indulgent Atlas", m_bUniformed == false)) { m_bUniformed = false; }
+	if (ImGui::RadioButton("Indulgent Atlas", m_bUniformed == false)) { m_bUniformed = false; m_bHasSelected = false; }
 
 	// 정렬 되었을 때 slice count 표시
 	if (IsUniformed())
@@ -101,7 +99,7 @@ void AnimCreateTool::render_update()
 
 
 	// 내부 독립적인 창 생성
-	ImGuiWindowFlags window_flags = ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_NoMove;
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNavInputs;
 	ImGui::BeginChild("ChildImage", ImVec2(ImGui::GetContentRegionAvail().x, 500.f), true, window_flags);
 	Vec2 vCursorPos = ImGui::GetCursorScreenPos();
 	ImGui::Image(AtlasSRV, ImVec2(my_tex_w * m_vImageScale.x, my_tex_h * m_vImageScale.y),
@@ -117,15 +115,14 @@ void AnimCreateTool::render_update()
 		}
 		
 	}
-	// 이미지 클릭시 사각형 그리고 LT, RB 좌표 알아냄. + Scroll에 반응
 
+	// 이미지 클릭시 사각형 그리고 LT, RB 좌표 알아냄. + Cursor를 기준으로 
 	if(IsIndulgent())
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		Vec2 vMousePos = io.MousePos;
 
 		static Vec2 vPrevCursor = vCursorPos;
-
 
 		if (vMousePos.x < vCursorPos.x)
 			vMousePos.x = vCursorPos.x;
@@ -149,22 +146,55 @@ void AnimCreateTool::render_update()
 		// 그릴 사각형 좌표 잡기
 		if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows))
 		{	
-			if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+			if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !KEY_PRESSED(KEY::LSHIFT))
 			{
 				vRectStartPos = vCursorPos + TexCoord;
 				vRectEndPos = vRectStartPos;
 				bScrollBool = true;
+				m_bHasSelected = true;
+				
 			}
-			if (ImGui::IsMouseDragging(ImGuiMouseButton_Left))
+			if (ImGui::IsMouseDragging(ImGuiMouseButton_Left) && !KEY_PRESSED(KEY::LSHIFT))
 			{
 				vRectEndPos = vCursorPos + TexCoord;
 				bScrollBool = true;
 			}
-			if (ImGui::IsMouseReleased(ImGuiMouseButton_Left) && bScrollBool)
+			if (ImGui::IsMouseReleased(ImGuiMouseButton_Left) && !KEY_PRESSED(KEY::LSHIFT) && bScrollBool )
 			{
 				vRectEndPos = vCursorPos + TexCoord;
 				bScrollBool = false;
 			}
+
+			if (ImGui::IsMouseDragging(ImGuiMouseButton_Left) && KEY_PRESSED(KEY::LSHIFT))
+			{
+				Vec2 vMouseDir = CKeyMgr::GetInst()->GetMouseDir();
+				vRectStartPos += Vec2(vMouseDir.x, -vMouseDir.y);
+				vRectEndPos += Vec2(vMouseDir.x, -vMouseDir.y);
+			}
+
+
+			static float speed = 20.f;
+			if (KEY_PRESSED(KEY::UP) && KEY_PRESSED(KEY::LSHIFT))
+			{
+				vRectStartPos.y -= speed * DT;
+				vRectEndPos.y -= speed * DT;
+			}
+			if (KEY_PRESSED(KEY::DOWN) && KEY_PRESSED(KEY::LSHIFT))
+			{
+				vRectStartPos.y += speed * DT;
+				vRectEndPos.y += speed * DT;
+			}
+			if (KEY_PRESSED(KEY::LEFT) && KEY_PRESSED(KEY::LSHIFT))
+			{
+				vRectStartPos.x -= speed * DT;
+				vRectEndPos.x -= speed * DT;
+			}
+			if (KEY_PRESSED(KEY::RIGHT) && KEY_PRESSED(KEY::LSHIFT))
+			{
+				vRectStartPos.x += speed * DT;
+				vRectEndPos.x += speed * DT;
+			}
+
 		}
 
 		Vec2 vChangedCursorPos = vCursorPos - vPrevCursor;
@@ -174,10 +204,12 @@ void AnimCreateTool::render_update()
 
 		vPrevCursor = vCursorPos;
 
-
 		// 선택된 영역 네모 그리기
-		ImDrawList* drawList = ImGui::GetWindowDrawList();
-		drawList->AddRect(vRectStartPos, vRectEndPos, IM_COL32(0, 255, 0, 255));
+		if (m_bHasSelected)
+		{
+			ImDrawList* drawList = ImGui::GetWindowDrawList();
+			drawList->AddRect(vRectStartPos, vRectEndPos, IM_COL32(0, 255, 0, 255));
+		}
 	}
 
 	// 그리드  및 사각형 그리기
@@ -350,9 +382,6 @@ void AnimCreateTool::render_update()
 			ImGui::EndPopup();
 		}
 	}
-
-
-
 }
 
 void AnimCreateTool::Close()

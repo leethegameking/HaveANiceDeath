@@ -19,6 +19,13 @@ private:
 	bool m_bChildAutoSize;
 	bool m_bShowSeperator;
 
+	int m_iWindowFlag;
+
+
+public:
+	virtual void update();
+	void render();
+	virtual void render_update() = 0;
 
 public:
 	const string& GetName() { return m_strName; }
@@ -48,10 +55,8 @@ public:
 
 	void ResetFocus();
 
-public:
-	virtual void update();
-	void render();
-	virtual void render_update() = 0;
+	void AddFlag(ImGuiWindowFlags_ _flag) { m_iWindowFlag |= _flag; }
+
 
 public:
 	UI(const string& _strName);

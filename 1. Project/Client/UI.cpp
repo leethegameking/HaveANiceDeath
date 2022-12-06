@@ -11,6 +11,7 @@ UI::UI(const string& _strName)
 	, m_bPopUp(false)
 	, m_bShowSeperator(true)
 	, m_bChildAutoSize(false)
+	, m_iWindowFlag(0)
 {
 }
 
@@ -64,11 +65,7 @@ void UI::render()
 
 			else
 			{
-				int flag = 0;
-				if (m_bChildAutoSize)
-					flag |= ImGuiWindowFlags_AlwaysAutoResize;
-
-				ImGui::Begin(m_strName.c_str(), &m_bOpen, flag);
+				ImGui::Begin(m_strName.c_str(), &m_bOpen, m_iWindowFlag);
 
 				render_update();
 
