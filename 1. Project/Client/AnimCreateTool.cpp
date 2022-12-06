@@ -74,11 +74,8 @@ void AnimCreateTool::render_update()
 	static float fFPS = 0.f;
 	static Vec2 fFullsize = Vec2(0.f, 0.f);
 	static char strKey[255] = "";
-	static float fPrevScrollX = 0;
-	static float fPrevScrollY = 0;
 
-	float fCurScrollX = ImGui::GetScrollX() - fPrevScrollX;
-	float fCurScrollY = ImGui::GetScrollY() - fPrevScrollY;
+
 
 
 	// 이미지 크기 표시
@@ -103,8 +100,6 @@ void AnimCreateTool::render_update()
 	}
 
 
-
-
 	// 내부 독립적인 창 생성
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_NoMove;
 	ImGui::BeginChild("ChildImage", ImVec2(ImGui::GetContentRegionAvail().x, 500.f), true, window_flags);
@@ -113,7 +108,7 @@ void AnimCreateTool::render_update()
 		ImVec2(0, 0), ImVec2(1, 1), ImVec4(1, 1, 1, 1), ImVec4(1.f, 1.f, 1.f, 0.5f));
 
 	// 이미지 클릭 이벤트 -> Idx반환
-	if (m_bUniformed)
+	if (IsUniformed())
 	{
 		if (ImGui::IsItemHovered() && ImGui::IsItemClicked())
 		{
@@ -122,16 +117,15 @@ void AnimCreateTool::render_update()
 		}
 		
 	}
-	else
+	// 이미지 클릭시 사각형 그리고 LT, RB 좌표 알아냄. + Scroll에 반응
+
+	if(IsIndulgent())
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		Vec2 vMousePos = io.MousePos;
 
-		static float fPrevScrollX_Child = 0;
-		static float fPrevScrollY_Child = 0;
+		static Vec2 vPrevCursor = vCursorPos;
 
-		float fCurScrollX_Child = ImGui::GetScrollX() - fPrevScrollX_Child;
-		float fCurScrollY_Child = ImGui::GetScrollY() - fPrevScrollY_Child;
 
 		if (vMousePos.x < vCursorPos.x)
 			vMousePos.x = vCursorPos.x;
@@ -142,51 +136,54 @@ void AnimCreateTool::render_update()
 		if (vMousePos.y > vCursorPos.y + AtlasSize.y * m_vImageScale.y)
 			vMousePos.y = vCursorPos.y + AtlasSize.y * m_vImageScale.y;
 		
-		ImGuiWindow* window = ImGui::GetCurrentWindow();
+		// 스크롤에 반응 안 하도록 구현 중.
+		/*ImGuiWindow* window = ImGui::GetCurrentWindow();
 		ImGuiID active_id = ImGui::GetActiveID();
-		bool any_scrollbar_active = active_id && (active_id == ImGui::GetWindowScrollbarID(window, ImGuiAxis_X) || active_id == ImGui::GetWindowScrollbarID(window, ImGuiAxis_Y));
+		bool any_scrollbar_active = active_id && (active_id == ImGui::GetWindowScrollbarID(window, ImGuiAxis_X) || active_id == ImGui::GetWindowScrollbarID(window, ImGuiAxis_Y));*/
 
+
+		Vec2 TexCoord = vMousePos - vCursorPos;
+
+		// 스크롤 Released에서만 호출됨 -> 임시 처리.
+		static bool bScrollBool = 0;
 		// 그릴 사각형 좌표 잡기
-		if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows) && !any_scrollbar_active)
-		{
-			
+		if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows))
+		{	
 			if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 			{
-				vRectStartPos = vMousePos;
+				vRectStartPos = vCursorPos + TexCoord;
 				vRectEndPos = vRectStartPos;
+				bScrollBool = true;
 			}
 			if (ImGui::IsMouseDragging(ImGuiMouseButton_Left))
 			{
-				vRectEndPos = vMousePos;
+				vRectEndPos = vCursorPos + TexCoord;
+				bScrollBool = true;
 			}
-			if (ImGui::IsMouseReleased(ImGuiMouseButton_Left))
+			if (ImGui::IsMouseReleased(ImGuiMouseButton_Left) && bScrollBool)
 			{
-				vRectEndPos = vMousePos;
+				vRectEndPos = vCursorPos + TexCoord;
+				bScrollBool = false;
 			}
 		}
 
-		Vec2 vCurScroll_Child = Vec2(fCurScrollX_Child, fCurScrollY_Child);
+		Vec2 vChangedCursorPos = vCursorPos - vPrevCursor;
 
-		vRectStartPos -= vCurScroll_Child;
-		vRectEndPos -= vCurScroll_Child;
+		vRectStartPos += vChangedCursorPos;
+		vRectEndPos += vChangedCursorPos;
 
-		Vec2 vCurScroll = Vec2(fCurScrollX, fCurScrollY);
+		vPrevCursor = vCursorPos;
 
-		vRectStartPos -= vCurScroll;
-		vRectEndPos -= vCurScroll;
 
 		// 선택된 영역 네모 그리기
 		ImDrawList* drawList = ImGui::GetWindowDrawList();
 		drawList->AddRect(vRectStartPos, vRectEndPos, IM_COL32(0, 255, 0, 255));
-
-		fPrevScrollX_Child = ImGui::GetScrollX();
-		fPrevScrollY_Child = ImGui::GetScrollY();
-
 	}
 
-	// 그리드 그리기
-	if (m_bUniformed)
+	// 그리드  및 사각형 그리기
+	if (IsUniformed())
 	{
+		// 그리드
 		ImDrawList* draw_list = ImGui::GetWindowDrawList();
 		Vec2 vGridStep = Vec2(my_tex_w / m_vSliceCount.x, my_tex_h / m_vSliceCount.y);
 		for (float x = 0.f; x < my_tex_w; x += vGridStep.x)
@@ -199,6 +196,7 @@ void AnimCreateTool::render_update()
 				ImVec2(vCursorPos.x + my_tex_w * m_vImageScale.x, vCursorPos.y + y * m_vImageScale.y),
 				IM_COL32(200, 200, 200, 40));
 
+		// 사각형
 		if (m_bHasSelected)
 		{
 			Vec2 vSlice = Vec2(my_tex_w / m_vSliceCount.x, my_tex_h / m_vSliceCount.y);
@@ -213,13 +211,10 @@ void AnimCreateTool::render_update()
 
 	}
 	ImGui::EndChild();
-	fPrevScrollX = ImGui::GetScrollX();
-	fPrevScrollY = ImGui::GetScrollY();
 
-	
-	if (!m_bUniformed)
+	// 프레임 추가 및 추가된 프레임 이미지버튼으로 표시
+	if (IsIndulgent())
 	{
-		
 		// UV로 계산
 		Vec2 LTUV = (vRectStartPos - vCursorPos) / (AtlasSize * m_vImageScale);
 		Vec2 RBUV = (vRectEndPos - vCursorPos) / (AtlasSize * m_vImageScale);
@@ -275,13 +270,14 @@ void AnimCreateTool::render_update()
 		ImGui::EndChild();
 	}
 
-	// 정렬된 아틀라스일때
-	if (m_bUniformed)
+	// 데이터 세팅 및 애니메이션 생성
+	if (IsUniformed())
 	{
 		ImGui::Text("AnimationKey"); ImGui::SameLine(); ImGui::InputText("##AnimationKey", &strKey[0], 255);
 		ImGui::Text("MaxFrm      "); ImGui::SameLine(); ImGui::InputInt("##MaxFrm", &iMaxFrm, 0, 0);
 		ImGui::Text("FPS         "); ImGui::SameLine(); ImGui::InputFloat("##FPS", &fFPS, 0, 0);
 		ImGui::Text("FullSize    "); ImGui::SameLine(); ImGui::InputFloat2("##FPS", fFullsize);
+
 		if (ImGui::RadioButton("Horizontal", !IsVertical)) { IsVertical = HORIZONTAL; }
 		ImGui::SameLine();
 		if(ImGui::RadioButton("Vertical", IsVertical)) { IsVertical = VERTICAL; }
@@ -315,22 +311,7 @@ void AnimCreateTool::render_update()
 			}
 			ImGui::EndPopup();
 		}
-		//if (ImGui::BeginPopup("Confirmed"))
-		//{
-		//	ImGui::Text("Animation Created!!!");
-		//	ImGui::EndPopup();
-		//}
 
-		// 선택 네모 그리기
-		if (m_bHasSelected)
-		{
-			Vec2 StartPos = vCursorPos +  m_vClickedIdx * vSlice * m_vImageScale;
-			ImDrawList* draw_list = ImGui::GetWindowDrawList();
-			if (IsVertical)
-				draw_list->AddRect(StartPos, StartPos + Vec2(vSlice.x, vSlice.y * iMaxFrm) * m_vImageScale, IM_COL32(0, 255, 0, 255));
-			else
-				draw_list->AddRect(StartPos, StartPos + Vec2(vSlice.x * iMaxFrm, vSlice.y) * m_vImageScale, IM_COL32(0, 255, 0, 255));
-		}
 	}
 
 
