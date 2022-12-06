@@ -31,6 +31,9 @@ void ResUI::render_update()
     ImGui::Button(ToString(m_eType));
     ImGui::PopStyleColor(3);
     ImGui::PopID();
+
+    if (m_eType != GetTarget()->GetResType())
+        assert(nullptr);
 }
 
 

@@ -99,6 +99,44 @@ void CMaterial::SetScalarParam(SCALAR_PARAM _eScalarType, void* _pData)
 	}
 }
 
+void CMaterial::GetScalarParam(SCALAR_PARAM _eScalarType, void* _pData)
+{
+	switch (_eScalarType)
+	{
+	case INT_0:
+	case INT_1:
+	case INT_2:
+	case INT_3:
+		*((int*)_pData) = m_tConst.iArr[_eScalarType];
+		break;
+	case FLOAT_0:
+	case FLOAT_1:
+	case FLOAT_2:
+	case FLOAT_3:
+		*((float*)_pData) = m_tConst.fArr[_eScalarType - FLOAT_0];
+		break;
+	case VEC2_0:
+	case VEC2_1:
+	case VEC2_2:
+	case VEC2_3:
+		*((Vec2*)_pData) = m_tConst.v2Arr[_eScalarType - VEC2_0];
+		break;
+	case VEC4_0:
+	case VEC4_1:
+	case VEC4_2:
+	case VEC4_3:
+		*((Vec4*)_pData) = m_tConst.v4Arr[_eScalarType - VEC4_0];
+		break;
+	case MAT_0:
+	case MAT_1:
+	case MAT_2:
+	case MAT_3:
+		*((Matrix*)_pData) = m_tConst.matArr[_eScalarType - MAT_0];
+		break;
+	}
+
+}
+
 void CMaterial::SetTexParam(TEX_PARAM _eTex, Ptr<CTexture> _pTex)
 {
 	m_arrTex[_eTex] = _pTex;

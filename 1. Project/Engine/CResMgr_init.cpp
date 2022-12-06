@@ -197,6 +197,9 @@ void CResMgr::CreateDefaultGraphicsShader()
 
 	AddRes<CGraphicsShader>(L"Std2DShader", pShader);
 
+	pShader->AddScalarParam(INT_0, "Test Int");
+	pShader->AddScalarParam(FLOAT_1, "Test Float");
+
 
 	// Std2dAlphaBlend Shader
 	pShader = new CGraphicsShader;

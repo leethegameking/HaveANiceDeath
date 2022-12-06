@@ -135,3 +135,15 @@ struct tTile
 	Vec2 vLeftTop;
 	Vec2 vSlice;
 };
+
+struct tScalarParam
+{
+	SCALAR_PARAM	eParam;
+	string			strName;
+};
+
+struct tTextureParam
+{
+	TEX_PARAM	eParam;
+	string		strName;
+};

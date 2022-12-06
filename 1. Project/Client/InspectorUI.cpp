@@ -9,6 +9,7 @@
 #include "ParticleSystemUI.h"
 #include "TileMapUI.h"
 #include "Animator2DUI.h"
+#include "MaterialUI.h"
 
 #include "MeshUI.h"
 #include "ComputeShaderUI.h"
@@ -75,6 +76,10 @@ InspectorUI::InspectorUI()
 	m_arrResUI[(UINT)RES_TYPE::ANIMATION2D]->SetSize(Vec2(0.f, 500.f));
 	m_arrResUI[(UINT)RES_TYPE::ANIMATION2D]->Close();
 	AddChild(m_arrResUI[(UINT)RES_TYPE::ANIMATION2D]);
+
+	m_arrResUI[(UINT)RES_TYPE::MATERIAL] = new MaterialUI;
+	m_arrResUI[(UINT)RES_TYPE::MATERIAL]->Close();
+	AddChild(m_arrResUI[(UINT)RES_TYPE::MATERIAL]);
 }
 
 InspectorUI::~InspectorUI()

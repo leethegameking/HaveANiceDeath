@@ -96,6 +96,8 @@ void Animation2DUI::DrawAnimation()
 		Vec2 vRB = vLT + m_vecFrm->at(curIdx).vFullSize;
 		Vec2 ImageSize = m_vecFrm->at(curIdx).vFullSize * vAtlasSize * m_vImageScale;
 
+		// draw_list->AddRectFilled(vCursorPos, vCursorPos + ImageSize, IM_COL32_WHITE);
+
 		ImGui::Image(AtlasSRV, ImageSize, vLT, vRB);
 		// Fullsize Area
 		draw_list->AddRectFilled(
