@@ -66,7 +66,7 @@ void CAnimation2D::finaltick()
 }
 
 void CAnimation2D::Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex
-	, Vec2 _vLeftTop, Vec2 _vSlice, float _fStep, int _iMaxFrm, float _FPS, Vec2 _vFullsize, bool _bVTHZ)
+	, Vec2 _vLeftTop, Vec2 _vOffset, Vec2 _vSlice, float _fStep, int _iMaxFrm, float _FPS, Vec2 _vFullsize, bool _bVTHZ)
 {
 	// Animation Name
 	SetName(_strKey);
@@ -76,6 +76,7 @@ void CAnimation2D::Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex
 
 	float fWidth = (float)m_AtlasTex->GetWidth();
 	float fHeight = (float)m_AtlasTex->GetHeight();
+	Vec2 vSize = Vec2(fWidth, fHeight);
 
 	// Frame Info
 	for (int i = 0; i < _iMaxFrm; ++i)
@@ -89,15 +90,21 @@ void CAnimation2D::Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex
 		frm.fDuration = 1.f / _FPS;
 
 		frm.vFullSize = Vec2(_vFullsize.x / fWidth, _vFullsize.y / fHeight);
-		/*if (i == 5)
-		{
-			frm.vOffset = Vec2(20.f / fWidth, 30.f / fHeight);
-		}*/
+		frm.vOffset = _vOffset / vSize;
 
 		m_vecFrm.push_back(frm);
 	}
+}
 
-	CResMgr::GetInst()->AddRes<CAnimation2D>(this->GetName(), (CAnimation2D*)this);
+void CAnimation2D::Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex, const vector<tAnim2DFrm>& _vecFrm)
+{
+	// Animation Name
+	SetName(_strKey);
+
+	// Atlas Texture
+	m_AtlasTex = _AtlasTex;
+
+	m_vecFrm.assign(_vecFrm.begin(), _vecFrm.end());
 }
 
 

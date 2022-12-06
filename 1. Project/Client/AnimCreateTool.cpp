@@ -73,7 +73,7 @@ void AnimCreateTool::render_update()
 	static int iMaxFrm = 1;
 	static float fFPS = 0.f;
 	static Vec2 fFullsize = Vec2(0.f, 0.f);
-	static char strKey[255] = "";
+	
 
 
 
@@ -249,15 +249,14 @@ void AnimCreateTool::render_update()
 		ImGuiWindowFlags window_flags = ImGuiWindowFlags_HorizontalScrollbar;
 		ImGui::BeginChild("ChildImageArr", Vec2(ImGui::GetContentRegionAvail().x, 100.f + 22.f), true, window_flags);
 		// 프레임 수 만큼 이미지버튼으로 표시
-		static int FrmID = 0;
+		
 		for (size_t i = 0; i < m_ChangeFrm.size(); ++i)
 		{
-			ImGui::PushID(FrmID);
-			++FrmID;
+			string imageID = "#imageButton" + to_string(i);
+			ImGui::PushID(imageID.c_str());
 			if (ImGui::ImageButton(AtlasSRV, Vec2(100.f, 100.f), m_ChangeFrm[i].vLeftTop, m_ChangeFrm[i].vLeftTop + m_ChangeFrm[i].vSlice))
 			{
 				m_iFrmIdx = i;
-
 			}
 			// 지우기 옵션
 			if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
@@ -273,7 +272,8 @@ void AnimCreateTool::render_update()
 	// 데이터 세팅 및 애니메이션 생성
 	if (IsUniformed())
 	{
-		ImGui::Text("AnimationKey"); ImGui::SameLine(); ImGui::InputText("##AnimationKey", &strKey[0], 255);
+		static char strKey[255] = "";
+		ImGui::Text("AnimationKey"); ImGui::SameLine(); ImGui::InputText("##AnimationKey", strKey, 255);
 		ImGui::Text("MaxFrm      "); ImGui::SameLine(); ImGui::InputInt("##MaxFrm", &iMaxFrm, 0, 0);
 		ImGui::Text("FPS         "); ImGui::SameLine(); ImGui::InputFloat("##FPS", &fFPS, 0, 0);
 		ImGui::Text("FullSize    "); ImGui::SameLine(); ImGui::InputFloat2("##FPS", fFullsize);
@@ -295,8 +295,7 @@ void AnimCreateTool::render_update()
 				fStep = vSlice.x;
 
 			// Animation Create
-			CAnimation2D* pAnimation = new CAnimation2D;
-			pAnimation->Create(StrToWstr(strKey), m_AtlasTex, LT, vSlice, fStep, iMaxFrm, fFPS, fFullsize, IsVertical);
+			CResMgr::GetInst()->CreateAnimation(StrToWstr(strKey), m_AtlasTex, LT, Vec2::Zero, vSlice, fStep, iMaxFrm, fFPS, fFullsize, IsVertical);
 
 			ImGui::OpenPopup("Created");
 		}
@@ -313,6 +312,45 @@ void AnimCreateTool::render_update()
 		}
 
 	}
+
+	// 데이터 세팅 및 애니메이션 생성
+	if (IsIndulgent())
+	{
+		if (!m_ChangeFrm.empty())
+		{
+			ImGui::PushItemWidth(100.f);
+			// 프레임 정보
+			ImGui::Text("LeftTop ");	ImGui::SameLine(); ImGui::InputFloat2("##LeftTop", m_ChangeFrm[m_iFrmIdx].vLeftTop);
+			ImGui::Text("Slice   ");	ImGui::SameLine(); ImGui::InputFloat2("##Slice", m_ChangeFrm[m_iFrmIdx].vSlice);
+			ImGui::Text("Offset  ");	ImGui::SameLine(); ImGui::InputFloat2("##Offset", m_ChangeFrm[m_iFrmIdx].vOffset);
+			ImGui::Text("Fullsize");	ImGui::SameLine(); ImGui::InputFloat2("##Fullsize", m_ChangeFrm[m_iFrmIdx].vFullSize);
+			ImGui::Text("Duration");	ImGui::SameLine(); ImGui::InputFloat("##Duation", &m_ChangeFrm[m_iFrmIdx].fDuration, 0, 0);
+			ImGui::PopItemWidth();
+		}
+
+		// 컨펌
+		if (ButtonCenteredOnLine("Confirm", 0.5f))
+		{
+			ImGui::OpenPopup("New Animation Create");
+		}
+		if (ImGui::BeginPopupModal("New Animation Create"))
+		{
+			static char strKey[255] = "";
+			ImGui::Text("AnimationKey :"); ImGui::SameLine(); ImGui::InputText("##AnimKey", strKey, 255, ImGuiInputTextFlags_EnterReturnsTrue);
+			if (ButtonCenteredOnLine("Confirm", 0.3f, 60.f))
+			{
+				CResMgr::GetInst()->CreateAnimation(StrToWstr(strKey), m_AtlasTex, m_ChangeFrm);
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::SameLine();
+			if (ButtonCenteredOnLine("Close", 0.f, 60.f))
+			{
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::EndPopup();
+		}
+	}
+
 
 
 }

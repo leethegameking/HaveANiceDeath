@@ -34,7 +34,7 @@ void CAnimator2D::finaltick()
 	m_pCurAnim->finaltick();
 }
 
-void CAnimator2D::CreateAnimation(const wstring& _strKey, Ptr<CTexture> _AtlasTex, Vec2 _vLeftTop, Vec2 _vSlice, float _fStep, int _iMaxFrm, float _FPS)
+void CAnimator2D::CreateAnimation(const wstring& _strKey, Ptr<CTexture> _AtlasTex, Vec2 _vLeftTop, Vec2 _vOffset, Vec2 _vSlice, float _fStep, int _iMaxFrm, float _FPS)
 {
 	assert(_AtlasTex.Get());
 
@@ -42,7 +42,7 @@ void CAnimator2D::CreateAnimation(const wstring& _strKey, Ptr<CTexture> _AtlasTe
 	assert(!pAnim);
 
 	pAnim = new CAnimation2D;
-	pAnim->Create(_strKey, _AtlasTex, _vLeftTop, _vSlice, _fStep, _iMaxFrm, _FPS);
+	pAnim->Create(_strKey, _AtlasTex, _vLeftTop, _vOffset, _vSlice, _fStep, _iMaxFrm, _FPS);
 
 	CAnimation2D* pAnimClone = pAnim->Clone();
 	pAnimClone->m_pMasterAnim = pAnim;

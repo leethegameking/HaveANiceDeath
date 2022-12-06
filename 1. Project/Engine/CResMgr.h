@@ -37,7 +37,8 @@ public:
 	template<typename T>
 	Ptr<T> Load(const wstring& _strKey, const wstring& _strRelativePath);
 
-
+	Ptr<CAnimation2D> CreateAnimation(const wstring& _strKey, Ptr<CTexture> _AtlasTex, const vector<tAnim2DFrm>& _vecFrm);
+	Ptr<CAnimation2D> CreateAnimation(const wstring& _strKey, Ptr<CTexture> _AtlasTex, Vec2 _vLeftTop, Vec2 _vOffset, Vec2 _vSlice, float _fStep, int _iMaxFrm, float _FPS, Vec2 _vFullsize = Vec2(400.f, 400.f), bool _bVTHZ = HORIZONTAL);
 	Ptr<CTexture> CreateTexture(const wstring& _strKey
 		, UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _iBindFlag );
 	Ptr<CTexture> CreateTexture(const wstring& _strKey, ComPtr<ID3D11Texture2D> _Tex2D);

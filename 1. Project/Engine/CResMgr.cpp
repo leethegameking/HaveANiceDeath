@@ -20,6 +20,31 @@ CResMgr::~CResMgr()
 	}
 }
 
+Ptr<CAnimation2D> CResMgr::CreateAnimation(const wstring& _strKey, Ptr<CTexture> _AtlasTex, const vector<tAnim2DFrm>& _vecFrm)
+{
+	Ptr<CAnimation2D> pAnim = FindRes<CAnimation2D>(_strKey);
+	assert(!pAnim.Get());
+
+	pAnim = new CAnimation2D;
+	pAnim->Create(_strKey, _AtlasTex, _vecFrm);
+
+	AddRes<CAnimation2D>(_strKey, pAnim.Get());
+
+	return pAnim;
+}
+
+Ptr<CAnimation2D> CResMgr::CreateAnimation(const wstring& _strKey, Ptr<CTexture> _AtlasTex, Vec2 _vLeftTop, Vec2 _vOffset, Vec2 _vSlice, float _fStep, int _iMaxFrm, float _FPS, Vec2 _vFullsize, bool _bVTHZ)
+{
+	Ptr<CAnimation2D> pAnim = FindRes<CAnimation2D>(_strKey);
+	assert(!pAnim.Get());
+
+	pAnim = new CAnimation2D;
+	pAnim->Create(_strKey, _AtlasTex, _vLeftTop, _vOffset, _vSlice, _fStep, _iMaxFrm, _FPS, _vFullsize, _bVTHZ);
+
+	AddRes<CAnimation2D>(_strKey, pAnim.Get());
+
+	return pAnim;
+}
 
 Ptr<CTexture> CResMgr::CreateTexture(const wstring& _strKey, UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _iBindFlag)
 {
@@ -33,6 +58,8 @@ Ptr<CTexture> CResMgr::CreateTexture(const wstring& _strKey, UINT _iWidth, UINT 
 
 	return pTex;
 }
+
+
 
 Ptr<CTexture> CResMgr::CreateTexture(const wstring& _strKey, ComPtr<ID3D11Texture2D> _Tex2D)
 {
