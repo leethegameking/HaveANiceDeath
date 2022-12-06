@@ -16,7 +16,9 @@ private:
 
 	bool m_bModal;
 	bool m_bPopUp;
+	bool m_bChildAutoSize;
 	bool m_bShowSeperator;
+
 
 public:
 	const string& GetName() { return m_strName; }
@@ -41,6 +43,8 @@ public:
 
 	void SetShowSeperator(bool _show) { m_bShowSeperator = _show; }
 	bool ShowSeperator() { return m_bShowSeperator; }
+
+	void SetAutoSize() { m_bChildAutoSize = true; }
 
 	void ResetFocus();
 

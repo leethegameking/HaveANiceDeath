@@ -3,6 +3,8 @@
 
 #include "CImGuiMgr.h"
 
+#include <Engine/CResMgr.h>
+#include <Engine/Ptr.h>
 #include <Engine/CTimeMgr.h>
 #include <Engine/CAnimation2D.h>
 
@@ -66,7 +68,7 @@ void Animation2DUI::render_update()
 
 void Animation2DUI::DrawAnimation()
 {
-	CAnimation2D* pAnim = (CAnimation2D*)GetTarget().Get();
+	CAnimation2D* pAnim = CResMgr::GetInst()->FindRes<CAnimation2D>(GetTarget()->GetKey()).Get();
 	Ptr<CTexture> pAtlas = pAnim->GetAtlas();
 	ImTextureID AtlasSRV = pAtlas->GetSRV().Get();
 	static int curIdx = 0;

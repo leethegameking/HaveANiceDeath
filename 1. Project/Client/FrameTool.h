@@ -14,7 +14,7 @@ class FrameTool :
     public UI
 {
 private:
-    ComboBox* m_AtlasComboBox;
+    ComboBox* m_AnimComboBox;
     CAnimation2D* m_pCurAnim;
 
     vector<string> m_vecRes;

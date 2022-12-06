@@ -97,9 +97,10 @@ void Animator2DUI::render_update()
 	// Create Animation
 	if (ButtonCenteredOnLine("Create Animation", 0.5f))
 	{
-		AnimCreateTool* pAnimUI = (AnimCreateTool*)CImGuiMgr::GetInst()->FindUI("AnimCreateTool");
-		pAnimUI->init();
-		pAnimUI->Open();
+		AnimCreateTool* pCreateUI = (AnimCreateTool*)CImGuiMgr::GetInst()->FindUI("AnimCreateTool");
+		pCreateUI->SetAutoSize();
+		pCreateUI->init();
+		pCreateUI->Open();
 
 
 	}

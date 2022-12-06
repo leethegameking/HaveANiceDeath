@@ -6,6 +6,7 @@ tTransform g_transform = {};
 tGlobalData g_global = {};
 
 const Vector3 Vector3::Zero = Vector3(0.f, 0.f, 0.f);
+const Vector2 Vector2::Zero = Vector2(0.f, 0.f);
 
 extern const char* COMPONENT_TYPE_CHAR[(UINT)COMPONENT_TYPE::END] =
 {

@@ -16,14 +16,14 @@ FrameTool::FrameTool()
 	, m_bAnimChanged(false)
 	, m_vImageScale(Vec2(0.5f, 0.5f))
 {
-	m_AtlasComboBox = new ComboBox;
+	m_AnimComboBox = new ComboBox;
 	Close();
 }
 
 FrameTool::~FrameTool()
 {
-	if (m_AtlasComboBox)
-		delete m_AtlasComboBox;
+	if (m_AnimComboBox)
+		delete m_AnimComboBox;
 }
 
 void FrameTool::Init_Frame(CAnimation2D* _pAnim)
@@ -47,8 +47,8 @@ void FrameTool::Init_Frame(CAnimation2D* _pAnim)
 		++i;
 	}
 	
-	m_AtlasComboBox->AddSelectedFunc(this, (FUNC_1)&FrameTool::SetAnimaton);
-	m_AtlasComboBox->init(m_vecRes, idx);
+	m_AnimComboBox->AddSelectedFunc(this, (FUNC_1)&FrameTool::SetAnimaton);
+	m_AnimComboBox->init(m_vecRes, idx);
 }
 
 void FrameTool::update()
@@ -59,7 +59,7 @@ void FrameTool::update()
 void FrameTool::render_update()
 {
 	// 애니메이션 선택
-	m_AtlasComboBox->render_update();
+	m_AnimComboBox->render_update();
 	Ptr<CTexture> pAtlas = m_pCurAnim->GetAtlas();
 	ImTextureID AtlasSRV = pAtlas->GetSRV().Get();
 	Vec2 vImageScale = Vec2(200.f, 200.f);
@@ -145,6 +145,16 @@ void FrameTool::render_update()
 	{
 		m_OriginFrm->assign(m_ChangeFrm.begin(), m_ChangeFrm.end());
 		m_pCurAnim->Reallocate();
+		ImGui::OpenPopup("Frame Edit");
+	}
+	if(ImGui::BeginPopupModal("Frame Edit"))
+	{
+		ImGui::Text("Frame Edit Complete!!!");
+		if (ButtonCenteredOnLine("Close", 0.5f))
+		{
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
 	}
 }
 

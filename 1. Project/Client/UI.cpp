@@ -10,6 +10,7 @@ UI::UI(const string& _strName)
 	, m_bModal(false)
 	, m_bPopUp(false)
 	, m_bShowSeperator(true)
+	, m_bChildAutoSize(false)
 {
 }
 
@@ -63,7 +64,11 @@ void UI::render()
 
 			else
 			{
-				ImGui::Begin(m_strName.c_str(), &m_bOpen);
+				int flag = 0;
+				if (m_bChildAutoSize)
+					flag |= ImGuiWindowFlags_AlwaysAutoResize;
+
+				ImGui::Begin(m_strName.c_str(), &m_bOpen, flag);
 
 				render_update();
 
@@ -79,7 +84,9 @@ void UI::render()
 		// 자식 UI라면
 		else
 		{
-			ImGui::BeginChild(m_strName.c_str(), m_vSize);
+			int flag = 0;
+
+			ImGui::BeginChild(m_strName.c_str(), m_vSize, flag);
 
 			render_update();
 
