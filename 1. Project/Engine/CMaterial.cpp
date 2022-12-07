@@ -42,7 +42,12 @@ void CMaterial::UpdateData()
 		if (nullptr != m_arrTex[i])
 		{
 			m_arrTex[i]->UpdateData(i, ALL_STAGE);
+			m_tConst.iTexCheck[i] = true;
 		}		
+		else
+		{
+			m_tConst.iTexCheck[i] = false;
+		}
 	}
 
 	// 상수 업데이트
@@ -140,4 +145,9 @@ void CMaterial::GetScalarParam(SCALAR_PARAM _eScalarType, void* _pData)
 void CMaterial::SetTexParam(TEX_PARAM _eTex, Ptr<CTexture> _pTex)
 {
 	m_arrTex[_eTex] = _pTex;
+}
+
+Ptr<CTexture> CMaterial::GetTexParam(TEX_PARAM _eTex)
+{
+	return m_arrTex[(UINT)_eTex];
 }

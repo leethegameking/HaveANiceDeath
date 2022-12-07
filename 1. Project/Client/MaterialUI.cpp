@@ -1,17 +1,21 @@
 #include "pch.h"
 #include "MaterialUI.h"
 
+#include <Engine/CResMgr.h>
 #include <Engine/CMaterial.h>
 #include "ParamUI.h"
 
 MaterialUI::MaterialUI()
 	: ResUI("##MaterialUI", RES_TYPE::MATERIAL)
+	, m_eSelectTexParam(TEX_PARAM::TEX_END)
 {
 }
 
 MaterialUI::~MaterialUI()
 {
 }
+
+
 
 void MaterialUI::update()
 {
@@ -102,6 +106,36 @@ void MaterialUI::render_update()
 		break;
 		}
 	}
+
+	const vector<tTextureParam> vecTex = pMtrl->GetShader()->GetTextureParam(); // 레퍼런스로 받아옴
+	for (size_t i = 0; i < vecTex.size(); ++i)
+	{
+		Ptr<CTexture> pTex = pMtrl->GetTexParam(vecTex[i].eParam);
+		// 버튼이 눌렸다 -> ListUI Open -> 선택된 멤버 TEX_PARAM으로 arr에 넣어줌.
+		if(ParamUI::Param_Tex(vecTex[i].strName, pTex, this, (FUNC_1)&MaterialUI::SetTexture))
+		{
+			// 선택한 아이템의 TEX_PARAM을 알려줌. (한 프레임 밀림)
+			m_eSelectTexParam = vecTex[i].eParam;
+		}
+		// 버튼이 안 눌렸다.
+		else
+		{
+			// 굳이?
+			pMtrl->SetTexParam(vecTex[i].eParam, pTex);
+		}
+		
+	}
 }
 
 
+void MaterialUI::SetTexture(DWORD_PTR _strTexKey)
+{
+	string strKey = (char*)_strTexKey;
+	wstring wstrKey = StrToWstr(strKey);
+
+	Ptr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(wstrKey);
+	assert(pTex.Get());
+
+	CMaterial* pMtrl = (CMaterial*)GetTarget().Get();
+	pMtrl->SetTexParam(m_eSelectTexParam, pTex);
+}

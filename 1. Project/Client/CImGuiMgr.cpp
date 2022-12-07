@@ -6,6 +6,7 @@
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
 #include "UI.h"
+#include "ParamUI.h"
 
 CImGuiMgr::CImGuiMgr()
 {
@@ -65,6 +66,9 @@ void CImGuiMgr::progress()
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
     }
+
+    // ID 초기화
+    ParamUI::ParamCount = 0;
 
     // 추가된 부분
     {

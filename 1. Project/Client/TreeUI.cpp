@@ -39,7 +39,7 @@ void TreeNode::render_update()
 	if (ImGui::TreeNodeEx(strName.c_str(), iFlag))
 	{
 		// 아이템 클릭 체크
-		if (ImGui::IsItemHovered(0) && ImGui::IsMouseClicked(0) && !m_bFrame)
+		if (ImGui::IsItemHovered(0) && ImGui::IsMouseReleased(0) && !m_bFrame)
 		{
 			m_TreeUI->SetSelectedNode(this);
 		}
@@ -69,6 +69,7 @@ void TreeNode::render_update()
 			ImGui::EndDragDropSource();
 		}
 
+		// 드랍 체크
 		if (ImGui::BeginDragDropTarget())
 		{
 			m_TreeUI->SetDropTargetNode(this);
@@ -96,6 +97,11 @@ TreeUI::TreeUI(const string& _strName)
 	, m_SelectedNode(nullptr)
 	, m_SelectInst(nullptr)
 	, m_SelectFunc(nullptr)
+	, m_DragDropInst(nullptr)
+	, m_DragDropFunc(nullptr)
+	, m_BeginDragNode(nullptr)
+	, m_DropTargetNode(nullptr)
+
 {
 }
 

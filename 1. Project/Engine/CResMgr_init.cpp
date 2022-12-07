@@ -192,14 +192,17 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
 	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D");
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
-
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASK);
 
-	AddRes<CGraphicsShader>(L"Std2DShader", pShader);
-
 	pShader->AddScalarParam(INT_0, "Test Int");
-	pShader->AddScalarParam(FLOAT_1, "Test Float");
+	pShader->AddScalarParam(FLOAT_2, "Test Float");
+	pShader->AddScalarParam(VEC2_3, "Test Vec2");
+	pShader->AddScalarParam(VEC4_2, "Test Vec4");
+	pShader->AddTexParam(TEX_0, "Output Texture 1");
+	pShader->AddTexParam(TEX_1, "Output Texture 2");
+	pShader->AddTexParam(TEX_2, "Output Texture 3");
 
+	AddRes<CGraphicsShader>(L"Std2DShader", pShader);
 
 	// Std2dAlphaBlend Shader
 	pShader = new CGraphicsShader;
