@@ -18,6 +18,7 @@ AnimCreateTool::AnimCreateTool()
 	, m_vSliceCount(Vec2(10.f, 10.f))
 	, m_bHasSelected(false)
 	, m_iFrmIdx(0)
+	, m_bDragMode(true)
 {
 	m_AtlasComboBox = new ComboBox;
 	Close();
@@ -86,6 +87,13 @@ void AnimCreateTool::render_update()
 	ImGui::SameLine();
 	if (ImGui::RadioButton("Indulgent Atlas", m_bUniformed == false)) { m_bUniformed = false; m_bHasSelected = false; }
 
+	if (IsIndulgent())
+	{
+		if (ImGui::RadioButton("Drag", m_bDragMode == true)) { m_bDragMode = true; }
+		ImGui::SameLine();
+		if (ImGui::RadioButton("Auto", m_bDragMode == false)) { m_bDragMode = false; }
+	}
+
 	// 정렬 되었을 때 slice count 표시
 	if (IsUniformed())
 	{
@@ -133,68 +141,77 @@ void AnimCreateTool::render_update()
 		if (vMousePos.y > vCursorPos.y + AtlasSize.y * m_vImageScale.y)
 			vMousePos.y = vCursorPos.y + AtlasSize.y * m_vImageScale.y;
 		
-		// 스크롤에 반응 안 하도록 구현 중.
-		/*ImGuiWindow* window = ImGui::GetCurrentWindow();
-		ImGuiID active_id = ImGui::GetActiveID();
-		bool any_scrollbar_active = active_id && (active_id == ImGui::GetWindowScrollbarID(window, ImGuiAxis_X) || active_id == ImGui::GetWindowScrollbarID(window, ImGuiAxis_Y));*/
-
-
 		Vec2 TexCoord = vMousePos - vCursorPos;
 
-		// 스크롤 Released에서만 호출됨 -> 임시 처리.
-		static bool bScrollBool = 0;
-		// 그릴 사각형 좌표 잡기
-		if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows))
-		{	
-			if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !KEY_PRESSED(KEY::LSHIFT))
+		if (m_bDragMode)
+		{
+			// 스크롤 Released에서만 호출됨 -> 임시 처리.
+			static bool bScrollBool = 0;
+			// 그릴 사각형 좌표 잡기
+			if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows))
 			{
-				vRectStartPos = vCursorPos + TexCoord;
-				vRectEndPos = vRectStartPos;
-				bScrollBool = true;
-				m_bHasSelected = true;
-				
-			}
-			if (ImGui::IsMouseDragging(ImGuiMouseButton_Left) && !KEY_PRESSED(KEY::LSHIFT))
-			{
-				vRectEndPos = vCursorPos + TexCoord;
-				bScrollBool = true;
-			}
-			if (ImGui::IsMouseReleased(ImGuiMouseButton_Left) && !KEY_PRESSED(KEY::LSHIFT) && bScrollBool )
-			{
-				vRectEndPos = vCursorPos + TexCoord;
-				bScrollBool = false;
-			}
+				if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !KEY_PRESSED(KEY::LSHIFT))
+				{
+					vRectStartPos = vCursorPos + TexCoord;
+					vRectEndPos = vRectStartPos;
+					bScrollBool = true;
+					m_bHasSelected = true;
 
-			if (ImGui::IsMouseDragging(ImGuiMouseButton_Left) && KEY_PRESSED(KEY::LSHIFT))
-			{
-				Vec2 vMouseDir = CKeyMgr::GetInst()->GetMouseDir();
-				vRectStartPos += Vec2(vMouseDir.x, -vMouseDir.y);
-				vRectEndPos += Vec2(vMouseDir.x, -vMouseDir.y);
-			}
+				}
+				if (ImGui::IsMouseDragging(ImGuiMouseButton_Left) && !KEY_PRESSED(KEY::LSHIFT))
+				{
+					vRectEndPos = vCursorPos + TexCoord;
+					bScrollBool = true;
+				}
+				if (ImGui::IsMouseReleased(ImGuiMouseButton_Left) && !KEY_PRESSED(KEY::LSHIFT) && bScrollBool)
+				{
+					vRectEndPos = vCursorPos + TexCoord;
+					bScrollBool = false;
+				}
 
+				// 사각형 드래그로 움직이기
+				if (ImGui::IsMouseDragging(ImGuiMouseButton_Left) && KEY_PRESSED(KEY::LSHIFT))
+				{
+					Vec2 vMouseDir = CKeyMgr::GetInst()->GetMouseDir();
+					vRectStartPos += Vec2(vMouseDir.x, -vMouseDir.y);
+					vRectEndPos += Vec2(vMouseDir.x, -vMouseDir.y);
+				}
 
-			static float speed = 20.f;
-			if (KEY_PRESSED(KEY::UP) && KEY_PRESSED(KEY::LSHIFT))
-			{
-				vRectStartPos.y -= speed * DT;
-				vRectEndPos.y -= speed * DT;
-			}
-			if (KEY_PRESSED(KEY::DOWN) && KEY_PRESSED(KEY::LSHIFT))
-			{
-				vRectStartPos.y += speed * DT;
-				vRectEndPos.y += speed * DT;
-			}
-			if (KEY_PRESSED(KEY::LEFT) && KEY_PRESSED(KEY::LSHIFT))
-			{
-				vRectStartPos.x -= speed * DT;
-				vRectEndPos.x -= speed * DT;
-			}
-			if (KEY_PRESSED(KEY::RIGHT) && KEY_PRESSED(KEY::LSHIFT))
-			{
-				vRectStartPos.x += speed * DT;
-				vRectEndPos.x += speed * DT;
-			}
+				// 사각형 키입력으로 움직이기
+				static float speed = 20.f;
+				if (KEY_PRESSED(KEY::UP) && KEY_PRESSED(KEY::LSHIFT))
+				{
+					vRectStartPos.y -= speed * DT;
+					vRectEndPos.y -= speed * DT;
+				}
+				if (KEY_PRESSED(KEY::DOWN) && KEY_PRESSED(KEY::LSHIFT))
+				{
+					vRectStartPos.y += speed * DT;
+					vRectEndPos.y += speed * DT;
+				}
+				if (KEY_PRESSED(KEY::LEFT) && KEY_PRESSED(KEY::LSHIFT))
+				{
+					vRectStartPos.x -= speed * DT;
+					vRectEndPos.x -= speed * DT;
+				}
+				if (KEY_PRESSED(KEY::RIGHT) && KEY_PRESSED(KEY::LSHIFT))
+				{
+					vRectStartPos.x += speed * DT;
+					vRectEndPos.x += speed * DT;
+				}
 
+			}
+		}
+		else
+		{
+			if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows) && ImGui::IsMouseClicked(0))
+			{
+				vector<vector<tBGRA>> inVec;
+				m_AtlasTex->GetPixelVector(inVec);
+				Vec4 out = m_AtlasTex->WIdthSearch(inVec, TexCoord / m_vImageScale);
+				vRectStartPos = Vec2(vCursorPos.x + out.x * m_vImageScale.x, vCursorPos.y + out.y*m_vImageScale.y);
+				vRectEndPos = Vec2(vCursorPos.x + out.z * m_vImageScale.x, vCursorPos.y + out.w*m_vImageScale.y);
+			}
 		}
 
 		Vec2 vChangedCursorPos = vCursorPos - vPrevCursor;

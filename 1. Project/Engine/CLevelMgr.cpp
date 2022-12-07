@@ -262,6 +262,14 @@ void CLevelMgr::init()
 
 	// 레벨 활성화
 	m_pCurLevel->begin();
+
+	// Test
+	//vector<vector<tBGRA>> invec;
+	//Ptr<CTexture> tex = CResMgr::GetInst()->FindRes<CTexture>(L"Link");
+	//tex->GetPixelVector(invec);
+	//Vec4 out = tex->WIdthSearch(invec, Vec2(10.f, 10.f));
+	
+	int debug = 0;
 }
 
 void CLevelMgr::tick()

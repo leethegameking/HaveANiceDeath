@@ -10,6 +10,16 @@
 #endif
 
 
+struct tBGRA
+{
+    unsigned char b;
+    unsigned char g;
+    unsigned char r;
+    unsigned char a;
+
+    bool        check;
+};
+
 class CTexture :
     public CRes
 {
@@ -55,6 +65,10 @@ private:
     // »ý¼º
     void Create(UINT _iWidth, UINT _iHeight, DXGI_FORMAT _Format, UINT _iBindFlag);
     void Create(ComPtr<ID3D11Texture2D> _Tex2D);
+
+public:
+    void GetPixelVector(vector<vector<tBGRA>>& _inVec);
+    Vec4 WIdthSearch(vector<vector<tBGRA>> _inVec, Vec2 _inPos);
 
     CLONE_ASSERT(CTexture);
 public:

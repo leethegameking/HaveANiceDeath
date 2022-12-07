@@ -206,3 +206,121 @@ void CTexture::Clear_CS(UINT _iRegisterNum)
     CONTEXT->CSSetUnorderedAccessViews(_iRegisterNum, 1, &pUAV, &i);
 }
 
+void CTexture::GetPixelVector(vector<vector<tBGRA>>& _inVec)
+{
+    uint8_t* pixelMem = m_Image.GetPixels();
+    const Image* image = m_Image.GetImages();
+
+    for (int width = 0; width < image->width; ++width)
+    {
+        static vector<tBGRA> vecTmp;
+        static tBGRA tmp = {};
+        for (int height = 0; height < image->height; ++height)
+        {
+            tmp = {};
+
+            tmp.b = (pixelMem[0 + (height * image->width + width) * 4]);
+            tmp.g = (pixelMem[1 + (height * image->width + width) * 4]);
+            tmp.r = (pixelMem[2 + (height * image->width + width) * 4]);
+            tmp.a = (pixelMem[3 + (height * image->width + width) * 4]);
+            tmp.check = false;
+
+            vecTmp.push_back(tmp);
+        }
+        _inVec.push_back(vecTmp);
+        vecTmp.clear();
+    }
+}
+
+Vec4 CTexture::WIdthSearch(vector<vector<tBGRA>> _inVec, Vec2 _inPos)
+{
+    Vec2 size = GetSize();
+    Vec2 hasAlpha;
+
+    Vec4 Out;
+    UINT OutLeft, OutRight, OutUp, OutDown;
+
+    static list<Vec2> queue;
+    if (_inPos.x < 0)
+        _inPos.x = 0;
+    if (_inPos.x >= size.x)
+        _inPos.x = size.x - 1;
+    if (_inPos.y < 0)
+        _inPos.y = 0;
+    if (_inPos.y >= size.y)
+        _inPos.y = size.y - 1;
+
+    queue.push_back(_inPos);
+
+    while (!queue.empty())
+    {
+        if (_inVec[queue.front().x][queue.front().y].a != 0)
+        {
+            hasAlpha = queue.front();
+            break;
+        }
+
+        Vec2 right = Vec2(queue.front().x + 1, queue.front().y);
+        Vec2 down = Vec2(queue.front().x, queue.front().y + 1);
+
+        if(right.x < size.x)
+            queue.push_back(right);
+        if (_inPos.x == queue.front().x && down.y < size.y)
+            queue.push_back(down);
+
+        queue.pop_front();
+    }
+
+    OutLeft = hasAlpha.x;
+    OutRight = hasAlpha.x;
+    OutUp = hasAlpha.y;
+    OutDown = hasAlpha.y;
+
+    queue.clear();
+    queue.push_back(hasAlpha);
+    _inVec[hasAlpha.x][hasAlpha.y].a = true;
+
+    while (!queue.empty())
+    {
+        if (queue.front().x < OutLeft)
+            OutLeft = queue.front().x;
+        if (queue.front().x > OutRight)
+            OutRight = queue.front().x;
+        if (queue.front().y < OutUp)
+            OutUp = queue.front().y;
+        if (queue.front().y > OutDown)
+            OutDown = queue.front().y;
+
+
+        Vec2 up = Vec2(queue.front().x, queue.front().y - 1);
+        Vec2 down = Vec2(queue.front().x, queue.front().y + 1);
+        Vec2 left = Vec2(queue.front().x - 1, queue.front().y);
+        Vec2 right = Vec2(queue.front().x + 1, queue.front().y);
+
+        if (up.y >= 0 && _inVec[up.x][up.y].a != 0 &&_inVec[up.x][up.y].check == false )
+        {
+            queue.push_back(up);
+            _inVec[up.x][up.y].check = true;
+        }
+        if (down.y < size.y && _inVec[down.x][down.y].a != 0 && _inVec[down.x][down.y].check == false )
+        {
+            queue.push_back(down);
+            _inVec[down.x][down.y].check = true;
+        }
+        if (left.x >= 0 && _inVec[left.x][left.y].a != 0 && _inVec[left.x][left.y].check == false )
+        {
+            queue.push_back(left);
+            _inVec[left.x][left.y].check = true;
+        }
+        if (right.x < size.x && _inVec[right.x][right.y].a != 0 && _inVec[right.x][right.y].check == false )
+        {
+            queue.push_back(right);
+            _inVec[right.x][right.y].check = true;
+        }
+
+        queue.pop_front();
+    }
+
+    
+    return Vec4(OutLeft, OutUp, OutRight, OutDown);
+}
