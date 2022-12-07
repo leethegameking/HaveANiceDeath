@@ -113,6 +113,7 @@ void CImGuiMgr::clear()
 #include "OutlinerUI.h"
 #include "AnimCreateTool.h"
 #include "FrameTool.h"
+#include "TileEditor.h"
 
 void CImGuiMgr::CreateUI()
 {
@@ -143,6 +144,11 @@ void CImGuiMgr::CreateUI()
     m_mapUI.insert({ pUI->GetName(), pUI });
 
     pUI = new FrameTool;
+    pUI->SetSize(Vec2(200.f, 500.f));
+    pUI->SetPopUp(true);
+    m_mapUI.insert({ pUI->GetName(), pUI });
+
+    pUI = new TileEditor();
     pUI->SetSize(Vec2(200.f, 500.f));
     pUI->SetPopUp(true);
     m_mapUI.insert({ pUI->GetName(), pUI });

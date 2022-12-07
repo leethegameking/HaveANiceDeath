@@ -188,6 +188,7 @@
     <ClInclude Include="ComputeShaderUI.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextureUI.h" />
+    <ClInclude Include="TileEditor.h" />
     <ClInclude Include="TileMapUI.h" />
     <ClInclude Include="TransformUI.h" />
     <ClInclude Include="TreeUI.h" />
@@ -232,6 +233,7 @@
     <ClCompile Include="ResUI.cpp" />
     <ClCompile Include="ComputeShaderUI.cpp" />
     <ClCompile Include="TextureUI.cpp" />
+    <ClCompile Include="TileEditor.cpp" />
     <ClCompile Include="TileMapUI.cpp" />
     <ClCompile Include="TransformUI.cpp" />
     <ClCompile Include="TreeUI.cpp" />

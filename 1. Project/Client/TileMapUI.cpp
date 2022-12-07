@@ -4,6 +4,7 @@
 #include "ListUI.h"
 #include "ComboBox.h"
 
+#include "CImGuiMgr.h"
 #include <Engine/CTileMap.h>
 #include <Engine/CResMgr.h>
 #include <Engine/CRes.h>
@@ -13,6 +14,7 @@
 #include <Engine/CGameObject.h>
 #include <Engine/CCamera.h>
 #include <Engine/CDevice.h>
+#include "TileEditor.h"
 
 
 TileMapUI::TileMapUI()
@@ -21,11 +23,12 @@ TileMapUI::TileMapUI()
 	, m_vImageScale(Vec2(0.25f, 0.25f))
 	, m_SelectedTexIdx(Vec2(0.f,0.f))
 	, m_vSlice(Vec2(64.f, 64.f))
+	, m_bInstanceMode(false)
+	, m_bTileChanged(false)
 {
 	m_AtlasComboBox = new ComboBox;
-
 	m_AtlasComboBox->AddSelectedFunc(this, (FUNC_1)&TileMapUI::SetAtlasTex);
-
+	
 	m_SelectedMark = CResMgr::GetInst()->FindRes<CTexture>(L"Bubbles50px");
 }
 
@@ -33,6 +36,9 @@ TileMapUI::~TileMapUI()
 {
 	if (m_AtlasComboBox)
 		delete m_AtlasComboBox;
+
+	//if (m_TileEditor)
+	//	delete m_TileEditor;
 }
 
 void TileMapUI::init()
@@ -69,8 +75,6 @@ void TileMapUI::update()
 void TileMapUI::render_update()
 {
 	ComponentUI::render_update();
-	if (GetTarget() == nullptr)
-		return;
 
 	// Atlas select combo-box
 	ImGui::Text("Image     "); ImGui::SameLine();
@@ -96,6 +100,9 @@ void TileMapUI::render_update()
 	ImGui::SameLine();
 	ImGui::InputFloat("##ImageScaleY", &m_vImageScale.y, 0.1f);
 	ImGui::PopItemWidth();
+
+	// InstanceMode 
+	ImGui::SameLine(); ImGui::Checkbox("InstanceMode", &m_bInstanceMode);
 
 	ImTextureID AtlasSRV = m_AtlasTex->GetSRV().Get();
 	float my_tex_w = m_AtlasTex->GetWidth();
@@ -139,27 +146,37 @@ void TileMapUI::render_update()
 	vTargetProjPos /= camScale;
 
 
-	// Tile Pressed
-	if (KEY_PRESSED(KEY::LBTN) &&
-		vTargetProjPos.x + vTargetProjScale.x / 2.f > vMouseViewPos.x &&
-		vTargetProjPos.x - vTargetProjScale.x / 2.f < vMouseViewPos.x &&
-		vTargetProjPos.y + vTargetProjScale.y / 2.f > vMouseViewPos.y &&
-		vTargetProjPos.y - vTargetProjScale.y / 2.f < vMouseViewPos.y)
+	// È­¸éÀÇ Tile Pressed ÀÏ¶§ ¿øÇÏ´Â Å¸ÀÏ·Î Áï½Ã ¹Ù²ãÁÜ.
+	if (m_bInstanceMode)
 	{
-		ArrangeTile();
+		if (KEY_PRESSED(KEY::LBTN) &&
+			vTargetProjPos.x + vTargetProjScale.x / 2.f > vMouseViewPos.x &&
+			vTargetProjPos.x - vTargetProjScale.x / 2.f < vMouseViewPos.x &&
+			vTargetProjPos.y + vTargetProjScale.y / 2.f > vMouseViewPos.y &&
+			vTargetProjPos.y - vTargetProjScale.y / 2.f < vMouseViewPos.y)
+		{
+			ArrangeTile();
+		}
 	}
 
-	if (GetTarget())
+	// Å¸ÀÏ Á¤º¸°¡ ¹Ù²î¸é Å¸°Ùµµ Á¤º¸ ¹Ù²ãÁÜ.
+	if ((int)m_vTileCount.x != tileCount[0] || (int)m_vTileCount.y != tileCount[1])
 	{
-		if ((int)m_vTileCount.x != tileCount[0] || (int)m_vTileCount.y != tileCount[1])
-		{
-			GetTarget()->TileMap()->SetTileCount((UINT)tileCount[0], (UINT)tileCount[1]);
-		}
-		if (m_vSlice != prevSlice)
-		{
-			GetTarget()->TileMap()->DataChanged();
-			GetTarget()->TileMap()->SetSlice(m_vSlice);
-		}
+		GetTarget()->TileMap()->SetTileCount((UINT)tileCount[0], (UINT)tileCount[1]);
+		m_bTileChanged = true;
+	}
+	if (m_vSlice != prevSlice)
+	{
+		GetTarget()->TileMap()->DataChanged();
+		GetTarget()->TileMap()->SetSlice(m_vSlice);
+	}
+
+	if (ButtonCenteredOnLine("Create TileMap"))
+	{
+		m_TileEditor = (TileEditor*)CImGuiMgr::GetInst()->FindUI("TileEditor");
+		m_TileEditor->SetTileMapUI(this);
+		m_TileEditor->init();
+		m_TileEditor->Open();
 	}
 }
 

@@ -113,6 +113,9 @@
     <Filter Include="03. UI\ModuleUI\ParamUI">
       <UniqueIdentifier>{2cc27e53-8973-4c89-a417-76e949f77302}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. UI\01. Inspector\ComponentUI\TileMapUI\TileEditor">
+      <UniqueIdentifier>{583f3a95-a2ae-4800-b44d-0569edd3fd2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -244,6 +247,9 @@
     <ClInclude Include="ParamUI.h">
       <Filter>03. UI\ModuleUI\ParamUI</Filter>
     </ClInclude>
+    <ClInclude Include="TileEditor.h">
+      <Filter>03. UI\01. Inspector\ComponentUI\TileMapUI\TileEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -373,6 +379,9 @@
     </ClCompile>
     <ClCompile Include="ParamUI.cpp">
       <Filter>03. UI\ModuleUI\ParamUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TileEditor.cpp">
+      <Filter>03. UI\01. Inspector\ComponentUI\TileMapUI\TileEditor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

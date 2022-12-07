@@ -4,6 +4,7 @@
 #include <Engine/Ptr.h>
 #include <Engine/CTexture.h>
 
+class TileEditor;
 class ListUI;
 class ComboBox;
 
@@ -25,7 +26,10 @@ private:
 
     Vec2 m_SelectedTexUV;
     Vec2 m_SelectedTexIdx;
-    
+    TileEditor* m_TileEditor;
+
+    bool m_bInstanceMode;
+    bool m_bTileChanged;
 
 public:
     void SetAtlasTex(DWORD_PTR _texKey);
@@ -41,5 +45,7 @@ public:
 public:
     TileMapUI();
     ~TileMapUI();
+
+    friend class TileEditor;
 };
 
