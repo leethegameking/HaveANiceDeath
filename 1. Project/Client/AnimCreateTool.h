@@ -30,6 +30,8 @@ private:
     vector<tAnim2DFrm>  m_ChangeFrm;
     int                 m_iFrmIdx;
 
+    bool                m_bDragMode; // 아닐시 자동선택모드
+
 public:
     void init() override;
     void update() override;
