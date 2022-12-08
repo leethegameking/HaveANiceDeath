@@ -119,6 +119,9 @@
     <Filter Include="00. Header">
       <UniqueIdentifier>{bf6f6fa4-15b5-48fa-95cd-7df49613fd32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Editor\EditorScript">
+      <UniqueIdentifier>{19d042fe-17c2-4226-ac33-d0abf968fa48}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -252,6 +255,15 @@
     </ClInclude>
     <ClInclude Include="TileEditor.h">
       <Filter>03. UI\01. Inspector\ComponentUI\TileMapUI\TileEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="CCameraScript.h">
+      <Filter>01. Editor\EditorScript</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrid2DScript.h">
+      <Filter>01. Editor\EditorScript</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateTestLevel.h">
+      <Filter>01. Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -388,6 +400,15 @@
     </ClCompile>
     <ClCompile Include="extern.cpp">
       <Filter>00. Header</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraScript.cpp">
+      <Filter>01. Editor\EditorScript</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrid2DScript.cpp">
+      <Filter>01. Editor\EditorScript</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateTestLevel.cpp">
+      <Filter>01. Editor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

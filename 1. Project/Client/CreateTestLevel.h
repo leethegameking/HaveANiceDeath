@@ -1,0 +1,3 @@
+
+void CreateDefaultAnimation();
+void CreateTestLevel();

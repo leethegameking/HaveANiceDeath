@@ -153,8 +153,10 @@
     <ClInclude Include="AnimCreateTool.h" />
     <ClInclude Include="Animator2DUI.h" />
     <ClInclude Include="CameraUI.h" />
+    <ClInclude Include="CCameraScript.h" />
     <ClInclude Include="CEditor.h" />
     <ClInclude Include="CGameObjectEx.h" />
+    <ClInclude Include="CGrid2DScript.h" />
     <ClInclude Include="CImGuiMgr.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Collider2DUI.h" />
@@ -162,6 +164,7 @@
     <ClInclude Include="CommonUI.h" />
     <ClInclude Include="ComponentUI.h" />
     <ClInclude Include="ContentUI.h" />
+    <ClInclude Include="CreateTestLevel.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="FrameTool.h" />
     <ClInclude Include="framework.h" />
@@ -199,14 +202,17 @@
     <ClCompile Include="AnimCreateTool.cpp" />
     <ClCompile Include="Animator2DUI.cpp" />
     <ClCompile Include="CameraUI.cpp" />
+    <ClCompile Include="CCameraScript.cpp" />
     <ClCompile Include="CEditor.cpp" />
     <ClCompile Include="CGameObjectEx.cpp" />
+    <ClCompile Include="CGrid2DScript.cpp" />
     <ClCompile Include="CImGuiMgr.cpp" />
     <ClCompile Include="Collider2DUI.cpp" />
     <ClCompile Include="ComboBox.cpp" />
     <ClCompile Include="CommonUI.cpp" />
     <ClCompile Include="ComponentUI.cpp" />
     <ClCompile Include="ContentUI.cpp" />
+    <ClCompile Include="CreateTestLevel.cpp" />
     <ClCompile Include="define.cpp" />
     <ClCompile Include="extern.cpp" />
     <ClCompile Include="FrameTool.cpp" />

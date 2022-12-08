@@ -82,12 +82,6 @@
     <Filter Include="Engine\06. Component\Script">
       <UniqueIdentifier>{26ce4f32-b052-471e-8e69-4afea6eec52f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\08. Scripts">
-      <UniqueIdentifier>{57a8f3bb-1abe-4c14-b3ed-14ca2fdb8dcb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Module">
-      <UniqueIdentifier>{c77a3f32-c9d3-4e08-b54c-426ee1e5db42}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\06. Component\RenderComponent\MeshRender">
       <UniqueIdentifier>{b22dcc0e-73de-4f75-a70c-5202a7b3c83e}</UniqueIdentifier>
     </Filter>
@@ -246,17 +240,8 @@
     <ClInclude Include="CScript.h">
       <Filter>Engine\06. Component\Script</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayerScript.h">
-      <Filter>Engine\08. Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="CMonsterScript.h">
-      <Filter>Engine\08. Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="GlobalComponent.h">
       <Filter>Engine\00. Header</Filter>
-    </ClInclude>
-    <ClInclude Include="singleton.h">
-      <Filter>Engine\Module</Filter>
     </ClInclude>
     <ClInclude Include="CRenderComponent.h">
       <Filter>Engine\06. Component\RenderComponent</Filter>
@@ -267,20 +252,11 @@
     <ClInclude Include="CCamera.h">
       <Filter>Engine\06. Component\02. Camera</Filter>
     </ClInclude>
-    <ClInclude Include="CCameraScript.h">
-      <Filter>Engine\08. Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="CRenderMgr.h">
       <Filter>Engine\03. Manager\06. RenderMgr</Filter>
     </ClInclude>
-    <ClInclude Include="CGrid2DScript.h">
-      <Filter>Engine\08. Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="CEventMgr.h">
       <Filter>Engine\03. Manager\07. EventMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="CMissileScript.h">
-      <Filter>Engine\08. Scripts</Filter>
     </ClInclude>
     <ClInclude Include="CCollider2D.h">
       <Filter>Engine\06. Component\03. Collider2D</Filter>
@@ -312,11 +288,11 @@
     <ClInclude Include="CParticleUpdateShader.h">
       <Filter>HLSL\Compute\ParticleUpdateShader</Filter>
     </ClInclude>
-    <ClInclude Include="CParticleHandler.h">
-      <Filter>Engine\08. Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="CTileMap.h">
       <Filter>Engine\06. Component\RenderComponent\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="singleton.h">
+      <Filter>Module</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -395,12 +371,6 @@
     <ClCompile Include="CScript.cpp">
       <Filter>Engine\06. Component\Script</Filter>
     </ClCompile>
-    <ClCompile Include="CPlayerScript.cpp">
-      <Filter>Engine\08. Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="CMonsterScript.cpp">
-      <Filter>Engine\08. Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="CRenderComponent.cpp">
       <Filter>Engine\06. Component\RenderComponent</Filter>
     </ClCompile>
@@ -413,20 +383,11 @@
     <ClCompile Include="extern.cpp">
       <Filter>Engine\00. Header</Filter>
     </ClCompile>
-    <ClCompile Include="CCameraScript.cpp">
-      <Filter>Engine\08. Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="CRenderMgr.cpp">
       <Filter>Engine\03. Manager\06. RenderMgr</Filter>
     </ClCompile>
-    <ClCompile Include="CGrid2DScript.cpp">
-      <Filter>Engine\08. Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="CEventMgr.cpp">
       <Filter>Engine\03. Manager\07. EventMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="CMissileScript.cpp">
-      <Filter>Engine\08. Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CResMgr_init.cpp">
       <Filter>Engine\03. Manager\05. ResMgr</Filter>
@@ -460,9 +421,6 @@
     </ClCompile>
     <ClCompile Include="CParticleUpdateShader.cpp">
       <Filter>HLSL\Compute\ParticleUpdateShader</Filter>
-    </ClCompile>
-    <ClCompile Include="CParticleHandler.cpp">
-      <Filter>Engine\08. Scripts</Filter>
     </ClCompile>
     <ClCompile Include="extern_func.cpp">
       <Filter>Engine\00. Header</Filter>

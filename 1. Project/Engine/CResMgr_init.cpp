@@ -14,8 +14,6 @@ void CResMgr::init()
 	CreateDefaultComputeShader();
 
 	CreateDefaultMaterial();
-
-	CreateDefaultPrefab();
 }
 
 void CResMgr::CreateDefaultMesh()
@@ -398,93 +396,6 @@ void CResMgr::CreateDefaultMaterial()
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"TileMapShader"));
 	AddRes<CMaterial>(L"TileMapMtrl", pMtrl);
-}
-
-#include "CGameObject.h"
-#include "CTransform.h"
-#include "CMeshRender.h"
-#include "CMissileScript.h"
-#include "CParticleHandler.h"
-#include "CPlayerScript.h"
-
-void CResMgr::CreateDefaultPrefab()
-{
-	CGameObject* pObject = nullptr;
-
-	pObject = new CGameObject;
-	pObject->AddComponent(new CTransform);
-	pObject->AddComponent(new CMeshRender);
-	pObject->AddComponent(new CMissileScript);
-
-	pObject->Transform()->SetRelativeScale(Vec3(50.f, 50.f, 1.f));
-
-	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	pObject->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"));
-	pObject->MeshRender()->GetCurMaterial()->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"Plane"));
-		
-	AddRes<CPrefab>(L"MissilePrefab", new CPrefab(pObject));
-
-	// Rain Particle Object
-	pObject = new CGameObject;
-	pObject->SetName(L"rainParticle");
-	pObject->AddComponent(new CTransform);
-	pObject->AddComponent(new CParticleSystem(L"RainParticleUpdateShader"));
-	pObject->AddComponent(new CParticleHandler);
-
-	pObject->ParticleSystem()->SetTexture(L"HardRain");
-	pObject->ParticleSystem()->SetWorldSpawn(true);
-	pObject->ParticleSystem()->SetRenderType((UINT)RENDER_TYPE::SPARK);
-	pObject->ParticleSystem()->SetLifeTime(Vec2(1.f, 3.f));
-	pObject->ParticleSystem()->SetColorConvert(Vec4(20.f, 215.f, 222.f, 1.f), Vec4(7.f, 17.f, 18.f, 1.f));
-	pObject->ParticleSystem()->SetScale(Vec4(192.f, 12.f, 1.f, 0.f), Vec4(16.f, 1.f, 1.f, 0.f));
-	pObject->ParticleSystem()->SetMaxCount(1000);
-	pObject->ParticleSystem()->SetAliveCount(1);
-	pObject->ParticleSystem()->SetSpeed(Vec2(1000.f, 1100.f));
-	pObject->ParticleSystem()->SetSpawnRange(Vec2(2400.f, 900.f));
-	pObject->ParticleSystem()->SetFrequency(100.f);
-
-	AddRes<CPrefab>(L"RainParticlePrefab", new CPrefab(pObject));
-
-	pObject = new CGameObject;
-	pObject->AddComponent(new CTransform);
-	pObject->AddComponent(new CParticleSystem(L"FireParticleUpdateShader"));
-	pObject->AddComponent(new CParticleHandler);
-	pObject->Transform()->SetRelativePos(Vec3(300.f, 0.f, 100.f));
-	pObject->ParticleSystem()->SetTexture(L"HardCircle");
-	pObject->ParticleSystem()->SetWorldSpawn(true);
-	pObject->ParticleSystem()->SetRenderType((UINT)RENDER_TYPE::SPARK);
-	pObject->ParticleSystem()->SetLifeTime(Vec2(0.2f, 0.9f));
-	pObject->ParticleSystem()->SetColor(Vec4(1.0f, 0.f, 0.f, 1.f), Vec4(0.f, 0.f, 0.f, 1.f));
-	pObject->ParticleSystem()->SetScale(Vec4(10.f, 10.f, 1.f, 0.f), Vec4(5.f, 5.f, 1.f, 0.f));
-	pObject->ParticleSystem()->SetMaxCount(1000);
-	pObject->ParticleSystem()->SetAliveCount(23);
-	pObject->ParticleSystem()->SetSpeed(Vec2(180.f, 180.f));
-	pObject->ParticleSystem()->SetSpawnRange(Vec2(28.f, 124.f));
-	pObject->ParticleSystem()->SetFrequency(90.f);
-
-	AddRes<CPrefab>(L"FireParticlePrefab", new CPrefab(pObject));
-
-	pObject = new CGameObject;
-	pObject->AddComponent(new CTransform);
-	pObject->AddComponent(new CParticleSystem(L"FireworkParticleUpdateShader"));
-	pObject->AddComponent(new CParticleHandler);
-	pObject->AddComponent(new CPlayerScript);
-
-	pObject->Transform()->SetRelativePos(Vec3(0.f, 0.f, 100.f));
-	pObject->ParticleSystem()->SetTexture(L"AlphaCircle");
-	pObject->ParticleSystem()->SetWorldSpawn(true);
-	pObject->ParticleSystem()->SetRenderType((UINT)RENDER_TYPE::SPARK);
-	pObject->ParticleSystem()->SetLifeTime(Vec2(1.f, 3.f));
-	pObject->ParticleSystem()->SetColorConvert(Vec4(21.f, 215.f, 222.f, 1.f), Vec4(7.f, 17.f, 18.f, 1.f));
-	pObject->ParticleSystem()->SetScale(Vec4(15.f, 15.f, 1.f, 0.f), Vec4(15.f, 15.f, 1.f, 0.f));
-	pObject->ParticleSystem()->SetMaxCount(2000);
-	pObject->ParticleSystem()->SetAliveCount(2000);
-	pObject->ParticleSystem()->SetSpeed(Vec2(1.f, 150.f));
-	pObject->ParticleSystem()->SetSpawnRange(Vec2(2400.f, 900.f));
-	pObject->ParticleSystem()->SetFrequency(0.5f);
-	pObject->ParticleSystem()->SetLightTex(L"UAVTex");
-
-	AddRes<CPrefab>(L"FireworkParticlePrefab", new CPrefab(pObject));
 }
 
 void CResMgr::AddInputLayout(DXGI_FORMAT _eFormat, const char* _strSemanticName)

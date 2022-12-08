@@ -11,6 +11,7 @@
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
 
+#include "CreateTestLevel.h"
 
 
 HINSTANCE   g_hInst = nullptr;
@@ -47,6 +48,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         MessageBox(nullptr, L"엔진 초기화 실패", L"에러", MB_OK);
         return 0;
     }
+
+    CreateTestLevel();
 
     // Editor 초기화
     CEditor::GetInst()->init();

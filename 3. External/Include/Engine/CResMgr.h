@@ -63,7 +63,6 @@ private:
 	void CreateDefaultGraphicsShader();
 	void CreateDefaultComputeShader();
 	void CreateDefaultMaterial();
-	void CreateDefaultPrefab();
 	void AddInputLayout(DXGI_FORMAT _eFormat, const char* _strSemanticName);
 
 
