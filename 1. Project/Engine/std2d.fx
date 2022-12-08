@@ -48,7 +48,7 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target
             discard;            
         }      
         
-        vOutColor = g_Atals.Sample(g_sam_1, vUV);
+        vOutColor = g_Atals.Sample(g_sam_0, vUV);
     }
     else
     {          

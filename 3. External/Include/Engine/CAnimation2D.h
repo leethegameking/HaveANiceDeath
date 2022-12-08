@@ -18,8 +18,7 @@ private:
     bool                m_bFinish;
 
     CAnimation2D*       m_pMasterAnim;
-    vector<CAnimation2D*> m_vecAnim;
-
+    vector<CAnimation2D*> m_vecChildAnim;
 
 public:
     Ptr<CTexture> GetAtlas() { return m_AtlasTex; }
@@ -38,7 +37,9 @@ public:
     }
     void Reallocate();
 
-    virtual int Load(const wstring& _strFilePath) { return  true; };
+    virtual int Load(const wstring& _strFilePath) override;
+    virtual void Save(const wstring& _strFilePath) override;
+
 
     void UpdateData();
     void Clear();

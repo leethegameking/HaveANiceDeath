@@ -18,7 +18,9 @@ public:
     const vector<tTextureParam>& GetTextureParam() { return m_vecTexParam; }
 
 public:
+    virtual void Save(const wstring& _strFilePath) override {}
     virtual int Load(const wstring& _strFilePath) override { return S_OK; }
+
 
     CLONE_ASSERT(CShader);
 public:

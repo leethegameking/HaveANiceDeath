@@ -69,7 +69,7 @@ void CAnimator2D::AddAnimation(wstring _key)
 		CAnimation2D* pAnimClone = pAnim->Clone();
 		m_mapAnim.insert(make_pair(pAnimClone->GetKey(), pAnimClone));
 		pAnimClone->m_pOwner = this;
-		pAnim->m_vecAnim.push_back(pAnimClone);
+		pAnim->m_vecChildAnim.push_back(pAnimClone);
 	}
 }
 

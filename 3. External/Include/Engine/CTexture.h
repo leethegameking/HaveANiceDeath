@@ -60,6 +60,7 @@ public:
 
 private:
     // 파일로 부터 로딩
+    virtual void Save(const wstring& _strFilePath) override {}
     virtual int Load(const wstring& _strFilePath);
 
     // 생성

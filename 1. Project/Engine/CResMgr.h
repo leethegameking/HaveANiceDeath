@@ -150,6 +150,7 @@ Ptr<T> CResMgr::Load(const wstring& _strKey, const wstring& _strRelativePath)
 	pResource->SetRelativePath(_strRelativePath);
 	AddRes<T>(_strKey, (T*)pResource);
 
-	return (T*)pResource;
 	CEventMgr::GetInst()->ResChangeFlagOn();
+	return (T*)pResource;
+	
 }

@@ -17,7 +17,7 @@ CAnimation2D::CAnimation2D()
 	, m_iCurIdx(-1)
 	, m_pOwner(nullptr)
 	, m_fAccTime(0.f)
-	, m_vecAnim{}
+	, m_vecChildAnim{}
 {
 }
 
@@ -30,13 +30,14 @@ CAnimation2D::CAnimation2D(CAnimation2D& _origin)
 	, m_fAccTime(0.f)
 	, m_bFinish(false)
 	, m_vecFrm(_origin.m_vecFrm)
-	, m_vecAnim{}
+	, m_vecChildAnim{}
 {
 }
 
 
 CAnimation2D::~CAnimation2D()
 {
+	// vector<CAnimation2D*> vecChild = m_pMasterAnim->m_vecChildAnim;
 }
 
 void CAnimation2D::finaltick()
@@ -111,10 +112,10 @@ void CAnimation2D::Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex, const
 
 void CAnimation2D::Reallocate()
 {
-	for (size_t i = 0; i < m_vecAnim.size(); ++i)
+	for (size_t i = 0; i < m_vecChildAnim.size(); ++i)
 	{
-		m_vecAnim[i]->m_vecFrm.assign(m_vecFrm.begin(), m_vecFrm.end());
-		m_vecAnim[i]->m_iCurIdx = 0;
+		m_vecChildAnim[i]->m_vecFrm.assign(m_vecFrm.begin(), m_vecFrm.end());
+		m_vecChildAnim[i]->m_iCurIdx = 0;
 	}
 }
 
@@ -146,4 +147,22 @@ void CAnimation2D::Clear()
 	
 	pCB->SetData(&info);
 	pCB->UpdateData(PIPELINE_STAGE::PS);
+}
+
+
+void CAnimation2D::Save(const wstring& _strFilePath)
+{
+	FILE* pFile = nullptr;
+	wstring strPath = CPathMgr::GetInst()->GetContentPath();
+	strPath += _strFilePath;
+	_wfopen_s(&pFile, strPath.c_str(), L"wb");
+
+	SaveKeyPath(pFile);
+
+
+}
+
+int CAnimation2D::Load(const wstring& _strFilePath)
+{
+	return E_FAIL;
 }

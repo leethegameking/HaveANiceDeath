@@ -180,6 +180,40 @@ void DebugDrawCircle(Vec4 _vColor, Vec3 _vPosition, float _fRadius, float _fDura
 	CRenderMgr::GetInst()->DebugDraw(DEBUG_SHAPE::CIRCLE, _vColor, _vPosition, Vec3::Zero, Vec3::Zero, _fRadius, _fDuration);
 }
 
+void SaveStringToFile(const string& _str, FILE* _pFile)
+{
+	size_t iLen = _str.length();
+	fwrite(&iLen, sizeof(size_t), 1, _pFile);
+	fwrite(_str.data(), sizeof(char), iLen, _pFile);
+}
+
+void LoadStringFromFile(string& _str, FILE* _pFile)
+{
+	size_t iLen = 0;
+	fread(&iLen, sizeof(size_t), 1, _pFile);
+
+	char szBuffer[256] = {};
+	fread(szBuffer, sizeof(char), iLen, _pFile); // 바로 받을 수 있나? void* 로
+	_str = szBuffer;
+}
+
+void SaveWStringToFile(const wstring& _str, FILE* _pFile)
+{
+	size_t iLen = _str.length();
+	fwrite(&iLen, sizeof(size_t), 1, _pFile);
+	fwrite(_str.data(), sizeof(wchar_t), iLen, _pFile);
+}
+
+void LoadWStringFromFile(wstring& _str, FILE* _pFile)
+{
+	size_t iLen = 0;
+	fread(&iLen, sizeof(size_t), 1, _pFile);
+
+	wchar_t szBuffer[256] = {};
+	fread(szBuffer, sizeof(wchar_t), iLen, _pFile);
+	_str = szBuffer;
+}
+
 vector<wstring> StrToWStrVec(const vector<string>& _vecStr)
 {
 	vector<wstring> vecWstr;

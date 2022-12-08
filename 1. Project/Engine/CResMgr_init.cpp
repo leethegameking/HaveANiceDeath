@@ -172,7 +172,8 @@ void CResMgr::CreateDefaultTexture()
 	Load<CTexture>(L"Noise_02", L"texture\\noise\\noise_02.png");
 	Load<CTexture>(L"Noise_03", L"texture\\noise\\noise_03.jpg");
 	
-
+	Load<CTexture>(L"PlayerRunAtlas", L"texture\\player\\PlayerRunAtlas.png");
+	Load<CTexture>(L"PlayerIdleAtlas", L"texture\\player\\PlayerIdleAtlas.png");
 
 	// 텍스쳐 생성
 	CreateTexture(L"UAVTex", 1600, 900, DXGI_FORMAT_R8G8B8A8_UNORM
@@ -356,9 +357,11 @@ void CResMgr::CreateDefaultMaterial()
 {
 	CMaterial* pMtrl = nullptr;
 
-	pMtrl = new CMaterial;
-	pMtrl->SetShader(FindRes<CGraphicsShader>(L"Std2DShader"));
-	AddRes<CMaterial>(L"Std2DMtrl", pMtrl);
+	//pMtrl = new CMaterial;
+	//pMtrl->SetShader(FindRes<CGraphicsShader>(L"Std2DShader"));
+	//AddRes<CMaterial>(L"Std2DMtrl", pMtrl);
+
+	Load<CMaterial>(L"Std2DMtrl", L"material\\test.mtrl");
 
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"Std2DAlphaBlendShader"));

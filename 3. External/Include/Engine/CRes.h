@@ -28,9 +28,13 @@ private:
         }
     }
 
-    // 파일로 부터 로딩
+    // Save & Load
     virtual int Load(const wstring& _strFilePath) = 0;
+    virtual void Save(const wstring& _strFilePath) = 0;
 
+protected:
+    void SaveKeyPath(FILE* _pFile);
+    void LoadKeyPath(FILE* _pFile);
 
 
 public:

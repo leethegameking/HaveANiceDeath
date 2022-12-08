@@ -19,7 +19,7 @@ void ParamUI::Param_Float(const string& _ParamName, float* _pInOut)
 {
 	ImGui::Text(_ParamName.c_str());
 	ImGui::SameLine();
-	ImGui::InputFloat("##InputInt", _pInOut);
+	ImGui::InputFloat("##InputFloat", _pInOut);
 }
 
 void ParamUI::Param_Vec2(const string& _ParamName, Vec2* _pInOut)

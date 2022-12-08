@@ -85,4 +85,49 @@ void DebugDrawCircle(Vec4 _vColor, Vec3 _vPosition, float _fRadius, float _fDura
 
 //void DebugDrawCube();
 //void DebugDrawSphere();
+
+
+// ======================
+// File Save & Load
+// ======================
+
+void SaveStringToFile(const string& _str, FILE* _pFile);
+void LoadStringFromFile(string& _str, FILE* _pFile);
+
+void SaveWStringToFile(const wstring& _str, FILE* _pFile);
+void LoadWStringFromFile(wstring& _str, FILE* _pFile);
+
+#include "CResMgr.h"
+#include "Ptr.h"
+
+template<typename T>
+void SaveResourceRef(Ptr<T> _res, FILE* _pFile)
+{
+	int bExist = !!_res.Get();
+	fwrite(&bExist, sizeof(int), 1, _pFile);
+
+	if (bExist)
+	{
+		wstring strKey, strRelativePath;
+		SaveWStringToFile(_res->GetKey(), _pFile);
+		SaveWStringToFile(_res->GetRelativePath(), _pFile);
+	}
+}
+
+template<typename T>
+void LoadResourceRef(Ptr<T>& _res, FILE* _pFile)
+{
+	int bExist = 0;
+	fread(&bExist, sizeof(int), 1, _pFile);
+
+	if (bExist)
+	{
+		wstring strKey, strRelativePath;
+		LoadWStringFromFile(strKey, _pFile);
+		LoadWStringFromFile(strRelativePath, _pFile);
+
+		_res = CResMgr::GetInst()->Load<T>(strKey, strRelativePath);
+	}
+}
+
 #endif

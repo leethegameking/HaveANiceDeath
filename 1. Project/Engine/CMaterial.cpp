@@ -151,3 +151,55 @@ Ptr<CTexture> CMaterial::GetTexParam(TEX_PARAM _eTex)
 {
 	return m_arrTex[(UINT)_eTex];
 }
+
+
+void CMaterial::Save(const wstring& _strFilePath)
+{
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+	strFilePath += _strFilePath;
+
+	FILE* pFile = nullptr;
+	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
+
+	// CRes¿« Key Path ¿˙¿Â
+	SaveKeyPath(pFile);
+
+	SaveResourceRef(m_pShader, pFile);
+	if (nullptr != m_pShader)
+	{
+		fwrite(&m_tConst, sizeof(tMtrlConst), 1, pFile);
+
+		for (UINT i = 0; i < TEX_PARAM::TEX_END; ++i)
+		{
+			SaveResourceRef(m_arrTex[i], pFile);
+		}
+	}
+
+	fclose(pFile);
+}
+
+int CMaterial::Load(const wstring& _strFilePath)
+{
+	FILE* pFile = nullptr;
+	if (FAILED(_wfopen_s(&pFile, _strFilePath.c_str(), L"rb")))
+		return E_FAIL;
+
+	LoadKeyPath(pFile);
+
+	LoadResourceRef(m_pShader, pFile);
+
+	if (nullptr != m_pShader)
+	{
+		fread(&m_tConst, sizeof(tMtrlConst), 1, pFile);
+
+		for (UINT i = 0; i < TEX_PARAM::TEX_END; ++i)
+		{
+			LoadResourceRef(m_arrTex[i], pFile);
+		}
+	}
+
+	fclose(pFile);
+
+	return S_OK;
+}
+
