@@ -37,7 +37,21 @@ CAnimation2D::CAnimation2D(CAnimation2D& _origin)
 
 CAnimation2D::~CAnimation2D()
 {
-	// vector<CAnimation2D*> vecChild = m_pMasterAnim->m_vecChildAnim;
+	// 클론 받은 애니메이션 객체를 가진 것이 사라졌을떄. MasterAnim 자식 vector에서 빼줌
+	if (nullptr != m_pMasterAnim)
+	{
+		vector<CAnimation2D*>& vecChild = m_pMasterAnim->m_vecChildAnim;
+		vector<CAnimation2D*>::iterator iter = vecChild.begin();
+
+		for (; iter != vecChild.end(); ++iter)
+		{
+			if (*iter == this)
+			{
+				vecChild.erase(iter);
+				break;
+			}
+		}
+	}
 }
 
 void CAnimation2D::finaltick()
@@ -150,19 +164,63 @@ void CAnimation2D::Clear()
 }
 
 
-void CAnimation2D::Save(const wstring& _strFilePath)
+void CAnimation2D::Save(const wstring& _strRelativeFilePath)
 {
 	FILE* pFile = nullptr;
 	wstring strPath = CPathMgr::GetInst()->GetContentPath();
-	strPath += _strFilePath;
+	strPath += _strRelativeFilePath;
 	_wfopen_s(&pFile, strPath.c_str(), L"wb");
 
 	SaveKeyPath(pFile);
 
+	size_t vecSize =  m_vecFrm.size();
+	fwrite(&vecSize, sizeof(size_t), 1, pFile);
+	// 프레임벡터
+	for (size_t i = 0; i < m_vecFrm.size(); ++i)
+	{
+		fwrite(&m_vecFrm[i], sizeof(tAnim2DFrm), 1, pFile);
+	}
 
+	// 텍스쳐
+	SaveResourceRef(m_AtlasTex, pFile);
+
+	// MasterAnim
+	SaveResourceRef(m_pMasterAnim, pFile);
+
+	fclose(pFile);
 }
 
 int CAnimation2D::Load(const wstring& _strFilePath)
 {
-	return E_FAIL;
+	FILE* pFile = nullptr;
+	if (FAILED(_wfopen_s(&pFile, _strFilePath.c_str(), L"rb")))
+		return E_FAIL;
+	
+	LoadKeyPath(pFile);
+
+	// 프레임벡터
+	size_t vecSize = 0;
+	fread(&vecSize, sizeof(size_t), 1, pFile);
+	m_vecFrm.resize(vecSize);
+	for (size_t i = 0; i < m_vecFrm.size(); ++i)
+	{
+		fread(&m_vecFrm[i], sizeof(tAnim2DFrm), 1, pFile);
+	}
+
+	// 텍스쳐
+	LoadResourceRef(m_AtlasTex, pFile);
+
+	// MasterAnim
+	LoadResourceRef(m_pMasterAnim, pFile);
+
+	if (nullptr != m_pMasterAnim)
+	{
+		m_pMasterAnim = CResMgr::GetInst()->FindRes<CAnimation2D>(GetKey());
+		m_pMasterAnim->m_vecChildAnim.push_back(this);
+	}
+	
+	fclose(pFile);
+
+
+	return S_OK;
 }

@@ -34,21 +34,21 @@ void CAnimator2D::finaltick()
 	m_pCurAnim->finaltick();
 }
 
-void CAnimator2D::CreateAnimation(const wstring& _strKey, Ptr<CTexture> _AtlasTex, Vec2 _vLeftTop, Vec2 _vOffset, Vec2 _vSlice, float _fStep, int _iMaxFrm, float _FPS)
-{
-	assert(_AtlasTex.Get());
-
-	CAnimation2D* pAnim = FindAnimation(_strKey);
-	assert(!pAnim);
-
-	pAnim = new CAnimation2D;
-	pAnim->Create(_strKey, _AtlasTex, _vLeftTop, _vOffset, _vSlice, _fStep, _iMaxFrm, _FPS);
-
-	CAnimation2D* pAnimClone = pAnim->Clone();
-	pAnimClone->m_pMasterAnim = pAnim;
-	m_mapAnim.insert(make_pair(pAnimClone->GetKey(), pAnimClone));
-	pAnimClone->m_pOwner = this;
-}
+//void CAnimator2D::CreateAnimation(const wstring& _strKey, Ptr<CTexture> _AtlasTex, Vec2 _vLeftTop, Vec2 _vOffset, Vec2 _vSlice, float _fStep, int _iMaxFrm, float _FPS)
+//{
+//	assert(_AtlasTex.Get());
+//
+//	CAnimation2D* pAnim = FindAnimation(_strKey);
+//	assert(!pAnim);
+//
+//	pAnim = new CAnimation2D;
+//	pAnim->Create(_strKey, _AtlasTex, _vLeftTop, _vOffset, _vSlice, _fStep, _iMaxFrm, _FPS);
+//
+//	CAnimation2D* pAnimClone = pAnim->Clone();
+//	pAnimClone->m_pMasterAnim = pAnim;
+//	m_mapAnim.insert(make_pair(pAnimClone->GetKey(), pAnimClone));
+//	pAnimClone->m_pOwner = this;
+//}
 
 CAnimation2D* CAnimator2D::FindAnimation(const wstring& _strKey)
 {
@@ -69,7 +69,9 @@ void CAnimator2D::AddAnimation(wstring _key)
 		CAnimation2D* pAnimClone = pAnim->Clone();
 		m_mapAnim.insert(make_pair(pAnimClone->GetKey(), pAnimClone));
 		pAnimClone->m_pOwner = this;
+		pAnimClone->m_pMasterAnim = pAnim;
 		pAnim->m_vecChildAnim.push_back(pAnimClone);
+		
 	}
 }
 

@@ -39,6 +39,8 @@ CGameObject* CLevelMgr::FindObjectByName(const wstring& _strName)
 
 void CLevelMgr::init()
 {
+
+	CResMgr::GetInst()->Load<CAnimation2D>(L"animation\\test.anim");
 	// Level 하나 제작하기
 	m_pCurLevel = new CLevel;
 
@@ -55,7 +57,6 @@ void CLevelMgr::init()
 	pComputeShader->SetColor(Vec4(0.f, 0.f, 1.f, 1.f));
 	pComputeShader->Execute();
 
-	
 	// Camera Object 추가
 	CGameObject* pCamObj = new CGameObject;
 	pCamObj->SetName(L"MainCamera");
@@ -144,6 +145,31 @@ void CLevelMgr::init()
 	pObject->Transform()->SetRelativeScale(Vec3(256.f, 256.f, 0.f));
 
 	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pObject->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DAlphaBlendMtrl"));
+
+	pObject->Collider2D()->SetCollider2DType(COLLIDER2D_TYPE::COLLIDER2D_RECT);
+	pObject->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
+
+	pObject->Animator2D()->AddAnimation(L"LeftWalk");
+	pObject->Animator2D()->AddAnimation(L"RightWalk");
+	pObject->Animator2D()->Play(L"LeftWalk", true);
+
+	pObject->MeshRender()->GetSharedMaterial()->SetTexParam(TEX_PARAM::TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"Character"));
+	
+	m_pCurLevel->AddGameObject(pObject, 0);
+
+	pObject = new CGameObject;
+	pObject->SetName(L"AnimDestroyTest");
+
+	pObject->AddComponent(new CTransform);
+	pObject->AddComponent(new CMeshRender);
+	pObject->AddComponent(new CCollider2D);
+	pObject->AddComponent(new CAnimator2D);
+
+	pObject->Transform()->SetRelativePos(Vec3(0.f, 500.f, 800.f));
+	pObject->Transform()->SetRelativeScale(Vec3(256.f, 256.f, 0.f));
+
+	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	pObject->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"));
 
 	pObject->Collider2D()->SetCollider2DType(COLLIDER2D_TYPE::COLLIDER2D_RECT);
@@ -153,13 +179,7 @@ void CLevelMgr::init()
 	pObject->Animator2D()->AddAnimation(L"RightWalk");
 	pObject->Animator2D()->Play(L"LeftWalk", true);
 
-	int a = 0;
-	Vec4 vColor = Vec4(0.f, 1.f, 0.f, 1.f);
-	pObject->MeshRender()->GetSharedMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_0, &vColor);
-	pObject->MeshRender()->GetSharedMaterial()->SetScalarParam(SCALAR_PARAM::INT_0, &a);
-	pObject->MeshRender()->GetSharedMaterial()->SetTexParam(TEX_PARAM::TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"Character"));
-	
-	m_pCurLevel->AddGameObject(pObject, 0);
+	m_pCurLevel->AddGameObject(pObject, 1);
 
 	// 충돌 Test Obj
 	pObject = new CGameObject;

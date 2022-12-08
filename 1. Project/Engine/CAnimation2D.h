@@ -8,21 +8,24 @@ class CAnimation2D :
     public CRes
 {
 private:
-    vector<tAnim2DFrm>  m_vecFrm;
-    int                 m_iCurIdx;
+    vector<tAnim2DFrm>      m_vecFrm;
+    int                     m_iCurIdx;
 
-    CAnimator2D*        m_pOwner;
+    CAnimator2D*         m_pOwner;
     Ptr<CTexture>       m_AtlasTex;
 
     float               m_fAccTime;
     bool                m_bFinish;
 
-    CAnimation2D*       m_pMasterAnim;
+    Ptr<CAnimation2D>      m_pMasterAnim;
     vector<CAnimation2D*> m_vecChildAnim;
+
 
 public:
     Ptr<CTexture> GetAtlas() { return m_AtlasTex; }
     vector<tAnim2DFrm>* GetFrmVec() { return &m_vecFrm; }
+
+    const Ptr<CAnimation2D>& GetMasterAnim() { return m_pMasterAnim; }
 
 
 public:
@@ -35,6 +38,8 @@ public:
         m_iCurIdx = 0;
         m_bFinish = false;
     }
+
+    // UI¿ë
     void Reallocate();
 
     virtual int Load(const wstring& _strFilePath) override;

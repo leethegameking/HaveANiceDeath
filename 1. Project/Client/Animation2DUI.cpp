@@ -40,7 +40,7 @@ void Animation2DUI::render_update()
 {
 	ResUI::render_update();
 
-	CAnimation2D* pAnim = (CAnimation2D*)GetTarget().Get();
+	CAnimation2D* pAnim = (CAnimation2D*)(GetTarget().Get());
 	Ptr<CTexture> pAtlas = pAnim->GetAtlas();
 
 	m_wstrKey = GetTarget()->GetKey();
@@ -64,6 +64,10 @@ void Animation2DUI::render_update()
 		pFrameTool->Open();
 	}
 
+	if (ButtonCenteredOnLine("Save as file"))
+	{
+		pAnim->Save(L"animation\\test.anim");
+	}
 }
 
 void Animation2DUI::DrawAnimation()
