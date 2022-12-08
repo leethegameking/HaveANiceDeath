@@ -40,7 +40,7 @@ CGameObject* CLevelMgr::FindObjectByName(const wstring& _strName)
 void CLevelMgr::init()
 {
 
-	CResMgr::GetInst()->Load<CAnimation2D>(L"animation\\test.anim");
+	// CResMgr::GetInst()->Load<CAnimation2D>(L"animation\\test.anim");
 	// Level 하나 제작하기
 	m_pCurLevel = new CLevel;
 

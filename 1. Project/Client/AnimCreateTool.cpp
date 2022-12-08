@@ -19,6 +19,7 @@ AnimCreateTool::AnimCreateTool()
 	, m_bHasSelected(false)
 	, m_iFrmIdx(0)
 	, m_bDragMode(true)
+	, m_bImageChanged(true)
 {
 	m_AtlasComboBox = new ComboBox;
 	Close();
@@ -106,7 +107,7 @@ void AnimCreateTool::render_update()
 	}
 
 
-	// 내부 독립적인 창 생성
+	// 내부 독립적인 창 생성해서 이미지 띄움.
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNavInputs;
 	ImGui::BeginChild("ChildImage", ImVec2(ImGui::GetContentRegionAvail().x, 500.f), true, window_flags);
 	Vec2 vCursorPos = ImGui::GetCursorScreenPos();
@@ -202,13 +203,63 @@ void AnimCreateTool::render_update()
 
 			}
 		}
+		// 자동선택모드
 		else
 		{
+			static vector<vector<tBGRA>> inVec;
+			if (m_bImageChanged)
+			{
+				inVec.clear();
+				m_AtlasTex->GetPixelVector(inVec);
+				m_bImageChanged = false;
+			}
+
+			// 자동선택 버튼
+			if (ImGui::IsMouseDoubleClicked(0))
+			{
+				Vec2 AutoSelectPos = Vec2(TexCoord.x / m_vImageScale.x, TexCoord.y / m_vImageScale.y);
+				while(true)
+				{
+					Vec4 out = m_AtlasTex->WIdthSearch(inVec, AutoSelectPos);
+					AutoSelectPos = Vec2(out.z + 5.f, out.y + (out.w - out.y) / 2.f) ;
+					if (out.w - out.y == 0.f)
+						break;
+
+					Vec2 LTUV = Vec2(out.x, out.y) /  AtlasSize;
+					Vec2 RBUV = Vec2(out.z, out.w) / AtlasSize;
+					if (LTUV.x > RBUV.x)
+					{
+						float tmp = LTUV.x;
+						LTUV.x = RBUV.x;
+						RBUV.x = tmp;
+					}
+					if (LTUV.y > RBUV.y)
+					{
+						float tmp = LTUV.y;
+						LTUV.y = RBUV.y;
+						RBUV.y = tmp;
+					}
+
+					tAnim2DFrm tFrm = {};
+					tFrm.vLeftTop = LTUV;
+					tFrm.vOffset = Vec2::Zero;
+					tFrm.fDuration = 0.1f;
+					tFrm.vFullSize = Vec2(400.f, 400.f) / AtlasSize;
+					tFrm.vSlice = RBUV - LTUV;
+
+					m_ChangeFrm.push_back(tFrm);
+				}
+				m_AtlasTex->CheckClear(inVec);
+			}
+
+			// 클릭으로 선택
 			if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows) && ImGui::IsMouseClicked(0))
 			{
-				vector<vector<tBGRA>> inVec;
-				m_AtlasTex->GetPixelVector(inVec);
+				if (ImGui::IsMouseClicked(0))
+					m_bHasSelected = true;
+				
 				Vec4 out = m_AtlasTex->WIdthSearch(inVec, TexCoord / m_vImageScale);
+				m_AtlasTex->CheckClear(inVec);
 				vRectStartPos = Vec2(vCursorPos.x + out.x * m_vImageScale.x, vCursorPos.y + out.y*m_vImageScale.y);
 				vRectEndPos = Vec2(vCursorPos.x + out.z * m_vImageScale.x, vCursorPos.y + out.w*m_vImageScale.y);
 			}
@@ -311,6 +362,9 @@ void AnimCreateTool::render_update()
 			if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
 			{
 				DeleteFrame(i);
+				if (m_iFrmIdx >= i && m_iFrmIdx != 0)
+					--m_iFrmIdx;
+
 			}
 			ImGui::PopID();
 			ImGui::SameLine();
@@ -439,6 +493,8 @@ void AnimCreateTool::SetAtlasTex(DWORD_PTR _texKey)
 
 	const map<wstring, Ptr<CRes>>& mapRes = CResMgr::GetInst()->GetResource(RES_TYPE::TEXTURE);
 	m_AtlasTex = (CTexture*)(mapRes.find(wstrKey)->second.Get());
+
+	m_bImageChanged = true;
 }
 
 void AnimCreateTool::DeleteFrame(size_t& idx)

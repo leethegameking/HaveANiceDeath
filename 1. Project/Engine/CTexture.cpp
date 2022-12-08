@@ -232,7 +232,7 @@ void CTexture::GetPixelVector(vector<vector<tBGRA>>& _inVec)
     }
 }
 
-Vec4 CTexture::WIdthSearch(vector<vector<tBGRA>> _inVec, Vec2 _inPos)
+Vec4 CTexture::WIdthSearch(vector<vector<tBGRA>>& _inVec, Vec2 _inPos, bool _opt)
 {
     Vec2 size = GetSize();
     Vec2 hasAlpha;
@@ -320,7 +320,19 @@ Vec4 CTexture::WIdthSearch(vector<vector<tBGRA>> _inVec, Vec2 _inPos)
 
         queue.pop_front();
     }
-
-    
+   
     return Vec4(OutLeft, OutUp, OutRight, OutDown);
+}
+
+void CTexture::CheckClear(vector<vector<tBGRA>>& _inVec)
+{
+    Vec2 size = GetSize();
+
+	for (size_t i = 0; i < size.x; ++i)
+	{
+		for (size_t j = 0; j < size.y; ++j)
+		{
+			_inVec[i][j].check = false;
+		}
+	}
 }

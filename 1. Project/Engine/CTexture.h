@@ -69,7 +69,8 @@ private:
 
 public:
     void GetPixelVector(vector<vector<tBGRA>>& _inVec);
-    Vec4 WIdthSearch(vector<vector<tBGRA>> _inVec, Vec2 _inPos);
+    Vec4 WIdthSearch(vector<vector<tBGRA>>& _inVec, Vec2 _inPos, bool _opt = false);
+    void CheckClear(vector<vector<tBGRA>>& _inVec);
 
     CLONE_ASSERT(CTexture);
 public:

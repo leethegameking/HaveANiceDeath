@@ -13,6 +13,7 @@ class AnimCreateTool :
 {
 private:
     Ptr<CTexture>       m_AtlasTex;
+    bool                m_bImageChanged;
 
     Vec2                m_vImageScale;
     bool                m_bUniformed;
