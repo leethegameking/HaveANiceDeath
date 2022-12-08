@@ -37,6 +37,9 @@ public:
 	template<typename T>
 	Ptr<T> Load(const wstring& _strKey, const wstring& _strRelativePath);
 
+	template<typename T>
+	Ptr<T> Load(const wstring& _strRelativePath);
+
 	Ptr<CAnimation2D> CreateAnimation(const wstring& _strKey, Ptr<CTexture> _AtlasTex, const vector<tAnim2DFrm>& _vecFrm);
 	Ptr<CAnimation2D> CreateAnimation(const wstring& _strKey, Ptr<CTexture> _AtlasTex, Vec2 _vLeftTop, Vec2 _vOffset, Vec2 _vSlice, float _fStep, int _iMaxFrm, float _FPS, Vec2 _vFullsize = Vec2(400.f, 400.f), bool _bVTHZ = HORIZONTAL);
 	Ptr<CTexture> CreateTexture(const wstring& _strKey
@@ -153,4 +156,32 @@ Ptr<T> CResMgr::Load(const wstring& _strKey, const wstring& _strRelativePath)
 	CEventMgr::GetInst()->ResChangeFlagOn();
 	return (T*)pResource;
 	
+}
+
+template<typename T>
+Ptr<T> CResMgr::Load(const wstring& _strRelativePath)
+{
+	RES_TYPE eResType = GetType<T>();
+
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+	strFilePath += _strRelativePath;
+
+	CRes* pResource = new T;
+	if (FAILED(pResource->Load(strFilePath)))
+	{
+		MessageBox(nullptr, strFilePath.c_str(), L"리소스 로딩 실패", MB_OK);
+		return nullptr;
+	}
+
+	wstring wstrKey = pResource->GetKey();
+
+	CRes* pCheckRes = FindRes<T>(wstrKey).Get();
+
+	assert(!pCheckRes);
+	
+	pResource->SetRelativePath(_strRelativePath);
+	AddRes<T>(wstrKey, (T*)pResource);
+
+	CEventMgr::GetInst()->ResChangeFlagOn();
+	return (T*)pResource;
 }

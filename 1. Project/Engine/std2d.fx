@@ -84,8 +84,24 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target
 float4 PS_Std2D_AlphaBlend(VTX_OUT _in) : SV_Target
 {
     float4 vOutColor = float4(1.f, 0.f, 1.f, 1.f);
-     
-    vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);        
+    
+    if (g_iAnim2DUse)
+    {
+        float2 vDiff = (g_vFullSize - g_vSlice) / 2.f;
+        float2 vUV = (g_vLeftTop - vDiff - g_vOffset) + (g_vFullSize * _in.vUV);
+        
+        if (vUV.x < g_vLeftTop.x || g_vLeftTop.x + g_vSlice.x < vUV.x
+            || vUV.y < g_vLeftTop.y || g_vLeftTop.y + g_vSlice.y < vUV.y)
+        {
+            discard;
+        }
+        
+        vOutColor = g_Atals.Sample(g_sam_0, vUV);
+    }
+    else
+    {
+        vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+    }       
        
     return vOutColor;
 }
