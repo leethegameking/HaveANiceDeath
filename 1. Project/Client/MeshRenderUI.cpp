@@ -8,6 +8,8 @@
 #include "CImGuiMgr.h"
 #include "ListUI.h"
 
+#include "TreeUI.h"
+
 MeshRenderUI::MeshRenderUI()
 	: ComponentUI("MeshRender", COMPONENT_TYPE::MESHRENDER)
 {
@@ -48,6 +50,9 @@ void MeshRenderUI::render_update()
 	ImGui::Text("Mesh     ");
 	ImGui::SameLine();
 	ImGui::InputText("##MeshName", (char*)MeshName.data(), MeshName.length(), ImGuiInputTextFlags_ReadOnly);
+
+
+
 	ImGui::SameLine();
 	if (ImGui::Button("##MeshBtn", Vec2(15.f, 15.f)))
 	{
@@ -77,6 +82,24 @@ void MeshRenderUI::render_update()
 	ImGui::Text("Material ");
 	ImGui::SameLine();
 	ImGui::InputText("##MtrlName", (char*)MtrlName.data(), MtrlName.length(), ImGuiInputTextFlags_ReadOnly);
+
+	if (ImGui::BeginDragDropTarget())
+	{
+
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("##ContentTree"))
+		{
+			TreeNode* pNode = (TreeNode*)payload->Data;
+			CRes* pRes = (CRes*)pNode->GetData();
+
+			if (RES_TYPE::MATERIAL == pRes->GetResType())
+			{
+				GetTarget()->MeshRender()->SetSharedMaterial((CMaterial*)pRes);
+			}
+		}
+
+
+		ImGui::EndDragDropTarget();
+	}
 	ImGui::SameLine();
 	if (ImGui::Button("##MtrlBtn", Vec2(15.f, 15.f)))
 	{

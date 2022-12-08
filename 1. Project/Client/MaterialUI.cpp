@@ -5,6 +5,8 @@
 #include <Engine/CMaterial.h>
 #include "ParamUI.h"
 
+
+
 MaterialUI::MaterialUI()
 	: ResUI("##MaterialUI", RES_TYPE::MATERIAL)
 	, m_eSelectTexParam(TEX_PARAM::TEX_END)
