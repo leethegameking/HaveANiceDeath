@@ -35,9 +35,6 @@
     <Filter Include="03. UI\ModuleUI\ComboBox">
       <UniqueIdentifier>{4cb3cae7-3153-4ce6-bcfc-d54dd6ce5979}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Default\Header">
-      <UniqueIdentifier>{bf6f6fa4-15b5-48fa-95cd-7df49613fd32}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. UI\01. Inspector">
       <UniqueIdentifier>{f104a4f6-3ac8-46e8-9a17-3035083ede3b}</UniqueIdentifier>
     </Filter>
@@ -115,6 +112,12 @@
     </Filter>
     <Filter Include="03. UI\01. Inspector\ComponentUI\TileMapUI\TileEditor">
       <UniqueIdentifier>{583f3a95-a2ae-4800-b44d-0569edd3fd2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. ImGui\demo">
+      <UniqueIdentifier>{0b72f93a-2a84-468f-b3d6-cf95aaffa11b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Header">
+      <UniqueIdentifier>{bf6f6fa4-15b5-48fa-95cd-7df49613fd32}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -206,7 +209,7 @@
       <Filter>03. UI\ModuleUI\ComboBox</Filter>
     </ClInclude>
     <ClInclude Include="define.h">
-      <Filter>Default\Header</Filter>
+      <Filter>00. Header</Filter>
     </ClInclude>
     <ClInclude Include="OutlinerUI.h">
       <Filter>03. UI\03. OutlinerUI</Filter>
@@ -278,9 +281,6 @@
     <ClCompile Include="imgui.cpp">
       <Filter>02. ImGui\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="imgui_demo.cpp">
-      <Filter>02. ImGui\ImGui</Filter>
-    </ClCompile>
     <ClCompile Include="imgui_draw.cpp">
       <Filter>02. ImGui\ImGui</Filter>
     </ClCompile>
@@ -339,7 +339,7 @@
       <Filter>03. UI\ModuleUI\ComboBox</Filter>
     </ClCompile>
     <ClCompile Include="define.cpp">
-      <Filter>Default\Header</Filter>
+      <Filter>00. Header</Filter>
     </ClCompile>
     <ClCompile Include="OutlinerUI.cpp">
       <Filter>03. UI\03. OutlinerUI</Filter>
@@ -382,6 +382,12 @@
     </ClCompile>
     <ClCompile Include="TileEditor.cpp">
       <Filter>03. UI\01. Inspector\ComponentUI\TileMapUI\TileEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_demo.cpp">
+      <Filter>02. ImGui\demo</Filter>
+    </ClCompile>
+    <ClCompile Include="extern.cpp">
+      <Filter>00. Header</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

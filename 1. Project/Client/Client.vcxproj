@@ -208,6 +208,7 @@
     <ClCompile Include="ComponentUI.cpp" />
     <ClCompile Include="ContentUI.cpp" />
     <ClCompile Include="define.cpp" />
+    <ClCompile Include="extern.cpp" />
     <ClCompile Include="FrameTool.cpp" />
     <ClCompile Include="GraphicsShaderUI.cpp" />
     <ClCompile Include="imgui.cpp" />

@@ -2,9 +2,9 @@
 
 - 구현 - 
 
+! Texture vector 사용할 부분에서 static으로 처리 
+! 우측으로 쭉 배열된 아틀라스 자동으로 선택해 애니메이션 만드는 기능 
 * rigidbody 만들기
-* 우측으로 쭉 배열된 아틀라스 자동으로 선택해 애니메이션 만드는 기능 추가
 * AnimCreateTool Frame 상단에 index추가
 * UI 상에서 Object -> Prefab, Prefab -> Object
 * 일괄적 Load할 부분 찾기
-* Texture Debug 할 때만 자신의 Texture 정보 가지는 vector 생성

@@ -169,7 +169,7 @@ void AnimCreateTool::render_update()
 					vRectEndPos = vCursorPos + TexCoord;
 					bScrollBool = false;
 				}
-
+				
 				// 사각형 드래그로 움직이기
 				if (ImGui::IsMouseDragging(ImGuiMouseButton_Left) && KEY_PRESSED(KEY::LSHIFT))
 				{
@@ -206,6 +206,7 @@ void AnimCreateTool::render_update()
 		// 자동선택모드
 		else
 		{
+			// 미리 생성
 			static vector<vector<tBGRA>> inVec;
 			if (m_bImageChanged)
 			{
@@ -220,8 +221,11 @@ void AnimCreateTool::render_update()
 				Vec2 AutoSelectPos = Vec2(TexCoord.x / m_vImageScale.x, TexCoord.y / m_vImageScale.y);
 				while(true)
 				{
+					// 결과로 나온 픽셀 중간에서 다시 너비탐색 시작 
 					Vec4 out = m_AtlasTex->WIdthSearch(inVec, AutoSelectPos);
 					AutoSelectPos = Vec2(out.z + 5.f, out.y + (out.w - out.y) / 2.f) ;
+					
+					// 더 이상 픽셀을 찾지 못한다면 탈출
 					if (out.w - out.y == 0.f)
 						break;
 

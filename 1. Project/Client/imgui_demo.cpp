@@ -5780,6 +5780,8 @@ static void ShowDemoWindowInputs()
             ImGui::TreePop();
         }
 
+        
+
         // Display Mouse state
         IMGUI_DEMO_MARKER("Inputs, Navigation & Focus/Mouse State");
         if (ImGui::TreeNode("Mouse State"))

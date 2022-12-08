@@ -6,3 +6,12 @@ inline Vec2::operator f2() const { return (f2)x; }
 // inline Vec2::operator i2() const { int _x = (int)x; return (i2)_x; }
 
 Vec2 GetClickedIdx(Vec2 _vImgSize, Vec2 _vCursorPos, Vec2 _vImageScale);
+
+
+enum MENU_TYPE
+{
+	MAKE_PREFAB,
+	MENU_END
+};
+
+extern const char* Menu[MENU_TYPE::MENU_END];

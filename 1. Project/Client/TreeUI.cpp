@@ -77,6 +77,46 @@ void TreeNode::render_update()
 			ImGui::EndDragDropTarget();
 		}
 
+		// 우클릭 이벤트
+		//if (ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+		//	ImGui::OpenPopup("my_option");
+
+		//if (ImGui::BeginPopup("my_option"))
+		//{
+		//	ImGui::Text("Make Prefab");
+		//	if (ImGui::IsItemClicked())
+		//	{
+		//		int a = 0;
+		//	}
+		//	ImGui::Text("TestOP");
+
+		//	ImGui::EndPopup();
+		//}
+		static int selected_fish = -1;
+		const char* names[] = { "Bream", "Haddock", "Mackerel", "Pollock", "Tilefish" };
+		static bool toggles[] = { true, false, false, false, false };
+
+		if (ImGui::Button("Select.."))
+			ImGui::OpenPopup("my_select_popup");
+		ImGui::SameLine();
+		ImGui::TextUnformatted(selected_fish == -1 ? "<None>" : names[selected_fish]);
+		if (ImGui::BeginPopup("my_select_popup"))
+		{
+			ImGui::Text("Aquarium");
+			ImGui::Separator();
+			for (int i = 0; i < IM_ARRAYSIZE(names); i++)
+				if (ImGui::Selectable(names[i]))
+					selected_fish = i;
+			ImGui::EndPopup();
+		}
+
+
+
+
+
+
+
+
 		for (size_t i = 0; i < m_vecChildNode.size(); ++i)
 		{
 			m_vecChildNode[i]->render_update();
