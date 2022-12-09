@@ -17,6 +17,22 @@ CTileMap::CTileMap()
 	m_TileBuffer = new CStructuredBuffer;
 }
 
+CTileMap::CTileMap(const CTileMap& _origin)
+	: CRenderComponent(COMPONENT_TYPE::TILEMAP)
+	, m_bDataChanged(false)
+	, m_vSlice(_origin.m_vSlice)
+	, m_vTileCount(_origin.m_vTileCount)
+	, m_AtlasTex(_origin.m_AtlasTex)
+{
+	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TileMapMtrl"));
+	m_vecTile.assign(_origin.m_vecTile.begin(), _origin.m_vecTile.end());
+
+	m_TileBuffer = new CStructuredBuffer;
+
+	SetTileCount((UINT)m_vTileCount.x, (UINT)m_vTileCount.y);
+}
+
 CTileMap::~CTileMap()
 {
 	if (m_TileBuffer)

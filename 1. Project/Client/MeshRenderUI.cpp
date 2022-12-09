@@ -85,7 +85,6 @@ void MeshRenderUI::render_update()
 
 	if (ImGui::BeginDragDropTarget())
 	{
-
 		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("##ContentTree"))
 		{
 			TreeNode* pNode = (TreeNode*)payload->Data;

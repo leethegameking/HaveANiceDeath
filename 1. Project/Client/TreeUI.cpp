@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "TreeUI.h"
 
+
+#include "PopupMenu.h"
 // ========
 // TreeNode
 // ========
@@ -65,7 +67,6 @@ void TreeNode::render_update()
 			ImGui::Text(strSubName.c_str());
 			
 
-
 			ImGui::EndDragDropSource();
 		}
 
@@ -78,17 +79,33 @@ void TreeNode::render_update()
 		}
 
 		// 우클릭 이벤트
-		//if (ImGui::IsMouseClicked(ImGuiMouseButton_Right))
-		//	ImGui::OpenPopup("my_option");
+		if (ImGui::IsItemHovered(0) && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+		{
+			m_TreeUI->SetRightClickNode(this);
+		}
 
-		//if (ImGui::BeginPopup("my_option"))
-		//{
-		//	ImGui::Text("Make Prefab");
-		//	if (ImGui::IsItemClicked())
-		//	{
-		//		int a = 0;
-		//	}
-		//	ImGui::Text("TestOP");
+
+		PopupMenuUI* pPopupMenu = m_TreeUI->GetPopupMenu();
+		if (pPopupMenu->GetHasAnyMenu())
+		{
+			if (ImGui::BeginPopup(pPopupMenu->GetName().c_str()))
+			{
+				for (int i = 0; i < (UINT)MENU_TYPE::MENU_END; ++i)
+				{
+					int iMenuBit = pPopupMenu->GetMenuBit();
+
+					if (iMenuBit & 1 << i)
+					{
+						if (ImGui::Selectable(Menu[i]))
+						{
+							pPopupMenu->CallMenuFunc(i, (DWORD_PTR)this);
+						}
+					}
+				}
+				ImGui::EndPopup();
+			}
+		}
+
 
 		//	ImGui::EndPopup();
 		//}
@@ -143,10 +160,14 @@ TreeUI::TreeUI(const string& _strName)
 	, m_DropTargetNode(nullptr)
 
 {
+	m_PopupMenu = new PopupMenuUI("ContentMenu");
+	AddDynamic_RightClick(m_PopupMenu, FUNC_1(&PopupMenuUI::GetValidMenu));
 }
 
 TreeUI::~TreeUI()
 {
+	if (m_PopupMenu)
+		delete m_PopupMenu;
 	Clear();
 }
 
@@ -228,6 +249,24 @@ void TreeUI::SetSelectedNode(TreeNode* _SelectedNode)
 	}
 }
 
+void TreeUI::SetRightClickNode(TreeNode* _node)
+{
+	if (m_SelectedNode)
+	{
+		m_SelectedNode->m_bSelected = false;
+	}
+
+	m_SelectedNode = _node;
+	m_SelectedNode->m_bSelected = true;
+
+	if (m_RightClickInst && m_RightClickFunc)
+	{
+		(m_RightClickInst->*m_RightClickFunc)((DWORD_PTR)m_SelectedNode);
+	}
+
+	m_PopupMenu->Open();
+}
+
 void TreeUI::SetDropTargetNode(TreeNode* _node)
 {
 	m_DropTargetNode = _node;
@@ -239,4 +278,9 @@ void TreeUI::SetDropTargetNode(TreeNode* _node)
 			(m_DragDropInst->*m_DragDropFunc)((DWORD_PTR)m_BeginDragNode, (DWORD_PTR)m_DropTargetNode);
 		}
 	}
+}
+
+PopupMenuUI* TreeUI::GetPopupMenu()
+{
+	return m_PopupMenu;
 }

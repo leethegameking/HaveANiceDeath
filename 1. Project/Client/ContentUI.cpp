@@ -19,7 +19,7 @@ ContentUI::ContentUI()
 	m_Tree->SetShowSeperator(false);
 	m_Tree->SetDummyRoot(true);
 
-	m_Tree->AddDynamic_Selected(this, (FUNC_1)&ContentUI::SetResourceToInspector);
+	m_Tree->AddDynamic_Select(this, (FUNC_1)&ContentUI::SetResourceToInspector);
 
 
 	ResetContent();

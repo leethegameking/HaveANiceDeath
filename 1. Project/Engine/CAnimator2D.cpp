@@ -13,6 +13,19 @@ CAnimator2D::CAnimator2D()
 {
 }
 
+CAnimator2D::CAnimator2D(const CAnimator2D& _origin)
+	: CComponent(COMPONENT_TYPE::ANIMATOR2D)
+	, m_pCurAnim(_origin.m_pCurAnim)
+	, m_bRepeat(false)
+{
+	map<wstring, CAnimation2D*>::const_iterator iter = _origin.m_mapAnim.begin();
+	for (; iter != _origin.m_mapAnim.end(); ++iter)
+	{
+		CAnimation2D* animClone = iter->second->Clone();
+		m_mapAnim.insert(make_pair(iter->first,animClone));
+	}
+}
+
 CAnimator2D::~CAnimator2D()
 {
 	Safe_Del_Map(m_mapAnim);

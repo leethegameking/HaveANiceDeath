@@ -1,6 +1,8 @@
 #pragma once
 #include "UI.h"
 
+class PopupMenuUI;
+
 class TreeUI;
 
 class TreeNode
@@ -68,30 +70,35 @@ private:
     TreeNode* m_BeginDragNode;
     TreeNode* m_DropTargetNode;
 
+    UI* m_RightClickInst;
+    FUNC_1 m_RightClickFunc;
+
+    PopupMenuUI* m_PopupMenu;
+
+public:
+    virtual void update() override;
+    virtual void render_update() override;
+
 public:
     TreeNode* AddItem(TreeNode* _parent, const string& _strName, DWORD_PTR _data, bool _IsFrame = false);
     void Clear();
     void SetDummyRoot(bool _bUse) { m_bDummyRootUse = _bUse; }
     void SetSelectedNode(TreeNode* _SelectedNode);
 
-    void AddDynamic_Selected(UI* _Inst, FUNC_1 _Func)
-    {
-        m_SelectInst = _Inst;
-        m_SelectFunc = _Func;
-    }
+    AddDynFunc1(Select)
+    AddDynFunc1(RightClick)
+    AddDynFunc2(DragDrop)
 
-
-    void AddDynamic_DragDop(UI* _Inst, FUNC_2 _Func)
-    {
-        m_DragDropInst = _Inst;
-        m_DragDropFunc = _Func;
-    }
+    
     void SetBeginDragNode(TreeNode* _node) { m_BeginDragNode = _node; }
+    void SetRightClickNode(TreeNode* _node);
     void SetDropTargetNode(TreeNode* _node);
 
 public:
-    virtual void update() override;
-    virtual void render_update() override;
+    PopupMenuUI* GetPopupMenu();
+
+private:
+    
 
 public:
     TreeUI(const string& _strName);

@@ -43,6 +43,7 @@ public:
 
 public:
     CTileMap();
+    CTileMap(const CTileMap& _origin);
     ~CTileMap();
 };
 

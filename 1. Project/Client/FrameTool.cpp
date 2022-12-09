@@ -99,26 +99,32 @@ void FrameTool::render_update()
 	// 프레임 이미지로 배열
 	if (m_opt == FRAME_IMAGE)
 	{
+		ImDrawList* draw_list = ImGui::GetWindowDrawList();
 		ImGuiWindowFlags window_flags = ImGuiWindowFlags_HorizontalScrollbar;
 		ImGui::BeginChild("ChildFrameImage", ImVec2(ImGui::GetContentRegionAvail().x, vImageScale.y * m_vImageScale.y + 22.f), true, window_flags);
-		if (!m_ChangeFrm.empty())
-			ImGui::PushID("#imageButton##0");
-			if (ImGui::ImageButton(AtlasSRV, vImageScale * m_vImageScale, m_ChangeFrm[0].vLeftTop, m_ChangeFrm[0].vLeftTop + m_ChangeFrm[0].vSlice))
-			{
-				m_iFrmIdx = 0;
-			}
-			ImGui::PopID();
-		for (size_t i = 1; i < m_ChangeFrm.size(); ++i)
+
+		for (size_t i = 0; i < m_ChangeFrm.size(); ++i)
 		{
-			ImGui::SameLine();
+			Vec2 vFrameIdxPos = ImGui::GetCursorScreenPos();
 			string idx = "#imageButton" + to_string(i);
 			ImGui::PushID(idx.c_str());
 			if (ImGui::ImageButton(AtlasSRV, vImageScale* m_vImageScale, m_ChangeFrm[i].vLeftTop, m_ChangeFrm[i].vLeftTop + m_ChangeFrm[i].vSlice))
 			{
 				m_iFrmIdx = i;
 			}
+			if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
+			{
+				DeleteFrame(i);
+				if (m_iFrmIdx >= i && m_iFrmIdx != 0)
+					--m_iFrmIdx;
+
+			}
 			ImGui::PopID();
+			string Frameidx = "[" + to_string(i) + "]";
+			draw_list->AddText(vFrameIdxPos, IM_COL32_WHITE, Frameidx.c_str());
+			ImGui::SameLine();
 		}
+		ImGui::Dummy(Vec2::Zero);
 
 		ImGui::SameLine();
 		static Ptr<CTexture> pPlusTex = CResMgr::GetInst()->FindRes<CTexture>(L"PlusButton");
@@ -131,15 +137,19 @@ void FrameTool::render_update()
 		ImGui::EndChild();
 	}
 
-	ImGui::PushItemWidth(100.f);
+	
 	// 프레임 정보
-	ImGui::Text("LeftTop "); ImGui::SameLine(); ImGui::InputFloat2("##LeftTop", m_ChangeFrm[m_iFrmIdx].vLeftTop);
-	ImGui::Text("Slice   ");	ImGui::SameLine(); ImGui::InputFloat2("##Slice", m_ChangeFrm[m_iFrmIdx].vSlice);
-	ImGui::Text("Offset  ");	ImGui::SameLine(); ImGui::InputFloat2("##Offset", m_ChangeFrm[m_iFrmIdx].vOffset);
-	ImGui::Text("Fullsize");	ImGui::SameLine(); ImGui::InputFloat2("##Fullsize", m_ChangeFrm[m_iFrmIdx].vFullSize);
-	ImGui::Text("Duration");	ImGui::SameLine(); ImGui::InputFloat("##Duation", &m_ChangeFrm[m_iFrmIdx].fDuration, 0, 0);
-	ImGui::PopItemWidth();
+	if (!m_ChangeFrm.empty())
+	{
+		ImGui::PushItemWidth(100.f);
+		ImGui::Text("LeftTop "); ImGui::SameLine(); ImGui::InputFloat2("##LeftTop", m_ChangeFrm[m_iFrmIdx].vLeftTop);
+		ImGui::Text("Slice   ");	ImGui::SameLine(); ImGui::InputFloat2("##Slice", m_ChangeFrm[m_iFrmIdx].vSlice);
+		ImGui::Text("Offset  ");	ImGui::SameLine(); ImGui::InputFloat2("##Offset", m_ChangeFrm[m_iFrmIdx].vOffset);
+		ImGui::Text("Fullsize");	ImGui::SameLine(); ImGui::InputFloat2("##Fullsize", m_ChangeFrm[m_iFrmIdx].vFullSize);
+		ImGui::Text("Duration");	ImGui::SameLine(); ImGui::InputFloat("##Duation", &m_ChangeFrm[m_iFrmIdx].fDuration, 0, 0);
+		ImGui::PopItemWidth();
 
+	}
 	// 컨펌
 	if (ButtonCenteredOnLine("Confirm", 0.5f))
 	{
@@ -173,3 +183,19 @@ void FrameTool::SetAnimaton(DWORD_PTR _animKey)
 }
 
 
+void FrameTool::DeleteFrame(size_t& idx)
+{
+	vector<tAnim2DFrm>::iterator iter = m_ChangeFrm.begin();
+	for (; iter != m_ChangeFrm.end(); ++iter)
+	{
+		if (&(*iter) == &(m_ChangeFrm[m_iFrmIdx]))
+		{
+			iter = m_ChangeFrm.erase(iter);
+			if (iter != m_ChangeFrm.end())
+			{
+				--idx;
+			}
+			break;
+		}
+	}
+}

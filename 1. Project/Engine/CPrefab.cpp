@@ -16,6 +16,7 @@ CPrefab::CPrefab(CGameObject* _pProto)
     if (-1 != _pProto->GetLayerIdx())
     {
         m_pProtoObj = _pProto->Clone();
+        m_pProtoObj->SetName(_pProto->GetName());
     }
 }
 

@@ -4,7 +4,14 @@
 
 ! Texture vector 사용할 부분에서 static으로 처리 
 ! 우측으로 쭉 배열된 아틀라스 자동으로 선택해 애니메이션 만드는 기능 
-* rigidbody 만들기
-* AnimCreateTool Frame 상단에 index추가
+! Shader drag & drop
+! AnimCreateTool Frame 상단에 index추가
+
+
+* 우클릭 팝업 구조 설계 후 구현
 * UI 상에서 Object -> Prefab, Prefab -> Object
+* Animation 일괄 처리 버튼 추가 + 값 조절 바 드래그 형식으로 변경
+* ParticleUI 만들기
+
 * 일괄적 Load할 부분 찾기
+* rigidbody 만들기

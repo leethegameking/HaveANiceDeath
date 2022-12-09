@@ -354,8 +354,10 @@ void AnimCreateTool::render_update()
 		ImGui::BeginChild("ChildImageArr", Vec2(ImGui::GetContentRegionAvail().x, 100.f + 22.f), true, window_flags);
 		// 프레임 수 만큼 이미지버튼으로 표시
 		
+		ImDrawList* draw_list = ImGui::GetWindowDrawList();
 		for (size_t i = 0; i < m_ChangeFrm.size(); ++i)
 		{
+			Vec2 vFrameIdxPos = ImGui::GetCursorScreenPos();
 			string imageID = "#imageButton" + to_string(i);
 			ImGui::PushID(imageID.c_str());
 			if (ImGui::ImageButton(AtlasSRV, Vec2(100.f, 100.f), m_ChangeFrm[i].vLeftTop, m_ChangeFrm[i].vLeftTop + m_ChangeFrm[i].vSlice))
@@ -371,6 +373,9 @@ void AnimCreateTool::render_update()
 
 			}
 			ImGui::PopID();
+			string idx = "[" + to_string(i)  + "]";
+			draw_list->AddText(vFrameIdxPos, IM_COL32_WHITE, idx.c_str());
+
 			ImGui::SameLine();
 		}
 		ImGui::EndChild();

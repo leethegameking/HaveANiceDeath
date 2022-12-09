@@ -26,8 +26,8 @@ OutlinerUI::OutlinerUI()
 	m_LevelTree->SetShowSeperator(true);
 	m_LevelTree->SetDummyRoot(false);
 
-	m_LevelTree->AddDynamic_Selected(this, (FUNC_1)&OutlinerUI::SetObjectToInspector);
-	m_LevelTree->AddDynamic_DragDop(this, (FUNC_2)&OutlinerUI::AddChildObject);
+	m_LevelTree->AddDynamic_Select(this, (FUNC_1)&OutlinerUI::SetObjectToInspector);
+	m_LevelTree->AddDynamic_DragDrop(this, (FUNC_2)&OutlinerUI::AddChildObject);
 	
 	AddChild(m_LevelTree);
 

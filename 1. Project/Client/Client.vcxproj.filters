@@ -122,6 +122,9 @@
     <Filter Include="01. Editor\EditorScript">
       <UniqueIdentifier>{19d042fe-17c2-4226-ac33-d0abf968fa48}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. UI\ModuleUI\PopUpMenu">
+      <UniqueIdentifier>{44b3aa13-a32a-46a1-a502-18ab02e979dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -264,6 +267,9 @@
     </ClInclude>
     <ClInclude Include="CreateTestLevel.h">
       <Filter>01. Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="PopupMenu.h">
+      <Filter>03. UI\ModuleUI\PopUpMenu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -409,6 +415,12 @@
     </ClCompile>
     <ClCompile Include="CreateTestLevel.cpp">
       <Filter>01. Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="PopupMenu.cpp">
+      <Filter>03. UI\ModuleUI\PopUpMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuFunc.cpp">
+      <Filter>03. UI\ModuleUI\PopUpMenu</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
