@@ -29,7 +29,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ int       nCmdShow)
 {
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);    
-    //_CrtSetBreakAlloc(460);
+    //_CrtSetBreakAlloc(1816);
 
     g_hInst = hInstance;
 

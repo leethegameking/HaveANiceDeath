@@ -9,7 +9,7 @@ class Animator2DUI :
     public ComponentUI
 {
 private:
-    CAnimation2D*               m_pCurAnim;
+    Ptr<CAnimation2D>              m_pCurAnim;
 
     bool                        m_bRepeat;
 

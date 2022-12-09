@@ -15,25 +15,51 @@ CAnimator2D::CAnimator2D()
 
 CAnimator2D::CAnimator2D(const CAnimator2D& _origin)
 	: CComponent(COMPONENT_TYPE::ANIMATOR2D)
-	, m_pCurAnim(_origin.m_pCurAnim)
-	, m_bRepeat(false)
+	, m_bRepeat(_origin.m_bRepeat)
 {
-	map<wstring, CAnimation2D*>::const_iterator iter = _origin.m_mapAnim.begin();
+	map<wstring, Ptr<CAnimation2D>>::const_iterator iter = _origin.m_mapAnim.begin();
+	wstring curAnimKey = L"";
 	for (; iter != _origin.m_mapAnim.end(); ++iter)
 	{
-		CAnimation2D* animClone = iter->second->Clone();
-		m_mapAnim.insert(make_pair(iter->first,animClone));
+		Ptr<CAnimation2D> animClone = iter->second.Get()->Clone();
+		m_mapAnim.insert(make_pair(iter->first, animClone));
+
+		if (iter->second == _origin.m_pCurAnim)
+			curAnimKey = iter->second.Get()->GetKey();
 	}
+
+	if(nullptr != _origin.m_pCurAnim)
+		m_pCurAnim = m_mapAnim.find(curAnimKey)->second;
 }
 
 CAnimator2D::~CAnimator2D()
 {
-	Safe_Del_Map(m_mapAnim);
+	map < wstring, Ptr<CAnimation2D>>::iterator iter = m_mapAnim.begin();
+	for (; iter != m_mapAnim.end(); ++iter)
+	{
+		if (nullptr != iter->second->GetMasterAnim())
+		{
+			vector<Ptr<CAnimation2D>>& vecChild = iter->second->GetMasterAnim().Get()->m_vecChildAnim;
+			vector<Ptr<CAnimation2D>>::iterator iterChild = vecChild.begin();
+
+			for (; iterChild != vecChild.end(); ++iterChild)
+			{
+				if (iterChild->Get() == iter->second.Get())
+				{
+					vecChild.erase(iterChild);
+					break;
+				}
+			}
+		}
+
+		iter->second = nullptr;
+	}
+	// 클론 받은 애니메이션 객체를 가진 것이 사라졌을떄. MasterAnim 자식 vector에서 빼줌
 }
 
 void CAnimator2D::finaltick()
 {
-	if (!IsValid(m_pCurAnim))
+	if (!IsValid(m_pCurAnim.Get()))
 		return;
 
 	// Animation 이 Finish 상태이고, 반복재생을 하기로 한 경우
@@ -63,14 +89,14 @@ void CAnimator2D::finaltick()
 //	pAnimClone->m_pOwner = this;
 //}
 
-CAnimation2D* CAnimator2D::FindAnimation(const wstring& _strKey)
+Ptr<CAnimation2D> CAnimator2D::FindAnimation(const wstring& _strKey)
 {
-	map<wstring, CAnimation2D*>::iterator iter = m_mapAnim.find(_strKey);
+	map<wstring, Ptr<CAnimation2D>>::iterator iter = m_mapAnim.find(_strKey);
 
 	if (iter == m_mapAnim.end())
 		return nullptr;
 
-	return iter->second;
+	return iter->second.Get();
 }
 
 void CAnimator2D::AddAnimation(wstring _key)
@@ -79,22 +105,21 @@ void CAnimator2D::AddAnimation(wstring _key)
 	
 	if (m_mapAnim.find(pAnim->GetKey()) == m_mapAnim.end())
 	{
-		CAnimation2D* pAnimClone = pAnim->Clone();
+		Ptr<CAnimation2D> pAnimClone = pAnim->Clone();
 		m_mapAnim.insert(make_pair(pAnimClone->GetKey(), pAnimClone));
 		pAnimClone->m_pOwner = this;
 		pAnimClone->m_pMasterAnim = pAnim;
 		pAnim->m_vecChildAnim.push_back(pAnimClone);
-		
 	}
 }
 
 void CAnimator2D::Play(const wstring& _strKey, bool _bRepeat)
 {
-	CAnimation2D* pAnim = FindAnimation(_strKey);
+	Ptr<CAnimation2D> pAnim = FindAnimation(_strKey);
 
-	if (IsValid(pAnim))
+	if (IsValid(pAnim.Get()))
 	{
-		if(m_pCurAnim)
+		if(m_pCurAnim.Get())
 			m_pCurAnim->Reset();
 		m_pCurAnim = pAnim;
 	}
@@ -108,7 +133,7 @@ void CAnimator2D::Play(const wstring& _strKey, bool _bRepeat)
 
 void CAnimator2D::UpdateData()
 {
-	if (!IsValid(m_pCurAnim))
+	if (!IsValid(m_pCurAnim.Get()))
 		return;
 	
 	m_pCurAnim->UpdateData();
@@ -116,7 +141,7 @@ void CAnimator2D::UpdateData()
 
 void CAnimator2D::Clear()
 {
-	if (!IsValid(m_pCurAnim))
+	if (!IsValid(m_pCurAnim.Get()))
 		return;
 
 	m_pCurAnim->Clear();

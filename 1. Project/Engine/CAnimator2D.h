@@ -9,8 +9,8 @@ class CAnimator2D :
     public CComponent
 {
 private:
-    map<wstring, CAnimation2D*> m_mapAnim;
-    CAnimation2D*               m_pCurAnim;
+    map<wstring, Ptr<CAnimation2D>> m_mapAnim;
+    Ptr<CAnimation2D>               m_pCurAnim;
 
     bool                        m_bRepeat;
 
@@ -19,7 +19,7 @@ public:
 
 public:
     // void CreateAnimation(const wstring& _strKey, Ptr<CTexture> _AtlasTex, Vec2 _vLeftTop, Vec2 _vOffset, Vec2 _vSlice, float _fStep, int _iMaxFrm, float _FPS);
-    CAnimation2D* FindAnimation(const wstring& _strKey);
+    Ptr<CAnimation2D> FindAnimation(const wstring& _strKey);
     void AddAnimation(wstring _key);
 
     void Play(const wstring& _strKey, bool _bRepeat = true);
@@ -27,9 +27,9 @@ public:
     void UpdateData();
     void Clear();
 
-    CAnimation2D* GetCurAnim(){return m_pCurAnim;}
-    void SetCurAnim(CAnimation2D* _curAnim) { m_pCurAnim = _curAnim; }
-    map<wstring, CAnimation2D*>& GetAnimMap() { return m_mapAnim; }
+    Ptr<CAnimation2D> GetCurAnim(){return m_pCurAnim.Get(); }
+    void SetCurAnim(Ptr<CAnimation2D> _curAnim) { m_pCurAnim = _curAnim; }
+    map<wstring, Ptr<CAnimation2D>>& GetAnimMap() { return m_mapAnim; }
 
     bool IsRepeat() { return m_bRepeat; }
 

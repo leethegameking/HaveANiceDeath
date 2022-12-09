@@ -24,7 +24,7 @@ CAnimation2D::CAnimation2D()
 CAnimation2D::CAnimation2D(CAnimation2D& _origin)
 	: CRes(_origin)
 	, m_pMasterAnim(&_origin)
-	, m_iCurIdx(-1)
+	, m_iCurIdx(0)
 	, m_pOwner(nullptr)
 	, m_AtlasTex(_origin.m_AtlasTex)
 	, m_fAccTime(0.f)
@@ -32,26 +32,16 @@ CAnimation2D::CAnimation2D(CAnimation2D& _origin)
 	, m_vecFrm(_origin.m_vecFrm)
 	, m_vecChildAnim{}
 {
+	// 마스터
+	if (_origin.m_pMasterAnim.Get() == nullptr)
+		m_pMasterAnim = &_origin;
 }
 
 
 CAnimation2D::~CAnimation2D()
 {
-	// 클론 받은 애니메이션 객체를 가진 것이 사라졌을떄. MasterAnim 자식 vector에서 빼줌
-	if (nullptr != m_pMasterAnim)
-	{
-		vector<CAnimation2D*>& vecChild = m_pMasterAnim->m_vecChildAnim;
-		vector<CAnimation2D*>::iterator iter = vecChild.begin();
+	int a = 0;
 
-		for (; iter != vecChild.end(); ++iter)
-		{
-			if (*iter == this)
-			{
-				vecChild.erase(iter);
-				break;
-			}
-		}
-	}
 }
 
 void CAnimation2D::finaltick()

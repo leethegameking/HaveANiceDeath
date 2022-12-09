@@ -137,8 +137,8 @@ void Animator2DUI::AddAnimation(DWORD_PTR _multiSelectIdx)
 void Animator2DUI::SetVecTargetAnim()
 {
 	m_vecTargetAnim.clear();
-	const map<wstring, CAnimation2D*> mapAnim = GetTarget()->Animator2D()->GetAnimMap();
-	map<wstring, CAnimation2D*>::const_iterator iter = mapAnim.begin();
+	const map<wstring, Ptr<CAnimation2D>> mapAnim = GetTarget()->Animator2D()->GetAnimMap();
+	map<wstring, Ptr<CAnimation2D>>::const_iterator iter = mapAnim.begin();
 	for (; iter != mapAnim.end(); ++iter)
 	{
 		m_vecTargetAnim.push_back(WstrToStr(iter->first));
@@ -148,9 +148,9 @@ void Animator2DUI::SetVecTargetAnim()
 int Animator2DUI::CalComoboPreviewIdx()
 {
 	m_vecTargetAnim.clear();
-	map<wstring, CAnimation2D*> mapAnim = GetTarget()->Animator2D()->GetAnimMap();
-	map<wstring, CAnimation2D*>::const_iterator iter = mapAnim.begin();
-	CAnimation2D* pCurAnim = GetTarget()->Animator2D()->GetCurAnim();
+	map<wstring, Ptr<CAnimation2D>> mapAnim = GetTarget()->Animator2D()->GetAnimMap();
+	map<wstring, Ptr<CAnimation2D>>::const_iterator iter = mapAnim.begin();
+	Ptr<CAnimation2D> pCurAnim = GetTarget()->Animator2D()->GetCurAnim();
 
 	int i = 0;
 	int idx = 0;

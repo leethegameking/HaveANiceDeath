@@ -8,17 +8,17 @@ class CAnimation2D :
     public CRes
 {
 private:
-    vector<tAnim2DFrm>      m_vecFrm;
-    int                     m_iCurIdx;
+    vector<tAnim2DFrm>                  m_vecFrm;
+    int                                 m_iCurIdx;
 
-    CAnimator2D*         m_pOwner;
-    Ptr<CTexture>       m_AtlasTex;
+    CAnimator2D*                        m_pOwner;
+    Ptr<CTexture>                       m_AtlasTex;
 
-    float               m_fAccTime;
-    bool                m_bFinish;
+    float                               m_fAccTime;
+    bool                                m_bFinish;
 
-    Ptr<CAnimation2D>      m_pMasterAnim;
-    vector<CAnimation2D*> m_vecChildAnim;
+    Ptr<CAnimation2D>                   m_pMasterAnim;
+    vector<Ptr<CAnimation2D>>           m_vecChildAnim;
 
 
 public:

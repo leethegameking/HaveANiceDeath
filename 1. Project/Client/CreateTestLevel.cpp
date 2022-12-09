@@ -103,9 +103,9 @@ void CreateTestLevel()
 	pObject->Collider2D()->SetCollider2DType(COLLIDER2D_TYPE::COLLIDER2D_RECT);
 	pObject->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
 
-	pObject->Animator2D()->AddAnimation(L"LeftWalk");
-	pObject->Animator2D()->AddAnimation(L"RightWalk");
-	pObject->Animator2D()->Play(L"LeftWalk", true);
+	 pObject->Animator2D()->AddAnimation(L"LeftWalk");
+	// pObject->Animator2D()->AddAnimation(L"RightWalk");
+	//pObject->Animator2D()->Play(L"LeftWalk", true);
 
 	pObject->MeshRender()->GetSharedMaterial()->SetTexParam(TEX_PARAM::TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"Character"));
 
