@@ -119,7 +119,7 @@ void TileMapUI::render_update()
 		SelectImageTile(vCursorPos);
 	}
 
-	// ¼±ÅÃµÈ Å¸ÀÏ À§¿¡ bubble ±×¸®±â
+	// ï¿½ï¿½ï¿½Ãµï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ bubble ï¿½×¸ï¿½ï¿½ï¿½
 	ImVec2 p = ImVec2(vCursorPos.x + m_vSlice.x * m_SelectedTexIdx.x * m_vImageScale.x, vCursorPos.y + m_vSlice.y * m_SelectedTexIdx.y * m_vImageScale.y);
 	ImGui::GetWindowDrawList()->AddImage(
 		MarkSRV,
@@ -146,7 +146,7 @@ void TileMapUI::render_update()
 	vTargetProjPos /= camScale;
 
 
-	// È­¸éÀÇ Tile Pressed ÀÏ¶§ ¿øÇÏ´Â Å¸ÀÏ·Î Áï½Ã ¹Ù²ãÁÜ.
+	// È­ï¿½ï¿½ï¿½ï¿½ Tile Pressed ï¿½Ï¶ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ Å¸ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½.
 	if (m_bInstanceMode)
 	{
 		if (KEY_PRESSED(KEY::LBTN) &&
@@ -159,7 +159,7 @@ void TileMapUI::render_update()
 		}
 	}
 
-	// Å¸ÀÏ Á¤º¸°¡ ¹Ù²î¸é Å¸°Ùµµ Á¤º¸ ¹Ù²ãÁÜ.
+	// Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ Å¸ï¿½Ùµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½.
 	if ((int)m_vTileCount.x != tileCount[0] || (int)m_vTileCount.y != tileCount[1])
 	{
 		GetTarget()->TileMap()->SetTileCount((UINT)tileCount[0], (UINT)tileCount[1]);
@@ -193,7 +193,7 @@ void TileMapUI::SelectImageTile(Vec2 _vCursorPos)
 {
 	ImGuiIO& io = ImGui::GetIO();
 	
-	// KeyMgr°¡ ¹Þ¾Æ¿À´Â ÁÂÇ¥¿Í Â÷ÀÌ°¡ ÀÖÀ½.
+	// KeyMgrï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	Vec2 vMousePos = io.MousePos;
 
 	Vec2 TexCoord = ((vMousePos - _vCursorPos) / m_vImageScale);
@@ -228,22 +228,22 @@ void TileMapUI::ArrangeTile()
 	Vec3 vTargetProjScale = GetTarget()->Transform()->GetWorldScale();
 	vTargetProjScale /= camScale;
 
-	// tex 0,0 ÁÂÇ¥·Î º¸´Â ÁÂÇ¥
+	// tex 0,0 ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥
 	Vec2 vConvertTexPos = Vec2(vTargetProjPos.x - vTargetProjScale.x / 2.f, vTargetProjPos.y + vTargetProjScale.y / 2.f);
-	// tex 0,0 ÁÂÇ¥ ±âÁØ »ó´ëÀûÀÎ Å¬¸¯µÈ texture ÁÂÇ¥
+	// tex 0,0 ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ texture ï¿½ï¿½Ç¥
 	Vec2 vCurTexPos = Vec2(vMouseViewPos.x - vConvertTexPos.x, -(vMouseViewPos.y - vConvertTexPos.y));
 
-	// ´©¸¥ ÁÂÇ¥ÀÇ tilemap¿¡¼­ÀÇ Idx
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ tilemapï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Idx
 	Vec2 vCurTexIdx = vCurTexPos / vTargetProjScale;
 	vCurTexIdx *= m_vTileCount;
 
-	// Vec2 Idx¸¦ 1Â÷¿ø Idx·Î º¯°æ
+	// Vec2 Idxï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ Idxï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	UINT vChangeIdx = floor(vCurTexIdx.y) * m_vTileCount.x + vCurTexIdx.x;
 
-	// 1Â÷¿ø Idx·Î vecTile¿¡ Á¢±ÙÇØ ¼±ÅÃµÈ ¾ÆÆ²¶ó½º ¼Ó ÀÌ¹ÌÁö LT·Î Set
+	// 1ï¿½ï¿½ï¿½ï¿½ Idxï¿½ï¿½ vecTileï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½Æ²ï¿½ï¿½ ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ LTï¿½ï¿½ Set
 	(*m_vecTile)[vChangeIdx].vLeftTop = m_SelectedTexUV;
 
-	// vecTile StructuredBuffer¿¡ ÀçÇÒ´ç µÇµµ·Ï bool °ª º¯°æ
+	// vecTile StructuredBufferï¿½ï¿½ ï¿½ï¿½ï¿½Ò´ï¿½ ï¿½Çµï¿½ï¿½ï¿½ bool ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	GetTarget()->TileMap()->DataChanged();
 }
 

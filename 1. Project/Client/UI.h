@@ -26,6 +26,7 @@ public:
 	virtual void update();
 	void render();
 	virtual void render_update() = 0;
+	virtual void last_render() {};
 
 public:
 	const string& GetName() { return m_strName; }

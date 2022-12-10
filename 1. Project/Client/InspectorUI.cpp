@@ -16,6 +16,7 @@
 #include "GraphicsShaderUI.h"
 
 #include "Animation2DUI.h"
+#include "ComboBox.h"
 
 
 #include <Engine/CLevelMgr.h>
@@ -80,10 +81,24 @@ InspectorUI::InspectorUI()
 	m_arrResUI[(UINT)RES_TYPE::MATERIAL] = new MaterialUI;
 	m_arrResUI[(UINT)RES_TYPE::MATERIAL]->Close();
 	AddChild(m_arrResUI[(UINT)RES_TYPE::MATERIAL]);
+
+	//==================================================================================
+
+	m_CompComboBox = new ComboBox;
+
+	vector<string> ComponentName;
+	for (int i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
+	{
+		ComponentName.push_back(COMPONENT_TYPE_CHAR[i]);
+	}
+	m_CompComboBox->init(ComponentName, 0);
+	m_CompComboBox->AddSelectedFunc_ReturnInt(this, FUNC_1(&InspectorUI::AddComponent));
 }
 
 InspectorUI::~InspectorUI()
 {
+	if(m_CompComboBox)
+		delete m_CompComboBox;
 }
 
 void InspectorUI::update()
@@ -105,6 +120,69 @@ void InspectorUI::render_update()
 		ImGui::Text(strObjName.c_str());
 		ImGui::Separator();
 	}
+}
+
+void InspectorUI::last_render()
+{
+	ImGui::Text("Add Component");
+	ImGui::SameLine();
+	if(m_TargetObj)
+		m_CompComboBox->render_update();
+}
+
+#include <Engine/GlobalComponent.h>
+#define AddComp(eType) m_TargetObj->AddComponent(new eType);
+void InspectorUI::AddComponent(DWORD_PTR _idx)
+{
+	int idx = _idx;
+	COMPONENT_TYPE eType = (COMPONENT_TYPE)idx;
+
+	switch (eType)
+	{
+	case COMPONENT_TYPE::TRANSFORM:
+		AddComp(CTransform);
+		break;
+	case COMPONENT_TYPE::CAMERA:
+		AddComp(CCamera);
+		break;
+	case COMPONENT_TYPE::COLLIDER2D:
+		AddComp(CCollider2D);
+		break;
+	case COMPONENT_TYPE::COLLIDER3D:
+		break;
+	case COMPONENT_TYPE::ANIMATOR2D:
+		AddComp(CAnimator2D);
+		break;
+	case COMPONENT_TYPE::ANIMATOR3D:
+		break;
+	case COMPONENT_TYPE::LIGHT2D:
+		AddComp(CLight2D);
+		break;
+	case COMPONENT_TYPE::LIGHT3D:
+		break;
+	case COMPONENT_TYPE::MESHRENDER:
+		break;
+	case COMPONENT_TYPE::TILEMAP:
+		AddComp(CTileMap);
+		break;
+	case COMPONENT_TYPE::PARTICLESYSTEM:
+		AddComp(CParticleSystem);
+		break;
+	case COMPONENT_TYPE::SKYBOX:
+		break;
+	case COMPONENT_TYPE::DECAL:
+		break;
+	case COMPONENT_TYPE::LANDSCAPE:
+		break;
+	case COMPONENT_TYPE::END:
+		break;
+	case COMPONENT_TYPE::SCRIPT:
+		break;
+	default:
+		break;
+	}
+
+	SetTargetObj(m_TargetObj);
 }
 
 void InspectorUI::SetTargetObj(CGameObject* _Target)

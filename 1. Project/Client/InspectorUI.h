@@ -4,6 +4,7 @@
 #include <Engine/Ptr.h>
 #include <Engine/CRes.h>
 
+class ComboBox;
 class ComponentUI;
 class ResUI;
 
@@ -17,6 +18,8 @@ public:
     Ptr<CRes> m_TargetRes;
     ResUI* m_arrResUI[(UINT)RES_TYPE::END];
 
+    ComboBox* m_CompComboBox;
+
 public:
     void SetTargetObj(CGameObject* _Target);
     void SetTargetRes(Ptr<CRes> _Res);
@@ -24,6 +27,10 @@ public:
 private:
     virtual void update() override;
     virtual void render_update() override;
+    virtual void last_render() override;
+
+public:
+    void AddComponent(DWORD_PTR _idx);
 
 public:
     InspectorUI();

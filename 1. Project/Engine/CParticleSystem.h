@@ -103,6 +103,7 @@ public:
 
     CLONE(CParticleSystem);
 public:
+    CParticleSystem();
     CParticleSystem(wstring _CSkey);
     CParticleSystem(const CParticleSystem& _clone);
     ~CParticleSystem();

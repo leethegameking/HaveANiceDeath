@@ -11,6 +11,39 @@
 
 #include "CTransform.h"
 
+CParticleSystem::CParticleSystem()
+	: CRenderComponent(COMPONENT_TYPE::PARTICLESYSTEM)
+	, m_iMaxCount(1000) // 버퍼 생성시에만 10000개
+	, m_iAliveCount(0)
+	, m_vStartScale(Vec4(50.f, 50.f, 1.f, 0.f))
+	, m_vEndScale(Vec4(10.f, 10.f, 1.f, 0.f))
+	, m_vStartColor(Vec4(0.24f, 0.28f, 0.8f, 1.f))
+	, m_vEndColor(Vec4(0.78f, 0.74f, 0.9f, 1.f))
+	, m_vMinMaxSpeed(Vec2(100.f, 300.f))
+	, m_vMinMaxLifeTime(Vec2(0.2f, 0.3f))
+	, m_fSpawnRange(Vec2(200.f, 0.f))
+	, m_Frequency(5.f)
+	, m_fAccTime(0.f)
+	, m_ParticleBuffer(nullptr)
+	, m_ParticleShare(nullptr)
+	, m_WorldSpawn(1)
+	, m_RenderType(1)
+	, CS_KEY(L"ParticleUpdateShader")
+{
+	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"PointMesh"));
+	SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"ParticleRenderMtrl"));
+	GetDynamicMaterial();
+
+	m_UpdateCS = (CParticleUpdateShader*)CResMgr::GetInst()->FindRes<CComputeShader>(L"ParticleUpdateShader").Get();
+
+	// 구조화버퍼 생성
+	m_ParticleBuffer = new CStructuredBuffer;
+	m_ParticleBuffer->Create(sizeof(tParticle), m_iMaxCount, SB_TYPE::UAV_INC, nullptr);
+
+	m_ParticleShare = new CStructuredBuffer;
+	m_ParticleShare->Create(sizeof(tParticleShare), 1, SB_TYPE::UAV_INC, nullptr, true);
+}
+
 CParticleSystem::CParticleSystem(wstring _CSkey)
 	: CRenderComponent(COMPONENT_TYPE::PARTICLESYSTEM)
 	, m_iMaxCount(1000) // 버퍼 생성시에만 10000개

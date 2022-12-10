@@ -241,27 +241,27 @@ Vec4 CTexture::WIdthSearch(vector<vector<tBGRA>>& _inVec, Vec2 _inPos, bool _opt
     UINT OutLeft, OutRight, OutUp, OutDown;
 
     static list<Vec2> queue;
-    if (_inPos.x < 0)
-        _inPos.x = 0;
+    if (_inPos.x < 0.f)
+        _inPos.x = 0.f;
     if (_inPos.x >= size.x)
-        _inPos.x = size.x - 1;
-    if (_inPos.y < 0)
-        _inPos.y = 0;
+        _inPos.x = size.x - 1.f;
+    if (_inPos.y < 0.f)
+        _inPos.y = 0.f;
     if (_inPos.y >= size.y)
-        _inPos.y = size.y - 1;
+        _inPos.y = size.y - 1.f;
 
     queue.push_back(_inPos);
 
     while (!queue.empty())
     {
-        if (_inVec[queue.front().x][queue.front().y].a != 0)
+        if (_inVec[(UINT)queue.front().x][(UINT)queue.front().y].a != 0)
         {
             hasAlpha = queue.front();
             break;
         }
 
-        Vec2 right = Vec2(queue.front().x + 1, queue.front().y);
-        Vec2 down = Vec2(queue.front().x, queue.front().y + 1);
+        Vec2 right = Vec2(queue.front().x + 1.f, queue.front().y);
+        Vec2 down = Vec2(queue.front().x, queue.front().y + 1.f);
 
         if(right.x < size.x)
             queue.push_back(right);
@@ -271,14 +271,14 @@ Vec4 CTexture::WIdthSearch(vector<vector<tBGRA>>& _inVec, Vec2 _inPos, bool _opt
         queue.pop_front();
     }
 
-    OutLeft = hasAlpha.x;
-    OutRight = hasAlpha.x;
-    OutUp = hasAlpha.y;
-    OutDown = hasAlpha.y;
+    OutLeft = (UINT)hasAlpha.x;
+    OutRight = (UINT)hasAlpha.x;
+    OutUp = (UINT)hasAlpha.y;
+    OutDown = (UINT)hasAlpha.y;
 
     queue.clear();
     queue.push_back(hasAlpha);
-    _inVec[hasAlpha.x][hasAlpha.y].a = true;
+    _inVec[(UINT)hasAlpha.x][(UINT)hasAlpha.y].a = true;
 
     while (!queue.empty())
     {
@@ -290,7 +290,6 @@ Vec4 CTexture::WIdthSearch(vector<vector<tBGRA>>& _inVec, Vec2 _inPos, bool _opt
             OutUp = queue.front().y;
         if (queue.front().y > OutDown)
             OutDown = queue.front().y;
-
 
         Vec2 up = Vec2(queue.front().x, queue.front().y - 1);
         Vec2 down = Vec2(queue.front().x, queue.front().y + 1);
@@ -321,7 +320,7 @@ Vec4 CTexture::WIdthSearch(vector<vector<tBGRA>>& _inVec, Vec2 _inPos, bool _opt
         queue.pop_front();
     }
    
-    return Vec4(OutLeft, OutUp, OutRight, OutDown);
+    return Vec4((float)OutLeft, (float)OutUp, (float)OutRight, (float)OutDown);
 }
 
 void CTexture::CheckClear(vector<vector<tBGRA>>& _inVec)

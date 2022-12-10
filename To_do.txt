@@ -18,4 +18,12 @@
 * rigidbody 만들기
 
 * Tilemap Create 부분 따로 함수로 만들어서 관리
+* 메뉴바 생성
+* 빈 오브젝트 생성
+* 컴포넌트 추가
+* Offset 조절부에 Image 추가 (dragfloat sliderfloat)
+* 앞에 꺼 미리 보기 추가
+* destroy 버튼
 
+※ 버그
+- Animation ListUI 갱신 (해결)

@@ -45,7 +45,9 @@ public:
 public:
     Vec2 GetClickedIdx(Vec2 _vCursorPos);
     void SetAtlasTex(DWORD_PTR _texKey);
-    void DeleteFrame(size_t& idx);
+    void DeleteFrame(int& idx);
+
+    void ClearFrm() { m_ChangeFrm.clear(); }
 
 public:
     AnimCreateTool();

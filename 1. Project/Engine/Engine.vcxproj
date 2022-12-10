@@ -133,6 +133,10 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <MaxFilesInUnityFile>20</MaxFilesInUnityFile>
+      <MinFilesInUnityFile>10</MinFilesInUnityFile>
+      <UnityFilesDirectory>$(ProjectDir)</UnityFilesDirectory>
+      <MinUnityFiles>1</MinUnityFiles>
     </ClCompile>
     <Link>
       <SubSystem>

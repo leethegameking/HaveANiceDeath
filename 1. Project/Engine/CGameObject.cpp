@@ -11,6 +11,8 @@
 #include "CLevel.h"
 #include "CLayer.h"
 
+#include "CEventMgr.h"
+
 CGameObject::CGameObject()
 	: m_pParent(nullptr)
 	, m_arrCom{}
@@ -164,7 +166,9 @@ void CGameObject::AddComponent(CComponent* _pComponent)
 	// 스크립트가 아닌 경우
 	if (COMPONENT_TYPE::SCRIPT != eComType)
 	{
-		assert(!m_arrCom[(UINT)eComType]);
+		if (m_arrCom[(UINT)eComType])
+			return;
+		// assert(!m_arrCom[(UINT)eComType]);
 
 		// 입력된 Component 가 RenderComponent 라면
 		CRenderComponent* pRenderCom = dynamic_cast<CRenderComponent*>(_pComponent);
@@ -185,6 +189,10 @@ void CGameObject::AddComponent(CComponent* _pComponent)
 		_pComponent->m_pOwnerObject = this;
 		m_vecScripts.push_back((CScript*)_pComponent);		
 	}
+
+	tEvent evt = {};
+	evt.eType = EVENT_TYPE::CHANGE_LEVEL;
+	CEventMgr::GetInst()->AddEvent(evt);
 }
 
 void CGameObject::AddChild(CGameObject* _pChild)

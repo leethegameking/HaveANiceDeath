@@ -57,16 +57,16 @@ void CS_ParticleUpdate(uint3 _id : SV_DispatchThreadID)
             
             vRandom = float4(GaussianSample(vUV + float2(0.f, 0.f)).x, GaussianSample(vUV + float2(0.1f, 0.f)).x, GaussianSample(vUV + float2(0.2f, 0.f)).x, GaussianSample(vUV + float2(0.3f, 0.f)).x);
            
-            vRandom.x = 87.l * vRandom.x;
+            vRandom.x = 87.f * vRandom.x;
             vRandom.x = frac(vRandom.x);
             
-            vRandom.y = 87.l * vRandom.y;
+            vRandom.y = 87.f * vRandom.y;
             vRandom.y = frac(vRandom.y);
             
-            vRandom.z = 87.l * vRandom.z;
+            vRandom.z = 87.f * vRandom.z;
             vRandom.z = frac(vRandom.z);
             
-            vRandom.w = 87.l * vRandom.w;
+            vRandom.w = 87.f * vRandom.w;
             vRandom.w = frac(vRandom.w);
             
             // 사각형범위로 스폰

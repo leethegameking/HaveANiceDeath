@@ -44,6 +44,7 @@ void AnimCreateTool::init()
 	{
 		m_vecRes.push_back(string(iter->first.begin(), iter->first.end()));
 	}
+	m_AtlasComboBox->AddSelectedNotify(this, (FUNC_0)&AnimCreateTool::ClearFrm);
 	m_AtlasComboBox->AddSelectedFunc(this, (FUNC_1)&AnimCreateTool::SetAtlasTex);
 	m_AtlasComboBox->init(m_vecRes, 0);
 }
@@ -367,7 +368,7 @@ void AnimCreateTool::render_update()
 			// 지우기 옵션
 			if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
 			{
-				DeleteFrame(i);
+				DeleteFrame(m_iFrmIdx);
 				if (m_iFrmIdx >= i && m_iFrmIdx != 0)
 					--m_iFrmIdx;
 
@@ -506,7 +507,7 @@ void AnimCreateTool::SetAtlasTex(DWORD_PTR _texKey)
 	m_bImageChanged = true;
 }
 
-void AnimCreateTool::DeleteFrame(size_t& idx)
+void AnimCreateTool::DeleteFrame(int& idx)
 {
 	vector<tAnim2DFrm>::iterator iter = m_ChangeFrm.begin();
 	for (; iter != m_ChangeFrm.end(); ++iter)

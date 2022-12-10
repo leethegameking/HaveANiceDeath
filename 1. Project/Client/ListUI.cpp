@@ -73,6 +73,8 @@ void ListUI::render_update()
 	string str = "##ListBox" + to_string(m_ID);
 	if (ImGui::BeginListBox(str.c_str(), vRegion))
 	{
+		static size_t PrevItemListSize = 0;
+
 		if(m_bMultiSelect)
 		{
 			for (size_t i = 0; i < m_ItemList.size(); ++i)
@@ -80,12 +82,21 @@ void ListUI::render_update()
 				char buf[32];
 				sprintf_s(buf, m_ItemList[i].c_str(), i);
 
+				if (m_ItemList.size() != PrevItemListSize)
+				{
+					m_bMultiSelectIdx.clear();
+					for (size_t i = 0; i < m_ItemList.size(); ++i)
+					{
+						m_bMultiSelectIdx.push_back(false);
+					}
+				}
+
 				if (ImGui::Selectable(buf, m_bMultiSelectIdx[i]))
 				{
 					if (!ImGui::GetIO().KeyCtrl)    // Clear selection when CTRL is not held
 						m_bMultiSelectIdx.assign(m_bMultiSelectIdx.size(), 0);
 						//memset(m_bMultiSelectIdx., 0, sizeof(m_bMultiSelectIdx));
-					m_bMultiSelectIdx[i] = m_bMultiSelectIdx[i] ^ 1;
+					m_bMultiSelectIdx[i] = m_bMultiSelectIdx[i] ^ 1; 
 				}
 
 				if (m_SelectInst && m_SelectFunc)
@@ -93,6 +104,8 @@ void ListUI::render_update()
 					(m_SelectInst->*m_SelectFunc)();
 				}
 			}
+
+			PrevItemListSize = m_ItemList.size();
 		}
 		else
 		{ 

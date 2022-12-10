@@ -44,7 +44,17 @@ void ComboBox::render_update()
             {
                 if (m_SelectedFunc && m_SelectedInst)
                 {
-                    (m_SelectedInst->*m_SelectedFunc)((DWORD_PTR)m_vecItem[i].c_str());
+                    (m_SelectedInst->*m_SelectedFunc)((DWORD_PTR)m_vecItem[i].c_str()); 
+                }
+
+                if (m_SelectedFunc_ReturnInt && m_SelectedInst_ReturnInt)
+                {
+                    (m_SelectedInst_ReturnInt->*m_SelectedFunc_ReturnInt)((DWORD_PTR)i);
+                }
+
+                if (m_SelectedNotifyFunc && m_SelectedNotifyInst)
+                {
+                    (m_SelectedNotifyInst->*m_SelectedNotifyFunc)();
                 }
             }
         }

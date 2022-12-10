@@ -74,6 +74,8 @@ void UI::render()
 					m_vecChildUI[i]->render();
 				}
 
+				last_render();
+
 				ImGui::End();
 			}
 		}
@@ -103,6 +105,8 @@ void UI::render()
 			Close();
 		}
 	}
+
+	
 }
 
 void UI::AddChild(UI* _ChildUI)

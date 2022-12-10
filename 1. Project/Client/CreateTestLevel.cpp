@@ -19,6 +19,7 @@ void CreateTestLevel()
 	CreateDefaultAnimation();
 
 	CLevel* pTestLevel = new CLevel;
+	pTestLevel->SetName(L"TestLevel");
 
 	// Camera Object Ãß°¡
 	CGameObject* pCamObj = new CGameObject;

@@ -10,7 +10,11 @@ private:
     FUNC_1  m_SelectedFunc;
     UI*     m_SelectedInst;
 
-    
+    FUNC_1 m_SelectedFunc_ReturnInt;
+    UI* m_SelectedInst_ReturnInt;
+
+    FUNC_0 m_SelectedNotifyFunc;
+    UI* m_SelectedNotifyInst;
 
     UINT m_ID;
     static UINT ID;
@@ -23,6 +27,18 @@ public:
     {
         m_SelectedInst = _inst;
         m_SelectedFunc = _func;
+    }
+
+    void AddSelectedFunc_ReturnInt(UI* _inst, FUNC_1 _func)
+    {
+        m_SelectedInst_ReturnInt = _inst;
+        m_SelectedFunc_ReturnInt = _func;
+    }
+
+    void AddSelectedNotify(UI* _inst, FUNC_0 _func)
+    {
+        m_SelectedNotifyFunc = _func;
+        m_SelectedNotifyInst = _inst;
     }
 
 public:
