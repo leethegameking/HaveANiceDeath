@@ -9,7 +9,8 @@ private:
     vector<tTile>   m_vecTileChange;
     TileMapUI*       m_TileMapUI;
 
-    Vec2            m_vImageScale;
+    Vec2            m_vChangeImageScale;
+    Vec2            m_vTileMapImageScale;
 
 public:
     void init() override;

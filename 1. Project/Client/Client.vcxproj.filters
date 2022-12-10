@@ -92,9 +92,6 @@
     <Filter Include="03. UI\01. Inspector\ResUI\ShaderUI\Graphics">
       <UniqueIdentifier>{435805e4-1a43-4608-aa68-71977ac0da7b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. UI\ModuleUI\Common">
-      <UniqueIdentifier>{7eee6910-9103-44a7-8fc6-67ea479ff40e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. UI\01. Inspector\ResUI\Animation2DUI">
       <UniqueIdentifier>{df4e0577-97f0-44a9-a344-59987424b402}</UniqueIdentifier>
     </Filter>
@@ -110,9 +107,6 @@
     <Filter Include="03. UI\ModuleUI\ParamUI">
       <UniqueIdentifier>{2cc27e53-8973-4c89-a417-76e949f77302}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. UI\01. Inspector\ComponentUI\TileMapUI\TileEditor">
-      <UniqueIdentifier>{583f3a95-a2ae-4800-b44d-0569edd3fd2e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. ImGui\demo">
       <UniqueIdentifier>{0b72f93a-2a84-468f-b3d6-cf95aaffa11b}</UniqueIdentifier>
     </Filter>
@@ -124,6 +118,12 @@
     </Filter>
     <Filter Include="03. UI\ModuleUI\PopUpMenu">
       <UniqueIdentifier>{44b3aa13-a32a-46a1-a502-18ab02e979dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. UI\ModuleUI\CommonUI">
+      <UniqueIdentifier>{f1dfacc9-e790-4470-8f35-e5524ed9df2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. UI\Tool\TileEditor">
+      <UniqueIdentifier>{583f3a95-a2ae-4800-b44d-0569edd3fd2e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -244,9 +244,6 @@
     <ClInclude Include="AnimCreateTool.h">
       <Filter>03. UI\Tool\AnimCreateTool</Filter>
     </ClInclude>
-    <ClInclude Include="CommonUI.h">
-      <Filter>03. UI\ModuleUI\Common</Filter>
-    </ClInclude>
     <ClInclude Include="FrameTool.h">
       <Filter>03. UI\Tool\FrameTool</Filter>
     </ClInclude>
@@ -257,7 +254,7 @@
       <Filter>03. UI\ModuleUI\ParamUI</Filter>
     </ClInclude>
     <ClInclude Include="TileEditor.h">
-      <Filter>03. UI\01. Inspector\ComponentUI\TileMapUI\TileEditor</Filter>
+      <Filter>03. UI\Tool\TileEditor</Filter>
     </ClInclude>
     <ClInclude Include="CCameraScript.h">
       <Filter>01. Editor\EditorScript</Filter>
@@ -270,6 +267,9 @@
     </ClInclude>
     <ClInclude Include="PopupMenu.h">
       <Filter>03. UI\ModuleUI\PopUpMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonUI.h">
+      <Filter>03. UI\ModuleUI\CommonUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -386,9 +386,6 @@
     <ClCompile Include="AnimCreateTool.cpp">
       <Filter>03. UI\Tool\AnimCreateTool</Filter>
     </ClCompile>
-    <ClCompile Include="CommonUI.cpp">
-      <Filter>03. UI\ModuleUI\Common</Filter>
-    </ClCompile>
     <ClCompile Include="FrameTool.cpp">
       <Filter>03. UI\Tool\FrameTool</Filter>
     </ClCompile>
@@ -399,7 +396,7 @@
       <Filter>03. UI\ModuleUI\ParamUI</Filter>
     </ClCompile>
     <ClCompile Include="TileEditor.cpp">
-      <Filter>03. UI\01. Inspector\ComponentUI\TileMapUI\TileEditor</Filter>
+      <Filter>03. UI\Tool\TileEditor</Filter>
     </ClCompile>
     <ClCompile Include="imgui_demo.cpp">
       <Filter>02. ImGui\demo</Filter>
@@ -421,6 +418,9 @@
     </ClCompile>
     <ClCompile Include="MenuFunc.cpp">
       <Filter>03. UI\ModuleUI\PopUpMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonUI.cpp">
+      <Filter>03. UI\ModuleUI\CommonUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

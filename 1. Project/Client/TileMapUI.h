@@ -33,7 +33,7 @@ private:
 
 public:
     void SetAtlasTex(DWORD_PTR _texKey);
-    void SelectImageTile(Vec2 _vCursorPos);
+    void SelectImageTile(Vec2 _vCursorPos, Vec2 _vImageScale);
     void ArrangeTile();
 
 public:

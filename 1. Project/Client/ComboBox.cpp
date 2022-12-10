@@ -6,6 +6,12 @@ UINT ComboBox::ID = 0;
 ComboBox::ComboBox()
     : UI("##ComboBox"+to_string(ID))
     , m_iCurItemIdx(0)
+    , m_SelectedFunc(nullptr)
+    , m_SelectedInst(nullptr)
+    , m_SelectedFunc_ReturnInt(nullptr)
+    , m_SelectedInst_ReturnInt(nullptr)
+    , m_SelectedNotifyFunc(nullptr)
+    , m_SelectedNotifyInst(nullptr)
 {
 }
 

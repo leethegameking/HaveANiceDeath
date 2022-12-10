@@ -84,7 +84,7 @@ void Animator2DUI::render_update()
 	ImGui::Text("Animation"); ImGui::SameLine(); m_AnimComboBox->render_update();
 
 	// Add Animation Button
-	if(ButtonCenteredOnLine("Add Animation", 0.5f))
+	if(CommonUI::ButtonCenteredOnLine("Add Animation", 0.5f))
 	{
 		ListUI* pListUI = (ListUI*)CImGuiMgr::GetInst()->FindUI("ListUI");
 		pListUI->AddDynamicConfirm(this, (FUNC_1)&Animator2DUI::AddAnimation);
@@ -95,7 +95,7 @@ void Animator2DUI::render_update()
 	}
 
 	// Create Animation
-	if (ButtonCenteredOnLine("Create Animation", 0.5f))
+	if (CommonUI::ButtonCenteredOnLine("Create Animation", 0.5f))
 	{
 		AnimCreateTool* pCreateUI = (AnimCreateTool*)CImGuiMgr::GetInst()->FindUI("AnimCreateTool");
 		pCreateUI->AddFlag(ImGuiWindowFlags_NoNavInputs);

@@ -369,8 +369,8 @@ void AnimCreateTool::render_update()
 			if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
 			{
 				DeleteFrame(m_iFrmIdx);
-				if (m_iFrmIdx >= i && m_iFrmIdx != 0)
-					--m_iFrmIdx;
+				//if (m_iFrmIdx >= i && m_iFrmIdx != 0)
+				//	--m_iFrmIdx;
 
 			}
 			ImGui::PopID();
@@ -397,7 +397,7 @@ void AnimCreateTool::render_update()
 		
 		// Animation »ý¼º
 		Vec2 vSlice = Vec2(my_tex_w / m_vSliceCount.x, my_tex_h / m_vSliceCount.y);
-		if (ButtonCenteredOnLine("Create Uniformed Animation", 0.5f))
+		if (CommonUI::ButtonCenteredOnLine("Create Uniformed Animation", 0.5f))
 		{
 			
 			Vec2 LT = m_vClickedIdx * vSlice;
@@ -417,7 +417,7 @@ void AnimCreateTool::render_update()
 		if (ImGui::BeginPopupModal("Created"))
 		{
 			ImGui::Text("Animation Created!!!");
-			if (ButtonCenteredOnLine("Close", 0.5f))
+			if (CommonUI::ButtonCenteredOnLine("Close", 0.5f))
 			{
 				ImGui::CloseCurrentPopup();
 			}
@@ -442,7 +442,7 @@ void AnimCreateTool::render_update()
 		}
 
 		// ÄÁÆß
-		if (ButtonCenteredOnLine("Confirm", 0.5f))
+		if (CommonUI::ButtonCenteredOnLine("Confirm", 0.5f))
 		{
 			ImGui::OpenPopup("New Animation Create");
 		}
@@ -450,13 +450,13 @@ void AnimCreateTool::render_update()
 		{
 			static char strKey[255] = "";
 			ImGui::Text("AnimationKey :"); ImGui::SameLine(); ImGui::InputText("##AnimKey", strKey, 255, ImGuiInputTextFlags_EnterReturnsTrue);
-			if (ButtonCenteredOnLine("Confirm", 0.3f, 60.f))
+			if (CommonUI::ButtonCenteredOnLine("Confirm", 0.3f, 60.f))
 			{
 				CResMgr::GetInst()->CreateAnimation(StrToWstr(strKey), m_AtlasTex, m_ChangeFrm);
 				ImGui::CloseCurrentPopup();
 			}
 			ImGui::SameLine();
-			if (ButtonCenteredOnLine("Close", 0.f, 60.f))
+			if (CommonUI::ButtonCenteredOnLine("Close", 0.f, 60.f))
 			{
 				ImGui::CloseCurrentPopup();
 			}
@@ -515,7 +515,7 @@ void AnimCreateTool::DeleteFrame(int& idx)
 		if (&(*iter) == &(m_ChangeFrm[m_iFrmIdx]))
 		{
 			iter = m_ChangeFrm.erase(iter);
-			if (iter != m_ChangeFrm.end())
+			if ( iter != m_ChangeFrm.begin())
 			{
 				--idx;
 			}

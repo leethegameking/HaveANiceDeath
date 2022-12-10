@@ -56,7 +56,7 @@ void Animation2DUI::render_update()
 
 	DrawAnimation();
 
-	if (ButtonCenteredOnLine("Edit Animation", 0.5f))
+	if (CommonUI::ButtonCenteredOnLine("Edit Animation", 0.5f))
 	{
 		FrameTool* pFrameTool = (FrameTool*)CImGuiMgr::GetInst()->FindUI("FrameTool");
 
@@ -64,7 +64,7 @@ void Animation2DUI::render_update()
 		pFrameTool->Open();
 	}
 
-	if (ButtonCenteredOnLine("Save as file"))
+	if (CommonUI::ButtonCenteredOnLine("Save as file"))
 	{
 		pAnim->Save(L"animation\\test.anim");
 	}

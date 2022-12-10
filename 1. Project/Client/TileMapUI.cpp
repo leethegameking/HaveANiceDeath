@@ -76,20 +76,31 @@ void TileMapUI::render_update()
 {
 	ComponentUI::render_update();
 
+	// Input InstanceMode 에서만 넣을 수 있음.
+	int Inputflag = ImGuiInputTextFlags_ReadOnly;
+	if (m_bInstanceMode)
+		Inputflag = 0;
+
 	// Atlas select combo-box
 	ImGui::Text("Image     "); ImGui::SameLine();
-	m_AtlasComboBox->render_update();
+	if (m_bInstanceMode)
+		m_AtlasComboBox->render_update();
+	else
+	{
+		wstring wstrKey = m_AtlasTex->GetKey();
+		ImGui::InputText("Image", (char*)WstrToStr(wstrKey).c_str(), wstrKey.length(), Inputflag);
+	}
 
 	// TileCount
 	ImGui::PushItemWidth(200.f);
 	int tileCount[2] = { (int)m_vTileCount.x, (int)m_vTileCount.y };
-	ImGui::Text("TileCount "); ImGui::SameLine(); ImGui::InputInt2("##TileCount", tileCount);
+	ImGui::Text("TileCount "); ImGui::SameLine(); ImGui::InputInt2("##TileCount", tileCount, Inputflag);
 	ImGui::PopItemWidth();
 
 	// Slice
 	Vec2 prevSlice = m_vSlice;
 	ImGui::PushItemWidth(100.f);
-	ImGui::Text("Slice     "); ImGui::SameLine(); ImGui::InputFloat2("##TileSlice", m_vSlice, "%0.3f", ImGuiInputTextFlags_EnterReturnsTrue);
+	ImGui::Text("Slice     "); ImGui::SameLine(); ImGui::InputFloat2("##TileSlice", m_vSlice, "%0.1f", Inputflag);
 	ImGui::PopItemWidth();
 
 	// UI ImageScale
@@ -116,10 +127,10 @@ void TileMapUI::render_update()
 	ImGui::Image(AtlasSRV, ImVec2(my_tex_w * m_vImageScale.x, my_tex_h * m_vImageScale.y));
 	if (ImGui::IsItemHovered() && ImGui::IsItemClicked())
 	{
-		SelectImageTile(vCursorPos);
+		SelectImageTile(vCursorPos, m_vImageScale);
 	}
 
-	// ���õ� Ÿ�� ���� bubble �׸���
+	// bubble 
 	ImVec2 p = ImVec2(vCursorPos.x + m_vSlice.x * m_SelectedTexIdx.x * m_vImageScale.x, vCursorPos.y + m_vSlice.y * m_SelectedTexIdx.y * m_vImageScale.y);
 	ImGui::GetWindowDrawList()->AddImage(
 		MarkSRV,
@@ -171,7 +182,7 @@ void TileMapUI::render_update()
 		GetTarget()->TileMap()->SetSlice(m_vSlice);
 	}
 
-	if (ButtonCenteredOnLine("Create TileMap"))
+	if (CommonUI::ButtonCenteredOnLine("Create TileMap"))
 	{
 		m_TileEditor = (TileEditor*)CImGuiMgr::GetInst()->FindUI("TileEditor");
 		m_TileEditor->SetTileMapUI(this);
@@ -189,14 +200,14 @@ void TileMapUI::SetAtlasTex(DWORD_PTR _texKey)
 	GetTarget()->TileMap()->SetTileAtlas(pTex);
 }
 
-void TileMapUI::SelectImageTile(Vec2 _vCursorPos)
+void TileMapUI::SelectImageTile(Vec2 _vCursorPos, Vec2 _vImageScale)
 {
 	ImGuiIO& io = ImGui::GetIO();
 	
 	// KeyMgr�� �޾ƿ��� ��ǥ�� ���̰� ����.
 	Vec2 vMousePos = io.MousePos;
 
-	Vec2 TexCoord = ((vMousePos - _vCursorPos) / m_vImageScale);
+	Vec2 TexCoord = ((vMousePos - _vCursorPos) / _vImageScale);
 
 	Vec2 TexIdx = Vec2(TexCoord.x / GetTarget()->TileMap()->GetSlice().x, TexCoord.y / GetTarget()->TileMap()->GetSlice().y);
 

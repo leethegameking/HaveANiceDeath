@@ -139,7 +139,7 @@ void ListUI::render_update()
 		}
 		ImGui::EndListBox();
 
-		if (ButtonCenteredOnLine("Confirm", 0.5f))
+		if (CommonUI::ButtonCenteredOnLine("Confirm", 0.5f))
 		{
 			if (m_ConfirmInst && m_ConfirmFunc)
 			{

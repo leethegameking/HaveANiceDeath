@@ -151,7 +151,7 @@ void FrameTool::render_update()
 
 	}
 	// ÄÁÆß
-	if (ButtonCenteredOnLine("Confirm", 0.5f))
+	if (CommonUI::ButtonCenteredOnLine("Confirm", 0.5f))
 	{
 		m_OriginFrm->assign(m_ChangeFrm.begin(), m_ChangeFrm.end());
 		m_pCurAnim->Reallocate();
@@ -160,7 +160,7 @@ void FrameTool::render_update()
 	if(ImGui::BeginPopupModal("Frame Edit"))
 	{
 		ImGui::Text("Frame Edit Complete!!!");
-		if (ButtonCenteredOnLine("Close", 0.5f))
+		if (CommonUI::ButtonCenteredOnLine("Close", 0.5f))
 		{
 			ImGui::CloseCurrentPopup();
 		}
