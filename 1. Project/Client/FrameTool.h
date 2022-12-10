@@ -39,7 +39,7 @@ public:
     void SetAnimaton(DWORD_PTR _animKey);
 
 public:
-    void DeleteFrame(size_t& idx);
+    void DeleteFrame(int& idx);
 
 public:
     FrameTool();

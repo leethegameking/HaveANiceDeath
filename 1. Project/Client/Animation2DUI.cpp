@@ -9,6 +9,7 @@
 #include <Engine/CAnimation2D.h>
 
 #include "FrameTool.h"
+#include "AnimTool.h"
 
 Animation2DUI::Animation2DUI()
 	: ResUI("##Animation2D", RES_TYPE::ANIMATION2D)
@@ -58,10 +59,10 @@ void Animation2DUI::render_update()
 
 	if (CommonUI::ButtonCenteredOnLine("Edit Animation", 0.5f))
 	{
-		FrameTool* pFrameTool = (FrameTool*)CImGuiMgr::GetInst()->FindUI("FrameTool");
+		AnimTool* pAnimTool = (AnimTool*)CImGuiMgr::GetInst()->FindUI("AnimTool");
 
-		pFrameTool->Init_Frame(pAnim);
-		pFrameTool->Open();
+		pAnimTool->init_edit(pAnim);
+		pAnimTool->Open();
 	}
 
 	if (CommonUI::ButtonCenteredOnLine("Save as file"))
@@ -101,7 +102,7 @@ void Animation2DUI::DrawAnimation()
 		Vec2 ImageSize = m_vecFrm->at(curIdx).vFullSize * vAtlasSize * m_vImageScale;
 
 		// draw_list->AddRectFilled(vCursorPos, vCursorPos + ImageSize, IM_COL32_WHITE);
-
+	
 		ImGui::Image(AtlasSRV, ImageSize, vLT, vRB);
 		// Fullsize Area
 		draw_list->AddRectFilled(

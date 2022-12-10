@@ -10,6 +10,7 @@
 #include "ListUI.h"
 #include "AnimCreateTool.h"
 #include <Engine/CEventMgr.h>
+#include "AnimTool.h"
 
 
 
@@ -97,10 +98,10 @@ void Animator2DUI::render_update()
 	// Create Animation
 	if (CommonUI::ButtonCenteredOnLine("Create Animation", 0.5f))
 	{
-		AnimCreateTool* pCreateUI = (AnimCreateTool*)CImGuiMgr::GetInst()->FindUI("AnimCreateTool");
-		pCreateUI->AddFlag(ImGuiWindowFlags_NoNavInputs);
-		pCreateUI->init();
-		pCreateUI->Open();
+		AnimTool* pAnimTool = (AnimTool*)CImGuiMgr::GetInst()->FindUI("AnimTool");
+		pAnimTool->AddFlag(ImGuiWindowFlags_NoNavInputs);
+		pAnimTool->init();
+		pAnimTool->Open();
 	}
 }
 

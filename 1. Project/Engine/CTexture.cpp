@@ -210,6 +210,8 @@ void CTexture::GetPixelVector(vector<vector<tBGRA>>& _inVec)
 {
     uint8_t* pixelMem = m_Image.GetPixels();
     const Image* image = m_Image.GetImages();
+    if (!image)
+        return;
 
     for (int width = 0; width < image->width; ++width)
     {

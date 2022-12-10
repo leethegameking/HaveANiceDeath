@@ -89,6 +89,7 @@ void AnimCreateTool::render_update()
 	ImGui::SameLine();
 	if (ImGui::RadioButton("Indulgent Atlas", m_bUniformed == false)) { m_bUniformed = false; m_bHasSelected = false; }
 
+
 	if (IsIndulgent())
 	{
 		if (ImGui::RadioButton("Drag", m_bDragMode == true)) { m_bDragMode = true; }
@@ -353,8 +354,8 @@ void AnimCreateTool::render_update()
 
 		ImGuiWindowFlags window_flags = ImGuiWindowFlags_HorizontalScrollbar;
 		ImGui::BeginChild("ChildImageArr", Vec2(ImGui::GetContentRegionAvail().x, 100.f + 22.f), true, window_flags);
+
 		// 프레임 수 만큼 이미지버튼으로 표시
-		
 		ImDrawList* draw_list = ImGui::GetWindowDrawList();
 		for (size_t i = 0; i < m_ChangeFrm.size(); ++i)
 		{
@@ -368,6 +369,7 @@ void AnimCreateTool::render_update()
 			// 지우기 옵션
 			if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
 			{
+				m_iFrmIdx = i;
 				DeleteFrame(m_iFrmIdx);
 				//if (m_iFrmIdx >= i && m_iFrmIdx != 0)
 				//	--m_iFrmIdx;

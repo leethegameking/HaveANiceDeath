@@ -125,6 +125,9 @@
     <Filter Include="03. UI\Tool\TileEditor">
       <UniqueIdentifier>{583f3a95-a2ae-4800-b44d-0569edd3fd2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. UI\Tool\AnimTool">
+      <UniqueIdentifier>{c74d7965-dfed-43df-8d6c-6831bfed60c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -270,6 +273,9 @@
     </ClInclude>
     <ClInclude Include="CommonUI.h">
       <Filter>03. UI\ModuleUI\CommonUI</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimTool.h">
+      <Filter>03. UI\Tool\AnimTool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -421,6 +427,9 @@
     </ClCompile>
     <ClCompile Include="CommonUI.cpp">
       <Filter>03. UI\ModuleUI\CommonUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimTool.cpp">
+      <Filter>03. UI\Tool\AnimTool</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

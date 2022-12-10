@@ -34,5 +34,6 @@ public:
 public:
     Animator2DUI();
     ~Animator2DUI();
+
 };
 

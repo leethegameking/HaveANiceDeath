@@ -114,10 +114,8 @@ void FrameTool::render_update()
 			}
 			if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
 			{
-				DeleteFrame(i);
-				if (m_iFrmIdx >= i && m_iFrmIdx != 0)
-					--m_iFrmIdx;
-
+				m_iFrmIdx = i;
+				DeleteFrame(m_iFrmIdx);
 			}
 			ImGui::PopID();
 			string Frameidx = "[" + to_string(i) + "]";
@@ -183,7 +181,7 @@ void FrameTool::SetAnimaton(DWORD_PTR _animKey)
 }
 
 
-void FrameTool::DeleteFrame(size_t& idx)
+void FrameTool::DeleteFrame(int& idx)
 {
 	vector<tAnim2DFrm>::iterator iter = m_ChangeFrm.begin();
 	for (; iter != m_ChangeFrm.end(); ++iter)
@@ -191,7 +189,7 @@ void FrameTool::DeleteFrame(size_t& idx)
 		if (&(*iter) == &(m_ChangeFrm[m_iFrmIdx]))
 		{
 			iter = m_ChangeFrm.erase(iter);
-			if (iter != m_ChangeFrm.end())
+			if (iter != m_ChangeFrm.begin())
 			{
 				--idx;
 			}
