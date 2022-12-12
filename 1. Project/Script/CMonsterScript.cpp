@@ -5,7 +5,9 @@
 
 
 CMonsterScript::CMonsterScript()
-	: m_pTargetObject(nullptr)
+	: CScript(MONSTERSCRIPT)
+	, m_pTargetObject(nullptr)
+
 {
 }
 

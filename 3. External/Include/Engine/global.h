@@ -36,8 +36,8 @@ using namespace Microsoft::WRL;
 
 #include "SimpleMath.h"
 using namespace DirectX::SimpleMath;
-#include "singleton.h"
 
+#include "singleton.h"
 #include "define.h"
 #include "struct.h"
 #include "func.h"

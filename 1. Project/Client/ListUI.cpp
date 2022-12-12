@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "ListUI.h"
 
+#include "CommonUI.h"
+
 UINT ListUI::ID = 0;
 
 ListUI::ListUI()

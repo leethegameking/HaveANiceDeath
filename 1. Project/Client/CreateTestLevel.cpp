@@ -6,9 +6,9 @@
 #include <Engine/CLevel.h>
 #include <Engine/CGameObject.h>
 #include <Engine/GlobalComponent.h>
-#include <Engine/CPlayerScript.h>
-#include <Engine/CCameraScript.h>
-#include <Engine/CGrid2DScript.h>
+#include <Script/CPlayerScript.h>
+#include "CCameraScript.h"
+#include "CGrid2DScript.h"
 #include <Engine/CPaintShader.h>
 #include <Engine/CParticleHandler.h>
 #include <Engine/CTileMap.h>
@@ -17,6 +17,8 @@
 void CreateTestLevel()
 {
 	CreateDefaultAnimation();
+
+	CResMgr::GetInst()->Load<CAnimation2D>(L"animation\\test.anim");
 
 	CLevel* pTestLevel = new CLevel;
 	pTestLevel->SetName(L"TestLevel");
@@ -105,8 +107,8 @@ void CreateTestLevel()
 	pObject->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
 
 	 pObject->Animator2D()->AddAnimation(L"LeftWalk");
-	// pObject->Animator2D()->AddAnimation(L"RightWalk");
-	//pObject->Animator2D()->Play(L"LeftWalk", true);
+	pObject->Animator2D()->AddAnimation(L"PlayerDash");
+	pObject->Animator2D()->Play(L"PlayerDash", true);
 
 	pObject->MeshRender()->GetSharedMaterial()->SetTexParam(TEX_PARAM::TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"Character"));
 
@@ -150,17 +152,17 @@ void CreateTestLevel()
 	pTestLevel->AddGameObject(pObject, 2);
 
 	// PostProcess Object
-	//CGameObject* pPostProcess = new CGameObject;
-	//pPostProcess->AddComponent(new CTransform);
-	//pPostProcess->AddComponent(new CMeshRender);
+	CGameObject* pPostProcess = new CGameObject;
+	pPostProcess->AddComponent(new CTransform);
+	pPostProcess->AddComponent(new CMeshRender);
 
-	//pPostProcess->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
-	//pPostProcess->Transform()->SetRelativePos(Vec3(0.f, 0.f, 100.f));
+	pPostProcess->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
+	pPostProcess->Transform()->SetRelativePos(Vec3(0.f, 0.f, 100.f));
 
-	//pPostProcess->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
-	//pPostProcess->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"LightPostProcessMtrl"));
+	pPostProcess->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pPostProcess->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"PostProcessMtrl"));
 
-	//pTestLevel->AddGameObject(pPostProcess, 0);
+	pTestLevel->AddGameObject(pPostProcess, 0);
 
 
 	// 충돌 레이어 설정

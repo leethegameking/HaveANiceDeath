@@ -6,6 +6,7 @@
 #include <Engine/CTransform.h>
 
 #include "ComboBox.h"
+#include "CommonUI.h"
 
 TileEditor::TileEditor()
 	: UI("TileEditor")

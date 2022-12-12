@@ -10,7 +10,8 @@
 
 
 CGrid2DScript::CGrid2DScript()
-	: m_pMainCam(nullptr)
+	: CScript(-1)
+	, m_pMainCam(nullptr)
 {
 }
 

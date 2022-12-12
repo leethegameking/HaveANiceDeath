@@ -12,6 +12,7 @@
 #include <Engine/CEventMgr.h>
 #include "AnimTool.h"
 
+#include "CommonUI.h"
 
 
 

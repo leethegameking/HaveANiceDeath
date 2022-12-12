@@ -1,12 +1,12 @@
 #include "pch.h"
 #include "CEditor.h"
 
-// #include "imgui.h"
+#include "imgui.h"
 
 #include "CGameObjectEx.h"
 #include <Engine\Ctransform.h>
 #include <Engine\CMeshRender.h>
-#include <Engine\CGrid2DScript.h>
+#include "CGrid2DScript.h"
 #include <Engine\CCamera.h>
 
 #include <Engine\CRenderMgr.h>
@@ -176,4 +176,6 @@ void CEditor::DebugDraw(tDebugShapeInfo& _info)
 	}
 }
 
-
+Vec2::operator ImVec2() const { return ImVec2(x, y); }
+ImVec2::operator Vec2() const { return Vec2(x, y); }
+Vec2::operator f2() const { return (f2)x; }

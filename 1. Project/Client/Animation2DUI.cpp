@@ -11,6 +11,8 @@
 #include "FrameTool.h"
 #include "AnimTool.h"
 
+#include "CommonUI.h"
+
 Animation2DUI::Animation2DUI()
 	: ResUI("##Animation2D", RES_TYPE::ANIMATION2D)
 	, m_bAnimPlay(false)

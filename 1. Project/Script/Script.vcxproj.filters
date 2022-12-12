@@ -19,6 +19,9 @@
     <ClInclude Include="CPlayerScript.h">
       <Filter>Script</Filter>
     </ClInclude>
+    <ClInclude Include="CScriptMgr.h">
+      <Filter>ScriptMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Script.cpp">
@@ -39,6 +42,9 @@
     <ClCompile Include="CPlayerScript.cpp">
       <Filter>Script</Filter>
     </ClCompile>
+    <ClCompile Include="CScriptMgr.cpp">
+      <Filter>ScriptMgr</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -46,6 +52,9 @@
     </Filter>
     <Filter Include="Script">
       <UniqueIdentifier>{d93064c6-3984-44a5-bf91-b2f0342f4d1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScriptMgr">
+      <UniqueIdentifier>{a4cd9dab-2e89-4297-b684-5e7d5c008792}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

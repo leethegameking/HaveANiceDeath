@@ -7,6 +7,8 @@
 #include <Engine/CResMgr.h>
 #include <Engine/CAnimation2D.h>
 
+#include "CommonUI.h"
+
 
 AnimTool::AnimTool()
 	: UI("AnimTool")

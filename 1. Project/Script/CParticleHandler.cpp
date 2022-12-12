@@ -67,6 +67,7 @@ void CParticleHandler::EndOverlap(CCollider2D* _pOther)
 }
 
 CParticleHandler::CParticleHandler()
+	: CScript(PARTICLEHANDLER)
 {
 }
 

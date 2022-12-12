@@ -15,6 +15,7 @@
 #include <Engine/CCamera.h>
 #include <Engine/CDevice.h>
 #include "TileEditor.h"
+#include "CommonUI.h"
 
 
 TileMapUI::TileMapUI()

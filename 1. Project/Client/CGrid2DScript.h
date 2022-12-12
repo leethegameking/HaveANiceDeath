@@ -1,5 +1,5 @@
 #pragma once
-#include <Engine/CCameraScript.h>
+#include "CCameraScript.h"
 
 class CCamera;
 

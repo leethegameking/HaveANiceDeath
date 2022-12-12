@@ -173,6 +173,8 @@ void CResMgr::CreateDefaultTexture()
 	
 	Load<CTexture>(L"PlayerRunAtlas", L"texture\\player\\PlayerRunAtlas.png");
 	Load<CTexture>(L"PlayerIdleAtlas", L"texture\\player\\PlayerIdleAtlas.png");
+	Load<CTexture>(L"PlayerDashAtlas", L"texture\\player\\PlayerDash_Atlas.png");
+	Load<CTexture>(L"PlayerDownAttackAtlas", L"texture\\player\\PlayerDownAttack_Atlas.png");
 
 	// 텍스쳐 생성
 	CreateTexture(L"UAVTex", 1600, 900, DXGI_FORMAT_R8G8B8A8_UNORM
@@ -278,6 +280,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->CreatePixelShader(L"shader\\postprocess.fx", "PS_PostProcess");
 	
 	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetBSType(BS_TYPE::ALPHABLEND);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POST_PROCESS);
 
 	AddRes<CGraphicsShader>(L"PostProcessShader", pShader);

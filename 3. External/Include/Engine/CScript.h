@@ -25,12 +25,12 @@ public:
     virtual void Overlap(CCollider2D* _pOther) {}
     virtual void EndOverlap(CCollider2D* _pOther) {}
 
-
+    int GetScriptType() { return m_iScriptType; }
 
 public:
     virtual CScript* Clone() = 0;
 public:
-    CScript();
+    CScript(int _iScriptType);
     ~CScript();
 };
 

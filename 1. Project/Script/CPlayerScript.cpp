@@ -6,7 +6,8 @@
 #include <Engine/CMaterial.h>
 
 CPlayerScript::CPlayerScript()
-	: m_fAccTime(0.f)
+	: CScript(PLAYERSCRIPT)
+	, m_fAccTime(0.f)
 {
 }
 

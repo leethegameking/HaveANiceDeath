@@ -103,7 +103,9 @@ float4 PS_Std2D_AlphaBlend(VTX_OUT _in) : SV_Target
     {
         vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
     }       
-       
+    
+
+    
     return vOutColor;
 }
 

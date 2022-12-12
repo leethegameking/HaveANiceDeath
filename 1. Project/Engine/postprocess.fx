@@ -60,22 +60,57 @@ VS_OUT VS_PostProcess(VS_IN _in)
 
 float4 PS_PostProcess(VS_OUT _in) : SV_Target
 {
-    float4 vColor = (float4) 0.f;
+    // 기존
+    //float4 vColor = (float4) 0.f;
           
-    // VS_OUT 으로 전달한 SV_Position 값은 PixelShader 에 입력될 때 픽셀좌표로 변환해서 입력
-    float2 vUV = _in.vPosition.xy / g_vRenderResolution;    
+    //// VS_OUT 으로 전달한 SV_Position 값은 PixelShader 에 입력될 때 픽셀좌표로 변환해서 입력
+    //float2 vUV = _in.vPosition.xy / g_vRenderResolution;
     
-    //vUV.y += cos((_in.vUV.x - g_fAccTime * 0.5f) * 10.f * 3.141592f) * 0.01f;
-    float2 fAdd = float2(g_Noise.Sample(g_sam_0, _in.vUV + g_fAccTime * 0.2f).x
-                         , g_Noise.Sample(g_sam_0, _in.vUV + float2(0.1f, 0.f) + g_fAccTime * 0.2f).x);
-    fAdd -= fAdd / 2.f;
-    vUV += fAdd * 0.05f;
+    ////vUV.y += cos((_in.vUV.x - g_fAccTime * 0.5f) * 10.f * 3.141592f) * 0.01f;
+    //float2 fAdd = float2(g_Noise.Sample(g_sam_0, _in.vUV + g_fAccTime * 0.2f).x
+    //                     , g_Noise.Sample(g_sam_0, _in.vUV + float2(0.1f, 0.f) + g_fAccTime * 0.2f).x);
+    //fAdd -= fAdd / 2.f;
+    //vUV += fAdd * 0.05f;
     
-    vColor = g_RTCopyTex.Sample(g_sam_0, vUV);
+    //vColor = g_RTCopyTex.Sample(g_sam_0, vUV);
     
-    vColor.r *= 1.5f;
+    //vColor.r *= 1.5f;
     
-    return vColor;
+    //return vColor;
+    
+    // 보라색 이펙트 추가용
+    float4 vColor = (float4) 0.f;
+    float2 vUV = _in.vPosition.xy / g_vRenderResolution;
+    
+    vColor = float4(1.0f, 0.f, 1.0f, 0.f);
+    
+    for (int i = -10; i < 10; ++i)
+    {
+        for (int j = -10; j < 10; ++j)
+        {
+            float2 vPostion = _in.vPosition.xy + float2(i, j);
+            float2 vNearUV = vPostion / g_vRenderResolution;
+            float4 vNearColor = g_RTCopyTex.Sample(g_sam_0, vNearUV);
+            if (vNearColor.r == 1.0f && vNearColor.g == 1.0f)
+            {
+                vColor.a += 0.001f;
+            }
+        }
+
+    }
+    float4 vOutColor = g_RTCopyTex.Sample(g_sam_0, vUV);
+    
+    if (vOutColor.r == 1.0f && vOutColor.g == 1.0f && vOutColor.b == 1.0f)
+    {
+        if(vOutColor.a != 1.f)
+        {
+            vColor.a += vOutColor.a / 10.f;
+            
+            return vColor;
+        }
+        return float4(0.f, 0.f, 0.f, 0.f);
+    }
+        return vColor;
 }
 
 // Light Post Process

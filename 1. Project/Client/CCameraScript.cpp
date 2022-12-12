@@ -3,7 +3,8 @@
 
 
 CCameraScript::CCameraScript()
-	: m_fSpeed(100.f)
+	: CScript(-1)
+	, m_fSpeed(100.f)
 {
 }
 

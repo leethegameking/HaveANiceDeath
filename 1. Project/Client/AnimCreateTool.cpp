@@ -10,6 +10,7 @@
 #include <Engine/CTimeMgr.h>
 
 #include "ComboBox.h"
+#include "CommonUI.h"
 
 AnimCreateTool::AnimCreateTool()
 	: UI("AnimCreateTool")
