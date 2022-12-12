@@ -11,14 +11,14 @@
 ! Animation Leak 문제 해결 
 ! AnimaitionCreateTool ComboBox 바뀔시 Frmvector 초기화
 ! 확인 알려주는 창 모듈화
-
 ! Edit Tilemap 창 수정.
-
-* Animation Swap 기능.
-* Animation 뒤에 전 반투명 이미지
-* Animation 구조 개선
-* Animation Frame Create 합병
-* Animation 일괄 처리 버튼 추가 + 값 조절 바 드래그 형식으로 변경
+! 컴포넌트 추가
+! Offset 조절부에 Image 추가 (dragfloat sliderfloat)
+! 앞에 꺼 미리 보기 추가
+! Animation 뒤에 전 반투명 이미지
+! Animation 구조 개선
+! Animation Frame Create 합병
+! Animation 일괄 처리 버튼 추가 + 값 조절 바 드래그 형식으로 변경
 
 
 * ParticleUI 만들기
@@ -29,9 +29,7 @@
 * Tilemap Create 부분 따로 함수로 만들어서 관리
 * 메뉴바 생성
 * 빈 오브젝트 생성
-* 컴포넌트 추가
-* Offset 조절부에 Image 추가 (dragfloat sliderfloat)
-* 앞에 꺼 미리 보기 추가
+
 * destroy 버튼
 
 * AddComponent 버퍼와 Res가 있는 경우 생성자 체크

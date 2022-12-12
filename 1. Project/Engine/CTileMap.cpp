@@ -14,7 +14,11 @@ CTileMap::CTileMap()
 	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TileMapMtrl"));
 
+	Ptr<CTexture> DefaultAltas = CResMgr::GetInst()->FindRes<CTexture>(L"DefaultImage");
+	SetTileAtlas(DefaultAltas);
+
 	m_TileBuffer = new CStructuredBuffer;
+	SetTileCount(m_vTileCount.x, m_vTileCount.y);
 }
 
 CTileMap::CTileMap(const CTileMap& _origin)
@@ -27,6 +31,7 @@ CTileMap::CTileMap(const CTileMap& _origin)
 	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TileMapMtrl"));
 	m_vecTile.assign(_origin.m_vecTile.begin(), _origin.m_vecTile.end());
+
 
 	m_TileBuffer = new CStructuredBuffer;
 
@@ -42,9 +47,6 @@ CTileMap::~CTileMap()
 void CTileMap::SetTileCount(UINT _iWidth, UINT _iHeight)
 {
 	m_vTileCount = Vec2((float)_iWidth, (float)_iHeight);
-
-	vector<tTile> tmpVecTile;
-	tmpVecTile.assign(m_vecTile.begin(), m_vecTile.end());
 
 	m_vecTile.clear();
 	m_vecTile.resize(_iWidth * _iHeight);

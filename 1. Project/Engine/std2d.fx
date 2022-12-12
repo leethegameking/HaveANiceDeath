@@ -89,7 +89,8 @@ float4 PS_Std2D_AlphaBlend(VTX_OUT _in) : SV_Target
     {
         float2 vDiff = (g_vFullSize - g_vSlice) / 2.f;
         float2 vUV = (g_vLeftTop - vDiff - g_vOffset) + (g_vFullSize * _in.vUV);
-        
+
+
         if (vUV.x < g_vLeftTop.x || g_vLeftTop.x + g_vSlice.x < vUV.x
             || vUV.y < g_vLeftTop.y || g_vLeftTop.y + g_vSlice.y < vUV.y)
         {
@@ -105,15 +106,6 @@ float4 PS_Std2D_AlphaBlend(VTX_OUT _in) : SV_Target
        
     return vOutColor;
 }
-
-
-
-
-
-
-
-
-
 
 
 
