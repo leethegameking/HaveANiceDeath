@@ -75,8 +75,7 @@ void CEngine::tick()
 	CKeyMgr::GetInst()->tick();
 	CRenderMgr::GetInst()->tick();
 
-	CLevelMgr::GetInst()->tick();	
-	CLevelMgr::GetInst()->finaltick();
+	CLevelMgr::GetInst()->progress();
 
 	CCollisionMgr::GetInst()->tick();
 }

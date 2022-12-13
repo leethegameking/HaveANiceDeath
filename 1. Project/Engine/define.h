@@ -150,6 +150,7 @@ enum class EVENT_TYPE
 	DELETE_OBJECT,	// wParam : Object Adress,
 	ADD_CHILD,
 	CHANGE_LEVEL,
+	CHANGE_LEVEL_STATE,
 
 	END,
 };
@@ -251,3 +252,9 @@ enum class LIGHT_TYPE
 	SPOT,			// 스포트 라이트
 };
 
+enum class LEVEL_STATE
+{
+	PLAY,
+	STOP,
+	PAUSE,
+};

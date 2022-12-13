@@ -41,12 +41,24 @@ void CLevelMgr::init()
 	m_pCurLevel->SetName(L"Level 0");
 }
 
-void CLevelMgr::tick()
+void CLevelMgr::progress()
 {
-	m_pCurLevel->tick();
+	m_pCurLevel->ClearLayer();
+
+	if (LEVEL_STATE::PLAY == m_pCurLevel->GetState())
+	{
+		m_pCurLevel->tick();
+	}
+	m_pCurLevel->finaltick();
 }
 
-void CLevelMgr::finaltick()
+void CLevelMgr::ChangeLevelState(LEVEL_STATE _State)
 {
-	m_pCurLevel->finaltick();
+	if (m_pCurLevel->GetState() == _State)
+		return;
+
+	m_pCurLevel->SetState(_State);
+
+	if (LEVEL_STATE::PLAY == _State)
+		m_pCurLevel->begin();
 }

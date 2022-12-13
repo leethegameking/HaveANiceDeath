@@ -23,6 +23,7 @@ public:
 private:
 	void tick();
 	void render();
+	void render_debug();
 
 private:
 	void CreateDebugDrawObject();

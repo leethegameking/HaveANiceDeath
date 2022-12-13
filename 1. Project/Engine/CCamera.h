@@ -62,6 +62,10 @@ public:
     void SetCamIdx(UINT _Idx) { m_iCamIdx = _Idx; }
     int GetCamIdx() { return m_iCamIdx; }
 
+protected:
+    void CalcViewMat();
+    void CalcProjMat();
+
 private:
     void SortObject();
     void render_opaque();

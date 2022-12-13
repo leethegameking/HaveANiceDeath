@@ -30,7 +30,6 @@ void CreateTestLevel()
 
 	pCamObj->AddComponent(new CTransform);
 	pCamObj->AddComponent(new CCamera);
-	pCamObj->AddComponent(new CCameraScript);
 	pCamObj->Transform()->SetRelativePos(Vec4(0.f, 0.f, 0.f, 0.f));
 
 	pCamObj->Camera()->SetLayerAllVisible();

@@ -8,8 +8,12 @@
 #include <Engine\CMeshRender.h>
 #include "CGrid2DScript.h"
 #include <Engine\CCamera.h>
+#include <Engine/CLevelMgr.h>
+#include <Engine/CLevel.h>
 
 #include <Engine\CRenderMgr.h>
+
+#include "CEditorCam.h"
 
 CEditor::CEditor()
 {
@@ -43,20 +47,31 @@ void CEditor::init()
 
 	m_vecEditorObj.push_back(pGridObj);
 
-	CGameObjectEx* TestObj1 = new CGameObjectEx;
-	TestObj1->SetName(L"TestObj");
-	m_vecEditorObj.push_back(TestObj1);
+	// Editor Cam
+	CGameObjectEx* pEditorCam = new CGameObjectEx;
+	pEditorCam->SetName(L"Editor Camera");
 
-	CGameObjectEx* TestObj2 = new CGameObjectEx;
-	TestObj2->SetName(L"TestObj");
-	m_vecEditorObj.push_back(TestObj2);
+	pEditorCam->AddComponent(new CTransform);
+	pEditorCam->AddComponent(new CEditorCam);
+	pEditorCam->AddComponent(new CCameraScript);
+
+	pEditorCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAHPICS);
+	pEditorCam->Camera()->SetFar(100000.f);
+	pEditorCam->Camera()->SetLayerAllVisible();
+	pEditorCam->Camera()->SetLayerInvisible(31);
+	m_vecEditorObj.push_back(pEditorCam);
+	CRenderMgr::GetInst()->RegisterEditorCamera(pEditorCam->Camera());
 }
 
 void CEditor::progress()
 {
-	tick();
+	if (LEVEL_STATE::PLAY != CLevelMgr::GetInst()->GetCurLevel()->GetState())
+	{
+		tick();
+		render();
+	}
 
-	render();
+	render_debug();
 }
 
 void CEditor::tick()
@@ -80,8 +95,10 @@ void CEditor::render()
 	{
 		m_vecEditorObj[i]->render();
 	}
+}
 
-
+void CEditor::render_debug()
+{
 	// DebugDrawRender
 	// 일정 시간동안 렌더링 되는 Shape 
 	list<tDebugShapeInfo>::iterator iter = m_DebugDrawList.begin();
@@ -109,11 +126,9 @@ void CEditor::render()
 		if (0.f < vecInfo[i].fDuration)
 		{
 			m_DebugDrawList.push_back(vecInfo[i]);
-		}					
+		}
 	}
 	vecInfo.clear();
-
-	
 }
 
 void CEditor::CreateDebugDrawObject()

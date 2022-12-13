@@ -134,6 +134,9 @@
     <Filter Include="03. UI\01. Inspector\ComponentUI\ScriptIUI">
       <UniqueIdentifier>{27a6d7ac-ae21-4fe6-b3f9-66fddc16a818}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Editor\EditorComponent">
+      <UniqueIdentifier>{64de777e-b87d-4fc0-8790-942f6ed41c01}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -288,6 +291,9 @@
     </ClInclude>
     <ClInclude Include="ScriptUI.h">
       <Filter>03. UI\01. Inspector\ComponentUI\ScriptIUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CEditorCam.h">
+      <Filter>01. Editor\EditorComponent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -448,6 +454,9 @@
     </ClCompile>
     <ClCompile Include="ScriptUI.cpp">
       <Filter>03. UI\01. Inspector\ComponentUI\ScriptIUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CEditorCam.cpp">
+      <Filter>01. Editor\EditorComponent</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

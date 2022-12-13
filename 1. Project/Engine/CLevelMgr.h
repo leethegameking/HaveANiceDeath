@@ -21,12 +21,16 @@ public:
 
 public:
 	void init();
-	void tick();
-	void finaltick();
+	void progress();
 	
+private:
+	void ChangeLevelState(LEVEL_STATE _State);
+
 
 public:
 	CLevelMgr();
 	~CLevelMgr();
+
+	friend class CEventMgr;
 };
 

@@ -162,6 +162,7 @@
     <ClInclude Include="CameraUI.h" />
     <ClInclude Include="CCameraScript.h" />
     <ClInclude Include="CEditor.h" />
+    <ClInclude Include="CEditorCam.h" />
     <ClInclude Include="CGameObjectEx.h" />
     <ClInclude Include="CGrid2DScript.h" />
     <ClInclude Include="CImGuiMgr.h" />
@@ -215,6 +216,7 @@
     <ClCompile Include="CameraUI.cpp" />
     <ClCompile Include="CCameraScript.cpp" />
     <ClCompile Include="CEditor.cpp" />
+    <ClCompile Include="CEditorCam.cpp" />
     <ClCompile Include="CGameObjectEx.cpp" />
     <ClCompile Include="CGrid2DScript.cpp" />
     <ClCompile Include="CImGuiMgr.cpp" />

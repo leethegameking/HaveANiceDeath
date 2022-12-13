@@ -34,42 +34,9 @@ CCamera::~CCamera()
 
 void CCamera::finaltick()
 {
-	// =============
-	// View 행렬 계산
-	// =============
-	// View 이동행렬 ( 카메라를 원점으로 이동하는 만큼 )
-	Vec3 vPos = Transform()->GetRelativePos();
-	Matrix matViewTrans = XMMatrixTranslation(-vPos.x, -vPos.y, -vPos.z);
-	
-	// View 회전 행렬 ( 카메라가 보는 전방 방향을 z 축을 보도록 돌리는 만큼 )
-	Vec3 vRight = Transform()->GetRelativeDir(DIR::RIGHT);
-	Vec3 vUp	= Transform()->GetRelativeDir(DIR::UP);
-	Vec3 vFront = Transform()->GetRelativeDir(DIR::FRONT);
+	CalcViewMat();
 
-	Matrix matViewRot = XMMatrixIdentity();
-	matViewRot._11 = vRight.x; matViewRot._12 = vUp.x; matViewRot._13 = vFront.x;
-	matViewRot._21 = vRight.y; matViewRot._22 = vUp.y; matViewRot._23 = vFront.y;
-	matViewRot._31 = vRight.z; matViewRot._32 = vUp.z; matViewRot._33 = vFront.z;
-
-	m_matView = matViewTrans * matViewRot;
-
-
-	// =============
-	// 투영 행렬 계산
-	// =============
-	Vec2 vRenderResolution = CDevice::GetInst()->GetRenderResolution();	
-
-	if (PERSPECTIVE == m_eProjType)
-	{
-		// 원근투영
-		m_matProj = XMMatrixPerspectiveFovLH(XM_2PI / 6.f, m_fAspectRatio, 1.f, m_fFar);
-	}
-	else
-	{
-		// 직교투영
-		m_matProj = XMMatrixOrthographicLH(vRenderResolution.x * m_fScale, vRenderResolution.y * m_fScale, 1.f, m_fFar);
-	}
-
+	CalcProjMat();
 
 	// 카메라 등록
 	CRenderMgr::GetInst()->RegisterCamera(this);
@@ -112,6 +79,47 @@ void CCamera::SetLayerInvisible(int _iLayerIdx)
 }
 
 
+
+void CCamera::CalcViewMat()
+{
+	// =============
+	// View 행렬 계산
+	// =============
+	// View 이동행렬 ( 카메라를 원점으로 이동하는 만큼 )
+	Vec3 vPos = Transform()->GetRelativePos();
+	Matrix matViewTrans = XMMatrixTranslation(-vPos.x, -vPos.y, -vPos.z);
+
+	// View 회전 행렬 ( 카메라가 보는 전방 방향을 z 축을 보도록 돌리는 만큼 )
+	Vec3 vRight = Transform()->GetRelativeDir(DIR::RIGHT);
+	Vec3 vUp = Transform()->GetRelativeDir(DIR::UP);
+	Vec3 vFront = Transform()->GetRelativeDir(DIR::FRONT);
+
+	Matrix matViewRot = XMMatrixIdentity();
+	matViewRot._11 = vRight.x; matViewRot._12 = vUp.x; matViewRot._13 = vFront.x;
+	matViewRot._21 = vRight.y; matViewRot._22 = vUp.y; matViewRot._23 = vFront.y;
+	matViewRot._31 = vRight.z; matViewRot._32 = vUp.z; matViewRot._33 = vFront.z;
+
+	m_matView = matViewTrans * matViewRot;
+}
+
+void CCamera::CalcProjMat()
+{
+	// =============
+	// 투영 행렬 계산
+	// =============
+	Vec2 vRenderResolution = CDevice::GetInst()->GetRenderResolution();
+
+	if (PERSPECTIVE == m_eProjType)
+	{
+		// 원근투영
+		m_matProj = XMMatrixPerspectiveFovLH(XM_2PI / 6.f, m_fAspectRatio, 1.f, m_fFar);
+	}
+	else
+	{
+		// 직교투영
+		m_matProj = XMMatrixOrthographicLH(vRenderResolution.x * m_fScale, vRenderResolution.y * m_fScale, 1.f, m_fFar);
+	}
+}
 
 void CCamera::SortObject()
 {

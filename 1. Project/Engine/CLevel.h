@@ -10,6 +10,7 @@ class CLevel :
 {
 private:
     CLayer          m_arrLayer[MAX_LAYER];
+    LEVEL_STATE     m_State;
 
 public:
     // 시점 함수
@@ -17,8 +18,12 @@ public:
     void tick();
     void finaltick();
     
+    void ClearLayer();
 
 public:
+    LEVEL_STATE GetState() { return m_State; }
+    void SetState(LEVEL_STATE _state) { m_State = _state; }
+
     CLayer* GetLayer(UINT _iIdx) { return &m_arrLayer[_iIdx]; }
     CLayer* GetLayer(const wstring& _strLayerName);
 

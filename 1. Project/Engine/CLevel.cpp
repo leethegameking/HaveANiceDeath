@@ -2,7 +2,8 @@
 #include "CLevel.h"
 
 
-CLevel::CLevel()	
+CLevel::CLevel()
+	: m_State(LEVEL_STATE::STOP)
 {
 	m_arrLayer[0].SetName(L"Default");
 
@@ -30,12 +31,6 @@ void CLevel::tick()
 {
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
-		m_arrLayer[i].clear();
-	}
-
-
-	for (UINT i = 0; i < MAX_LAYER; ++i)
-	{
 		m_arrLayer[i].tick();
 	}
 }
@@ -45,6 +40,14 @@ void CLevel::finaltick()
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
 		m_arrLayer[i].finaltick();
+	}
+}
+
+void CLevel::ClearLayer()
+{
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		m_arrLayer[i].clear();
 	}
 }
 

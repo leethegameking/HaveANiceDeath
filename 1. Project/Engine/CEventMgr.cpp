@@ -35,6 +35,7 @@ void CEventMgr::tick()
 	{
 		switch (m_vecEvent[i].eType)
 		{
+
 		case EVENT_TYPE::CREATE_OBJECT:
 		{
 			m_bLevelChanged = true;
@@ -47,6 +48,7 @@ void CEventMgr::tick()
 			pLevel->AddGameObject(pNewObj, iLayerIdx);			
 		}
 			break;
+
 		case EVENT_TYPE::DELETE_OBJECT:
 		{
 			m_bLevelChanged = true;
@@ -77,6 +79,7 @@ void CEventMgr::tick()
 			}
 		}
 			break;
+
 		case EVENT_TYPE::ADD_CHILD:
 		{
 			m_bLevelChanged = true;
@@ -85,15 +88,23 @@ void CEventMgr::tick()
 			CGameObject* pParentObj = (CGameObject*)m_vecEvent[i].lParam;
 
 			pParentObj->AddChild(pChildObj);
-
-			
 		}
 			break;
+
 		case EVENT_TYPE::CHANGE_LEVEL:
 		{
 			m_bLevelChanged = true;
 		}
 			break;
+
+		case EVENT_TYPE::CHANGE_LEVEL_STATE:
+		{
+			// wParam : Level State
+			m_bLevelChanged = true;
+			CLevelMgr::GetInst()->ChangeLevelState((LEVEL_STATE)m_vecEvent[i].wParam);
+		}
+			break;
+
 		case EVENT_TYPE::END:
 			break;
 		default:
@@ -103,7 +114,7 @@ void CEventMgr::tick()
 
 	m_vecEvent.clear();
 
-	// Res 바뀌었을 경우
+	// Res 바뀌었을 경우 이벤트 매니저와서 바뀌었다는걸 알려줌. -> 나중에 이벤트로 변경.
 	if (m_bResChangeFlag)
 	{
 		m_bResChanged = true;

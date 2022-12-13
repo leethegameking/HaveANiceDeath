@@ -12,6 +12,8 @@ class CRenderMgr
 {
 private:
 	vector<CCamera*>		m_vecCam;		// 현재 레벨에 있는 모든 카메라
+	CCamera*				m_EditorCam;	// Editor용 Cam
+
 	vector<tLightInfo>		m_vecLight2D;	// 현재 레벨에 있는 모든 2D 광원
 	CStructuredBuffer*		m_pLight2DBuffer;	// 2D 광원 정보를 전달할 구조화 버퍼
 
@@ -24,7 +26,11 @@ private:
 public:
 	void init();
 	void tick();
+
 	void render();
+private:
+	void render_game();
+	void render_editor();
 
 private:
 	void UpdateNoiseTexture();
@@ -33,15 +39,12 @@ private:
 
 public:
 	void RegisterCamera(CCamera* _pCam) { m_vecCam.push_back(_pCam);}
+	void RegisterEditorCamera(CCamera* _pCam) { m_EditorCam = _pCam; }
+
 	void RegisterLight2D(CLight2D* _pLight2D) { m_vecLight2D.push_back(_pLight2D->GetLightInfo()); }
 
-	CCamera* GetMainCam()
-	{
-		if (m_vecCam.empty())
-			return nullptr;
+	CCamera* GetMainCam();
 
-		return m_vecCam[0];
-	}
 
 	// 렌더타겟을 카피텍스쳐로 복사
 	void CopyRenderTarget();

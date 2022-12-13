@@ -9,10 +9,12 @@
 
 #include "CResMgr.h"
 
-
+#include "CLevelMgr.h"
+#include "CLevel.h"
 
 CRenderMgr::CRenderMgr()
 	: m_pLight2DBuffer(nullptr)
+	, m_EditorCam(nullptr)
 {
 	m_pLight2DBuffer = new CStructuredBuffer();
 	m_pLight2DBuffer->Create(sizeof(tLightInfo), 2, SB_TYPE::SRV_ONLY, nullptr, true);
@@ -60,7 +62,7 @@ void CRenderMgr::render()
 	//UpdateLight3D();
 
 	// 만든 UAV 빛 텍스쳐 업데이트
-	UpdateLightTex();
+	// UpdateLightTex();
 
 	// GlobalData 업데이트
 	static CConstBuffer* pGlobalCB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::GLOBAL);
@@ -68,17 +70,40 @@ void CRenderMgr::render()
 	pGlobalCB->UpdateData(PIPELINE_STAGE::ALL_STAGE);
 	pGlobalCB->UpdateData_CS();
 
+	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
+
+
+	if (LEVEL_STATE::PLAY == pCurLevel->GetState())
+	{
+		render_game();
+	}
+	else
+	{
+		render_editor();
+	}
+
+
+	// Post Process
+	// Vec4 ClearColor = { 0.f, 0.f, 0.f, 1.f };
+
+	// m_LightTex->Clear(17);
+	// CONTEXT->ClearUnorderedAccessViewFloat(m_LightTex->GetUAV().Get(), ClearColor);
+}
+
+void CRenderMgr::render_game()
+{
 	// 렌더링의 기준을 카메라로 설정
 	for (size_t i = 0; i < m_vecCam.size(); ++i)
 	{
 		m_vecCam[i]->render();
-	}	
+	}
+}
 
-	// Post Process
-	Vec4 ClearColor = { 0.f, 0.f, 0.f, 1.f };
+void CRenderMgr::render_editor()
+{
+	assert(m_EditorCam);
 
-	m_LightTex->Clear(17);
-	CONTEXT->ClearUnorderedAccessViewFloat(m_LightTex->GetUAV().Get(), ClearColor);
+	m_EditorCam->render();
 }
 
 void CRenderMgr::UpdateNoiseTexture()
@@ -114,8 +139,6 @@ void CRenderMgr::UpdateLight2D()
 }
 
 
-
-
 void CRenderMgr::CopyRenderTarget()
 {
 	static Ptr<CTexture> RTTex = CResMgr::GetInst()->FindRes<CTexture>(L"RenderTargetTex");
@@ -129,4 +152,19 @@ void CRenderMgr::CopyRenderTarget()
 
 	// 60 레지스터 바인딩
 	m_RTCopyTex->UpdateData(60, PIPELINE_STAGE::PS);
+}
+
+CCamera* CRenderMgr::GetMainCam()
+{
+	if (CLevelMgr::GetInst()->GetCurLevel()->GetState() == LEVEL_STATE::PLAY)
+	{
+		if (m_vecCam.empty())
+			return nullptr;
+
+		return m_vecCam[0];
+	}
+	else
+	{
+		return m_EditorCam;
+	}
 }
