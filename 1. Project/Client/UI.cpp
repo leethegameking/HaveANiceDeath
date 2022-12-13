@@ -72,6 +72,8 @@ void UI::render()
 				for (int i = 0; i < m_vecChildUI.size(); ++i)
 				{
 					m_vecChildUI[i]->render();
+					if (ShowSeperator() && i != m_vecChildUI.size() - 1 && m_vecChildUI[i]->IsOpen())
+						ImGui::Separator();
 				}
 
 				last_render();
@@ -96,8 +98,6 @@ void UI::render()
 
 			ImGui::EndChild();
 
-			if (ShowSeperator())
-				ImGui::Separator();
 		}
 
 		if (m_bOpen == false)

@@ -128,6 +128,12 @@
     <Filter Include="03. UI\Tool\AnimTool">
       <UniqueIdentifier>{c74d7965-dfed-43df-8d6c-6831bfed60c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. UI\04. MenuUI">
+      <UniqueIdentifier>{85cbe7ab-b2d2-49d8-bc91-98ccb6cdcc61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. UI\01. Inspector\ComponentUI\ScriptIUI">
+      <UniqueIdentifier>{27a6d7ac-ae21-4fe6-b3f9-66fddc16a818}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -276,6 +282,12 @@
     </ClInclude>
     <ClInclude Include="AnimTool.h">
       <Filter>03. UI\Tool\AnimTool</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuUI.h">
+      <Filter>03. UI\04. MenuUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptUI.h">
+      <Filter>03. UI\01. Inspector\ComponentUI\ScriptIUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -430,6 +442,12 @@
     </ClCompile>
     <ClCompile Include="AnimTool.cpp">
       <Filter>03. UI\Tool\AnimTool</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuUI.cpp">
+      <Filter>03. UI\04. MenuUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptUI.cpp">
+      <Filter>03. UI\01. Inspector\ComponentUI\ScriptIUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

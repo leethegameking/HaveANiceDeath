@@ -7,6 +7,8 @@
 #include "imgui_impl_win32.h"
 #include "UI.h"
 #include "ParamUI.h"
+#include "MenuUI.h"
+#include "ScriptUI.h"
 
 CImGuiMgr::CImGuiMgr()
 {
@@ -69,6 +71,7 @@ void CImGuiMgr::progress()
 
     // ID 초기화
     ParamUI::ParamCount = 0;
+    // ScriptUI::ID = 0;
 
     // 추가된 부분
     {
@@ -161,6 +164,9 @@ void CImGuiMgr::CreateUI()
     pUI = new AnimTool();
     pUI->SetSize(Vec2(200.f, 500.f));
     pUI->SetPopUp(true);
+    m_mapUI.insert({ pUI->GetName(), pUI });
+
+    pUI = new MenuUI();
     m_mapUI.insert({ pUI->GetName(), pUI });
 }
 

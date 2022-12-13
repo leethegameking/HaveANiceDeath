@@ -13,6 +13,7 @@
 #include <Engine/CParticleHandler.h>
 #include <Engine/CTileMap.h>
 #include <Engine/CLevelMgr.h>
+#include <Script/CMonsterScript.h>
 
 void CreateTestLevel()
 {
@@ -79,7 +80,6 @@ void CreateTestLevel()
 	pPointLight->Light2D()->SetLightType(LIGHT_TYPE::POINT);
 	pPointLight->Light2D()->SetRadius(500.f);
 
-
 	pTestLevel->AddGameObject(pPointLight, 0);
 
 
@@ -96,6 +96,7 @@ void CreateTestLevel()
 	pObject->AddComponent(new CCollider2D);
 	pObject->AddComponent(new CAnimator2D);
 	pObject->AddComponent(new CPlayerScript);
+	pObject->AddComponent(new CMonsterScript);
 
 	pObject->Transform()->SetRelativePos(Vec3(0.f, 0.f, 800.f));
 	pObject->Transform()->SetRelativeScale(Vec3(256.f, 256.f, 0.f));
@@ -121,6 +122,7 @@ void CreateTestLevel()
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CCollider2D);
 	pObject->AddComponent(new CMeshRender);
+	pObject->AddComponent(new CMonsterScript);
 
 	pObject->Transform()->SetRelativePos(Vec3(500.f, 0.f, 800.f));
 	pObject->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));

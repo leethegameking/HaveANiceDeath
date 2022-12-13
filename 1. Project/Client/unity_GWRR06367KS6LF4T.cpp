@@ -1,5 +1,8 @@
 #include "pch.h"
 
+#include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Client\ParamUI.cpp"
+
+
 #include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Client\ParticleSystemUI.cpp"
 
 
@@ -10,6 +13,9 @@
 
 
 #include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Client\ComputeShaderUI.cpp"
+
+
+#include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Client\ScriptUI.cpp"
 
 
 #include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Client\TextureUI.cpp"

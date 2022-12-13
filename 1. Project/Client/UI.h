@@ -24,7 +24,7 @@ private:
 
 public:
 	virtual void update();
-	void render();
+	virtual void render();
 	virtual void render_update() = 0;
 	virtual void last_render() {};
 
@@ -58,7 +58,7 @@ public:
 
 	void AddFlag(ImGuiWindowFlags_ _flag) { m_iWindowFlag |= _flag; }
 
-
+	bool IsOpen() { return m_bOpen; }
 public:
 	UI(const string& _strName);
 	virtual ~UI();

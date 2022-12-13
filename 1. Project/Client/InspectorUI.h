@@ -4,6 +4,7 @@
 #include <Engine/Ptr.h>
 #include <Engine/CRes.h>
 
+class ScriptUI;
 class ComboBox;
 class ComponentUI;
 class ResUI;
@@ -19,6 +20,8 @@ public:
     ResUI* m_arrResUI[(UINT)RES_TYPE::END];
 
     ComboBox* m_CompComboBox;
+
+    vector<ScriptUI*> m_vecScriptUI;
 
 public:
     void SetTargetObj(CGameObject* _Target);
