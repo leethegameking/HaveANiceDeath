@@ -112,7 +112,8 @@ InspectorUI::~InspectorUI()
 
 void InspectorUI::update()
 {
-	if (!IsValid(m_TargetObj))
+	// 타겟된 오브젝트가 삭제될 때. but Res가 타겟될때에도 들어오고 있음. -> 조건 추가해줌 !m_TargetRes.Get()
+	if (!IsValid(m_TargetObj) && !m_TargetRes.Get())
 	{
 		SetTargetObj(nullptr);
 	}
@@ -141,8 +142,7 @@ void InspectorUI::last_render()
 
 void InspectorUI::SetTargetObj(CGameObject* _Target)
 {
-	if (_Target)
-		SetTargetRes(nullptr);
+	SetTargetRes(nullptr);
 
 	m_TargetObj = _Target;
 	
@@ -193,7 +193,8 @@ void InspectorUI::SetTargetObj(CGameObject* _Target)
 
 		if (m_vecScriptUI.size() < vecScript.size())
 		{
-			for (size_t i = 0; i < vecScript.size() - m_vecScriptUI.size(); ++i)
+		 	size_t AddScriptUI = vecScript.size() - m_vecScriptUI.size();
+			for (size_t i = 0; i < AddScriptUI; ++i)
 			{
 				ScriptUI* pScriptUI = new ScriptUI;
 				pScriptUI->SetSize(Vec2(0.f, 200.f));

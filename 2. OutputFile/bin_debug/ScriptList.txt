@@ -2,3 +2,5 @@ CMissileScript
 CMonsterScript
 CParticleHandler
 CPlayerScript
+CTestScript
+TestScript

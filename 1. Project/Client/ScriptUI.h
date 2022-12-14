@@ -28,6 +28,9 @@ public:
 public:
     virtual void render_update() override;
 
+private:
+    void render_scriptparam();
+
 public:
     ScriptUI();
     ~ScriptUI();

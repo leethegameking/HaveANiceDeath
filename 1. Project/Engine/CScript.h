@@ -8,12 +8,41 @@
 
 #include "GlobalComponent.h"
 
+enum class SCRIPT_PARAM
+{
+    INT,
+    FLOAT,
+    VEC2,
+    VEC3,
+    VEC4,
+    TEXTURE,
+    MATRERIAL,
+    PREFAB,
+    SOUND,
+};
+
+struct tScriptParam
+{
+    SCRIPT_PARAM Type;
+    string strParamName;
+    void* pParam;
+};
+
 
 class CScript :
     public CComponent
 {
 private:
     int     m_iScriptType;
+    vector<tScriptParam> m_vecParam;
+
+public:
+    int GetScriptType() { return m_iScriptType; }
+    void AddScriptParam(SCRIPT_PARAM _eParam, const string& _name, void* _pParam) 
+    {
+        m_vecParam.push_back(tScriptParam{ _eParam, _name, _pParam });
+    }
+    const vector<tScriptParam>& GetScriptParam() { return m_vecParam; }
 
 public:
     virtual void tick() = 0;
@@ -24,8 +53,6 @@ public:
     virtual void BeginOverlap(CCollider2D* _pOther) {}
     virtual void Overlap(CCollider2D* _pOther) {}
     virtual void EndOverlap(CCollider2D* _pOther) {}
-
-    int GetScriptType() { return m_iScriptType; }
 
 public:
     virtual CScript* Clone() = 0;

@@ -1,7 +1,10 @@
 #include "pch.h"
 #include "ScriptUI.h"
 
+#include <Engine/CScript.h>
 #include <Script/CScriptMgr.h>
+
+#include "ParamUI.h"
 
 int ScriptUI::ID = 0;
 
@@ -28,6 +31,45 @@ void ScriptUI::render_update()
     ImGui::Button(WstrToStr(strScriptName).c_str());
     ImGui::PopStyleColor(3);
     ImGui::PopID();
+
+    render_scriptparam();
+}
+
+void ScriptUI::render_scriptparam()
+{
+    const vector<tScriptParam>& vecParam = m_pTargetScript->GetScriptParam();
+
+    for (size_t i = 0; i < vecParam.size(); ++i)
+    {
+        switch (vecParam[i].Type)
+        {
+        case SCRIPT_PARAM::INT:
+            ParamUI::Param_Int(vecParam[i].strParamName, (int*)(vecParam[i].pParam));
+            break;
+        case SCRIPT_PARAM::FLOAT:
+            ParamUI::Param_Float(vecParam[i].strParamName, (float*)(vecParam[i].pParam));
+            break;
+        case SCRIPT_PARAM::VEC2:
+            ParamUI::Param_Vec2(vecParam[i].strParamName, (Vec2*)(vecParam[i].pParam));
+            break;
+        case SCRIPT_PARAM::VEC3:
+            ParamUI::Param_Vec3(vecParam[i].strParamName, (Vec3*)(vecParam[i].pParam));
+            break;
+        case SCRIPT_PARAM::VEC4:
+            ParamUI::Param_Vec4(vecParam[i].strParamName, (Vec4*)(vecParam[i].pParam));
+            break;
+        case SCRIPT_PARAM::TEXTURE:
+            break;
+        case SCRIPT_PARAM::MATRERIAL:
+            break;
+        case SCRIPT_PARAM::PREFAB:
+            break;
+        case SCRIPT_PARAM::SOUND:
+            break;
+        default:
+            break;
+        }
+    }
 }
 
 

@@ -83,6 +83,7 @@
     <TargetName>$(ProjectName)_debug</TargetName>
     <IncludePath>$(SolutionDir)3. External\Include\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)3. External\Library\;$(LibraryPath)</LibraryPath>
+    <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -173,6 +174,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="CTestScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CMissileScript.cpp" />
@@ -187,6 +189,7 @@ call CodeGen.exe</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Script.cpp" />
+    <ClCompile Include="CTestScript.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

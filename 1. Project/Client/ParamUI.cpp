@@ -24,10 +24,23 @@ void ParamUI::Param_Float(const string& _ParamName, float* _pInOut)
 
 void ParamUI::Param_Vec2(const string& _ParamName, Vec2* _pInOut)
 {
+	ImGui::Text(_ParamName.c_str());
+	ImGui::SameLine();
+	ImGui::InputFloat2("##InputVec2", *_pInOut);
+}
+
+void ParamUI::Param_Vec3(const string& _ParamName, Vec3* _pInOut)
+{
+	ImGui::Text(_ParamName.c_str());
+	ImGui::SameLine();
+	ImGui::InputFloat3("##InputVec3", *_pInOut);
 }
 
 void ParamUI::Param_Vec4(const string& _ParamName, Vec4* _pInOut)
 {
+	ImGui::Text(_ParamName.c_str());
+	ImGui::SameLine();
+	ImGui::InputFloat4("##InputVec4", *_pInOut);
 }
 
 void ParamUI::Param_Mat(const string& _ParamName, Matrix* _pInOut)

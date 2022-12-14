@@ -14,6 +14,7 @@
 #include <Engine/CTileMap.h>
 #include <Engine/CLevelMgr.h>
 #include <Script/CMonsterScript.h>
+#include <Script/CTestScript.h>
 
 void CreateTestLevel()
 {
@@ -96,6 +97,7 @@ void CreateTestLevel()
 	pObject->AddComponent(new CAnimator2D);
 	pObject->AddComponent(new CPlayerScript);
 	pObject->AddComponent(new CMonsterScript);
+	pObject->AddComponent(new CTestScript);
 
 	pObject->Transform()->SetRelativePos(Vec3(0.f, 0.f, 800.f));
 	pObject->Transform()->SetRelativeScale(Vec3(256.f, 256.f, 0.f));
