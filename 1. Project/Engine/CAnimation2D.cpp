@@ -18,6 +18,7 @@ CAnimation2D::CAnimation2D()
 	, m_pOwner(nullptr)
 	, m_fAccTime(0.f)
 	, m_vecChildAnim{}
+	, m_vPosChange(Vec2::Zero)
 {
 }
 
@@ -184,6 +185,9 @@ void CAnimation2D::Save(const wstring& _strRelativeFilePath)
 	// MasterAnim
 	SaveResourceRef(m_pMasterAnim, pFile);
 
+	// PosChange
+	fwrite(&m_vPosChange, sizeof(Vec2), 1, pFile);
+
 	fclose(pFile);
 }
 
@@ -219,6 +223,9 @@ int CAnimation2D::Load(const wstring& _strFilePath)
 		m_pMasterAnim->m_vecChildAnim.push_back(this);
 	}
 	
+	// PosChange
+	// fread(&m_vPosChange, sizeof(Vec2), 1, pFile);
+
 	fclose(pFile);
 
 

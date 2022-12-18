@@ -8,6 +8,7 @@ class CCollider2D;
 class CAnimator2D;
 class CLight2D;
 class CCamera;
+class CRigidbody2D;
 
 class CMeshRender;
 class CParticleSystem;
@@ -61,6 +62,7 @@ public:
     GET_COMPONENT(Light2D, LIGHT2D);
     GET_COMPONENT(ParticleSystem, PARTICLESYSTEM);
     GET_COMPONENT(TileMap, TILEMAP);
+    GET_COMPONENT(Rigidbody2D, RIGIDBODY2D);
 
     CRenderComponent* GetRenderComponent() { return m_pRenderComponent; }
 

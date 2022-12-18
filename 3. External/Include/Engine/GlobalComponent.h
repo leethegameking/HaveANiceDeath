@@ -8,6 +8,7 @@
 #include "CLight2D.h"
 #include "CParticleSystem.h"
 #include "CTileMap.h"
+#include "CRigidbody2D.h"
 
 //#include "CCollider3D.h"
 //#include "CLight3D.h"

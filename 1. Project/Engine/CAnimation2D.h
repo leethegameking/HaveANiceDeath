@@ -20,6 +20,7 @@ private:
     Ptr<CAnimation2D>                   m_pMasterAnim;
     vector<Ptr<CAnimation2D>>           m_vecChildAnim;
 
+    Vec2                                m_vPosChange;
 
 public:
     Ptr<CTexture> GetAtlas() { return m_AtlasTex; }

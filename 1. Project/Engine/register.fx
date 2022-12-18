@@ -78,7 +78,7 @@ cbuffer ANIM2DINFO : register(b3)
     float2  g_vFullSize;
  
     int     g_iAnim2DUse;
-    int3    iPadding;
+    int3     iPadding;
 }
 
 

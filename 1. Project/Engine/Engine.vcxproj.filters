@@ -294,6 +294,9 @@
     <ClInclude Include="singleton.h">
       <Filter>Module</Filter>
     </ClInclude>
+    <ClInclude Include="CRigidbody2D.h">
+      <Filter>Engine\06. Component\06. RigidiBody2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -427,6 +430,9 @@
     </ClCompile>
     <ClCompile Include="CTileMap.cpp">
       <Filter>Engine\06. Component\RenderComponent\TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="CRigidbody2D.cpp">
+      <Filter>Engine\06. Component\06. RigidiBody2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
