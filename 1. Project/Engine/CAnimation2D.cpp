@@ -114,6 +114,8 @@ void CAnimation2D::Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex, const
 
 
 
+
+
 void CAnimation2D::Reallocate()
 {
 	for (size_t i = 0; i < m_vecChildAnim.size(); ++i)
@@ -156,22 +158,27 @@ void CAnimation2D::Clear()
 
 void CAnimation2D::Save(const wstring& _strRelativeFilePath)
 {
-	FILE* pFile = nullptr;
-	wstring strPath = CPathMgr::GetInst()->GetContentPath();
+	if (!CheckRelativePath(_strRelativeFilePath))
+		assert(nullptr);
+
+	
+	wstring strPath = CONTENTPATH;
 	strPath += _strRelativeFilePath;
+
+	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, strPath.c_str(), L"wb");
 
+	// Key RelativePath 
 	SaveKeyPath(pFile);
 
+	// frame size
 	size_t vecSize =  m_vecFrm.size();
 	fwrite(&vecSize, sizeof(size_t), 1, pFile);
-	// 프레임벡터
-	for (size_t i = 0; i < m_vecFrm.size(); ++i)
-	{
-		fwrite(&m_vecFrm[i], sizeof(tAnim2DFrm), 1, pFile);
-	}
 
-	// 텍스쳐
+	// vector frame
+	fwrite(m_vecFrm.data(), sizeof(tAnim2DFrm), vecSize, pFile);
+
+	// texture
 	SaveResourceRef(m_AtlasTex, pFile);
 
 	// MasterAnim
@@ -186,18 +193,21 @@ int CAnimation2D::Load(const wstring& _strFilePath)
 	if (FAILED(_wfopen_s(&pFile, _strFilePath.c_str(), L"rb")))
 		return E_FAIL;
 	
+	// Key RelativePath 
 	LoadKeyPath(pFile);
 
-	// 프레임벡터
+	// frame size
 	size_t vecSize = 0;
 	fread(&vecSize, sizeof(size_t), 1, pFile);
 	m_vecFrm.resize(vecSize);
+
+	// vector frame
 	for (size_t i = 0; i < m_vecFrm.size(); ++i)
 	{
 		fread(&m_vecFrm[i], sizeof(tAnim2DFrm), 1, pFile);
 	}
 
-	// 텍스쳐
+	// texture
 	LoadResourceRef(m_AtlasTex, pFile);
 
 	// MasterAnim

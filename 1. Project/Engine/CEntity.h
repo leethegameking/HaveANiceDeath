@@ -15,6 +15,9 @@ public:
 	const wstring& GetName() { return m_strName; }
 
 public:
+	virtual void SaveToFile(FILE* _pFile);
+	virtual void LoadFromFile(FILE* _pFile);
+
 	virtual CEntity* Clone() = 0;
 
 public:

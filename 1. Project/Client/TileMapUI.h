@@ -12,6 +12,9 @@ class TileMapUI :
     public ComponentUI
 {
 private:
+    Ptr<CMesh>      m_Mesh;
+    Ptr<CMaterial>  m_Mtrl;
+
     Ptr<CTexture> m_AtlasTex;
     Ptr<CTexture> m_SelectedMark;
 

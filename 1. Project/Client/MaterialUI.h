@@ -13,6 +13,9 @@ private:
     virtual void update() override;
     virtual void render_update() override;
 
+private:
+    void SetGraphicsShader(DWORD_PTR _ShaderKey);
+
 public:
     MaterialUI();
     ~MaterialUI();

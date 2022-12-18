@@ -78,33 +78,19 @@ void TreeNode::render_update()
 			ImGui::EndDragDropTarget();
 		}
 
+		
 		// 우클릭 이벤트
-		if (ImGui::IsItemHovered(0) && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+		if ( ImGui::IsMouseClicked(ImGuiMouseButton_Right) && ImGui::IsItemHovered(0))
 		{
 			m_TreeUI->SetRightClickNode(this);
+			m_TreeUI->SetNotEmptySpace();
 		}
+
+
 
 
 		PopupMenuUI* pPopupMenu = m_TreeUI->GetPopupMenu();
-		if (pPopupMenu->GetHasAnyMenu())
-		{
-			if (ImGui::BeginPopup(pPopupMenu->GetName().c_str()))
-			{
-				for (int i = 0; i < (UINT)MENU_TYPE::MENU_END; ++i)
-				{
-					int iMenuBit = pPopupMenu->GetMenuBit();
-
-					if (iMenuBit & 1 << i)
-					{
-						if (ImGui::Selectable(Menu[i]))
-						{
-							pPopupMenu->CallMenuFunc(i, (DWORD_PTR)this);
-						}
-					}
-				}
-				ImGui::EndPopup();
-			}
-		}
+		pPopupMenu->render_update();
 
 
 		//	ImGui::EndPopup();
@@ -161,6 +147,8 @@ TreeUI::TreeUI(const string& _strName)
 
 {
 	m_PopupMenu = new PopupMenuUI("ContentMenu");
+	m_PopupMenu->SetTreeUI(this);
+
 	AddDynamic_RightClick(m_PopupMenu, FUNC_1(&PopupMenuUI::GetValidMenu));
 }
 
@@ -184,10 +172,12 @@ void TreeUI::render_update()
 
 	if (!m_bDummyRootUse)
 	{
+		m_bEmptySpace = true;
 		m_RootNode->render_update();
 	}
 	else
 	{
+		m_bEmptySpace = true;
 		const vector<TreeNode*>& vecChildNode = m_RootNode->GetChild();
 		for (size_t i = 0; i < vecChildNode.size(); ++i)
 		{
@@ -201,6 +191,16 @@ void TreeUI::render_update()
 		m_BeginDragNode = nullptr;
 		m_DropTargetNode = nullptr;
 	}
+
+	// When Empty Space Right Clicked 
+	if (ImGui::IsMouseClicked(ImGuiMouseButton_Right) && IsEmptySpace() && ImGui::IsWindowHovered())
+	{
+		if(m_SelectedNode)
+			m_SelectedNode->m_bSelected = false;
+		m_SelectedNode = nullptr;
+		SetRightClickNode(m_SelectedNode);
+	}
+	m_PopupMenu->render_update();
 }
 
 TreeNode* TreeUI::AddItem(TreeNode* _parent, const string& _strName, DWORD_PTR _data, bool _IsFrame)
@@ -256,8 +256,11 @@ void TreeUI::SetRightClickNode(TreeNode* _node)
 		m_SelectedNode->m_bSelected = false;
 	}
 
-	m_SelectedNode = _node;
-	m_SelectedNode->m_bSelected = true;
+	if (_node)
+	{
+		m_SelectedNode = _node;
+		m_SelectedNode->m_bSelected = true;
+	}
 
 	if (m_RightClickInst && m_RightClickFunc)
 	{

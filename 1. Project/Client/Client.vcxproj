@@ -175,6 +175,7 @@
     <ClInclude Include="ComponentUI.h" />
     <ClInclude Include="ContentUI.h" />
     <ClInclude Include="CreateTestLevel.h" />
+    <ClInclude Include="CSaveLoadMgr.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="FrameTool.h" />
     <ClInclude Include="framework.h" />
@@ -228,6 +229,7 @@
     <ClCompile Include="ComponentUI.cpp" />
     <ClCompile Include="ContentUI.cpp" />
     <ClCompile Include="CreateTestLevel.cpp" />
+    <ClCompile Include="CSaveLoadMgr.cpp" />
     <ClCompile Include="define.cpp" />
     <ClCompile Include="extern.cpp" />
     <ClCompile Include="FrameTool.cpp" />

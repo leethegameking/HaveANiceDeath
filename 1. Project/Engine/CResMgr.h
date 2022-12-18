@@ -40,6 +40,10 @@ public:
 	template<typename T>
 	Ptr<T> Load(const wstring& _strRelativePath);
 
+	template<typename T>
+	wstring	GetNewResName();
+
+public:
 	Ptr<CAnimation2D> CreateAnimation(const wstring& _strKey, Ptr<CTexture> _AtlasTex, const vector<tAnim2DFrm>& _vecFrm);
 	Ptr<CAnimation2D> CreateAnimation(const wstring& _strKey, Ptr<CTexture> _AtlasTex, Vec2 _vLeftTop, Vec2 _vOffset, Vec2 _vSlice, float _fStep, int _iMaxFrm, float _FPS, Vec2 _vFullsize = Vec2(400.f, 400.f), bool _bVTHZ = HORIZONTAL);
 	Ptr<CTexture> CreateTexture(const wstring& _strKey
@@ -53,8 +57,6 @@ public:
 
 public:
 	void init();
-
-
 	const vector<D3D11_INPUT_ELEMENT_DESC>& GetInputLayoutInfo() { return m_vecLayoutInfo; }
 
 private:
@@ -107,7 +109,9 @@ inline void CResMgr::AddRes(const wstring& _strKey, T* _pRes)
 
 	CRes* pRes = FindRes<T>(_strKey).Get();
 
-	assert(!pRes);
+	// assert(!pRes);
+	if(pRes)
+		return;
 
 	_pRes->SetKey(_strKey);
 	m_arrRes[(UINT)eResType].insert(make_pair(_strKey, _pRes));
@@ -183,4 +187,61 @@ Ptr<T> CResMgr::Load(const wstring& _strRelativePath)
 
 	CEventMgr::GetInst()->ResChangeFlagOn();
 	return (T*)pResource;
+}
+
+template<typename T>
+inline wstring CResMgr::GetNewResName()
+{
+	RES_TYPE type = GetType<T>();
+
+	wstring strName = L"New ";
+
+	switch (type)
+	{
+	case RES_TYPE::PREFAB:
+		break;
+	case RES_TYPE::MESHDATA:
+		break;
+	case RES_TYPE::COMPUTE_SHADER:
+		break;
+	case RES_TYPE::MATERIAL:
+		strName += L"Material";
+		break;
+	case RES_TYPE::MESH:
+		break;
+	case RES_TYPE::TEXTURE:
+		break;
+	case RES_TYPE::SOUND:
+		break;
+	case RES_TYPE::GRAPHICS_SHADER:
+		break;
+	case RES_TYPE::ANIMATION2D:
+		break;
+	case RES_TYPE::END:
+		break;
+	}
+
+
+	// 이름 중복 막기
+	UINT Count = 1;
+	while (true)
+	{
+		string strCount = to_string(Count);
+		wstring wstrCount = StrToWstr(strCount);
+
+		wstring strTemp = strName;
+		strTemp += wstrCount;
+
+		if (nullptr != FindRes<T>(strTemp))
+		{
+			++Count;
+		}
+		else
+		{
+			strName = strTemp;
+			break;
+		}
+	}
+
+	return strName;
 }

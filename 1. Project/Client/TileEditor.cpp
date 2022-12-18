@@ -49,13 +49,14 @@ void TileEditor::render_update()
 	ImGui::InputFloat("##ImageScaleY", &m_vChangeImageScale.y, 0.1f);
 	ImGui::PopItemWidth();
 
+	// 타일맵 윈도우
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_NoMove;
 	ImGui::BeginChild("Child_TileEditorImage",Vec2(ImGui::GetContentRegionAvail().x * 0.7f, ImGui::GetContentRegionAvail().y - 40.f), true, window_flags);
 	ImTextureID AtlasSRV =  m_TileMapUI->m_AtlasTex->GetSRV().Get();
 	Vec2 AtlasSize = m_TileMapUI->m_AtlasTex->GetSize();
 	Vec2 targetScale = Vec2(m_TileMapUI->GetTarget()->Transform()->GetRelativeScale().x, m_TileMapUI->GetTarget()->Transform()->GetRelativeScale().y);
+
 	// 클릭하면 선택된 이미지로 타일 이미지를 바꿔줌.
-	
 	Vec2 vCursorPos = ImGui::GetCursorScreenPos();
 	for (int i = 0; i < (int)m_TileMapUI->m_vTileCount.y; ++i)
 	{
@@ -81,7 +82,7 @@ void TileEditor::render_update()
 	}
 	ImGui::EndChild();
 
-	// Window Values
+	// 옵션 윈도우
 	ImGui::SameLine();
 	ImGui::BeginChild("Child_TileEditorVar", Vec2(0.f, ImGui::GetContentRegionAvail().y - 40.f), true, window_flags);
 	// Atlas select combo-box

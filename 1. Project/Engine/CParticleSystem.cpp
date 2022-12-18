@@ -212,3 +212,48 @@ void CParticleSystem::render()
 	CMaterial::Clear();
 }
 
+void CParticleSystem::SaveToFile(FILE* _File)
+{
+	CRenderComponent::SaveToFile(_File);
+
+	// CS
+	SaveResourceRef(m_UpdateCS, _File);
+
+	// option
+	fwrite(&m_iMaxCount, sizeof(UINT), 1, _File);
+	fwrite(&m_iAliveCount, sizeof(UINT), 1, _File);
+	fwrite(&m_vStartScale, sizeof(Vec4), 1, _File);
+	fwrite(&m_vEndScale, sizeof(Vec4), 1, _File);
+	fwrite(&m_vStartColor, sizeof(Vec4), 1, _File);
+	fwrite(&m_vEndColor, sizeof(Vec4), 1, _File);
+	fwrite(&m_vMinMaxSpeed, sizeof(Vec2), 1, _File);
+	fwrite(&m_vMinMaxLifeTime, sizeof(Vec2), 1, _File);
+	fwrite(&m_fSpawnRange, sizeof(Vec2), 1, _File);
+	fwrite(&m_Frequency, sizeof(float), 1, _File);
+	fwrite(&m_fAccTime, sizeof(float), 1, _File);
+	fwrite(&m_WorldSpawn, sizeof(int), 1, _File);
+
+}
+
+void CParticleSystem::LoadFromFile(FILE* _File)
+{
+	CRenderComponent::LoadFromFile(_File);
+
+	// CS
+	LoadResourceRef(m_UpdateCS, _File);
+
+	// option
+	fread(&m_iMaxCount, sizeof(UINT), 1, _File);
+	fread(&m_iAliveCount, sizeof(UINT), 1, _File);
+	fread(&m_vStartScale, sizeof(Vec4), 1, _File);
+	fread(&m_vEndScale, sizeof(Vec4), 1, _File);
+	fread(&m_vStartColor, sizeof(Vec4), 1, _File);
+	fread(&m_vEndColor, sizeof(Vec4), 1, _File);
+	fread(&m_vMinMaxSpeed, sizeof(Vec2), 1, _File);
+	fread(&m_vMinMaxLifeTime, sizeof(Vec2), 1, _File);
+	fread(&m_fSpawnRange, sizeof(Vec2), 1, _File);
+	fread(&m_Frequency, sizeof(float), 1, _File);
+	fread(&m_fAccTime, sizeof(float), 1, _File);
+	fread(&m_WorldSpawn, sizeof(int), 1, _File);
+}
+

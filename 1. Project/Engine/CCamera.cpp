@@ -209,3 +209,26 @@ void CCamera::render_postprocess()
 		m_vecPostProcess[i]->render();
 	}
 }
+
+void CCamera::SaveToFile(FILE* _File)
+{
+	COMPONENT_TYPE eType = GetType();
+	fwrite(&eType, sizeof(COMPONENT_TYPE), 1, _File);
+
+	 fwrite(&m_eProjType, sizeof(PROJ_TYPE), 1, _File);
+	 fwrite(&m_fAspectRatio, sizeof(float), 1, _File);
+	 fwrite(&m_fFar, sizeof(float), 1, _File);
+	 fwrite(&m_fScale, sizeof(float), 1, _File);
+	 fwrite(&m_iLayerMask, sizeof(UINT), 1, _File);
+	 fwrite(&m_iCamIdx, sizeof(int), 1, _File);
+}
+
+void CCamera::LoadFromFile(FILE* _File)
+{
+	fread(&m_eProjType, sizeof(PROJ_TYPE), 1, _File);
+	fread(&m_fAspectRatio, sizeof(float), 1, _File);
+	fread(&m_fFar, sizeof(float), 1, _File);
+	fread(&m_fScale, sizeof(float), 1, _File);
+	fread(&m_iLayerMask, sizeof(UINT), 1, _File);
+	fread(&m_iCamIdx, sizeof(int), 1, _File);
+}

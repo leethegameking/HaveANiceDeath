@@ -153,10 +153,13 @@ Ptr<CTexture> CMaterial::GetTexParam(TEX_PARAM _eTex)
 }
 
 
-void CMaterial::Save(const wstring& _strFilePath)
+void CMaterial::Save(const wstring& _strRelativePath)
 {
+	if (!CheckRelativePath(_strRelativePath))
+		assert(nullptr);
+
 	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
-	strFilePath += _strFilePath;
+	strFilePath += _strRelativePath;
 
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, strFilePath.c_str(), L"wb");
@@ -164,6 +167,7 @@ void CMaterial::Save(const wstring& _strFilePath)
 	// CRes의 Key Path 저장
 	SaveKeyPath(pFile);
 
+	//  셰이더
 	SaveResourceRef(m_pShader, pFile);
 	if (nullptr != m_pShader)
 	{

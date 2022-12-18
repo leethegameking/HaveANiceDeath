@@ -57,3 +57,5 @@ void CMeshRender::render()
 	if (Animator2D())
 		Animator2D()->Clear();
 }
+
+

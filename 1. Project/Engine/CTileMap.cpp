@@ -5,6 +5,7 @@
 #include "CStructuredBuffer.h"
 #include "CTransform.h"
 
+
 CTileMap::CTileMap()
 	: CRenderComponent(COMPONENT_TYPE::TILEMAP)
 	, m_bDataChanged(false)
@@ -32,10 +33,8 @@ CTileMap::CTileMap(const CTileMap& _origin)
 	SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TileMapMtrl"));
 	m_vecTile.assign(_origin.m_vecTile.begin(), _origin.m_vecTile.end());
 
-
 	m_TileBuffer = new CStructuredBuffer;
-
-	SetTileCount((UINT)m_vTileCount.x, (UINT)m_vTileCount.y);
+	m_TileBuffer->Create(sizeof(tTile), UINT(m_vTileCount.x * m_vTileCount.y), SB_TYPE::SRV_ONLY, (void*)m_vecTile.data(), true);
 }
 
 CTileMap::~CTileMap()
@@ -75,15 +74,9 @@ void CTileMap::render()
 
 	if (m_bDataChanged)
 	{
-		float fWidth = (float)m_AtlasTex->GetWidth();
-		float fHeight = (float)m_AtlasTex->GetHeight();
-
-		for (int i = 0; i < m_vecTile.size(); ++i)
-		{
-			m_vecTile[i].vSlice = Vec2(m_vSlice.x / fWidth, m_vSlice.y / fHeight);
-		}
-		m_TileBuffer->SetData(m_vecTile.data(), (UINT)(m_vTileCount.x * m_vTileCount.y));
+		TileChange();
 	}
+
 	m_TileBuffer->UpdateData(17, PIPELINE_STAGE::PS);
 
 	GetCurMaterial()->SetScalarParam(VEC2_0, &m_vTileCount);
@@ -95,4 +88,46 @@ void CTileMap::render()
 	m_bDataChanged = false;
 }
 
+void CTileMap::SaveToFile(FILE* _File)
+{
+	CRenderComponent::SaveToFile(_File);
 
+	SaveResourceRef(m_AtlasTex, _File);
+	fwrite(&m_vTileCount,sizeof(Vec2), 1, _File);
+	fwrite(&m_vSlice,sizeof(Vec2), 1, _File);
+	fwrite(m_vecTile.data(), sizeof(tTile), size_t(m_vTileCount.x * m_vTileCount.y), _File);
+}
+
+void CTileMap::LoadFromFile(FILE* _File)
+{
+	CRenderComponent::LoadFromFile(_File);
+
+	LoadResourceRef(m_AtlasTex, _File);
+	fread(&m_vTileCount, sizeof(Vec2), 1, _File);
+	fread(&m_vSlice, sizeof(Vec2), 1, _File);
+
+	m_vecTile.clear();
+	m_vecTile.reserve(size_t(m_vTileCount.x * m_vTileCount.y));
+	for (UINT i = 0; i < UINT(m_vTileCount.x * m_vTileCount.y); ++i)
+	{
+		tTile tile = {};
+		fread(&tile, sizeof(tTile), 1, _File);
+		m_vecTile.push_back(tile);
+	}
+
+	m_bDataChanged = true;
+}
+
+
+void CTileMap::TileChange()
+{
+	float fWidth = (float)m_AtlasTex->GetWidth();
+	float fHeight = (float)m_AtlasTex->GetHeight();
+
+	for (int i = 0; i < m_vecTile.size(); ++i)
+	{
+		m_vecTile[i].vSlice = Vec2(m_vSlice.x / fWidth, m_vSlice.y / fHeight);
+	}
+
+	m_TileBuffer->SetData(m_vecTile.data(), (UINT)(m_vTileCount.x * m_vTileCount.y));
+}

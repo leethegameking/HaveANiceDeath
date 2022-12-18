@@ -3,7 +3,11 @@
 
 #include <Engine/CResMgr.h>
 #include <Engine/CMaterial.h>
+
+#include "CImGuiMgr.h"
 #include "ParamUI.h"
+#include "CommonUI.h"
+#include "ListUI.h"
 
 
 
@@ -52,81 +56,127 @@ void MaterialUI::render_update()
 	ImGui::SameLine();
 	ImGui::InputText("##ShaderName", (char*)strShaderKey.data(), strShaderKey.length(), ImGuiInputTextFlags_ReadOnly);
 
+	ImGui::SameLine();
+	if (ImGui::Button("##ShaderBtn", Vec2(15.f, 15.f)))
+	{
+		ListUI* pListUI = dynamic_cast<ListUI*>(CImGuiMgr::GetInst()->FindUI("ListUIModal"));
+		assert(pListUI);
+
+		// 메쉬 목록을 받아와서 ListUI에 전달
+		const map<wstring, Ptr<CRes>>& mapRes = CResMgr::GetInst()->GetResource(RES_TYPE::GRAPHICS_SHADER);
+		static vector<wstring> vecRes;
+		vecRes.clear();
+
+		// 맵에서 이름만 뽑아서 벡터에 전달해줌.
+		map<wstring, Ptr<CRes>>::const_iterator iter = mapRes.begin();
+		for (; iter != mapRes.end(); ++iter)
+		{
+			vecRes.push_back(iter->first);
+		}
+		// 이름 ItemList로 복사
+		pListUI->init(WstrToStrVec(vecRes));
+
+		// Item이 DoubleClick되었을때 이 객체의 SetMesh함수를 호출한다. 
+		pListUI->AddDynamicDBClicked(this, (FUNC_1)&MaterialUI::SetGraphicsShader);
+
+		pListUI->Open();
+	}
+
+	if (CommonUI::ButtonCenteredOnLine("Save"))
+	{
+		Ptr<CMaterial> ptrMtrl = (CMaterial*)GetTarget().Get();
+		wstring strRelativePath = L"material//";
+		strRelativePath += ptrMtrl->GetKey();
+		ptrMtrl->Save(strRelativePath);
+		CommonUI::OpenPopup("Material Save!");
+	}
+	CommonUI::NotifyPopup();
+
 	ImGui::NewLine();
 	ImGui::Text("Shader Parameter");
 
-	const vector<tScalarParam> vecScalar = pMtrl->GetShader()->GetScalarParam();
-	for (size_t i = 0; i < vecScalar.size(); ++i)
+	if (pMtrl->GetShader().Get())
 	{
-		switch (vecScalar[i].eParam)
+		const vector<tScalarParam> vecScalar = pMtrl->GetShader()->GetScalarParam();
+		for (size_t i = 0; i < vecScalar.size(); ++i)
 		{
-		case INT_0:
-		case INT_1:
-		case INT_2:
-		case INT_3:
-		{
-			int iData = 0;
-			pMtrl->GetScalarParam(vecScalar[i].eParam, &iData);
-			ParamUI::Param_Int(vecScalar[i].strName, &iData);
-			pMtrl->SetScalarParam(vecScalar[i].eParam, &iData);
-		}
-		break;
-		case FLOAT_0:
-		case FLOAT_1:
-		case FLOAT_2:
-		case FLOAT_3:
-		{
-			float fData = 0;
-			pMtrl->GetScalarParam(vecScalar[i].eParam, &fData);
-			ParamUI::Param_Float(vecScalar[i].strName, &fData);
-			pMtrl->SetScalarParam(vecScalar[i].eParam, &fData);
-		}
-		break;
-		case VEC2_0:
-		case VEC2_1:
-		case VEC2_2:
-		case VEC2_3:
-		{
+			switch (vecScalar[i].eParam)
+			{
+			case INT_0:
+			case INT_1:
+			case INT_2:
+			case INT_3:
+			{
+				int iData = 0;
+				pMtrl->GetScalarParam(vecScalar[i].eParam, &iData);
+				ParamUI::Param_Int(vecScalar[i].strName, &iData);
+				pMtrl->SetScalarParam(vecScalar[i].eParam, &iData);
+			}
+			break;
+			case FLOAT_0:
+			case FLOAT_1:
+			case FLOAT_2:
+			case FLOAT_3:
+			{
+				float fData = 0;
+				pMtrl->GetScalarParam(vecScalar[i].eParam, &fData);
+				ParamUI::Param_Float(vecScalar[i].strName, &fData);
+				pMtrl->SetScalarParam(vecScalar[i].eParam, &fData);
+			}
+			break;
+			case VEC2_0:
+			case VEC2_1:
+			case VEC2_2:
+			case VEC2_3:
+			{
 
-		}
-		break;
-		case VEC4_0:
-		case VEC4_1:
-		case VEC4_2:
-		case VEC4_3:
-		{
+			}
+			break;
+			case VEC4_0:
+			case VEC4_1:
+			case VEC4_2:
+			case VEC4_3:
+			{
 
-		}
-		break;
-		case MAT_0:
-		case MAT_1:
-		case MAT_2:
-		case MAT_3:
-		{
+			}
+			break;
+			case MAT_0:
+			case MAT_1:
+			case MAT_2:
+			case MAT_3:
+			{
 
+			}
+			break;
+			}
 		}
-		break;
+
+		const vector<tTextureParam> vecTex = pMtrl->GetShader()->GetTextureParam(); // 레퍼런스로 받아옴
+		for (size_t i = 0; i < vecTex.size(); ++i)
+		{
+			Ptr<CTexture> pTex = pMtrl->GetTexParam(vecTex[i].eParam);
+			// 버튼이 눌렸다 -> ListUI Open -> 선택된 멤버 TEX_PARAM으로 arr에 넣어줌.
+			if (ParamUI::Param_Tex(vecTex[i].strName, pTex, this, (FUNC_1)&MaterialUI::SetTexture))
+			{
+				// 선택한 아이템의 TEX_PARAM을 알려줌. (한 프레임 밀림)
+				m_eSelectTexParam = vecTex[i].eParam;
+			}
+			// 버튼이 안 눌렸다.
+			else
+			{
+				// 굳이?
+				pMtrl->SetTexParam(vecTex[i].eParam, pTex);
+			}
+
 		}
 	}
+}
 
-	const vector<tTextureParam> vecTex = pMtrl->GetShader()->GetTextureParam(); // 레퍼런스로 받아옴
-	for (size_t i = 0; i < vecTex.size(); ++i)
-	{
-		Ptr<CTexture> pTex = pMtrl->GetTexParam(vecTex[i].eParam);
-		// 버튼이 눌렸다 -> ListUI Open -> 선택된 멤버 TEX_PARAM으로 arr에 넣어줌.
-		if(ParamUI::Param_Tex(vecTex[i].strName, pTex, this, (FUNC_1)&MaterialUI::SetTexture))
-		{
-			// 선택한 아이템의 TEX_PARAM을 알려줌. (한 프레임 밀림)
-			m_eSelectTexParam = vecTex[i].eParam;
-		}
-		// 버튼이 안 눌렸다.
-		else
-		{
-			// 굳이?
-			pMtrl->SetTexParam(vecTex[i].eParam, pTex);
-		}
-		
-	}
+void MaterialUI::SetGraphicsShader(DWORD_PTR _ShaderKey)
+{
+	wstring wstrKey = StrToWstr((char*)_ShaderKey);
+	Ptr<CMaterial> ptrMtrl = (CMaterial*)GetTarget().Get();
+	ptrMtrl->SetShader(CResMgr::GetInst()->FindRes<CGraphicsShader>(wstrKey));
 }
 
 

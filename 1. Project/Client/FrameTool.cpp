@@ -2,12 +2,14 @@
 #include "FrameTool.h"
 
 #include "ComboBox.h"
+#include "CommonUI.h"
 
 #include <Engine/Ptr.h>
 
 #include <Engine/CResMgr.h>
 #include <Engine/CAnimation2D.h>
 #include <Engine/CTexture.h>
+
 
 
 FrameTool::FrameTool()

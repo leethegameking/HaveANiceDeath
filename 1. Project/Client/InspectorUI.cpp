@@ -215,7 +215,7 @@ void InspectorUI::SetTargetObj(CGameObject* _Target)
 void InspectorUI::SetTargetRes(Ptr<CRes> _Res)
 {
 	if (_Res.Get())
-		SetTargetObj(nullptr);
+		SetTargetObj(nullptr); 
 
 	if (_Res.Get())
 	{

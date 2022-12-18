@@ -3,6 +3,9 @@
 
 #include "ListUI.h"
 #include "ComboBox.h"
+#include "TileEditor.h"
+#include "CommonUI.h"
+#include "TreeUI.h"
 
 #include "CImGuiMgr.h"
 #include <Engine/CTileMap.h>
@@ -14,8 +17,8 @@
 #include <Engine/CGameObject.h>
 #include <Engine/CCamera.h>
 #include <Engine/CDevice.h>
-#include "TileEditor.h"
-#include "CommonUI.h"
+
+
 
 
 TileMapUI::TileMapUI()
@@ -48,6 +51,7 @@ void TileMapUI::init()
 
 	map<wstring, Ptr<CRes>>::const_iterator iter = mapRes.begin();
 
+	m_vecRes.clear();
 	for (; iter != mapRes.end(); ++iter)
 	{
 		m_vecRes.push_back(string(iter->first.begin(), iter->first.end()));
@@ -70,6 +74,8 @@ void TileMapUI::update()
 		m_AtlasTex = GetTarget()->TileMap()->GetTileAtlas();
 		m_vTileCount = GetTarget()->TileMap()->GetTileCount();
 		m_vSlice = GetTarget()->TileMap()->GetSlice();
+		m_Mesh = GetTarget()->TileMap ()->GetMesh();
+		m_Mtrl = GetTarget()->TileMap()->GetCurMaterial();
 	}
 }
 
@@ -89,7 +95,7 @@ void TileMapUI::render_update()
 	else
 	{
 		wstring wstrKey = m_AtlasTex->GetKey();
-		ImGui::InputText("Image", (char*)WstrToStr(wstrKey).c_str(), wstrKey.length(), Inputflag);
+		ImGui::InputText("##Image", (char*)WstrToStr(wstrKey).c_str(), wstrKey.length(), Inputflag);
 	}
 
 	// TileCount
@@ -111,7 +117,7 @@ void TileMapUI::render_update()
 	ImGui::InputFloat("##ImageScaleX", &m_vImageScale.x, 0.1f);
 	ImGui::SameLine();
 	ImGui::InputFloat("##ImageScaleY", &m_vImageScale.y, 0.1f);
-	ImGui::PopItemWidth();
+	ImGui::PopItemWidth(); 
 
 	// InstanceMode 
 	ImGui::SameLine(); ImGui::Checkbox("InstanceMode", &m_bInstanceMode);
@@ -158,7 +164,7 @@ void TileMapUI::render_update()
 	vTargetProjPos /= camScale;
 
 
-	// ȭ���� Tile Pressed �϶� ���ϴ� Ÿ�Ϸ� ��� �ٲ���.
+	// Tile Pressed
 	if (m_bInstanceMode)
 	{
 		if (KEY_PRESSED(KEY::LBTN) &&
@@ -171,7 +177,7 @@ void TileMapUI::render_update()
 		}
 	}
 
-	// Ÿ�� ������ �ٲ�� Ÿ�ٵ� ���� �ٲ���.
+	// Tile Count Change, Tile Slice Change
 	if ((int)m_vTileCount.x != tileCount[0] || (int)m_vTileCount.y != tileCount[1])
 	{
 		GetTarget()->TileMap()->SetTileCount((UINT)tileCount[0], (UINT)tileCount[1]);

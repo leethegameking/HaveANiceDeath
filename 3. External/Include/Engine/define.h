@@ -22,6 +22,13 @@ typedef Vector4 Vec4;
 
 #define MAX_LAYER 32
 
+#define SINGLETON(class_name) private:\
+class_name();\
+~class_name();\
+friend class CSingleton<class_name>;
+
+#define CONTENTPATH CPathMgr::GetInst()->GetContentPath()
+
 enum class SAMPLER_TYPE
 {
 	ANISOTROPIC, // �̹漺

@@ -101,8 +101,12 @@ Ptr<CAnimation2D> CAnimator2D::FindAnimation(const wstring& _strKey)
 
 void CAnimator2D::AddAnimation(wstring _key)
 {
+	// can't resgister same animation
+	if (m_mapAnim.find(_key) != m_mapAnim.end())
+		return;
+
 	Ptr<CAnimation2D> pAnim = CResMgr::GetInst()->FindRes<CAnimation2D>(_key);
-	
+
 	if (m_mapAnim.find(pAnim->GetKey()) == m_mapAnim.end())
 	{
 		Ptr<CAnimation2D> pAnimClone = pAnim->Clone();
@@ -145,4 +149,43 @@ void CAnimator2D::Clear()
 		return;
 
 	m_pCurAnim->Clear();
+}
+
+void CAnimator2D::SaveToFile(FILE* _File)
+{
+	COMPONENT_TYPE eType = GetType();
+	fwrite(&eType, sizeof(COMPONENT_TYPE), 1, _File);
+	
+	// Animation Count
+	size_t iAnimCount = m_mapAnim.size();
+	fwrite(&iAnimCount, sizeof(size_t), 1, _File);
+
+	// Animation
+	for (const auto& pair : m_mapAnim)
+	{
+		SaveResourceRef(pair.second, _File);
+	}
+
+	// repeat
+	fwrite(&m_bRepeat, sizeof(bool), 1, _File);
+
+}
+
+void CAnimator2D::LoadFromFile(FILE* _File)
+{
+	// Animation Count
+	size_t iAnimCount = 0;
+	fread(&iAnimCount, sizeof(size_t), 1, _File);
+
+	// Animation
+	for (size_t i = 0; i < iAnimCount; ++i)
+	{
+		Ptr<CAnimation2D> ptrAnim;
+		LoadResourceRef(ptrAnim, _File);
+
+		AddAnimation(ptrAnim->GetKey());
+	}
+
+	// repeat
+	fread(&m_bRepeat, sizeof(bool), 1, _File);
 }

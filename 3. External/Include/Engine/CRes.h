@@ -36,6 +36,8 @@ protected:
     void SaveKeyPath(FILE* _pFile);
     void LoadKeyPath(FILE* _pFile);
 
+    bool CheckRelativePath(const wstring& _strRelativePath);
+
 
 public:
     const wstring& GetKey() { return m_strKey; }
@@ -46,6 +48,7 @@ private:
     void SetKey(const wstring& _strKey) { m_strKey = _strKey; }
     void SetRelativePath(const wstring& _strRelativePath) { m_strRelativePath = _strRelativePath; }
 
+public:
 
 
     virtual CRes* Clone() = 0;

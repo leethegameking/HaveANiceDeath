@@ -34,6 +34,9 @@ public:
     bool IsRepeat() { return m_bRepeat; }
 
 public:
+    virtual void SaveToFile(FILE* _File) override;
+    virtual void LoadFromFile(FILE* _File) override;
+
     CLONE(CAnimator2D);
 
 public:

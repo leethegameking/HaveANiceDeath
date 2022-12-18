@@ -3,31 +3,6 @@
 Vec2 GetClickedIdx(Vec2 _vImgSize, Vec2 _vCursorPos, Vec2 _vImageScale);
 
 
-enum class MENU_TYPE
-{
-    // Outliner
-	MAKE_PREFAB,
-    
-
-    
-    // Content
-    INSTANTIATE,
-
-	MENU_END
-};
-
-extern const char* Menu[(UINT)MENU_TYPE::MENU_END];
-
-enum MENU_BIT
-{
-    // Contetn
-    MAKE_PREFAB = 0x01,
-
-
-    // Outliner
-    INSTANTIATE = 0x02,
-
-};
 
 
 

@@ -73,8 +73,12 @@ private:
     void render_transparent();
     void render_postprocess();
 
+public:
+    virtual void SaveToFile(FILE* _File) override;
+    virtual void LoadFromFile(FILE* _File) override;
 
     CLONE(CCamera);
+
 public:
     CCamera();
     ~CCamera();

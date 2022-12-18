@@ -112,6 +112,25 @@ void CTransform::UpdateData()
 	pCB->UpdateData(PIPELINE_STAGE::ALL_STAGE);
 }
 
+void CTransform::SaveToFile(FILE* _File)
+{
+	COMPONENT_TYPE eType = GetType();
+	fwrite(&eType, sizeof(COMPONENT_TYPE), 1, _File);
+
+	fwrite(&m_vRelativePos, sizeof(Vec3), 1, _File);
+	fwrite(&m_vRelativeScale, sizeof(Vec3), 1, _File);
+	fwrite(&m_vRelativeRotation, sizeof(Vec3), 1, _File);
+	fwrite(&m_bIgnParentScale, sizeof(bool), 1, _File);
+}
+
+void CTransform::LoadFromFile(FILE* _File)
+{
+	fread(&m_vRelativePos, sizeof(Vec3), 1, _File);
+	fread(&m_vRelativeScale, sizeof(Vec3), 1, _File);
+	fread(&m_vRelativeRotation, sizeof(Vec3), 1, _File);
+	fread(&m_bIgnParentScale, sizeof(bool), 1, _File);
+}
+
 
 Vec3 CTransform::GetWorldScale()
 {

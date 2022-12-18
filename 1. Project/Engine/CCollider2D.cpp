@@ -99,3 +99,28 @@ void CCollider2D::EndOverlap(CCollider2D* _pOther)
 		vecScripts[i]->EndOverlap(_pOther);
 	}
 }
+
+void CCollider2D::SaveToFile(FILE* _File)
+{
+	COMPONENT_TYPE eType = GetType();
+	fwrite(&eType, sizeof(COMPONENT_TYPE), 1, _File);
+
+	fwrite(&m_vOffsetPos, sizeof(Vec2), 1, _File);
+	fwrite(&m_vScale, sizeof(Vec2), 1, _File);
+	fwrite(&m_vRot, sizeof(Vec3), 1, _File);
+	fwrite(&m_eType, sizeof(COLLIDER2D_TYPE), 1, _File);
+	fwrite(&m_bIgnorObjectScale, sizeof(bool), 1, _File);
+	fwrite(&m_vIdleColor, sizeof(Vec4), 1, _File);
+	fwrite(&m_vCollisionColor, sizeof(Vec4), 1, _File);
+}
+
+void CCollider2D::LoadFromFile(FILE* _File)
+{
+	fread(&m_vOffsetPos, sizeof(Vec2), 1, _File);
+	fread(&m_vScale, sizeof(Vec2), 1, _File);
+	fread(&m_vRot, sizeof(Vec3), 1, _File);
+	fread(&m_eType, sizeof(COLLIDER2D_TYPE), 1, _File);
+	fread(&m_bIgnorObjectScale, sizeof(bool), 1, _File);
+	fread(&m_vIdleColor, sizeof(Vec4), 1, _File);
+	fread(&m_vCollisionColor, sizeof(Vec4), 1, _File);
+}

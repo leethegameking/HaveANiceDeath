@@ -31,3 +31,16 @@ void CLight2D::finaltick()
 
 	CRenderMgr::GetInst()->RegisterLight2D(this);
 }
+
+void CLight2D::SaveToFile(FILE* _File)
+{
+	COMPONENT_TYPE eType = GetType();
+	fwrite(&eType, sizeof(COMPONENT_TYPE), 1, _File);
+
+	fwrite(&m_Info, sizeof(tLightInfo), 1, _File);
+}
+
+void CLight2D::LoadFromFile(FILE* _File)
+{
+	fread(&m_Info, sizeof(tLightInfo), 1, _File);
+}

@@ -27,6 +27,10 @@ public:
 public:
     virtual void finaltick() override;
 
+public:
+    virtual void SaveToFile(FILE* _File) override;
+    virtual void LoadFromFile(FILE* _File) override;
+
     CLONE(CLight2D)
 
 public:

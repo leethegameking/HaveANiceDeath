@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CreateTestLevel.h"
 
+#include "CSaveLoadMgr.h"
+
 #include <Engine/CResMgr.h>
 #include <Engine/CCollisionMgr.h>
 #include <Engine/CLevel.h>
@@ -20,7 +22,10 @@ void CreateTestLevel()
 {
 	CreateDefaultAnimation();
 
-	CResMgr::GetInst()->Load<CAnimation2D>(L"animation\\test.anim");
+	//CResMgr::GetInst()->Load<CAnimation2D>(L"animation\\PlayerRun");
+	//CResMgr::GetInst()->Load<CMaterial>(L"material\\New Material1");
+	CLevelMgr::GetInst()->ChangeLevel(CSaveLoadMgr::GetInst()->LoadLevel(L"level\\testLV.lv"));
+	return;
 
 	CLevel* pTestLevel = new CLevel;
 	pTestLevel->SetName(L"TestLevel");
@@ -107,11 +112,7 @@ void CreateTestLevel()
 
 	pObject->Collider2D()->SetCollider2DType(COLLIDER2D_TYPE::COLLIDER2D_RECT);
 	pObject->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
-
-	 pObject->Animator2D()->AddAnimation(L"LeftWalk");
-	pObject->Animator2D()->AddAnimation(L"PlayerDash");
-	pObject->Animator2D()->Play(L"PlayerDash", true);
-
+	
 	pObject->MeshRender()->GetSharedMaterial()->SetTexParam(TEX_PARAM::TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"Character"));
 
 	pTestLevel->AddGameObject(pObject, 0);

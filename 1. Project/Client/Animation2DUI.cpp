@@ -69,8 +69,12 @@ void Animation2DUI::render_update()
 
 	if (CommonUI::ButtonCenteredOnLine("Save as file"))
 	{
-		pAnim->Save(L"animation\\test.anim");
+		wstring strRelativePath = L"animation\\";
+		strRelativePath += pAnim->GetKey();
+		pAnim->Save(strRelativePath);
+		CommonUI::OpenPopup("Animation Save!");
 	}
+	CommonUI::NotifyPopup();
 }
 
 void Animation2DUI::DrawAnimation()

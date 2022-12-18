@@ -52,7 +52,7 @@ void CameraUI::init()
 	m_ListUI->SetMultiSelect(true);
 	m_ListUI->AddDynamicSelected(this, (FUNC_0)&CameraUI::SetLayerVisible);
 	m_iLayerVisible = GetTarget()->Camera()->GetLayerVisible();
-	m_ListUI->init( m_vecLayer,m_iLayerVisible);
+	m_ListUI->init(m_vecLayer, m_iLayerVisible);
 }
 
 void CameraUI::update()

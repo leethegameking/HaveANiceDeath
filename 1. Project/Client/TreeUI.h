@@ -74,6 +74,7 @@ private:
     FUNC_1 m_RightClickFunc;
 
     PopupMenuUI* m_PopupMenu;
+    bool         m_bEmptySpace;
 
 public:
     virtual void update() override;
@@ -84,6 +85,7 @@ public:
     void Clear();
     void SetDummyRoot(bool _bUse) { m_bDummyRootUse = _bUse; }
     void SetSelectedNode(TreeNode* _SelectedNode);
+    TreeNode* GetSelectedNode() { return m_SelectedNode; }
 
     AddDynFunc1(Select)
     AddDynFunc1(RightClick)
@@ -96,6 +98,9 @@ public:
 
 public:
     PopupMenuUI* GetPopupMenu();
+
+    bool IsEmptySpace() { return m_bEmptySpace; }
+    void SetNotEmptySpace() { m_bEmptySpace = false; }
 
 private:
     

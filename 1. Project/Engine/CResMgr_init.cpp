@@ -359,11 +359,11 @@ void CResMgr::CreateDefaultMaterial()
 {
 	CMaterial* pMtrl = nullptr;
 
-	//pMtrl = new CMaterial;
-	//pMtrl->SetShader(FindRes<CGraphicsShader>(L"Std2DShader"));
-	//AddRes<CMaterial>(L"Std2DMtrl", pMtrl);
+	pMtrl = new CMaterial;
+	pMtrl->SetShader(FindRes<CGraphicsShader>(L"Std2DShader"));
+	AddRes<CMaterial>(L"Std2DMtrl", pMtrl);
 
-	Load<CMaterial>(L"Std2DMtrl", L"material\\test.mtrl");
+	// Load<CMaterial>(L"Std2DMtrl", L"material\\test.mtrl");
 
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"Std2DAlphaBlendShader"));

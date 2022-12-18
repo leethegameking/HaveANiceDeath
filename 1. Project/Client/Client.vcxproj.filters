@@ -137,6 +137,9 @@
     <Filter Include="01. Editor\EditorComponent">
       <UniqueIdentifier>{64de777e-b87d-4fc0-8790-942f6ed41c01}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. LevelSaveLoad">
+      <UniqueIdentifier>{b350b393-07a7-4c9a-85b3-b7d9031917bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -294,6 +297,9 @@
     </ClInclude>
     <ClInclude Include="CEditorCam.h">
       <Filter>01. Editor\EditorComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="CSaveLoadMgr.h">
+      <Filter>04. LevelSaveLoad</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -457,6 +463,9 @@
     </ClCompile>
     <ClCompile Include="CEditorCam.cpp">
       <Filter>01. Editor\EditorComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="CSaveLoadMgr.cpp">
+      <Filter>04. LevelSaveLoad</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

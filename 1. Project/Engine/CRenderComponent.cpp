@@ -52,3 +52,20 @@ Ptr<CMaterial> CRenderComponent::GetDynamicMaterial()
 
 	return m_pCurMtrl;
 }
+
+void CRenderComponent::SaveToFile(FILE* _File)
+{
+	COMPONENT_TYPE type = GetType();
+	fwrite(&type, sizeof(UINT), 1, _File);
+
+	SaveResourceRef<CMesh>(m_pMesh, _File);
+	SaveResourceRef<CMaterial>(m_pSharedMtrl, _File);
+}
+
+void CRenderComponent::LoadFromFile(FILE* _File)
+{
+	LoadResourceRef<CMesh>(m_pMesh, _File);
+	LoadResourceRef<CMaterial>(m_pSharedMtrl, _File);
+
+	m_pCurMtrl = m_pSharedMtrl;
+}

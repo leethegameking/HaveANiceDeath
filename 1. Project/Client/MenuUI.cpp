@@ -1,7 +1,10 @@
 #include "pch.h"
 #include "MenuUI.h"
 
+#include "CSaveLoadMgr.h"
 #include <Engine/CEventMgr.h>
+#include <Engine/CLevelMgr.h>
+#include <Engine/CLevel.h>
 
 MenuUI::MenuUI()
 	: UI("##MenuUI")
@@ -19,6 +22,12 @@ void MenuUI::render()
 	{
 		if (ImGui::BeginMenu("File"))
 		{
+			if (ImGui::MenuItem("Save Level"))
+			{
+				CLevel* pSaveLevel = CLevelMgr::GetInst()->GetCurLevel();
+				CSaveLoadMgr::GetInst()->SaveLevel(pSaveLevel, L"level\\testLV.lv");
+			}
+
 			ImGui::EndMenu();
 		}
 

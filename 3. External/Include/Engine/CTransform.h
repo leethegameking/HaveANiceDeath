@@ -48,6 +48,10 @@ public:
 
 	void UpdateData();
 
+public:
+	virtual void SaveToFile(FILE* _File) override;
+	virtual void LoadFromFile(FILE* _File) override;
+
 	CLONE(CTransform);
 public:
 	CTransform();

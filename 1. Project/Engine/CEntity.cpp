@@ -4,6 +4,16 @@
 UINT CEntity::g_ID = 0;
 
 
+void CEntity::SaveToFile(FILE* _pFile)
+{
+	SaveWStringToFile(m_strName, _pFile);
+}
+
+void CEntity::LoadFromFile(FILE* _pFile)
+{
+	LoadWStringFromFile(m_strName, _pFile);
+}
+
 CEntity::CEntity()
 	: m_ID(g_ID++)
 {
