@@ -44,8 +44,6 @@ private:
      
      int m_iMaxFrm;
 
-
-
     // ======================
     // Edit
     // ======================
@@ -77,6 +75,7 @@ private:
     void FrameImageWindow();
     void SettingWindow();
 
+    void AddFrame(Vec2 _cursorPos, Vec2 _rectStart, Vec2 _rectEnd);
     void DeleteFrame(int& idx);
 
 

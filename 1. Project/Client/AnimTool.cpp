@@ -208,19 +208,44 @@ void AnimTool::FrameWindow()
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_HorizontalScrollbar;
 	ImGui::BeginChild("ChildImageFrame", Vec2(ImGui::GetContentRegionAvail().x, 100.f + 25.f), true, window_flags);
 
+
+	static ImVec4 tintColor = ImVec4(1.f, 1.f, 1.f, 1.f);
 	// 프레임 수 만큼 이미지버튼으로 표시
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
 	for (size_t i = 0; i < m_ChangeFrm.size(); ++i)
 	{
 		Vec2 vFrameIdxPos = ImGui::GetCursorScreenPos();
+
+		// 프레임 선택 표시
+		if (IsCreateMode())
+		{
+			if (i == m_CreateFrmIdx)
+				tintColor = ImVec4(1.f, 1.f, 1.f, 0.5f);
+			else
+				tintColor = ImVec4(1.f, 1.f, 1.f, 1.f);
+		}
+		// 프레임 선택 표시
+		if (IsEditMode())
+		{
+			if (i == m_EditFrmIdx)
+				tintColor = ImVec4(1.f, 1.f, 1.f, 0.5f);
+			else
+				tintColor = ImVec4(1.f, 1.f, 1.f, 1.f);
+		}
+
 		string imageID = "#imageButton" + to_string(i);
 		ImGui::PushID(imageID.c_str());
-		if (ImGui::ImageButton(m_AtlasSRV, Vec2(100.f, 100.f), m_ChangeFrm[i].vLeftTop, m_ChangeFrm[i].vLeftTop + m_ChangeFrm[i].vSlice))
+		if (ImGui::ImageButton(m_AtlasSRV, Vec2(100.f, 100.f), m_ChangeFrm[i].vLeftTop, m_ChangeFrm[i].vLeftTop + m_ChangeFrm[i].vSlice, -1, ImVec4(0.f,0.f,0.f,0.f), tintColor))
 		{
-			if(IsCreateMode())
+			tintColor = ImVec4(1.f, 1.f, 1.f, 1.f);
+			if (IsCreateMode())
+			{
 				m_CreateFrmIdx = i;
+			}
 			if (IsEditMode())
+			{
 				m_EditFrmIdx = i;
+			}
 		}
 		// 지우기 옵션
 		if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
@@ -385,7 +410,18 @@ void AnimTool::AtlasWindow()
 					vRectStartPos.x += speed * DT;
 					vRectEndPos.x += speed * DT;
 				}
+			}
 
+			if (KEY_TAP(KEY::SPACE))
+			{
+				tAnim2DFrm tFrm = {};
+				tFrm.vLeftTop = (vRectStartPos - vCursorPos) / m_vAtlasScale / m_AtlasTex->GetSize();
+				tFrm.vOffset = Vec2::Zero;
+				tFrm.fDuration = 0.1f;
+				tFrm.vFullSize = Vec2(400.f, 400.f) / AtlasSize;
+				tFrm.vSlice = (vRectEndPos - vRectStartPos) / m_vAtlasScale / m_AtlasTex->GetSize();
+
+				m_ChangeFrm.push_back(tFrm);
 			}
 		}
 		// 자동선택모드
@@ -443,10 +479,10 @@ void AnimTool::AtlasWindow()
 
 
 			// 클릭으로 선택
-			if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows) && ImGui::IsMouseClicked(0))
+			if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows) && ImGui::IsMouseClicked(0) && !KEY_PRESSED(KEY::LCTRL))
 			{
-				if (ImGui::IsMouseClicked(0))
-					m_bHasSelected = true;
+				//if (ImGui::IsMouseClicked(0))
+				m_bHasSelected = true;
 
 				Vec4 out = m_AtlasTex->WIdthSearch(inVec, TexCoord / m_vAtlasScale);
 				m_AtlasTex->CheckClear(inVec);
@@ -469,6 +505,32 @@ void AnimTool::AtlasWindow()
 
 					m_ChangeFrm.push_back(tFrm);
 				}
+			}
+
+			// 이미지 추가 할당.
+			if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows) && ImGui::IsMouseClicked(0) && KEY_PRESSED(KEY::LCTRL))
+			{
+				m_bHasSelected = true;
+
+				Vec4 out = m_AtlasTex->WIdthSearch(inVec, TexCoord / m_vAtlasScale);
+				m_AtlasTex->CheckClear(inVec);
+
+				Vec2 tmpRectStartPos = Vec2(vCursorPos.x + out.x * m_vAtlasScale.x, vCursorPos.y + out.y * m_vAtlasScale.y);
+				Vec2 tmpRectEndPos = Vec2(vCursorPos.x + out.z * m_vAtlasScale.x, vCursorPos.y + out.w * m_vAtlasScale.y);
+				
+				if (vRectStartPos.x > tmpRectStartPos.x)
+					vRectStartPos.x = tmpRectStartPos.x;
+				if (vRectStartPos.y > tmpRectStartPos.y)
+					vRectStartPos.y = tmpRectStartPos.y;
+				if (vRectEndPos.x < tmpRectEndPos.x)
+					vRectEndPos.x = tmpRectEndPos.x;
+				if (vRectEndPos.y < tmpRectEndPos.y)
+					vRectEndPos.y = tmpRectEndPos.y;
+			}
+
+			if (KEY_TAP(KEY::SPACE))
+			{
+				AddFrame(vCursorPos, vRectStartPos, vRectEndPos);
 			}
 		}
 
@@ -686,7 +748,7 @@ void AnimTool::SettingWindow()
 
 void AnimTool::FrameImageWindow()
 {
-	ImGuiWindowFlags window_flags = ImGuiWindowFlags_HorizontalScrollbar;
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_NoMove;
 	ImGui::BeginChild("ChildFrameImage", ImVec2(ImGui::GetContentRegionAvail().x, 500.f), true, window_flags);
 
 	int idx = 0;
@@ -719,11 +781,19 @@ void AnimTool::FrameImageWindow()
 				vImageStart, vImageStart + m_ChangeFrm[idx - 1].vSlice * AtlasSize,
 				m_ChangeFrm[idx - 1].vLeftTop, m_ChangeFrm[idx - 1].vLeftTop + m_ChangeFrm[idx - 1].vSlice, IM_COL32(255, 255, 255, 150));
 		}
+		
+		// 현재 이미지
 		Vec2 vDiff = (m_ChangeFrm[idx].vFullSize - m_ChangeFrm[idx].vSlice) / 2.f;
 		Vec2 vImageStart = vCursorPos + (m_ChangeFrm[idx].vOffset + vDiff) * AtlasSize;
 		draw_list->AddImage(m_AtlasSRV,
 			vImageStart, vImageStart + m_ChangeFrm[idx].vSlice * AtlasSize,
 			m_ChangeFrm[idx].vLeftTop, m_ChangeFrm[idx].vLeftTop + m_ChangeFrm[idx].vSlice, IM_COL32(255, 255, 255, 255));
+
+		if (ImGui::IsMouseDragging(0))
+		{
+			Vec2 vMouseMove = Vec2(CKeyMgr::GetInst()->GetMouseDir().x, -CKeyMgr::GetInst()->GetMouseDir().y);
+			m_ChangeFrm[idx].vOffset += vMouseMove / AtlasSize;
+		}
 	}
 	
 
@@ -741,6 +811,18 @@ void AnimTool::SetAtlasTex(DWORD_PTR _texKey)
 	m_AtlasSRV = m_AtlasTex->GetSRV().Get();
 
 	m_bImageChanged = true;
+}
+
+void AnimTool::AddFrame(Vec2 _cursorPos ,Vec2 _rectStart, Vec2 _rectEnd)
+{
+	tAnim2DFrm tFrm = {};
+	tFrm.vLeftTop = (_rectStart - _cursorPos) / m_vAtlasScale / m_AtlasTex->GetSize();
+	tFrm.vOffset = Vec2::Zero;
+	tFrm.fDuration = 0.1f;
+	tFrm.vFullSize = Vec2(400.f, 400.f) / m_AtlasTex->GetSize();
+	tFrm.vSlice = (_rectEnd - _rectStart) / m_vAtlasScale / m_AtlasTex->GetSize();
+
+	m_ChangeFrm.push_back(tFrm);
 }
 
 void AnimTool::DeleteFrame(int& idx)

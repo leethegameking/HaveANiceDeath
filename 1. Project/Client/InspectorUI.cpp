@@ -134,10 +134,12 @@ void InspectorUI::render_update()
 
 void InspectorUI::last_render()
 {
-	ImGui::Text("Add Component");
-	ImGui::SameLine();
-	if(m_TargetObj)
+	if (m_TargetObj)
+	{
+		ImGui::Text("Add Component");
+		ImGui::SameLine();
 		m_CompComboBox->render_update();
+	}
 }
 
 void InspectorUI::SetTargetObj(CGameObject* _Target)
