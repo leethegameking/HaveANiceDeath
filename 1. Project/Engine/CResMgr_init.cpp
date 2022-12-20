@@ -176,6 +176,14 @@ void CResMgr::CreateDefaultTexture()
 	Load<CTexture>(L"PlayerDashAtlas", L"texture\\player\\PlayerDash_Atlas.png");
 	Load<CTexture>(L"PlayerDownAttackAtlas", L"texture\\player\\PlayerDownAttack_Atlas.png");
 
+	// Player
+	Load<CTexture>(L"PlayerRunToIdle", L"texture\\player\\PlayerRunToIdle.png");
+	Load<CTexture>(L"PlayerRunUturn", L"texture\\player\\PlayerRunUturn.png");
+	Load<CTexture>(L"PlayerRun", L"texture\\player\\PlayerRun.png");
+	Load<CTexture>(L"PlayerIdle", L"texture\\player\\PlayerIdle.png");
+	Load<CTexture>(L"PlayerIdleToRun", L"texture\\player\\PlayerIdleToRun.png");
+	Load<CTexture>(L"PlayerIdleUturn", L"texture\\player\\PlayerIdleUturn.png");
+
 	// 텍스쳐 생성
 	CreateTexture(L"UAVTex", 1600, 900, DXGI_FORMAT_R8G8B8A8_UNORM
 		, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS);

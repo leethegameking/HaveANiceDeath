@@ -104,6 +104,11 @@ float4 PS_Std2D_AlphaBlend(VTX_OUT _in) : SV_Target
         vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
     }       
     
+    if (vOutColor.r != 0.f || vOutColor.g != 0.f || vOutColor.b != 0.f)
+    {
+        // float ratio = (3.f - (vOutColor.r + vOutColor.g + vOutColor.b)) * 3.f;
+        vOutColor.rgb *= 7.f;
+    }
 
     
     return vOutColor;

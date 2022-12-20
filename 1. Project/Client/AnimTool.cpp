@@ -789,15 +789,24 @@ void AnimTool::FrameImageWindow()
 			vImageStart, vImageStart + m_ChangeFrm[idx].vSlice * AtlasSize,
 			m_ChangeFrm[idx].vLeftTop, m_ChangeFrm[idx].vLeftTop + m_ChangeFrm[idx].vSlice, IM_COL32(255, 255, 255, 255));
 
-		if (ImGui::IsMouseDragging(0))
+		if (ImGui::IsMouseDragging(0) && ImGui::IsWindowHovered())
 		{
 			Vec2 vMouseMove = Vec2(CKeyMgr::GetInst()->GetMouseDir().x, -CKeyMgr::GetInst()->GetMouseDir().y);
 			m_ChangeFrm[idx].vOffset += vMouseMove / AtlasSize;
 		}
+
+		if (KEY_PRESSED(KEY::LCTRL))
+		{
+			if (KEY_TAP(KEY::LEFT))
+				m_ChangeFrm[idx].vOffset.x -= 1.f / AtlasSize.x;
+			if (KEY_TAP(KEY::RIGHT))
+				m_ChangeFrm[idx].vOffset.x += 1.f / AtlasSize.x;
+			if (KEY_TAP(KEY::UP))
+				m_ChangeFrm[idx].vOffset.y -= 1.f / AtlasSize.y;
+			if (KEY_TAP(KEY::DOWN))
+				m_ChangeFrm[idx].vOffset.y += 1.f / AtlasSize.y;
+		}
 	}
-	
-
-
 	ImGui::EndChild();
 }
 

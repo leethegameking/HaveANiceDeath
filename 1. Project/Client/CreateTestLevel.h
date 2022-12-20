@@ -1,3 +1,2 @@
-
 void CreateDefaultAnimation();
 void CreateTestLevel();

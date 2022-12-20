@@ -301,6 +301,9 @@
     <ClInclude Include="CSaveLoadMgr.h">
       <Filter>04. LevelSaveLoad</Filter>
     </ClInclude>
+    <ClInclude Include="Light2DUI.h">
+      <Filter>03. UI\01. Inspector\ComponentUI\Light2DUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -466,6 +469,9 @@
     </ClCompile>
     <ClCompile Include="CSaveLoadMgr.cpp">
       <Filter>04. LevelSaveLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="Light2DUI.cpp">
+      <Filter>03. UI\01. Inspector\ComponentUI\Light2DUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

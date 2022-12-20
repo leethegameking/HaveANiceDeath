@@ -10,6 +10,7 @@
 #include "TileMapUI.h"
 #include "Animator2DUI.h"
 #include "MaterialUI.h"
+#include "Light2DUI.h"
 
 #include "MeshUI.h"
 #include "ComputeShaderUI.h"
@@ -56,6 +57,9 @@ InspectorUI::InspectorUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]->SetSize(ImVec2(0.f, 200.f));
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]);
 
+	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D] = new Light2DUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D]->SetSize(ImVec2(0.f, 200.f));
+	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D]);
 
 	//==================================================================================
 

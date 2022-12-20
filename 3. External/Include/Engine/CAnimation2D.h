@@ -33,6 +33,9 @@ public:
     void finaltick();
 
 public:
+    bool IsFinish() { return m_bFinish; }
+
+public:
     void Reset()
     {
         m_fAccTime = 0.f;
@@ -43,10 +46,6 @@ public:
     // UI¿ë
     void Reallocate();
 
-    virtual int Load(const wstring& _strFilePath) override;
-    virtual void Save(const wstring& _strFilePath) override;
-
-
     void UpdateData();
     void Clear();
 
@@ -55,7 +54,8 @@ private:
     void Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex, const vector<tAnim2DFrm>& _vecFrm);
 
 public:
-
+    virtual int Load(const wstring& _strFilePath) override;
+    virtual void Save(const wstring& _strFilePath) override;
 
     CLONE(CAnimation2D);
 public:

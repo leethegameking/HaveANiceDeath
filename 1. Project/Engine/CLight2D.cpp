@@ -18,14 +18,6 @@ CLight2D::~CLight2D()
 #include "CTimeMgr.h"
 void CLight2D::finaltick()
 {
-	if (KEY_PRESSED(KEY::L))
-	{
-		Vec3 vRot = Transform()->GetRelativeRotation();
-		vRot.z += DT * (XM_PI / 2.f);
-		Transform()->SetRelativeRotation(vRot);
-	}
-
-
 	m_Info.vWorldPos = Transform()->GetWorldPos();
 	m_Info.vWorldDir = Transform()->GetWorldDir(DIR::RIGHT);
 

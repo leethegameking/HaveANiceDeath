@@ -23,7 +23,9 @@ CResMgr::~CResMgr()
 Ptr<CAnimation2D> CResMgr::CreateAnimation(const wstring& _strKey, Ptr<CTexture> _AtlasTex, const vector<tAnim2DFrm>& _vecFrm)
 {
 	Ptr<CAnimation2D> pAnim = FindRes<CAnimation2D>(_strKey);
-	assert(!pAnim.Get());
+	if (pAnim.Get())
+		return nullptr;
+	//assert(!pAnim.Get());
 
 	pAnim = new CAnimation2D;
 	pAnim->Create(_strKey, _AtlasTex, _vecFrm);
