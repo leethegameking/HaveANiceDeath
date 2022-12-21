@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <Engine/CScript.h>
 
 class CAnimation2D;
@@ -90,6 +90,8 @@ private:
     void SetPrevValues();
 
 public:
+    virtual void SaveToFile(FILE* _pFile) override;
+    virtual void LoadFromFile(FILE* _pFile) override;
 
     CLONE(CPlayerScript);
 public:

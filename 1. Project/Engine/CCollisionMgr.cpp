@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CCollisionMgr.h"
 
 #include "CLevelMgr.h"
@@ -66,34 +66,35 @@ void CCollisionMgr::CollisionBtwLayer(CLevel* _pCurLevel, int _iLeft, int _iRigh
 
 void CCollisionMgr::CollisionBtwCollider(CCollider2D* _pLeft, CCollider2D* _pRight)
 {
-	// µÎ Ãæµ¹Ã¼ÀÇ ID ¸¦ È®ÀÎ
+	// ë‘ ì¶©ëŒì²´ì˜ ID ë¥¼ í™•ì¸
 	COLLIDER_ID id;
 	id.LEFT_ID = _pLeft->GetID();
 	id.RIGHT_ID = _pRight->GetID();
 
-	// ÀÌÀü Ãæµ¹ Á¤º¸¸¦ °Ë»öÇÑ´Ù.
+	// ì´ì „ ì¶©ëŒ ì •ë³´ë¥¼ ê²€ìƒ‰í•œë‹¤.
 	map<ULONGLONG, bool>::iterator iter = m_mapColInfo.find(id.ID);
 
-	// Ãæµ¹Á¤º¸°¡ ¾Æ¿¹ ¾øÀ¸¸é ¸¸µé¾îÁØ´Ù.
+	// ì¶©ëŒì •ë³´ê°€ ì•„ì˜ˆ ì—†ìœ¼ë©´ ë§Œë“¤ì–´ì¤€ë‹¤.
 	if (iter == m_mapColInfo.end())
 	{
 		m_mapColInfo.insert(make_pair(id.ID, false));
 		iter = m_mapColInfo.find(id.ID);
 	}
 
-	// µÎ Ãæµ¹Ã¼Áß ÇÏ³ª ÀÌ»óÀÇ Dead »óÅÂÀÎÁö
+	// ë‘ ì¶©ëŒì²´ì¤‘ í•˜ë‚˜ ì´ìƒì˜ Dead ìƒíƒœì¸ì§€
 	bool IsDead = _pLeft->GetOwner()->IsDead() || _pRight->GetOwner()->IsDead();
+	bool IsGrave = _pLeft->GetOwner()->IsGrave() || _pRight->GetOwner()->IsGrave();
 
 
-	// ÇöÀç Ãæµ¹ÁßÀÎÁö °Ë»ç ÇÑ´Ù.			
+	// í˜„ì¬ ì¶©ëŒì¤‘ì¸ì§€ ê²€ì‚¬ í•œë‹¤.			
 	if (IsCollision(_pLeft, _pRight))
 	{
-		// Ãæµ¹ ÁßÀÌ´Ù.
+		// ì¶©ëŒ ì¤‘ì´ë‹¤.
 		if (false == iter->second)
 		{
-			// ÀÌÀü ÇÁ·¹ÀÓ¿¡´Â Ãæµ¹ÇÏÁö ¾Ê¾Ò´Ù.
-			// ¤¤--> ÀÌ¹ø ÇÁ·¹ÀÓ¿¡ Ãæµ¹ ÁøÀÔ
-			if (!IsDead)
+			// ì´ì „ í”„ë ˆì„ì—ëŠ” ì¶©ëŒí•˜ì§€ ì•Šì•˜ë‹¤.
+			// ã„´--> ì´ë²ˆ í”„ë ˆì„ì— ì¶©ëŒ ì§„ì…
+			if (!IsDead && !IsGrave)
 			{
 				_pLeft->BeginOverlap(_pRight);
 				_pRight->BeginOverlap(_pLeft);
@@ -101,18 +102,19 @@ void CCollisionMgr::CollisionBtwCollider(CCollider2D* _pLeft, CCollider2D* _pRig
 			}
 		}
 
-		// Ãæµ¹ Áß
+		// ì¶©ëŒ ì¤‘
 		else
 		{
-			// »èÁ¦ ¿¹Á¤ÀÎ °æ¿ì, Ãæµ¹À» ÇØÁ¦ÇÏ´Â ¹æÇâÀ¸·Î ÁøÇà
-			if (IsDead)
+			// ì‚­ì œ ì˜ˆì •ì¸ ê²½ìš°, ì¶©ëŒì„ í•´ì œí•˜ëŠ” ë°©í–¥ìœ¼ë¡œ ì§„í–‰
+			// Grave ìƒíƒœì¼ ê²½ìš°ë„ ì¶©ëŒì„ í•´ì œí•˜ëŠ” ë°©í–¥ìœ¼ë¡œ
+			if (IsDead || IsGrave)
 			{
 				_pLeft->EndOverlap(_pRight);
 				_pRight->EndOverlap(_pLeft);
 				iter->second = false;
 			}
 
-			// ÀÌÀü¿¡µµ Ãæµ¹, Áö±İµµ Ãæµ¹ Áß
+			// ì´ì „ì—ë„ ì¶©ëŒ, ì§€ê¸ˆë„ ì¶©ëŒ ì¤‘
 			else
 			{
 				_pLeft->Overlap(_pRight);
@@ -120,14 +122,13 @@ void CCollisionMgr::CollisionBtwCollider(CCollider2D* _pLeft, CCollider2D* _pRig
 			}
 		}
 	}
-
+	// ì¶©ëŒ ì¤‘ì´ ì•„ë‹ˆë‹¤.
 	else
 	{
-		// Ãæµ¹ X
+		// ì´ì „ì—ëŠ” ì¶©ëŒí•˜ê³  ìˆì—ˆë‹¤
+		// ã„´--> ì¶©ëŒì„ ë§‰ ë²—ì–´ë‚œ ì‹œì 
 		if (iter->second)
 		{
-			// ÀÌÀü¿¡´Â Ãæµ¹ÇÏ°í ÀÖ¾ú´Ù
-			// ¤¤--> Ãæµ¹À» ¸· ¹ş¾î³­ ½ÃÁ¡
 			_pLeft->EndOverlap(_pRight);
 			_pRight->EndOverlap(_pLeft);
 			iter->second = false;
@@ -137,6 +138,13 @@ void CCollisionMgr::CollisionBtwCollider(CCollider2D* _pLeft, CCollider2D* _pRig
 
 bool CCollisionMgr::IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight)
 {
+	// acitve ì²´í¬
+	if (!_pLeft->IsActive() || !_pRight->IsActive())
+	{
+		return false;
+	}
+
+
 	// 0 --- 1
 	// |  \  | 
 	// 3 --- 2	
@@ -150,13 +158,13 @@ bool CCollisionMgr::IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight)
 	};
 
 
-	// ºĞ¸®Ãà ±¸ÇÏ±â
+	// ë¶„ë¦¬ì¶• êµ¬í•˜ê¸°
 	Vec3 vAxis[4] = {};
 
 	const Matrix& matLeft = _pLeft->GetWorldMat();
 	const Matrix& matRight = _pRight->GetWorldMat();
 
-	// ºĞ¸®Ãà º¤ÅÍ == Åõ¿µº¤ÅÍ
+	// ë¶„ë¦¬ì¶• ë²¡í„° == íˆ¬ì˜ë²¡í„°
 	vAxis[0] = XMVector3TransformCoord(arrLocalPos[1], matLeft) - XMVector3TransformCoord(arrLocalPos[0], matLeft);
 	vAxis[1] = XMVector3TransformCoord(arrLocalPos[3], matLeft) - XMVector3TransformCoord(arrLocalPos[0], matLeft);
 	vAxis[2] = XMVector3TransformCoord(arrLocalPos[1], matRight) - XMVector3TransformCoord(arrLocalPos[0], matRight);
@@ -193,7 +201,7 @@ bool CCollisionMgr::IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight)
 
 void CCollisionMgr::CollisionLayerCheck(int _iLeft, int _iRight)
 {
-	// ´õ ÀÛÀº ¼ıÀÚ¸¦ Çà(¹è¿­ÀÇ ÀÎµ¦½º) À¸·Î, ´õ Å« ¼ıÀÚ¸¦ ¿­(ºñÆ® À§Ä¡) ·Î
+	// ë” ì‘ì€ ìˆ«ìë¥¼ í–‰(ë°°ì—´ì˜ ì¸ë±ìŠ¤) ìœ¼ë¡œ, ë” í° ìˆ«ìë¥¼ ì—´(ë¹„íŠ¸ ìœ„ì¹˜) ë¡œ
 	UINT iRow = 0, iCol = 0;
 
 	if (_iLeft <= _iRight)
@@ -212,7 +220,7 @@ void CCollisionMgr::CollisionLayerCheck(int _iLeft, int _iRight)
 
 void CCollisionMgr::CollisionLayerRelease(int _iLeft, int _iRight)
 {
-	// ´õ ÀÛÀº ¼ıÀÚ¸¦ Çà(¹è¿­ÀÇ ÀÎµ¦½º) À¸·Î, ´õ Å« ¼ıÀÚ¸¦ ¿­(ºñÆ® À§Ä¡) ·Î
+	// ë” ì‘ì€ ìˆ«ìë¥¼ í–‰(ë°°ì—´ì˜ ì¸ë±ìŠ¤) ìœ¼ë¡œ, ë” í° ìˆ«ìë¥¼ ì—´(ë¹„íŠ¸ ìœ„ì¹˜) ë¡œ
 	UINT iRow = 0, iCol = 0;
 
 	if (_iLeft <= _iRight)

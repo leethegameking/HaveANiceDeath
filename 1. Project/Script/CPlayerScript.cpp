@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CPlayerScript.h"
 
 wstring PlayerKey[PLAYER_ANIM_END] =
@@ -27,9 +27,12 @@ CPlayerScript::CPlayerScript()
 {
 }
 
+
+
 CPlayerScript::~CPlayerScript()
 {
 }
+
 
 void CPlayerScript::begin()
 {
@@ -92,7 +95,7 @@ void CPlayerScript::tick()
 		{
 			Animator2D()->Play(L"PlayerRun");
 		}
-		// UturnÀ» ¾ÈÇß´Ù¸é.
+		// Uturnì„ ì•ˆí–ˆë‹¤ë©´.
 		else
 		{
 			m_eCurDir = m_ePrevDir;
@@ -122,7 +125,7 @@ void CPlayerScript::tick()
 		{
 			Animator2D()->Play(L"PlayerRun");
 		}
-		// UturnÀ» ¾ÈÇß´Ù¸é.
+		// Uturnì„ ì•ˆí–ˆë‹¤ë©´.
 		else
 		{
 			m_eCurDir = m_ePrevDir;
@@ -274,3 +277,12 @@ void CPlayerScript::MoveHorizontalReverse()
 	Transform()->SetRelativePos(vPos);
 }
 
+void CPlayerScript::SaveToFile(FILE* _pFile)
+{
+	CScript::SaveToFile(_pFile);
+}
+
+void CPlayerScript::LoadFromFile(FILE* _pFile)
+{
+	CScript::LoadFromFile(_pFile);
+}

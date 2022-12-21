@@ -54,11 +54,11 @@ void CCollider2D::finaltick()
 
 	if (COLLIDER2D_TYPE::COLLIDER2D_RECT == m_eType)
 	{
-		DebugDrawRect(m_vIdleColor, Vec3(m_vFinalPos.x, m_vFinalPos.y, 0.f), Vec3(m_vFinalScale.x, m_vFinalScale.y, 1.f), m_vRot);
+		DebugDrawRect(color, Vec3(m_vFinalPos.x, m_vFinalPos.y, 0.f), Vec3(m_vFinalScale.x, m_vFinalScale.y, 1.f), m_vRot);
 	}
 	else
 	{
-		DebugDrawCircle(m_vIdleColor, Vec3(m_vFinalPos.x, m_vFinalPos.y, 0.f), m_vFinalScale.x);
+		DebugDrawCircle(color, Vec3(m_vFinalPos.x, m_vFinalPos.y, 0.f), m_vFinalScale.x);
 	}
 #endif
 }

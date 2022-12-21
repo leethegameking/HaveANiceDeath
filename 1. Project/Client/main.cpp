@@ -13,6 +13,8 @@
 
 #include "CreateTestLevel.h"
 
+#include "CSaveLoadMgr.h"
+
 
 HINSTANCE   g_hInst = nullptr;
 HWND        g_hWnd = nullptr;
@@ -48,6 +50,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         MessageBox(nullptr, L"엔진 초기화 실패", L"에러", MB_OK);
         return 0;
     }
+
+    CSaveLoadMgr::GetInst()->init();
 
     CreateTestLevel();
 

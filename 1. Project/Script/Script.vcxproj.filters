@@ -16,13 +16,13 @@
     <ClInclude Include="CParticleHandler.h">
       <Filter>Script</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayerScript.h">
-      <Filter>Script</Filter>
-    </ClInclude>
     <ClInclude Include="CScriptMgr.h">
       <Filter>ScriptMgr</Filter>
     </ClInclude>
     <ClInclude Include="CTestScript.h">
+      <Filter>Script\MyScript</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerScript.h">
       <Filter>Script\MyScript</Filter>
     </ClInclude>
   </ItemGroup>
@@ -42,13 +42,13 @@
     <ClCompile Include="CParticleHandler.cpp">
       <Filter>Script</Filter>
     </ClCompile>
-    <ClCompile Include="CPlayerScript.cpp">
-      <Filter>Script</Filter>
-    </ClCompile>
     <ClCompile Include="CScriptMgr.cpp">
       <Filter>ScriptMgr</Filter>
     </ClCompile>
     <ClCompile Include="CTestScript.cpp">
+      <Filter>Script\MyScript</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerScript.cpp">
       <Filter>Script\MyScript</Filter>
     </ClCompile>
   </ItemGroup>

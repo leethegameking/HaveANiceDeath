@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 
 typedef Vector2 Vec2;
 typedef Vector3 Vec3;
@@ -31,7 +31,7 @@ friend class CSingleton<class_name>;
 
 enum class SAMPLER_TYPE
 {
-	ANISOTROPIC, // ¿ÃπÊº∫
+	ANISOTROPIC, // Ïù¥Î∞©ÏÑ±
 	POINT,		 
 
 	END,
@@ -97,10 +97,10 @@ enum PIPELINE_STAGE
 
 enum class SHADER_DOMAIN
 {
-	DOMAIN_OPAQUE,		// ∫“≈ı∏Ì ¥‹∞Ë
-	DOMAIN_MASK,		// √‚∑¬, ∫Ò√‚∑¬
-	DOMAIN_TRANSPARENT, // π›≈ı∏Ì
-	DOMAIN_POST_PROCESS,// »ƒ√≥∏Æ	    
+	DOMAIN_OPAQUE,		// Î∂àÌà¨Î™Ö Îã®Í≥Ñ
+	DOMAIN_MASK,		// Ï∂úÎ†•, ÎπÑÏ∂úÎ†•
+	DOMAIN_TRANSPARENT, // Î∞òÌà¨Î™Ö
+	DOMAIN_POST_PROCESS,// ÌõÑÏ≤òÎ¶¨	    
 	NONE,
 };
 
@@ -156,6 +156,7 @@ enum class EVENT_TYPE
 {
 	CREATE_OBJECT,  // wParam : Object Adress, lParam : Layer Index
 	DELETE_OBJECT,	// wParam : Object Adress,
+	BURRY_OBJECT,
 	ADD_CHILD,
 	CHANGE_LEVEL,
 	CHANGE_LEVEL_STATE,
@@ -255,9 +256,9 @@ enum class SB_TYPE
 
 enum class LIGHT_TYPE
 {
-	DIRECTIONAL,	// πÊ«‚º∫
-	POINT,			// ¡°±§ø¯
-	SPOT,			// Ω∫∆˜∆Æ ∂Û¿Ã∆Æ
+	DIRECTIONAL,	// Î∞©Ìñ•ÏÑ±
+	POINT,			// Ï†êÍ¥ëÏõê
+	SPOT,			// Ïä§Ìè¨Ìä∏ ÎùºÏù¥Ìä∏
 };
 
 enum class LEVEL_STATE

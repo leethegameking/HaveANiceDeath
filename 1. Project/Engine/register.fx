@@ -4,7 +4,7 @@
 #include "struct.fx"
 
 
-// »ó¼ö ·¹Áö½ºÅÍ
+// í•œê¸€ 
 cbuffer TRANSFORM : register(b0)
 {
     row_major matrix g_matWorld;
@@ -78,11 +78,16 @@ cbuffer ANIM2DINFO : register(b3)
     float2  g_vFullSize;
  
     int     g_iAnim2DUse;
-    int3     iPadding;
+    
+    int     g_bColliderOn;
+    float2  g_iColliderPos;
+    float2  g_iColliderScale;
+    
+    int2    iPadding;
 }
 
 
-// ÅØ½ºÃÄ ·¹Áö½ºÅÍ
+// í…ìŠ¤ì³ ë ˆì§€ìŠ¤í„°
 Texture2D g_tex_0 : register(t0);
 Texture2D g_tex_1 : register(t1);
 Texture2D g_tex_2 : register(t2);
@@ -112,7 +117,7 @@ Texture2D g_Noise : register(t15);
 Texture2D g_RTCopyTex : register(t60);
 
 
-// »ùÇÃ·¯ ·¹Áö½ºÅÍ
+// ??? ????
 SamplerState g_sam_0 : register(s0); // anisotropic sampler
 SamplerState g_sam_1 : register(s1); // point sampler
 

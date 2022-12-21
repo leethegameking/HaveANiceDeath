@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "CEntity.h"
 
 class CComponent;
@@ -33,6 +33,11 @@ private:
 
     int                     m_iLayerIdx;
     bool                    m_bDead;
+
+    // Grave 상태
+    // CollisionMgr에서 충돌한 물체의 상태가 이 상태일 때 EndOverlap을 요청한다.
+    // m_bGrave 상태 이후엔 컴포넌트가 tick()과 finaltick() 을 하지 않으며 layer에서 삭제되지 않고, EventMgr의 가비지 컬렉터에도 가지 않는다.
+    bool                    m_bGrave;
 
 protected:
     vector<CGameObject*>    m_vecChild;
@@ -73,6 +78,7 @@ public:
 
     int GetLayerIdx() { return m_iLayerIdx; }
     bool IsDead() { return m_bDead; }
+    bool IsGrave() { return m_bGrave; }
     void Destroy();
 
     CLONE(CGameObject);

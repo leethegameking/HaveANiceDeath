@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 
 struct Vtx
@@ -18,21 +18,21 @@ struct tEvent
 
 struct tLightInfo
 {
-	Vec4		vDiff;		// ³­¹İ»ç ±¤
-	Vec4		vSpec;		// ¹İ»ç±¤ °è¼ö
-	Vec4		vEmb;		// È¯°æ±¤
+	Vec4		vDiff;		// ë‚œë°˜ì‚¬ ê´‘
+	Vec4		vSpec;		// ë°˜ì‚¬ê´‘ ê³„ìˆ˜
+	Vec4		vEmb;		// í™˜ê²½ê´‘
 	
-	Vec4		vWorldPos;	// ±¤¿ø ¿ùµå À§Ä¡
-	Vec4		vWorldDir;	// ±¤¿øÀÇ ¹æÇâ
-	LIGHT_TYPE	iLightType;	// ±¤¿ø Å¸ÀÔ
-	float		fRadius;	// ±¤¿ø ¹İ°æ (POINT, SPOT)
-	float		fAngle;		// ±¤¿ø °¢µµ (SPOT)
+	Vec4		vWorldPos;	// ê´‘ì› ì›”ë“œ ìœ„ì¹˜
+	Vec4		vWorldDir;	// ê´‘ì›ì˜ ë°©í–¥
+	LIGHT_TYPE	iLightType;	// ê´‘ì› íƒ€ì…
+	float		fRadius;	// ê´‘ì› ë°˜ê²½ (POINT, SPOT)
+	float		fAngle;		// ê´‘ì› ê°ë„ (SPOT)
 	int			pad;
 };
 
 
 // ================
-// Animation ±¸Á¶Ã¼
+// Animation êµ¬ì¡°ì²´
 // ================
 struct tAnim2DFrm
 {
@@ -41,11 +41,17 @@ struct tAnim2DFrm
 	Vec2 vOffset;
 	Vec2 vFullSize;
 	float fDuration;
+	
+	// Collider
+	int bColiiderOn;
+	Vec2 iColliderPos;
+	Vec2 iColliderScale;
+	int iPadding[2];
 };
 
 
 // ===============
-// Particle ±¸Á¶Ã¼
+// Particle êµ¬ì¡°ì²´
 // ===============
 struct tParticle
 {
@@ -83,7 +89,7 @@ struct tDebugShapeInfo
 
 
 // ================
-// »ó¼ö¹öÆÛ¿ë ±¸Á¶Ã¼
+// ìƒìˆ˜ë²„í¼ìš© êµ¬ì¡°ì²´
 // ================
 struct tTransform
 {	

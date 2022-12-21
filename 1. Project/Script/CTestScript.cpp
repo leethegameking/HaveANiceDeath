@@ -1,5 +1,9 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "CTestScript.h"
+
+#include <Engine/CResMgr.h>
+#include <Engine/CPrefab.h>
+#include <Engine/CEventMgr.h>
 
 CTestScript::CTestScript()
 	: CScript(TESTSCRIPT)
@@ -10,6 +14,8 @@ CTestScript::CTestScript()
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Speed", &fSpeed);
 	AddScriptParam(SCRIPT_PARAM::VEC2, "DIr",  &vDir);
 	AddScriptParam(SCRIPT_PARAM::VEC3, "Pos", &vPos);
+
+	testPrefab = CResMgr::GetInst()->FindRes<CPrefab>(L"testPrefab");
 }
 
 CTestScript::~CTestScript()
@@ -28,6 +34,44 @@ void CTestScript::tick()
 	{
 		Transform()->SetRelativePos(vPos);
 	}
+
+	// save prefab test
+	if (KEY_TAP(KEY::P))
+	{
+		testPrefab->Save(L"prefab\\testPrefab");
+	}
+
+	// 
+	if (KEY_TAP(KEY::U))
+	{
+		tEvent evn = {};
+		evn.eType = EVENT_TYPE::BURRY_OBJECT;
+		evn.wParam = DWORD_PTR(GetOwner());
+		CEventMgr::GetInst()->AddEvent(evn);
+	}
+
+	if (KEY_TAP(KEY::I))
+	{
+		Collider2D()->Activate();
+	}
 }
+
+
+void CTestScript::SaveToFile(FILE* _pFile)
+{
+	CScript::SaveToFile(_pFile);
+	fwrite(&fSpeed, sizeof(float), 1, _pFile);
+	fwrite(&vPos, sizeof(Vec2), 1, _pFile);
+	SaveResourceRef<CPrefab>(testPrefab, _pFile);
+}
+
+void CTestScript::LoadFromFile(FILE* _pFile)
+{
+	CScript::LoadFromFile(_pFile);
+	fread(&fSpeed, sizeof(float), 1, _pFile);
+	fread(&vPos, sizeof(Vec2), 1, _pFile);
+	LoadResourceRef<CPrefab>(testPrefab, _pFile);
+}
+
 
 

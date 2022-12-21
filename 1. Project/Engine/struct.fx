@@ -1,13 +1,11 @@
 #ifndef _STRUCT
 #define _STRUCT
 
-
-
 struct tLightColor
 {
-    float4 vDiff; // ³­¹İ»ç ±¤
-    float4 vSpec; // ¹İ»ç±¤ °è¼ö
-    float4 vEmb; // È¯°æ±¤
+    float4 vDiff; // ë‚œë°˜ì‚¬ ê´‘
+    float4 vSpec; // ë°˜ì‚¬ê´‘ ê³„ìˆ˜
+    float4 vEmb; // í™˜ê²½ê´‘
 };
 
 
@@ -15,11 +13,11 @@ struct tLightColor
 struct tLightInfo
 {
     tLightColor color;	
-    float4      vWorldPos; // ±¤¿ø ¿ùµå À§Ä¡
-    float4      vWorldDir;  // ±¤¿øÀÇ ¿ùµå ¹æÇâ
-    int         iLightType; // ±¤¿ø Å¸ÀÔ
-    float       fRadius; // ±¤¿ø ¹İ°æ (POINT, SPOT)
-    float       fAngle; // ±¤¿ø °¢µµ (SPOT)
+    float4      vWorldPos;  // ê´‘ì› ì›”ë“œ ìœ„ì¹˜
+    float4      vWorldDir;  // ê´‘ì›ì˜ ì›”ë“œ ë°©í–¥
+    int         iLightType; // ê´‘ì› íƒ€ì…
+    float       fRadius;    // ê´‘ì› ë°˜ê²½ (POINT, SPOT)
+    float       fAngle;     // ê´‘ì› ê°ë„ (SPOT)
     int         pad;
 };
 

@@ -1,10 +1,12 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CEventMgr.h"
 
 #include "CLevelMgr.h"
 #include "CLevel.h"
 #include "CLayer.h"
 #include "CGameObject.h"
+
+#include "CCollider2D.h"
 
 
 CEventMgr::CEventMgr()
@@ -22,15 +24,22 @@ void CEventMgr::tick()
 {
 	m_bLevelChanged = false;
 	m_bResChanged = false;
-	// ¸Ş¸ğ¸® Á¤¸®
+	// ë©”ëª¨ë¦¬ ì •ë¦¬
 	for (size_t i = 0; i < m_vecGarbage.size(); ++i)
 	{		
 		delete m_vecGarbage[i];
 	}
 	m_vecGarbage.clear();
 
+	for (size_t i = 0; i < m_vecGrave.size(); ++i)
+	{
+		m_vecGrave[i]->Collider2D()->Deactivate();
+		m_vecGrave[i]->m_bGrave = false;
+	}
+	m_vecGrave.clear();
 
-	// ÀÌº¥Æ® Ã³¸®
+
+	// ì´ë²¤íŠ¸ ì²˜ë¦¬
 	for (size_t i = 0; i < m_vecEvent.size(); ++i)
 	{
 		switch (m_vecEvent[i].eType)
@@ -57,10 +66,10 @@ void CEventMgr::tick()
 
 			if (!pObj->IsDead())
 			{				
-				// »èÁ¦Ã³¸®ÇÒ ÃÖ»óÀ§ ºÎ¸ğ¸¸ °¡ºñÁö¿¡ ³Ö´Â´Ù.
+				// ì‚­ì œì²˜ë¦¬í•  ìµœìƒìœ„ ë¶€ëª¨ë§Œ ê°€ë¹„ì§€ì— ë„£ëŠ”ë‹¤.
 				m_vecGarbage.push_back(pObj);
 
-				// »èÁ¦ÇÒ ¿ÀºêÁ§Æ® Æ÷ÇÔ, ¸ğµç ÀÚ½Ä¿ÀºêÁ§Æ®¸¦ Dead Ã¼Å©ÇÑ´Ù.
+				// ì‚­ì œí•  ì˜¤ë¸Œì íŠ¸ í¬í•¨, ëª¨ë“  ìì‹ì˜¤ë¸Œì íŠ¸ë¥¼ Dead ì²´í¬í•œë‹¤.
 				static list<CGameObject*> queue;				
 				queue.push_back(pObj);
 				while (!queue.empty())
@@ -76,6 +85,17 @@ void CEventMgr::tick()
 
 					pObj->m_bDead = true;
 				}
+			}
+		}
+			break;
+
+		case EVENT_TYPE::BURRY_OBJECT:
+		{
+			CGameObject* pObj = (CGameObject*)m_vecEvent[i].wParam;
+			if (!pObj->IsGrave())
+			{
+				m_vecGrave.push_back(pObj);
+				pObj->m_bGrave = true;
 			}
 		}
 			break;
@@ -114,7 +134,7 @@ void CEventMgr::tick()
 
 	m_vecEvent.clear();
 
-	// Res ¹Ù²î¾úÀ» °æ¿ì ÀÌº¥Æ® ¸Å´ÏÀú¿Í¼­ ¹Ù²î¾ú´Ù´Â°É ¾Ë·ÁÁÜ. -> ³ªÁß¿¡ ÀÌº¥Æ®·Î º¯°æ.
+	// Res ë°”ë€Œì—ˆì„ ê²½ìš° ì´ë²¤íŠ¸ ë§¤ë‹ˆì €ì™€ì„œ ë°”ë€Œì—ˆë‹¤ëŠ”ê±¸ ì•Œë ¤ì¤Œ. -> ë‚˜ì¤‘ì— ì´ë²¤íŠ¸ë¡œ ë³€ê²½.
 	if (m_bResChangeFlag)
 	{
 		m_bResChanged = true;

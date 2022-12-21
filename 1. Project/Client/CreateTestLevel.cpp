@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CreateTestLevel.h"
 
 #include "CSaveLoadMgr.h"
@@ -25,15 +25,13 @@ void CreateTestLevel()
 {
 	CreateDefaultAnimation();
 
-	//CResMgr::GetInst()->Load<CAnimation2D>(L"animation\\PlayerRun");
-	//CResMgr::GetInst()->Load<CMaterial>(L"material\\New Material1");
-	//CLevelMgr::GetInst()->ChangeLevel(CSaveLoadMgr::GetInst()->LoadLevel(L"level\\testLV.lv"));
-	//return;
+	CLevelMgr::GetInst()->ChangeLevel(CSaveLoadMgr::GetInst()->LoadLevel(L"level\\testLV.lv"));
+	return;
 
 	CLevel* pTestLevel = new CLevel;
 	pTestLevel->SetName(L"TestLevel");
 
-	// Camera Object Ãß°¡
+	// Camera Object ì¶”ê°€
 	CGameObject* pCamObj = new CGameObject;
 	pCamObj->SetName(L"MainCamera");
 
@@ -60,9 +58,12 @@ void CreateTestLevel()
 
 	pTestLevel->AddGameObject(pTileMapObj, 0);
 
+	Ptr<CPrefab> testPrefab = new CPrefab(pTileMapObj);
+	CResMgr::GetInst()->AddRes<CPrefab>(L"testPrefab", testPrefab.Get());
+
 	CAnimation2D* pAnimation = nullptr;
 
-	// Directional Light Ãß°¡
+	// Directional Light ì¶”ê°€
 	CGameObject* pDirLight = new CGameObject;
 	pDirLight->SetName(L"DirectionalLight");
 
@@ -75,7 +76,7 @@ void CreateTestLevel()
 
 	pTestLevel->AddGameObject(pDirLight, 0);
 
-	// PointLight Ãß°¡
+	// PointLight ì¶”ê°€
 	CGameObject* pPointLight = new CGameObject;
 	pPointLight->SetName(L"PointLight");
 
@@ -90,8 +91,6 @@ void CreateTestLevel()
 
 	pTestLevel->AddGameObject(pPointLight, 0);
 
-
-
 	CGameObject* pObject = nullptr;
 
 
@@ -104,7 +103,6 @@ void CreateTestLevel()
 	pObject->AddComponent(new CCollider2D);
 	pObject->AddComponent(new CAnimator2D);
 	pObject->AddComponent(new CPlayerScript);
-	pObject->AddComponent(new CMonsterScript);
 	pObject->AddComponent(new CTestScript);
 
 	pObject->Transform()->SetRelativePos(Vec3(0.f, 0.f, 800.f));
@@ -118,16 +116,16 @@ void CreateTestLevel()
 	
 	pObject->MeshRender()->GetSharedMaterial()->SetTexParam(TEX_PARAM::TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"Character"));
 
-	pObject->Animator2D()->AddAnimation(L"PlayerIdle");
-	pObject->Animator2D()->AddAnimation(L"PlayerIdleToRun");
-	pObject->Animator2D()->AddAnimation(L"PlayerIdleUturn");
-	pObject->Animator2D()->AddAnimation(L"PlayerRun");
-	pObject->Animator2D()->AddAnimation(L"PlayerRunToIdle");
-	pObject->Animator2D()->AddAnimation(L"PlayerRunUturn");
+	//pObject->Animator2D()->AddAnimation(L"PlayerIdle");
+	//pObject->Animator2D()->AddAnimation(L"PlayerIdleToRun");
+	//pObject->Animator2D()->AddAnimation(L"PlayerIdleUturn");
+	//pObject->Animator2D()->AddAnimation(L"PlayerRun");
+	//pObject->Animator2D()->AddAnimation(L"PlayerRunToIdle");
+	//pObject->Animator2D()->AddAnimation(L"PlayerRunUturn");
 
 	pTestLevel->AddGameObject(pObject, 0);
 
-	// Ãæµ¹ Test Obj
+	// ì¶©ëŒ Test Obj
 	pObject = new CGameObject;
 	pObject->SetName(L"CollisionTestObj1");
 
@@ -144,7 +142,6 @@ void CreateTestLevel()
 	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	pObject->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"));
 	pObject->MeshRender()->GetCurMaterial()->SetTexParam(TEX_PARAM::TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"Character"));
-
 
 	pTestLevel->AddGameObject(pObject, 1);
 
@@ -163,7 +160,7 @@ void CreateTestLevel()
 	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	pObject->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"));
 
-	pTestLevel->AddGameObject(pObject, 2);
+	pTestLevel->AddGameObject(pObject, 1);
 
 	// PostProcess Object
 	CGameObject* pPostProcess = new CGameObject;
@@ -179,12 +176,12 @@ void CreateTestLevel()
 	pTestLevel->AddGameObject(pPostProcess, 0);
 
 
-	// Ãæµ¹ ·¹ÀÌ¾î ¼³Á¤
+	// ì¶©ëŒ ë ˆì´ì–´ ì„¤ì •
 	CCollisionMgr::GetInst()->CollisionLayerCheck(0, 1);
 
 	CLevelMgr::GetInst()->ChangeLevel(pTestLevel);
 
-	// ·¹º§ È°¼ºÈ­
+	// ë ˆë²¨ í™œì„±í™”
 	pTestLevel->begin();
 
 	// Test
@@ -193,7 +190,7 @@ void CreateTestLevel()
 	//tex->GetPixelVector(invec);
 	//Vec4 out = tex->WIdthSearch(invec, Vec2(10.f, 10.f));
 	
-	// ComputeShader Å×½ºÆ®
+	// ComputeShader í…ŒìŠ¤íŠ¸
 	//Ptr<CPaintShader> pComputeShader = (CPaintShader*)CResMgr::GetInst()->FindRes<CComputeShader>(L"PaintShader").Get();
 	//pComputeShader->SetTexture(CResMgr::GetInst()->FindRes<CTexture>(L"UAVTex"));
 	//pComputeShader->SetColor(Vec4(0.f, 0.f, 1.f, 1.f));
@@ -216,10 +213,10 @@ void CreateDefaultAnimation()
 	CResMgr::GetInst()->CreateAnimation(L"LeftWalk", CResMgr::GetInst()->FindRes<CTexture>(L"Link"), Vec2(0.f, 650.f), Vec2::Zero, Vec2(120.f, 130.f), 120.f, 10, 16);
 	CResMgr::GetInst()->CreateAnimation(L"RightWalk", CResMgr::GetInst()->FindRes<CTexture>(L"Link"), Vec2(0.f, 910.f), Vec2::Zero, Vec2(120.f, 130.f), 120.f, 10, 16);
 
-	CResMgr::GetInst()->Load<CAnimation2D>(L"animation\\PlayerIdle");
-	CResMgr::GetInst()->Load<CAnimation2D>(L"animation\\PlayerIdleToRun");
-	CResMgr::GetInst()->Load<CAnimation2D>(L"animation\\PlayerIdleUturn");
-	CResMgr::GetInst()->Load<CAnimation2D>(L"animation\\PlayerRun");
-	CResMgr::GetInst()->Load<CAnimation2D>(L"animation\\PlayerRunToIdle");
-	CResMgr::GetInst()->Load<CAnimation2D>(L"animation\\PlayerRunUturn");
+	//CResMgr::GetInst()->Load<CAnimation2D>(L"animation\\PlayerIdle");
+	//CResMgr::GetInst()->Load<CAnimation2D>(L"animation\\PlayerIdleToRun");
+	//CResMgr::GetInst()->Load<CAnimation2D>(L"animation\\PlayerIdleUturn");
+	//CResMgr::GetInst()->Load<CAnimation2D>(L"animation\\PlayerRun");
+	//CResMgr::GetInst()->Load<CAnimation2D>(L"animation\\PlayerRunToIdle");
+	//CResMgr::GetInst()->Load<CAnimation2D>(L"animation\\PlayerRunUturn");
 }

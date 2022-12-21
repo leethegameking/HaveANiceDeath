@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CGameObject.h"
 
 #include "CComponent.h"
@@ -18,6 +18,8 @@ CGameObject::CGameObject()
 	, m_arrCom{}
 	, m_pRenderComponent(nullptr)
 	, m_iLayerIdx(-1)
+	, m_bGrave(false)
+	, m_bDead(false)
 {
 
 }
@@ -155,7 +157,7 @@ void CGameObject::DisconnectFromParent()
 		}
 	}
 
-	// ÀÚ½Äº¤ÅÍ¿¡ ÀÚ½ÄÀÌ ¾ø¾úÀ½.
+	// ìì‹ë²¡í„°ì— ìì‹ì´ ì—†ì—ˆìŒ.
 	assert(nullptr);
 }
 
@@ -163,27 +165,27 @@ void CGameObject::AddComponent(CComponent* _pComponent)
 {
 	COMPONENT_TYPE eComType = _pComponent->GetType();
 
-	// ½ºÅ©¸³Æ®°¡ ¾Æ´Ñ °æ¿ì
+	// ìŠ¤í¬ë¦½íŠ¸ê°€ ì•„ë‹Œ ê²½ìš°
 	if (COMPONENT_TYPE::SCRIPT != eComType)
 	{
 		if (m_arrCom[(UINT)eComType])
 			return;
 		// assert(!m_arrCom[(UINT)eComType]);
 
-		// ÀÔ·ÂµÈ Component °¡ RenderComponent ¶ó¸é
+		// ì…ë ¥ëœ Component ê°€ RenderComponent ë¼ë©´
 		CRenderComponent* pRenderCom = dynamic_cast<CRenderComponent*>(_pComponent);
 		if (nullptr != pRenderCom )
 		{
-			assert(!m_pRenderComponent); // render ±â´É ÄÄÆ÷³ÍÆ®´Â ÇÑ°³¸¸ °¡Áú ¼ö ÀÖ´Ù.
+			assert(!m_pRenderComponent); // render ê¸°ëŠ¥ ì»´í¬ë„ŒíŠ¸ëŠ” í•œê°œë§Œ ê°€ì§ˆ ìˆ˜ ìˆë‹¤.
 			m_pRenderComponent = pRenderCom;
 		}
 
-		// GameObject ¿Í Component °¡ ¼­·Î¸¦ °¡¸®Å´
+		// GameObject ì™€ Component ê°€ ì„œë¡œë¥¼ ê°€ë¦¬í‚´
 		_pComponent->m_pOwnerObject = this;
 		m_arrCom[(UINT)eComType] = _pComponent;
 	}
 	
-	// Script ÀÎ °æ¿ì
+	// Script ì¸ ê²½ìš°
 	else
 	{
 		_pComponent->m_pOwnerObject = this;
@@ -203,7 +205,7 @@ void CGameObject::AddChild(CGameObject* _pChild)
 	}
 	else
 	{
-		// ¸· »ı¼ºµÊ°ú °°Àº ÀÌÀ¯·Î ·¹ÀÌ¾î ¹ÌÁ¤ÀÎ »óÅÂÀÇ ¿ÀºêÁ§Æ®
+		// ë§‰ ìƒì„±ë¨ê³¼ ê°™ì€ ì´ìœ ë¡œ ë ˆì´ì–´ ë¯¸ì •ì¸ ìƒíƒœì˜ ì˜¤ë¸Œì íŠ¸
 		if (_pChild->m_iLayerIdx == -1)
 		{
 			_pChild->m_iLayerIdx = m_iLayerIdx;

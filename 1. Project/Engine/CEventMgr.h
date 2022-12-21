@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "singleton.h"
 
 
@@ -8,6 +8,7 @@ class CEventMgr :
 private:
     vector<tEvent>          m_vecEvent;
     vector<CGameObject*>    m_vecGarbage;
+    vector<CGameObject*>    m_vecGrave;
 
     bool m_bLevelChanged;
     bool m_bResChanged;

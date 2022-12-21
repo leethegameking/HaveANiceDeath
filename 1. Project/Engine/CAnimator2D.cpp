@@ -132,7 +132,8 @@ void CAnimator2D::Play(const wstring& _strKey, bool _bRepeat)
 	m_bRepeat = _bRepeat;
 
 	// 지정된 Animation 을 초기화
-	m_pCurAnim->Reset();	
+	if(m_pCurAnim.Get())
+		m_pCurAnim->Reset();	
 }
 
 void CAnimator2D::UpdateData()

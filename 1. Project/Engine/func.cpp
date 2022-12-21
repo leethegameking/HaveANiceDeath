@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 
 Vec4 MulMatrix(Vec4 _Vec4, const Matrix& _mat)
 {
@@ -193,7 +193,7 @@ void LoadStringFromFile(string& _str, FILE* _pFile)
 	fread(&iLen, sizeof(size_t), 1, _pFile);
 
 	char szBuffer[256] = {};
-	fread(szBuffer, sizeof(char), iLen, _pFile); // ¹Ù·Î ¹ŞÀ» ¼ö ÀÖ³ª? void* ·Î
+	fread(szBuffer, sizeof(char), iLen, _pFile); // ë°”ë¡œ ë°›ì„ ìˆ˜ ìˆë‚˜? void* ë¡œ
 	_str = szBuffer;
 }
 

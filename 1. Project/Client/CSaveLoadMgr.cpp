@@ -1,10 +1,15 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "CSaveLoadMgr.h"
 
 #include <Engine/CPathMgr.h>
 #include <Engine/CLevel.h>
 #include <Engine/CGameObject.h>
 #include <Engine/GlobalComponent.h>
+#include <Engine/CScript.h>
+#include <Engine/CPrefab.h>
+
+
+#include <Script/CScriptMgr.h>
 
 CSaveLoadMgr::CSaveLoadMgr()
 {
@@ -14,6 +19,12 @@ CSaveLoadMgr::~CSaveLoadMgr()
 {
 }
 
+
+void CSaveLoadMgr::init()
+{
+    CPrefab::Save_GameObject_Func = &CSaveLoadMgr::SaveGameObject;
+    CPrefab::Load_GameObject_Func = &CSaveLoadMgr::LoadGameObject;
+}
 
 void CSaveLoadMgr::SaveLevel(CLevel* _Level, wstring _strRelativePath)
 {
@@ -75,12 +86,33 @@ void CSaveLoadMgr::SaveGameObject(CGameObject* _Object, FILE* _File)
     fwrite(&eComponentEnd, sizeof(COMPONENT_TYPE), 1, _File);
 
     // script
+    const vector<CScript*>& vecScript = _Object->GetScripts();
+    size_t iScriptCount = vecScript.size();
+    // save script count 
+    fwrite(&iScriptCount, sizeof(size_t), 1, _File);
+
+    for (size_t i = 0; i < vecScript.size(); ++i)
+    {
+        // save script name
+        SaveWStringToFile(CScriptMgr::GetScriptName(vecScript[i]), _File);
+
+        // save scipt member
+        // 구현 안 되어 있다면 Entity에서 이름만 저장.
+        vecScript[i]->SaveToFile(_File);
+    }
 
     // child obj
+    const vector<CGameObject*>& vecChild = _Object->GetChildObject();
+    size_t iChildCount = vecChild.size();
+    // save child size
+    fwrite(&iChildCount, sizeof(size_t), 1, _File);
+
+    // save child -> 재귀적으로 자식 저장
+    for (size_t i = 0; i < vecChild.size(); ++i)
+    {
+        SaveGameObject(vecChild[i], _File);
+    }
 }
-
-
-
 
 
 CLevel* CSaveLoadMgr::LoadLevel(wstring _strRelativePath)
@@ -202,8 +234,39 @@ CGameObject* CSaveLoadMgr::LoadGameObject(FILE* _File)
 
 
     // script
+    size_t iScriptCount = 0;
 
-    // �ڽ� ������Ʈ
+    // load script count
+    fread(&iScriptCount, sizeof(size_t), 1, _File);
+
+    for (size_t i = 0; i < iScriptCount; ++i)
+    {
+        wstring strScriptName;
+        // load script name
+        LoadWStringFromFile(strScriptName, _File);
+
+        // load script member
+        CScript* pNewScript = CScriptMgr::GetScript(strScriptName);
+        pNewScript->LoadFromFile(_File);
+
+        // add component
+        pObject->AddComponent(pNewScript);
+    }
+
+
+    // child
+    size_t iChildCount = 0;
+
+    // load child count
+    fread(&iChildCount, sizeof(size_t), 1, _File);
+
+    // load child member
+    for (size_t i = 0; i < iChildCount; ++i)
+    {
+        CGameObject* pChild = LoadGameObject(_File);
+        // add child
+        pObject->AddChild(pChild);
+    }
 
     return pObject;
 }
