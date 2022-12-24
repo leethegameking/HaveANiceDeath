@@ -192,9 +192,7 @@ void CGameObject::AddComponent(CComponent* _pComponent)
 		m_vecScripts.push_back((CScript*)_pComponent);		
 	}
 
-	tEvent evt = {};
-	evt.eType = EVENT_TYPE::CHANGE_LEVEL;
-	CEventMgr::GetInst()->AddEvent(evt);
+	CEventMgr::GetInst()->LevelChangFlagOn();
 }
 
 void CGameObject::AddChild(CGameObject* _pChild)

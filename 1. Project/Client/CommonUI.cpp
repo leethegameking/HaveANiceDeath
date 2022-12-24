@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CommonUI.h"
 
+DWORD_PTR CommonUI::data = 0;
 string CommonUI::popup_name = "";
 bool CommonUI::close_bool = false;
 
@@ -25,9 +26,27 @@ void CommonUI::NotifyPopup()
         }
         ImGui::EndPopup();
     }
-
 }
 
+
+void CommonUI::InputTextPopup(const string& _InputType,  char* buf)
+{
+    if (ImGui::BeginPopupModal(popup_name.c_str()))
+    {
+        ImGui::Text(_InputType.c_str()); ImGui::SameLine(); ImGui::InputText("##InputText", buf, 256, ImGuiInputTextFlags_EnterReturnsTrue);
+
+        if (CommonUI::ButtonCenteredOnLine("OK"))
+        {
+            ImGui::CloseCurrentPopup();
+            close_bool = true;
+        }
+        else
+        {
+            close_bool = false;
+        }
+        ImGui::EndPopup();
+    }
+}
 
 bool CommonUI::ButtonCenteredOnLine(const char* label, float alignment, float _size)
 {

@@ -13,6 +13,7 @@ private:
     bool m_bLevelChanged;
     bool m_bResChanged;
     bool m_bResChangeFlag;
+    bool m_bLevelChangeFlag;
 
 public:
     void tick();
@@ -23,6 +24,7 @@ public:
     bool IsResChanged() { return m_bResChanged; }
 
     void ResChangeFlagOn() { m_bResChangeFlag = true; }
+    void LevelChangFlagOn() { m_bLevelChangeFlag = true; }
 
 public:
     CEventMgr();

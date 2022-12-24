@@ -2,6 +2,9 @@
 #include "PopupMenu.h"
 
 #include "TreeUI.h"
+#include "CommonUI.h"
+#include "CImGuiMgr.h"
+#include "InputTextUI.h"
 
 #include <Engine/CResMgr.h>
 #include <Engine/CEventMgr.h>
@@ -9,6 +12,9 @@
 #include <Engine/CRes.h>
 #include <Engine/CPrefab.h>
 #include <Engine/CMaterial.h>
+
+#include <Engine/CTransform.h>
+
 
 extern const char* Menu[(UINT)MENU_TYPE::MENU_END] =
 {
@@ -68,6 +74,11 @@ void PopupMenuUI::MAKE_PREFAB_FUNC(DWORD_PTR _node)
 
 void PopupMenuUI::CREATE_EMPTY_OBJECT_FUNC()
 {
+	CGameObject* emptyObj = new CGameObject;
+	emptyObj->SetName(L"New Object");
+	emptyObj->AddComponent(new CTransform);
+
+	Instantiate(emptyObj, Vec3::Zero);
 }
 
 void PopupMenuUI::INSTANTIATE_FUNC(DWORD_PTR _node)
@@ -93,10 +104,28 @@ void PopupMenuUI::ADD_NEW_ANIMATION_FUNC()
 
 void PopupMenuUI::DESTROY_FUNC(DWORD_PTR _node)
 {
+	TreeNode* pNode = (TreeNode*)_node;
+	CGameObject* delObj = (CGameObject*)(pNode->GetData());
+	delObj->Destroy();
 }
 
 void PopupMenuUI::RENAME_FUNC(DWORD_PTR _node)
 {
+	InputTextUI* pUI = (InputTextUI*)CImGuiMgr::GetInst()->FindUI("##InputTextUI");
+	pUI->SetPopupType("Name : ");
+	pUI->SetData(_node);
+	pUI->SetName("Set Name");
+	pUI->Open();
+	pUI->AddDynamic_Close(this, (FUNC_2)(&PopupMenuUI::Rename_Func_Pass));
+}
+
+void PopupMenuUI::Rename_Func_Pass(DWORD_PTR _node, DWORD_PTR _name)
+{
+	CGameObject* targetObj = (CGameObject*)(((TreeNode*)_node)->GetData());
+	string name = (char*)_name;
+	targetObj->SetName(StrToWstr(name));
+
+	CEventMgr::GetInst()->LevelChangFlagOn();
 }
 
 

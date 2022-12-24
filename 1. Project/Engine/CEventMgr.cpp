@@ -134,6 +134,12 @@ void CEventMgr::tick()
 
 	m_vecEvent.clear();
 
+	if (m_bLevelChangeFlag)
+	{
+		m_bLevelChanged = true;
+		m_bLevelChangeFlag = false;
+	}
+
 	// Res 바뀌었을 경우 이벤트 매니저와서 바뀌었다는걸 알려줌. -> 나중에 이벤트로 변경.
 	if (m_bResChangeFlag)
 	{

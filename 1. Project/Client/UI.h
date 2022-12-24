@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "imgui.h"
 
@@ -59,12 +59,18 @@ public:
 	void AddFlag(ImGuiWindowFlags_ _flag) { m_iWindowFlag |= _flag; }
 
 	bool IsOpen() { return m_bOpen; }
+
+protected:
+	virtual void SetName(string _name) { m_strName = _name; }
+
 public:
 	UI(const string& _strName);
 	virtual ~UI();
+
+
 };
 
-// classÀÇ ÇÔ¼ö Æ÷ÀÎÅÍ
+// classì˜ í•¨ìˆ˜ í¬ì¸í„°
 typedef void (UI::* FUNC_0)(void);
 typedef void (UI::* FUNC_1)(DWORD_PTR);
 typedef void (UI::* FUNC_2)(DWORD_PTR, DWORD_PTR);

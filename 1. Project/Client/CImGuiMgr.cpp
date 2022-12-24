@@ -9,6 +9,7 @@
 #include "ParamUI.h"
 #include "MenuUI.h"
 #include "ScriptUI.h"
+#include "InputTextUI.h"
 
 CImGuiMgr::CImGuiMgr()
 {
@@ -169,6 +170,10 @@ void CImGuiMgr::CreateUI()
     m_mapUI.insert({ pUI->GetName(), pUI });
 
     pUI = new MenuUI();
+    m_mapUI.insert({ pUI->GetName(), pUI });
+
+    pUI = new InputTextUI();
+    pUI->SetModal(true);
     m_mapUI.insert({ pUI->GetName(), pUI });
 }
 

@@ -1,10 +1,12 @@
 #include "pch.h"
 #include "PopupMenu.h"
 
+#include "CommonUI.h"
 #include "TreeUI.h"
 #include <Engine/CRes.h>
 #include <Engine/CGameObject.h>
 #include <Engine/CEntity.h>
+
 
 PopupMenuUI::PopupMenuUI(const string& _name)
 	: UI(_name)
@@ -41,7 +43,11 @@ void PopupMenuUI::render_update()
 			ImGui::EndPopup();
 		}
 	}
+
+
 }
+
+
 
 void PopupMenuUI::Open()
 {

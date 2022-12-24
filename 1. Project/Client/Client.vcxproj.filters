@@ -140,6 +140,9 @@
     <Filter Include="04. LevelSaveLoad">
       <UniqueIdentifier>{b350b393-07a7-4c9a-85b3-b7d9031917bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. UI\ModuleUI\InputTextUI">
+      <UniqueIdentifier>{65dadae5-9234-4ad1-b422-065a749c8924}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -304,6 +307,7 @@
     <ClInclude Include="Light2DUI.h">
       <Filter>03. UI\01. Inspector\ComponentUI\Light2DUI</Filter>
     </ClInclude>
+    <ClInclude Include="InputTextUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -473,5 +477,6 @@
     <ClCompile Include="Light2DUI.cpp">
       <Filter>03. UI\01. Inspector\ComponentUI\Light2DUI</Filter>
     </ClCompile>
+    <ClCompile Include="InputTextUI.cpp" />
   </ItemGroup>
 </Project>

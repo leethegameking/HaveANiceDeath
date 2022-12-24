@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "UI.h"
 
 class TreeUI;
@@ -55,6 +55,8 @@ public:
 	void update() override;
 	void render_update() override;
 
+
+
 public:
 	void Open() override;
 
@@ -79,6 +81,7 @@ public:
 	// General
 	void DESTROY_FUNC(DWORD_PTR _node);
 	void RENAME_FUNC(DWORD_PTR _node);
+	void Rename_Func_Pass(DWORD_PTR _node, DWORD_PTR _name);
 
 public:
 	void SetTreeUI(TreeUI* _TreeUI);
