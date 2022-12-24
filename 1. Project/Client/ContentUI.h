@@ -11,10 +11,15 @@ private:
 
     vector<wstring> m_vecContentName;
 
+    vector<bool> m_vecNodeOpenBool;
+
 public:
     void ResetContent();
 
     void ReloadContent();
+
+public:
+    vector<bool>& GetNodeOpenVector() { return m_vecNodeOpenBool; }
 
 private:
     virtual void update() override;

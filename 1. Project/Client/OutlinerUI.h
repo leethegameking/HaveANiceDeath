@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "UI.h"
 
 class TreeUI;
@@ -11,6 +11,8 @@ class OutlinerUI :
 private:
     TreeUI* m_LevelTree;
     TreeUI* m_EditorTree;
+
+    vector<bool> m_vecNodeOpenBool;
 
 private:
     virtual void update() override;

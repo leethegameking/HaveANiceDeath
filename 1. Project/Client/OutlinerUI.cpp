@@ -59,12 +59,21 @@ void OutlinerUI::render_update()
 
 void OutlinerUI::ResetLevel()
 {
+	TreeNode* xRootNode = m_LevelTree->GetRootNode();
+	if (xRootNode)
+	{
+		m_vecNodeOpenBool.clear();
+		m_vecNodeOpenBool.push_back(xRootNode->m_bNodeOpen);
+	}
+
 	m_LevelTree->Clear();
 
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 	string LevelName = string(pCurLevel->GetName().begin(), pCurLevel->GetName().end());
 
 	TreeNode* pRootNode = m_LevelTree->AddItem(nullptr, "", LevelName.c_str(), 0, true);
+	if(xRootNode)
+		pRootNode->m_bNodeOpen = m_vecNodeOpenBool[0];
 
 	// 트리에 오브젝트 부모 - 자식 구조로 모두 등록
 	for (UINT i = 0; i < MAX_LAYER; ++i)

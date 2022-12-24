@@ -21,6 +21,9 @@ private:
     TreeNode*       m_ParentNode;
     TreeUI*         m_TreeUI;
 
+    bool            m_bNodeOpen;
+    bool            m_bNodeOpenFlag;
+
     bool            m_bFrame;
     bool            m_bSelected;
 
@@ -50,6 +53,8 @@ public:
     ~TreeNode();
 
     friend class TreeUI;
+    friend class ContentUI;
+    friend class OutlinerUI;
 };
 
 class TreeUI :
@@ -91,10 +96,13 @@ public:
     AddDynFunc1(RightClick)
     AddDynFunc2(DragDrop)
 
-    
     void SetBeginDragNode(TreeNode* _node) { m_BeginDragNode = _node; }
     void SetRightClickNode(TreeNode* _node);
     void SetDropTargetNode(TreeNode* _node);
+
+public:
+    TreeNode* GetRootNode() { return m_RootNode; }
+
 
 public:
     PopupMenuUI* GetPopupMenu();

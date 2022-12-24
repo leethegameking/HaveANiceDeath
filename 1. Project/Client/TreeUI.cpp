@@ -13,6 +13,8 @@ TreeNode::TreeNode()
 	: m_ParentNode(nullptr)
 	, m_data(0)
 	, m_ID(ID)
+	, m_bNodeOpen(false)
+	, m_bNodeOpenFlag(true)
 {
 	++ID;
 }
@@ -38,8 +40,16 @@ void TreeNode::render_update()
 		strName = "\t" + strName;
 	strName += "##" + to_string(m_ID);
 
+	if (m_bNodeOpen && m_bNodeOpenFlag)
+	{
+		ImGui::SetNextItemOpen(true);
+		m_bNodeOpenFlag = false;
+	}
 	if (ImGui::TreeNodeEx(strName.c_str(), iFlag))
 	{
+		m_bNodeOpenFlag = false;
+		m_bNodeOpen = true;
+
 		// 아이템 클릭 체크
 		if (ImGui::IsItemHovered(0) && ImGui::IsMouseReleased(0) && !m_bFrame)
 		{

@@ -47,6 +47,18 @@ void ContentUI::render_update()
 
 void ContentUI::ResetContent()
 {
+	// Frame 부분 open값 기억 
+	TreeNode* xRootNode = m_Tree->GetRootNode();
+	if (xRootNode)
+	{
+		const vector<TreeNode*>& vecTreeChild = xRootNode->GetChild();
+		m_vecNodeOpenBool.clear();
+		for (size_t i = 0; i < vecTreeChild.size(); ++i)
+		{
+			m_vecNodeOpenBool.push_back(vecTreeChild[i]->m_bNodeOpen);
+		}
+	}
+
 	m_Tree->Clear();
 
 	// 더미 추가
@@ -56,6 +68,10 @@ void ContentUI::ResetContent()
 	{
 		// RES_TYPE에 해당하는 문자열을 부모로 추가
 		TreeNode* pResNode = m_Tree->AddItem(pRootNode, "", ToString((RES_TYPE)i), 0, true);
+		if (xRootNode)
+		{
+			pResNode->m_bNodeOpen = m_vecNodeOpenBool[i];
+		}
 
 		// 각 RES_TYPE의 하위 Res들을 자식으로 추가 (data가 있음.)
 		const map<wstring, Ptr<CRes>>& mapRes = CResMgr::GetInst()->GetResource(RES_TYPE(i));
