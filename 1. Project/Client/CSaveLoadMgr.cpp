@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "CSaveLoadMgr.h"
 
+#include <Engine/CCollisionMgr.h>
 #include <Engine/CPathMgr.h>
 #include <Engine/CLevel.h>
 #include <Engine/CGameObject.h>
@@ -10,6 +11,7 @@
 
 
 #include <Script/CScriptMgr.h>
+
 
 CSaveLoadMgr::CSaveLoadMgr()
 {
@@ -60,6 +62,13 @@ void CSaveLoadMgr::SaveLevel(CLevel* _Level, wstring _strRelativePath)
         {
             SaveGameObject(vecParentObj[j], pFile);
         }
+    }
+
+    // CollisonMgr
+    WORD* pCollisonMat = CCollisionMgr::GetInst()->GetCollisionMat();
+    for (int i = 0; i < MAX_LAYER; ++i)
+    {
+        fwrite(&pCollisonMat[i], sizeof(WORD), 1, pFile);
     }
 
 
@@ -148,6 +157,16 @@ CLevel* CSaveLoadMgr::LoadLevel(wstring _strRelativePath)
         }
 
     }
+
+    // CollisonMgr
+    for (int i = 0; i < MAX_LAYER; ++i)
+    {
+        WORD pMatrixElement;
+        fread(&pMatrixElement, sizeof(WORD), 1, pFile);
+
+        CCollisionMgr::GetInst()->SetCollisionMat(i, pMatrixElement);
+    }
+
 
     fclose(pFile);
 

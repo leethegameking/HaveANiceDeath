@@ -15,7 +15,7 @@ CTileMap::CTileMap()
 	SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"TileMapMtrl"));
 
-	Ptr<CTexture> DefaultAltas = CResMgr::GetInst()->FindRes<CTexture>(L"DefaultImage");
+	Ptr<CTexture> DefaultAltas = CResMgr::GetInst()->FindRes<CTexture>(L"texture\\default.png");
 	SetTileAtlas(DefaultAltas);
 
 	m_TileBuffer = new CStructuredBuffer;

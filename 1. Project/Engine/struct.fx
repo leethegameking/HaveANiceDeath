@@ -1,6 +1,8 @@
 #ifndef _STRUCT
 #define _STRUCT
 
+// test
+
 struct tLightColor
 {
     float4 vDiff; // 난반사 광

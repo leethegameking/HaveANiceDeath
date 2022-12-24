@@ -36,6 +36,7 @@ void CRenderMgr::init()
 	m_RTCopyTex = CResMgr::GetInst()->CreateTexture(L"RTCopyTex"
 		, (UINT)vRenderResol.x, (UINT)vRenderResol.y
 		, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
+	m_RTCopyTex->SetName(L"RTCopyTex");
 
 	m_RTCopyTex->UpdateData(60, PIPELINE_STAGE::PS);
 }
@@ -108,7 +109,7 @@ void CRenderMgr::render_editor()
 
 void CRenderMgr::UpdateNoiseTexture()
 {
-	Ptr<CTexture> NoiseTex = CResMgr::GetInst()->FindRes<CTexture>(L"Noise_03");
+	Ptr<CTexture> NoiseTex = CResMgr::GetInst()->FindRes<CTexture>(L"texture\\noise\\noise_02.png");
 	NoiseTex->UpdateData(15, PIPELINE_STAGE::ALL_STAGE);
 	NoiseTex->UpdateData_CS(15, true);
 

@@ -32,6 +32,7 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh;
 	pMesh->Create(&v, 1, &idx, 1);
+	pMesh->SetEngineRes();
 	AddRes<CMesh>(L"PointMesh", pMesh);	
 
 
@@ -67,6 +68,8 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), vecVtx.size(), vecIdx.data(), vecIdx.size());
+	pMesh->SetName(L"RectMesh");
+	pMesh->SetEngineRes();
 	AddRes<CMesh>(L"RectMesh", pMesh);	
 	vecIdx.clear();
 
@@ -83,6 +86,8 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), vecVtx.size(), vecIdx.data(), vecIdx.size());
+	pMesh->SetName(L"RectMesh_Debug");
+	pMesh->SetEngineRes();
 	AddRes<CMesh>(L"RectMesh_Debug", pMesh);
 	vecVtx.clear();
 	vecIdx.clear();
@@ -125,6 +130,7 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), vecVtx.size(), vecIdx.data(), vecIdx.size());
+	pMesh->SetEngineRes();
 	AddRes<CMesh>(L"CircleMesh", pMesh);	
 	vecIdx.clear();
 
@@ -138,6 +144,8 @@ void CResMgr::CreateDefaultMesh()
 
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), vecVtx.size(), vecIdx.data(), vecIdx.size());
+	pMesh->SetName(L"CircleMesh_Debug");
+	pMesh->SetEngineRes();
 	AddRes<CMesh>(L"CircleMesh_Debug", pMesh);
 	vecVtx.clear();
 	vecIdx.clear();
@@ -146,47 +154,49 @@ void CResMgr::CreateDefaultMesh()
 void CResMgr::CreateDefaultTexture()
 {
 	// 텍스쳐 로딩
-	Load<CTexture>(L"Plane", L"texture\\Player.bmp");
-	Load<CTexture>(L"Smoke", L"texture\\smokeparticle.png");
-	Load<CTexture>(L"Character", L"texture\\Character.png");
-	Load<CTexture>(L"Link", L"texture\\link.png");
+	Load<CTexture>(L"texture\\default.png", L"texture\\default.png");
+	//Load<CTexture>(L"Plane", L"texture\\Player.bmp");
+	//Load<CTexture>(L"Smoke", L"texture\\smokeparticle.png");
+	//Load<CTexture>(L"Character", L"texture\\Character.png");
+	//Load<CTexture>(L"Link", L"texture\\link.png");
 
-	Load<CTexture>(L"DeadCellColor", L"texture\\beheaded.png");
-	Load<CTexture>(L"DeadCellNormal", L"texture\\beheaded_n.png");
+	//Load<CTexture>(L"DeadCellColor", L"texture\\beheaded.png");
+	//Load<CTexture>(L"DeadCellNormal", L"texture\\beheaded_n.png");
 
-	Load<CTexture>(L"SmokeParticle", L"texture\\particle\\smokeparticle.png");
-	Load<CTexture>(L"CartoonSmoke", L"texture\\particle\\CartoonSmoke.png");
-	Load<CTexture>(L"Bubbles50px", L"texture\\particle\\Bubbles50px.png");
-	Load<CTexture>(L"Sparks", L"texture\\particle\\Sparks.png");
-	Load<CTexture>(L"HardRain", L"texture\\particle\\HardRain.png");
-	Load<CTexture>(L"HardCircle", L"texture\\particle\\HardCircle.png");
-	Load<CTexture>(L"AlphaCircle", L"texture\\particle\\AlphaCircle.png");
-	Load<CTexture>(L"TileTex", L"texture\\TILE.bmp");
-	Load<CTexture>(L"PlusButton", L"texture\\plus.png");
-	Load<CTexture>(L"DefaultImage", L"texture\\default.png");
+	//Load<CTexture>(L"SmokeParticle", L"texture\\particle\\smokeparticle.png");
+	//Load<CTexture>(L"CartoonSmoke", L"texture\\particle\\CartoonSmoke.png");
+	//Load<CTexture>(L"Bubbles50px", L"texture\\particle\\Bubbles50px.png");
+	//Load<CTexture>(L"Sparks", L"texture\\particle\\Sparks.png");
+	//Load<CTexture>(L"HardRain", L"texture\\particle\\HardRain.png");
+	//Load<CTexture>(L"HardCircle", L"texture\\particle\\HardCircle.png");
+	//Load<CTexture>(L"AlphaCircle", L"texture\\particle\\AlphaCircle.png");
+	//Load<CTexture>(L"TileTex", L"texture\\TILE.bmp");
+	//Load<CTexture>(L"PlusButton", L"texture\\plus.png");
+	//Load<CTexture>(L"DefaultImage", L"texture\\default.png");
 
-	
-	// NoiseTexture
-	Load<CTexture>(L"Noise_01", L"texture\\noise\\noise_01.png");
-	Load<CTexture>(L"Noise_02", L"texture\\noise\\noise_02.png");
-	Load<CTexture>(L"Noise_03", L"texture\\noise\\noise_03.jpg");
-	
-	Load<CTexture>(L"PlayerRunAtlas", L"texture\\player\\PlayerRunAtlas.png");
-	Load<CTexture>(L"PlayerIdleAtlas", L"texture\\player\\PlayerIdleAtlas.png");
-	Load<CTexture>(L"PlayerDashAtlas", L"texture\\player\\PlayerDash_Atlas.png");
-	Load<CTexture>(L"PlayerDownAttackAtlas", L"texture\\player\\PlayerDownAttack_Atlas.png");
+	//
+	//// NoiseTexture
+	//Load<CTexture>(L"Noise_01", L"texture\\noise\\noise_01.png");
+	//Load<CTexture>(L"Noise_02", L"texture\\noise\\noise_02.png");
+	//Load<CTexture>(L"Noise_03", L"texture\\noise\\noise_03.jpg");
+	//
+	//Load<CTexture>(L"PlayerRunAtlas", L"texture\\player\\PlayerRunAtlas.png");
+	//Load<CTexture>(L"PlayerIdleAtlas", L"texture\\player\\PlayerIdleAtlas.png");
+	//Load<CTexture>(L"PlayerDashAtlas", L"texture\\player\\PlayerDash_Atlas.png");
+	//Load<CTexture>(L"PlayerDownAttackAtlas", L"texture\\player\\PlayerDownAttack_Atlas.png");
 
-	// Player
-	Load<CTexture>(L"PlayerRunToIdle", L"texture\\player\\PlayerRunToIdle.png");
-	Load<CTexture>(L"PlayerRunUturn", L"texture\\player\\PlayerRunUturn.png");
-	Load<CTexture>(L"PlayerRun", L"texture\\player\\PlayerRun.png");
-	Load<CTexture>(L"PlayerIdle", L"texture\\player\\PlayerIdle.png");
-	Load<CTexture>(L"PlayerIdleToRun", L"texture\\player\\PlayerIdleToRun.png");
-	Load<CTexture>(L"PlayerIdleUturn", L"texture\\player\\PlayerIdleUturn.png");
+	//// Player
+	//Load<CTexture>(L"PlayerRunToIdle", L"texture\\player\\PlayerRunToIdle.png");
+	//Load<CTexture>(L"PlayerRunUturn", L"texture\\player\\PlayerRunUturn.png");
+	//Load<CTexture>(L"PlayerRun", L"texture\\player\\PlayerRun.png");
+	//Load<CTexture>(L"PlayerIdle", L"texture\\player\\PlayerIdle.png");
+	//Load<CTexture>(L"PlayerIdleToRun", L"texture\\player\\PlayerIdleToRun.png");
+	//Load<CTexture>(L"PlayerIdleUturn", L"texture\\player\\PlayerIdleUturn.png");
 
 	// 텍스쳐 생성
-	CreateTexture(L"UAVTex", 1600, 900, DXGI_FORMAT_R8G8B8A8_UNORM
+	Ptr<CTexture> UAVTex = CreateTexture(L"UAVTex", 1600, 900, DXGI_FORMAT_R8G8B8A8_UNORM
 		, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS);
+	UAVTex->SetName(L"UAVTex");
 }
 
 void CResMgr::CreateDefaultGraphicsShader()
@@ -212,6 +222,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->AddTexParam(TEX_1, "Output Texture 2");
 	pShader->AddTexParam(TEX_2, "Output Texture 3");
 
+	pShader->SetEngineRes();
 	AddRes<CGraphicsShader>(L"Std2DShader", pShader);
 
 	// Std2dAlphaBlend Shader
@@ -224,6 +235,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_TRANSPARENT);
 
+	pShader->SetEngineRes();
 	AddRes<CGraphicsShader>(L"Std2DAlphaBlendShader", pShader);
 
 
@@ -238,6 +250,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_TRANSPARENT);
 
+	pShader->SetEngineRes();
 	AddRes<CGraphicsShader>(L"GridShader", pShader);
 
 	// DebugDraw Shader
@@ -251,6 +264,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_TRANSPARENT);
 
+	pShader->SetEngineRes();
 	AddRes<CGraphicsShader>(L"DebugDrawShader", pShader);
 
 
@@ -264,6 +278,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetDSType(DS_TYPE::LESS);	
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASK);	
 
+	pShader->SetEngineRes();
 	AddRes<CGraphicsShader>(L"DeadCellShader", pShader);
 
 
@@ -279,6 +294,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetDSType(DS_TYPE::NO_WRITE);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_TRANSPARENT);
 
+	pShader->SetEngineRes();
 	AddRes<CGraphicsShader>(L"ParticleRenderShader", pShader);
 
 
@@ -291,6 +307,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetBSType(BS_TYPE::ALPHABLEND);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POST_PROCESS);
 
+	pShader->SetEngineRes();
 	AddRes<CGraphicsShader>(L"PostProcessShader", pShader);
 
 
@@ -303,6 +320,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POST_PROCESS);
 
+	pShader->SetEngineRes();
 	AddRes<CGraphicsShader>(L"LightPostProcessShader", pShader);
 
 	// LightPostProcess Shader
@@ -314,6 +332,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetBSType(BS_TYPE::ONE_ONE);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_TRANSPARENT);
 
+	pShader->SetEngineRes();
 	AddRes<CGraphicsShader>(L"LightWrapShader", pShader);
 
 	// TileMap Shader
@@ -324,6 +343,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASK);
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 
+	pShader->SetEngineRes();
 	AddRes<CGraphicsShader>(L"TileMapShader", pShader);
 }
 
@@ -337,30 +357,34 @@ void CResMgr::CreateDefaultComputeShader()
 	// Paint Shader
 	pShader = new CPaintShader;
 	pShader->CreateComputeShader(L"shader\\compute.fx", "CS_Paint");
+	pShader->SetEngineRes();
 	AddRes<CComputeShader>(L"PaintShader", pShader);
 
 	// Particle Update Shader
 	pShader = new CParticleUpdateShader;
 	pShader->CreateComputeShader(L"shader\\particleupdate.fx", "CS_ParticleUpdate");
+	pShader->SetEngineRes();
 	AddRes<CComputeShader>(L"ParticleUpdateShader", pShader);
 
 	pShader = new CParticleUpdateShader;
 	pShader->CreateComputeShader(L"shader\\rainparticleupdate.fx", "CS_ParticleUpdate");
+	pShader->SetEngineRes();
 	AddRes<CComputeShader>(L"RainParticleUpdateShader", pShader);
 
 	pShader = new CParticleUpdateShader;
 	pShader->CreateComputeShader(L"shader\\fireparticleupdate.fx", "CS_ParticleUpdate");
+	pShader->SetEngineRes();
 	AddRes<CComputeShader>(L"FireParticleUpdateShader", pShader);
 
 	pShader = new CParticleUpdateShader;
 	pShader->CreateComputeShader(L"shader\\explosionparticleupdate.fx", "CS_ParticleUpdate");
+	pShader->SetEngineRes();
 	AddRes<CComputeShader>(L"ExplosionParticleUpdateShader", pShader);
 
 	pShader = new CParticleUpdateShader;
 	pShader->CreateComputeShader(L"shader\\Fireworkparticleupdate.fx", "CS_ParticleUpdate");
+	pShader->SetEngineRes();
 	AddRes<CComputeShader>(L"FireworkParticleUpdateShader", pShader);
-
-
 }
 
 void CResMgr::CreateDefaultMaterial()
@@ -369,46 +393,58 @@ void CResMgr::CreateDefaultMaterial()
 
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"Std2DShader"));
+	pMtrl->SetEngineRes();
 	AddRes<CMaterial>(L"Std2DMtrl", pMtrl);
 
 	// Load<CMaterial>(L"Std2DMtrl", L"material\\test.mtrl");
 
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"Std2DAlphaBlendShader"));
+	pMtrl->SetEngineRes();
 	AddRes<CMaterial>(L"Std2DAlphaBlendMtrl", pMtrl);
 
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"GridShader"));
+	pMtrl->SetEngineRes();
 	AddRes<CMaterial>(L"GridMtrl", pMtrl);
 
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"DebugDrawShader"));
+	pMtrl->SetEngineRes();
 	AddRes<CMaterial>(L"DebugDrawMtrl", pMtrl);	
 
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"DeadCellShader"));
+	pMtrl->SetEngineRes();
 	AddRes<CMaterial>(L"DeadCellMtrl", pMtrl);
 
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"ParticleRenderShader"));
+	pMtrl->SetEngineRes();
 	AddRes<CMaterial>(L"ParticleRenderMtrl", pMtrl);
 
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"PostProcessShader"));
+	pMtrl->SetEngineRes();
 	AddRes<CMaterial>(L"PostProcessMtrl", pMtrl);
 
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"LightPostProcessShader"));
+	pMtrl->SetEngineRes();
 	AddRes<CMaterial>(L"LightPostProcessMtrl", pMtrl);
 
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"LightWrapShader"));
+	pMtrl->SetEngineRes();
 	AddRes<CMaterial>(L"LightWrapMtrl", pMtrl);
 
 	pMtrl = new CMaterial;
 	pMtrl->SetShader(FindRes<CGraphicsShader>(L"TileMapShader"));
+	pMtrl->SetEngineRes();
 	AddRes<CMaterial>(L"TileMapMtrl", pMtrl);
 }
+
+
 
 void CResMgr::AddInputLayout(DXGI_FORMAT _eFormat, const char* _strSemanticName)
 {

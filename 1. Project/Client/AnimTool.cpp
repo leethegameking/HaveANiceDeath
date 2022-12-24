@@ -31,9 +31,9 @@ AnimTool::AnimTool()
 	m_EditCombo = new ComboBox;
 
 	// 디폴트
-	map<wstring, Ptr<CRes>> mapAnim = CResMgr::GetInst()->GetResource(RES_TYPE::ANIMATION2D);
-	map<wstring, Ptr<CRes>>::iterator iter = mapAnim.begin();
-	m_pCurAnim = (CAnimation2D*)(iter->second.Get());
+	//map<wstring, Ptr<CRes>> mapAnim = CResMgr::GetInst()->GetResource(RES_TYPE::ANIMATION2D);
+	//map<wstring, Ptr<CRes>>::iterator iter = mapAnim.begin();
+	//m_pCurAnim = (CAnimation2D*)(iter->second.Get());
 }
 
 AnimTool::~AnimTool()
@@ -107,13 +107,22 @@ void AnimTool::render_update()
 		if (m_iMode != prevMode)
 		{
 			ClearFrm();
+
+			// 예외처리
+			if (m_pCurAnim.Get() == nullptr)
+			{
+				map<wstring, Ptr<CRes>> mapAnim = CResMgr::GetInst()->GetResource(RES_TYPE::ANIMATION2D);
+				map<wstring, Ptr<CRes>>::iterator iter = mapAnim.begin();
+				m_pCurAnim = (CAnimation2D*)(iter->second.Get());
+			}
+			assert(m_pCurAnim.Get());
+
 			init_edit(m_pCurAnim.Get());
 		}
 		EditMode();
 	}
 
 	prevMode = m_iMode;
-
 }
 
 
@@ -153,7 +162,9 @@ void AnimTool::EditMode()
 
 void AnimTool::SetDefaultTexture()
 {
-	m_AtlasTex = CResMgr::GetInst()->FindRes<CTexture>(L"PlayerRunAtlas");
+	map<wstring, Ptr<CRes>> mapAnim = CResMgr::GetInst()->GetResource(RES_TYPE::TEXTURE);
+	map<wstring, Ptr<CRes>>::iterator iter = mapAnim.begin();
+	m_AtlasTex = (CTexture*)(iter->second.Get());
 	m_AtlasSRV = m_AtlasTex->GetSRV().Get();
 }
 

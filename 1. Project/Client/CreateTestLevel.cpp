@@ -23,10 +23,10 @@
 
 void CreateTestLevel()
 {
-	CreateDefaultAnimation();
+	// CreateDefaultAnimation();
 
-	CLevelMgr::GetInst()->ChangeLevel(CSaveLoadMgr::GetInst()->LoadLevel(L"level\\testLV.lv"));
-	return;
+	//CLevelMgr::GetInst()->ChangeLevel(CSaveLoadMgr::GetInst()->LoadLevel(L"level\\testLV.lv"));
+	//return;
 
 	CLevel* pTestLevel = new CLevel;
 	pTestLevel->SetName(L"TestLevel");
@@ -53,7 +53,6 @@ void CreateTestLevel()
 	pTileMapObj->Transform()->SetRelativePos(Vec3(0.f, -100.f, 900.f));
 	pTileMapObj->Transform()->SetRelativeScale(Vec3(1000.f, 1000.f, 1.f));
 
-	pTileMapObj->TileMap()->SetTileAtlas(CResMgr::GetInst()->FindRes<CTexture>(L"TileTex"));
 	pTileMapObj->TileMap()->SetTileCount(10, 10);
 
 	pTestLevel->AddGameObject(pTileMapObj, 0);
@@ -141,7 +140,6 @@ void CreateTestLevel()
 
 	pObject->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	pObject->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"));
-	pObject->MeshRender()->GetCurMaterial()->SetTexParam(TEX_PARAM::TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"Character"));
 
 	pTestLevel->AddGameObject(pObject, 1);
 

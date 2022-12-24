@@ -126,7 +126,7 @@ void TileMapUI::render_update()
 	float my_tex_w = m_AtlasTex->GetWidth();
 	float my_tex_h = m_AtlasTex->GetHeight();
 
-	ImTextureID MarkSRV = m_SelectedMark->GetSRV().Get();
+	// ImTextureID MarkSRV = m_SelectedMark->GetSRV().Get();
 
 	ImVec2 vCursorPos = ImGui::GetCursorScreenPos();
 
@@ -139,11 +139,16 @@ void TileMapUI::render_update()
 
 	// bubble 
 	ImVec2 p = ImVec2(vCursorPos.x + m_vSlice.x * m_SelectedTexIdx.x * m_vImageScale.x, vCursorPos.y + m_vSlice.y * m_SelectedTexIdx.y * m_vImageScale.y);
-	ImGui::GetWindowDrawList()->AddImage(
-		MarkSRV,
+	//ImGui::GetWindowDrawList()->AddImage(
+	//	MarkSRV,
+	//	p,
+	//	ImVec2(p.x + my_tex_w * m_vImageScale.x / (m_AtlasTex->GetWidth() / m_vSlice.x)
+	//		, p.y + my_tex_h * m_vImageScale.y / (m_AtlasTex->GetHeight() / m_vSlice.y)));
+
+	ImGui::GetWindowDrawList()->AddRect(
 		p,
 		ImVec2(p.x + my_tex_w * m_vImageScale.x / (m_AtlasTex->GetWidth() / m_vSlice.x)
-			, p.y + my_tex_h * m_vImageScale.y / (m_AtlasTex->GetHeight() / m_vSlice.y)));
+			, p.y + my_tex_h * m_vImageScale.y / (m_AtlasTex->GetHeight() / m_vSlice.y)), IM_COL32_WHITE);
 
 	CGameObject* pMainCamera = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera");
 	float camScale = pMainCamera->Camera()->GetOrthographicScale();

@@ -132,6 +132,8 @@ void CImGuiMgr::CreateUI()
 
     pUI = new ContentUI;
     m_mapUI.insert({ pUI->GetName(), pUI});
+    ((ContentUI*)pUI)->ReloadContent();
+    ((ContentUI*)pUI)->ResetContent();
 
     pUI = new OutlinerUI;
     m_mapUI.insert({ pUI->GetName(), pUI });
@@ -146,15 +148,15 @@ void CImGuiMgr::CreateUI()
     pUI->SetPopUp(true);
     m_mapUI.insert({ pUI->GetName(), pUI });
 
-    pUI = new AnimCreateTool;
-    pUI->SetSize(Vec2(200.f, 500.f));
-    pUI->SetPopUp(true);
-    m_mapUI.insert({ pUI->GetName(), pUI });
+    //pUI = new AnimCreateTool;
+    //pUI->SetSize(Vec2(200.f, 500.f));
+    //pUI->SetPopUp(true);
+    //m_mapUI.insert({ pUI->GetName(), pUI });
 
-    pUI = new FrameTool;
-    pUI->SetSize(Vec2(200.f, 500.f));
-    pUI->SetPopUp(true);
-    m_mapUI.insert({ pUI->GetName(), pUI });
+    //pUI = new FrameTool;
+    //pUI->SetSize(Vec2(200.f, 500.f));
+    //pUI->SetPopUp(true);
+    //m_mapUI.insert({ pUI->GetName(), pUI });
 
     pUI = new TileEditor();
     pUI->SetSize(Vec2(200.f, 500.f));

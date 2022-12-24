@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "CEntity.h"
 
 #include "Ptr.h"
@@ -11,6 +11,8 @@ private:
     wstring         m_strRelativePath;
     const RES_TYPE  m_eResType;
     int             m_iRefCount;
+
+    bool            m_bEngineRes;
 
 private:
     void AddRef() 
@@ -43,14 +45,15 @@ public:
     const wstring& GetKey() { return m_strKey; }
     const wstring& GetRelativePath() { return m_strRelativePath; }
     RES_TYPE GetResType() { return m_eResType; }
+    bool IsEngineRes() { return m_bEngineRes; }
+    void SetEngineRes() { m_bEngineRes = true; }
 
 private:
     void SetKey(const wstring& _strKey) { m_strKey = _strKey; }
     void SetRelativePath(const wstring& _strRelativePath) { m_strRelativePath = _strRelativePath; }
 
+
 public:
-
-
     virtual CRes* Clone() = 0;
 
 public:

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "singleton.h"
 
 union COLLIDER_ID
@@ -39,6 +39,10 @@ public:
 	}
 	void CollisionLayerCheck(int _iLeft, int _iRight);
 	void CollisionLayerRelease(int _iLeft, int _iRight);
+
+public:
+	WORD* GetCollisionMat() { return m_matrix; }
+	void SetCollisionMat(int _idx, WORD _data) { m_matrix[_idx] = _data; }
 
 public:
 	CCollisionMgr();

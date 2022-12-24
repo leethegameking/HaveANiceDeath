@@ -33,7 +33,7 @@ void TreeNode::render_update()
 	if (m_vecChildNode.empty())
 		iFlag |= ImGuiTreeNodeFlags_Leaf;
 
-	string strName = m_strName;
+	string strName = m_strShowingName;
 	if (m_vecChildNode.empty() && m_bFrame)
 		strName = "\t" + strName;
 	strName += "##" + to_string(m_ID);
@@ -203,12 +203,13 @@ void TreeUI::render_update()
 	m_PopupMenu->render_update();
 }
 
-TreeNode* TreeUI::AddItem(TreeNode* _parent, const string& _strName, DWORD_PTR _data, bool _IsFrame)
+TreeNode* TreeUI::AddItem(TreeNode* _parent, const string& _strName, const string& _strShowingName, DWORD_PTR _data, bool _IsFrame)
 {
 	TreeNode* pNode = new TreeNode;
-	pNode->SetNodeName(_strName);
+	pNode->SetNodeKey(_strName);
 	pNode->SetData(_data);
 	pNode->SetFrame(_IsFrame);
+	pNode->SetNodeName(_strShowingName);
 	pNode->m_TreeUI = this;
 
 	if (_parent == nullptr)

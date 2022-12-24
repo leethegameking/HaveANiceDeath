@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <vector>
 #include <list>
@@ -19,6 +19,11 @@ using std::wstring;
 
 
 #include <typeinfo>
+
+#define  _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
+#include <experimental/filesystem>
+using namespace std::experimental;
+using namespace std::experimental::filesystem;
 
 #include <d3d11.h>
 #include <d3dcompiler.h>

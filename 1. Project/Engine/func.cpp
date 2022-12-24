@@ -1,5 +1,17 @@
 ﻿#include "pch.h"
 
+wstring GetRelativePath(const wstring& _strBase, const wstring& _strPath)
+{
+	wstring strRelativePath;
+	if (-1 == _strPath.find(_strBase))
+	{
+		return strRelativePath;
+	}
+
+	strRelativePath = _strPath.substr(_strBase.length(), _strPath.length());
+	return strRelativePath;
+}
+
 Vec4 MulMatrix(Vec4 _Vec4, const Matrix& _mat)
 {
 	return

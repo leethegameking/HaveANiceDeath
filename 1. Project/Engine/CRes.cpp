@@ -14,6 +14,7 @@ CRes::CRes(const CRes& _other)
 	, m_strKey(_other.m_strKey)
 	, m_strRelativePath(_other.m_strRelativePath)
 	, m_iRefCount(0)
+	, m_bEngineRes(false)
 {
 }
 

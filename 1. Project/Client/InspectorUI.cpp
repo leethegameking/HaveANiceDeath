@@ -12,9 +12,11 @@
 #include "MaterialUI.h"
 #include "Light2DUI.h"
 
+
 #include "MeshUI.h"
 #include "ComputeShaderUI.h"
 #include "GraphicsShaderUI.h"
+#include "TextureUI.h"
 
 #include "Animation2DUI.h"
 #include "ComboBox.h"
@@ -86,6 +88,10 @@ InspectorUI::InspectorUI()
 	m_arrResUI[(UINT)RES_TYPE::MATERIAL] = new MaterialUI;
 	m_arrResUI[(UINT)RES_TYPE::MATERIAL]->Close();
 	AddChild(m_arrResUI[(UINT)RES_TYPE::MATERIAL]);
+
+	m_arrResUI[(UINT)RES_TYPE::TEXTURE] = new TextureUI;
+	m_arrResUI[(UINT)RES_TYPE::TEXTURE]->Close();
+	AddChild(m_arrResUI[(UINT)RES_TYPE::TEXTURE]);
 
 	//==================================================================================
 

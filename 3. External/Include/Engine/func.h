@@ -1,5 +1,6 @@
-#pragma once
+ï»¿#pragma once
 
+wstring GetRelativePath(const wstring& _strBase, const wstring& _strPath);
 
 template<typename T>
 void Safe_Del_Vec(vector<T*>& _vec)
@@ -70,7 +71,7 @@ const char* ToString(RES_TYPE _type);
 const wchar_t* ToWString(RES_TYPE _type);
 
 // ===============
-// Event °ü·Ã ÇÔ¼ö
+// Event ê´€ë ¨ í•¨ìˆ˜
 // ===============
 class CGameObject;
 void Instantiate(CGameObject* _pNewObj, Vec3 _vWorldPos, int _iLayerIdx = 0);

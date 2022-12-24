@@ -174,11 +174,13 @@ int CDevice::CreateTarget()
 
 	// RenderTargetTexture 등록
 	m_pRenderTargetTex = CResMgr::GetInst()->CreateTexture(L"RenderTargetTex", tex2D);
+	m_pRenderTargetTex->SetName(L"RTTex");
 
 	// DepthStencilTexture 생성
 	m_pDepthStencilTex = CResMgr::GetInst()->CreateTexture(L"DepthStencilTex"
 				, (UINT)m_vRenderResolution.x, (UINT)m_vRenderResolution.y
 				, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_DEPTH_STENCIL);
+	m_pDepthStencilTex->SetName(L"DSTex");
 	
 	return hr;
 }

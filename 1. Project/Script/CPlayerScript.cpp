@@ -104,7 +104,7 @@ void CPlayerScript::tick()
 		MoveHorizontal();
 	}
 	else if (KEY_PRESSED(KEY::D) || KEY_TAP(KEY::D))
-	{
+	{ 
 		SetAnimRight();
 		if (m_eCurAnim == PlayerIdle && (m_iAnimCondBit & (GROUND | ANIM_DIR_CHANGED)) == (GROUND | ANIM_DIR_CHANGED))
 		{

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 
 #include "CPathMgr.h"
@@ -22,7 +22,7 @@ private:
 	vector<D3D11_INPUT_ELEMENT_DESC>	m_vecLayoutInfo;
 	UINT								m_iLayoutOffset;
 
-	// EventMgr·Î À§ÀÓ
+	// EventMgrë¡œ ìœ„ì„
 	// bool								m_bChanged;
 
 public:
@@ -65,6 +65,7 @@ private:
 	void CreateDefaultGraphicsShader();
 	void CreateDefaultComputeShader();
 	void CreateDefaultMaterial();
+	void CreateDefaultAninmation();
 	void AddInputLayout(DXGI_FORMAT _eFormat, const char* _strSemanticName);
 
 
@@ -114,6 +115,11 @@ inline void CResMgr::AddRes(const wstring& _strKey, T* _pRes)
 		return;
 
 	_pRes->SetKey(_strKey);
+	// ì—”ì§„ ë¦¬ì†ŒìŠ¤ë©´ í‚¤ ê°’ìœ¼ë¡œ ì´ë¦„ ì„¤ì •
+	if (_pRes->IsEngineRes())
+	{
+		_pRes->SetName(_strKey);
+	}
 	m_arrRes[(UINT)eResType].insert(make_pair(_strKey, _pRes));
 	CEventMgr::GetInst()->ResChangeFlagOn();
 }
@@ -149,7 +155,7 @@ Ptr<T> CResMgr::Load(const wstring& _strKey, const wstring& _strRelativePath)
 	pResource = new T;	
 	if (FAILED(pResource->Load(strFilePath)))
 	{
-		MessageBox(nullptr, strFilePath.c_str(), L"¸®¼Ò½º ·Îµù ½ÇÆĞ", MB_OK);
+		MessageBox(nullptr, strFilePath.c_str(), L"ë¦¬ì†ŒìŠ¤ ë¡œë”© ì‹¤íŒ¨", MB_OK);
 		return nullptr;
 	}
 
@@ -172,7 +178,7 @@ Ptr<T> CResMgr::Load(const wstring& _strRelativePath)
 	CRes* pResource = new T;
 	if (FAILED(pResource->Load(strFilePath)))
 	{
-		MessageBox(nullptr, strFilePath.c_str(), L"¸®¼Ò½º ·Îµù ½ÇÆĞ", MB_OK);
+		MessageBox(nullptr, strFilePath.c_str(), L"ë¦¬ì†ŒìŠ¤ ë¡œë”© ì‹¤íŒ¨", MB_OK);
 		return nullptr;
 	}
 
@@ -222,7 +228,7 @@ inline wstring CResMgr::GetNewResName()
 	}
 
 
-	// ÀÌ¸§ Áßº¹ ¸·±â
+	// ì´ë¦„ ì¤‘ë³µ ë§‰ê¸°
 	UINT Count = 1;
 	while (true)
 	{

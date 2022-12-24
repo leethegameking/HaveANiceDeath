@@ -64,7 +64,7 @@ void OutlinerUI::ResetLevel()
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 	string LevelName = string(pCurLevel->GetName().begin(), pCurLevel->GetName().end());
 
-	TreeNode* pRootNode = m_LevelTree->AddItem(nullptr, LevelName.c_str(), 0, true);
+	TreeNode* pRootNode = m_LevelTree->AddItem(nullptr, "", LevelName.c_str(), 0, true);
 
 	// 트리에 오브젝트 부모 - 자식 구조로 모두 등록
 	for (UINT i = 0; i < MAX_LAYER; ++i)
@@ -80,7 +80,7 @@ void OutlinerUI::ResetLevel()
 
 	m_EditorTree->Clear();
 
-	TreeNode* pEditorRootNode = m_EditorTree->AddItem(nullptr, "Editor", 0, true);
+	TreeNode* pEditorRootNode = m_EditorTree->AddItem(nullptr, "", "Editor", 0, true);
 
 	vector<CGameObjectEx*>& vecEditorObj = CEditor::GetInst()->GetEditorObject();
 
@@ -103,8 +103,8 @@ void OutlinerUI::SetObjectToInspector(DWORD_PTR _obj)
 
 void OutlinerUI::AddGameObjectToTree(TreeUI* _TreeUI ,TreeNode* _ParentNode, CGameObject* _Object)
 {
-	string strObjectName = string(_Object->GetName().begin(), _Object->GetName().end());
-	TreeNode* pCurNode = _TreeUI->AddItem(_ParentNode, strObjectName.c_str(), (DWORD_PTR)_Object);
+	string strObjectName = WstrToStr(_Object->GetName());
+	TreeNode* pCurNode = _TreeUI->AddItem(_ParentNode, strObjectName.c_str(), strObjectName.c_str(), (DWORD_PTR)_Object);
 
 	const vector<CGameObject*>& vecChild = _Object->GetChildObject();
 

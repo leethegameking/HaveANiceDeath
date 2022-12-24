@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "UI.h"
 
 class PopupMenuUI;
@@ -14,6 +14,7 @@ private:
 
 private:
     string          m_strName;
+    string          m_strShowingName;
     DWORD_PTR       m_data;
 
     vector<TreeNode*> m_vecChildNode;
@@ -31,10 +32,9 @@ public:
     void render_update();
 
 private:
-    void SetNodeName(const string& _name) { m_strName = _name; }
-
+    void SetNodeKey(const string& _name) { m_strName = _name; }
     void SetData(DWORD_PTR _data) { m_data = _data; }
-
+    void SetNodeName(const string& _name) { m_strShowingName = _name; }
 
     void SetFrame(bool _bFrame) { m_bFrame = _bFrame; }
     void AddChild(TreeNode* _ChildNode)
@@ -81,7 +81,7 @@ public:
     virtual void render_update() override;
 
 public:
-    TreeNode* AddItem(TreeNode* _parent, const string& _strName, DWORD_PTR _data, bool _IsFrame = false);
+    TreeNode* AddItem(TreeNode* _parent, const string& _strName, const string& _strShowingName, DWORD_PTR _data, bool _IsFrame = false);
     void Clear();
     void SetDummyRoot(bool _bUse) { m_bDummyRootUse = _bUse; }
     void SetSelectedNode(TreeNode* _SelectedNode);
