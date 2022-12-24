@@ -45,6 +45,8 @@ void TreeNode::render_update()
 		ImGui::SetNextItemOpen(true);
 		m_bNodeOpenFlag = false;
 	}
+	m_bNodeOpen = false;
+
 	if (ImGui::TreeNodeEx(strName.c_str(), iFlag))
 	{
 		m_bNodeOpenFlag = false;
