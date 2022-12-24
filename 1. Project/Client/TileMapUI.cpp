@@ -61,7 +61,7 @@ void TileMapUI::init()
 	for (int i = 0; i < m_vecRes.size(); ++i)
 	{
 		if (m_AtlasTex.Get()->GetKey() == wstring(m_vecRes[i].begin(), m_vecRes[i].end()))
-			m_AtlasComboBox->init(m_vecRes, i);
+			m_AtlasComboBox->init<CTexture>(m_vecRes, i);
 	}
 
 	m_vecTile = GetTarget()->TileMap()->GetTileInfo();

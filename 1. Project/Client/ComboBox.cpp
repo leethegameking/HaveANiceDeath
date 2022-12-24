@@ -24,24 +24,19 @@ void ComboBox::update()
 }
 
 
-void ComboBox::init(vector<string> _itemList, int _idx)
-{
-    m_vecItem.clear();
-    SetItem(_itemList);
-    m_iCurItemIdx = _idx;
-}
+
 
 void ComboBox::render_update()
 {
     int flags = 0;
     if (!m_vecItem.empty())
     {
-        if (ImGui::BeginCombo(GetName().c_str(), m_vecItem[m_iCurItemIdx].c_str(), flags))
+        if (ImGui::BeginCombo(GetName().c_str(), m_vecItemName[m_iCurItemIdx].c_str(), flags))
         {
             for (int i = 0; i < m_vecItem.size(); i++)
             {
                 const bool is_selected = (m_iCurItemIdx == i);
-                if (ImGui::Selectable(m_vecItem[i].c_str(), is_selected))
+                if (ImGui::Selectable(m_vecItemName[i].c_str(), is_selected))
                     m_iCurItemIdx = i;
 
                 // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
@@ -71,6 +66,12 @@ void ComboBox::render_update()
     }
 }
 
-
+void ComboBox::init_not_res(vector<string>& _itemList, int _idx)
+{
+    m_vecItem.clear();
+    m_vecItem = _itemList;
+    m_vecItemName = _itemList;
+    m_iCurItemIdx = _idx;
+}
 
 

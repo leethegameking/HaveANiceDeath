@@ -35,7 +35,7 @@ Animator2DUI::~Animator2DUI()
 void Animator2DUI::init()
 {
 	int idx = CalComoboPreviewIdx();
-	m_AnimComboBox->init(m_vecTargetAnim, idx);
+	m_AnimComboBox->init<CAnimation2D>(m_vecTargetAnim, idx);
 
 	const map<wstring, Ptr<CRes>>& mapResAnim = CResMgr::GetInst()->GetResource(RES_TYPE::ANIMATION2D);
 	map<wstring, Ptr<CRes>>::const_iterator resIter = mapResAnim.begin();
@@ -80,7 +80,7 @@ void Animator2DUI::render_update()
 	if (IsTargetAnimChanged())
 	{
 		int idx = CalComoboPreviewIdx();
-		m_AnimComboBox->init(m_vecTargetAnim, idx);
+		m_AnimComboBox->init<CAnimation2D>(m_vecTargetAnim, idx);
 		m_bTargetAnimChanged = false;
 	}
 	ImGui::Text("Animation"); ImGui::SameLine(); m_AnimComboBox->render_update();

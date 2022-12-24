@@ -102,7 +102,7 @@ InspectorUI::InspectorUI()
 	{
 		ComponentName.push_back(COMPONENT_TYPE_CHAR[i]);
 	}
-	m_CompComboBox->init(ComponentName, 0);
+	m_CompComboBox->init_not_res(ComponentName, 0);
 	m_CompComboBox->AddSelectedFunc_ReturnInt(this, FUNC_1(&InspectorUI::AddComponent));
 
 	//===================================================================================

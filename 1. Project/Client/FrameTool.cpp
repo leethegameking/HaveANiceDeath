@@ -50,7 +50,7 @@ void FrameTool::Init_Frame(CAnimation2D* _pAnim)
 	}
 	
 	m_AnimComboBox->AddSelectedFunc(this, (FUNC_1)&FrameTool::SetAnimaton);
-	m_AnimComboBox->init(m_vecRes, idx);
+	m_AnimComboBox->init<CAnimation2D>(m_vecRes, idx);
 }
 
 void FrameTool::update()

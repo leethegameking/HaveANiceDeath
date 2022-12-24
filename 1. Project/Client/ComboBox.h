@@ -1,10 +1,11 @@
-#pragma once
+﻿#pragma once
 #include "UI.h"
 class ComboBox :
     public UI
 {
 private:
     vector<string> m_vecItem;
+    vector<string> m_vecItemName;
     int m_iCurItemIdx;
     
     FUNC_1  m_SelectedFunc;
@@ -20,7 +21,14 @@ private:
     static UINT ID;
 
 public:
-    void SetItem(vector<string>& _vecItem) { m_vecItem = _vecItem; }
+    template<typename T>
+    void init(vector<string> _itemList, int _idx);
+
+    template<typename T>
+    void SetItem(vector<string>& _vecItem);
+
+
+public:
     void SetPreviewIdx(int _PreviewIdx) { m_iCurItemIdx = _PreviewIdx; }
 
     void AddSelectedFunc(UI* _inst, FUNC_1 _func)
@@ -42,7 +50,7 @@ public:
     }
 
 public:
-    void init( vector<string> _itemList, int _idx);
+    void init_not_res(vector<string>& _itemList, int _idx);
     void render_update() override;
     void update();
 
@@ -53,3 +61,25 @@ public:
     ~ComboBox();
 };
 
+template<typename T>
+inline void ComboBox::SetItem(vector<string>& _vecItem)
+{
+	m_vecItem = _vecItem;
+
+	for (size_t i = 0; i < m_vecItem.size(); ++i)
+	{
+        wstring strKey = StrToWstr(m_vecItem[i]);
+        Ptr<T> ptrRes = CResMgr::GetInst()->FindRes<T>(strKey);
+        m_vecItemName.push_back(WstrToStr(ptrRes.Get()->GetName()));
+	}
+}
+
+template<typename T>
+inline void ComboBox::init(vector<string> _itemList, int _idx)
+{
+    m_vecItem.clear();
+    m_vecItemName.clear();
+    SetItem<T>(_itemList);
+
+    m_iCurItemIdx = _idx;
+}

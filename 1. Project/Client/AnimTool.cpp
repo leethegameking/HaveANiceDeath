@@ -79,7 +79,7 @@ void AnimTool::init_edit(CAnimation2D* _pAnim)
 		++i;
 	}
 	m_EditCombo->AddSelectedFunc(this, (FUNC_1)&AnimTool::SetAnimaton);
-	m_EditCombo->init(vecRes, idx);
+	m_EditCombo->init<CAnimation2D>(vecRes, idx);
 }
 
 void AnimTool::update()
@@ -123,6 +123,12 @@ void AnimTool::render_update()
 	}
 
 	prevMode = m_iMode;
+}
+
+void AnimTool::Close()
+{
+	UI::Close();
+	ClearFrm();
 }
 
 
@@ -185,7 +191,7 @@ void AnimTool::SetCreateCombo()
 		vecRes.push_back(string(iter->first.begin(), iter->first.end()));
 		++i;
 	}
-	m_CreateCombo->init(vecRes, Texidx);
+	m_CreateCombo->init<CTexture>(vecRes, Texidx);
 	m_CreateCombo->AddSelectedNotify(this, (FUNC_0)&AnimTool::ClearFrm);
 	m_CreateCombo->AddSelectedFunc(this, (FUNC_1)&AnimTool::SetAtlasTex);
 }

@@ -47,7 +47,7 @@ void AnimCreateTool::init()
 	}
 	m_AtlasComboBox->AddSelectedNotify(this, (FUNC_0)&AnimCreateTool::ClearFrm);
 	m_AtlasComboBox->AddSelectedFunc(this, (FUNC_1)&AnimCreateTool::SetAtlasTex);
-	m_AtlasComboBox->init(m_vecRes, 0);
+	m_AtlasComboBox->init<CTexture>(m_vecRes, 0);
 }
 
 void AnimCreateTool::update()

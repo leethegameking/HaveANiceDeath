@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "UI.h"
 
 #include <Engine/Ptr.h>
@@ -59,6 +59,7 @@ public:
     void init_edit(CAnimation2D* _pAnim);
     void update() override;
     void render_update() override;
+    void Close() override;
 
 private:
     void CreateMode();
@@ -92,7 +93,12 @@ private:
 
 private:
     void SetAtlasTex(DWORD_PTR _texKey);
-    void ClearFrm() { m_ChangeFrm.clear(); }
+    void ClearFrm() 
+    { 
+        m_ChangeFrm.clear();
+        m_EditFrmIdx = 0;
+        m_CreateFrmIdx = 0;
+    }
 
     void SetAnimaton(DWORD_PTR _animKey);
 

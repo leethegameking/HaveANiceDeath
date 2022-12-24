@@ -30,7 +30,13 @@ Ptr<CAnimation2D> CResMgr::CreateAnimation(const wstring& _strKey, Ptr<CTexture>
 	pAnim = new CAnimation2D;
 	pAnim->Create(_strKey, _AtlasTex, _vecFrm);
 
-	AddRes<CAnimation2D>(_strKey, pAnim.Get());
+	wstring strRelativeKey = L"animation\\" + _strKey + L".anim";
+
+	pAnim->SetKey(strRelativeKey);
+	pAnim->SetName(_strKey);
+	AddRes<CAnimation2D>(strRelativeKey, pAnim.Get());
+
+	pAnim->Save(strRelativeKey);
 
 	return pAnim;
 }
@@ -43,7 +49,13 @@ Ptr<CAnimation2D> CResMgr::CreateAnimation(const wstring& _strKey, Ptr<CTexture>
 	pAnim = new CAnimation2D;
 	pAnim->Create(_strKey, _AtlasTex, _vLeftTop, _vOffset, _vSlice, _fStep, _iMaxFrm, _FPS, _vFullsize, _bVTHZ);
 
+	wstring strRelativeKey = L"animation\\" + _strKey + L".anim";
+
+	pAnim->SetKey(strRelativeKey);
+	pAnim->SetName(_strKey);
 	AddRes<CAnimation2D>(_strKey, pAnim.Get());
+
+	pAnim->Save(strRelativeKey);
 
 	return pAnim;
 }

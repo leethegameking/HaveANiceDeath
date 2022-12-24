@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "CRes.h"
 
 #include "CTexture.h"
@@ -43,7 +43,7 @@ public:
         m_bFinish = false;
     }
 
-    // UI¿ë
+    // UIìš©
     void Reallocate();
 
     void UpdateData();
@@ -55,7 +55,7 @@ private:
 
 public:
     virtual int Load(const wstring& _strFilePath) override;
-    virtual void Save(const wstring& _strFilePath) override;
+    virtual void Save(const wstring& _strRelativePath) override;
 
     CLONE(CAnimation2D);
 public:
