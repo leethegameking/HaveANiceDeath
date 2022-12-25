@@ -82,7 +82,7 @@ private:
 
     Vec2 GetClickedIdx(Vec2 _vCursorPos);
 
-
+    std::pair<Vec2, Vec2> AddRectOnImage(Vec2 _cursorPos, Vec2 _FrameSize);
 
 
     bool IsCreateMode() { return m_iMode == (int)ToolMode::CREATE; }

@@ -161,7 +161,10 @@ void CAnimation2D::Clear()
 void CAnimation2D::Save(const wstring& _strRelativeFilePath)
 {
 	if (!CheckRelativePath(_strRelativeFilePath))
+	{
 		assert(nullptr);
+		return;
+	}
 
 	
 	wstring strPath = CONTENTPATH;

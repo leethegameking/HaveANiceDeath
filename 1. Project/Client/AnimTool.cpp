@@ -152,13 +152,14 @@ void AnimTool::EditMode()
 	{
 		vector<tAnim2DFrm>* vecFrm = m_pCurAnim->GetFrmVec();
 		m_ChangeFrm.assign(vecFrm->begin(), vecFrm->end());
+		m_AtlasTex = m_pCurAnim->GetAtlas();
+		m_AtlasSRV = m_AtlasTex->GetSRV().Get();
 		m_bAnimChanged = false;
 	}
 	ImGui::SameLine();
 	m_EditCombo->render_update();
 	FrameWindow();
-	FrameImageWindow();
-	SettingWindow();
+	FrameImageWindow(); ImGui::SameLine(); SettingWindow();
 }
 
 
@@ -600,6 +601,12 @@ void AnimTool::AtlasWindow()
 
 void AnimTool::SettingWindow()
 {
+	if (IsEditMode())
+	{
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_HorizontalScrollbar;
+		ImGui::BeginChild("ChildSettingWindow", ImVec2(ImGui::GetContentRegionAvail().x, 0.f), true, window_flags);
+	}
+
 	float my_tex_w = m_AtlasTex->GetWidth();
 	float my_tex_h = m_AtlasTex->GetHeight();
 	Vec2 vAtlasSize = m_AtlasTex->GetSize();
@@ -611,10 +618,11 @@ void AnimTool::SettingWindow()
 		static Vec2 vOffset = Vec2::Zero ;
 
 		
-		ImGui::Text("MaxFrm      "); ImGui::SameLine(); ImGui::InputInt("##MaxFrm", &m_iMaxFrm, 0, 0);
-		ImGui::Text("FPS         "); ImGui::SameLine(); ImGui::InputFloat("##FPS", &fFPS, 0, 0);
-		ImGui::Text("FullSize    "); ImGui::SameLine(); ImGui::InputFloat2("##Fullsize", vFullsize);
-		ImGui::Text("Offset      "); ImGui::SameLine(); ImGui::InputFloat2("##Offset", vOffset);
+		ImGui::Text("MaxFrm        "); ImGui::SameLine(); ImGui::InputInt("##MaxFrm", &m_iMaxFrm, 0, 0);
+		ImGui::Text("FPS           "); ImGui::SameLine(); ImGui::InputFloat("##FPS", &fFPS, 0, 0);
+		ImGui::Text("FullSize      "); ImGui::SameLine(); ImGui::InputFloat2("##Fullsize", vFullsize);
+		ImGui::Text("Offset        "); ImGui::SameLine(); ImGui::InputFloat2("##Offset", vOffset);
+
 
 		for (size_t i = 0; i < m_ChangeFrm.size(); ++i)
 		{
@@ -680,6 +688,10 @@ void AnimTool::SettingWindow()
 				Vec2 vFullSize = m_ChangeFrm[idx].vFullSize * vAtlasSize;
 				Vec2 vOffset = m_ChangeFrm[idx].vOffset * vAtlasSize;
 
+				bool bOpen = !!m_ChangeFrm[idx].bColiiderOn;
+				Vec2 vColliderPos = m_ChangeFrm[idx].iColliderPos;
+				Vec2 vColliderScale = m_ChangeFrm[idx].iColliderScale;
+
 
 				ImGui::PushItemWidth(100.f);
 				// 프레임 정보
@@ -688,12 +700,19 @@ void AnimTool::SettingWindow()
 				ImGui::Text("Offset  ");	ImGui::SameLine(); ImGui::InputFloat2("##Offset", vOffset);
 				ImGui::Text("Fullsize");	ImGui::SameLine(); ImGui::InputFloat2("##Fullsize", vFullSize);
 				ImGui::Text("Duration");	ImGui::SameLine(); ImGui::InputFloat("##Duation", &m_ChangeFrm[m_CreateFrmIdx].fDuration, 0, 0);
+
+				ImGui::Checkbox("Collider On",  &bOpen);
+				ImGui::Text("ColliderPos   "); ImGui::SameLine(); ImGui::InputFloat2("##ColliderPos", m_ChangeFrm[idx].iColliderPos);
+				ImGui::Text("ColliderScale "); ImGui::SameLine(); ImGui::InputFloat2("##ColliderScale", m_ChangeFrm[idx].iColliderScale);
+
 				ImGui::PopItemWidth();
 
 				m_ChangeFrm[idx].vSlice = vSlice / vAtlasSize;
 				m_ChangeFrm[idx].vOffset = vOffset / vAtlasSize;
 				m_ChangeFrm[idx].vFullSize = vFullSize / vAtlasSize;
 				m_ChangeFrm[idx].vLeftTop = vLeftTop / vAtlasSize;
+
+				m_ChangeFrm[idx].bColiiderOn = bOpen;
 			}
 			if (m_bAllChange)
 			{
@@ -761,12 +780,23 @@ void AnimTool::SettingWindow()
 			}
 		}
 	}
+
+	if(IsEditMode())
+		ImGui::EndChild();
 }
 
 void AnimTool::FrameImageWindow()
 {
-	ImGuiWindowFlags window_flags = ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_NoMove;
-	ImGui::BeginChild("ChildFrameImage", ImVec2(ImGui::GetContentRegionAvail().x, 500.f), true, window_flags);
+	if (IsEditMode())
+	{
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_NoMove;
+		ImGui::BeginChild("ChildFrameImage", ImVec2(ImGui::GetContentRegionAvail().x * 0.7f, 0.f), true, window_flags);
+	}
+	else if (IsCreateMode())
+	{
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_NoMove;
+		ImGui::BeginChild("ChildFrameImage", ImVec2(ImGui::GetContentRegionAvail().x, 500.f), true, window_flags);
+	}
 
 	int idx = 0;
 	if (IsCreateMode())
@@ -806,10 +836,27 @@ void AnimTool::FrameImageWindow()
 			vImageStart, vImageStart + m_ChangeFrm[idx].vSlice * AtlasSize,
 			m_ChangeFrm[idx].vLeftTop, m_ChangeFrm[idx].vLeftTop + m_ChangeFrm[idx].vSlice, IM_COL32(255, 255, 255, 255));
 
-		if (ImGui::IsMouseDragging(0) && ImGui::IsWindowHovered())
+		// 드래그로 이미지 움직이기
+		if (ImGui::IsMouseDragging(0) && ImGui::IsWindowHovered() && KEY_PRESSED(KEY::LCTRL))
 		{
 			Vec2 vMouseMove = Vec2(CKeyMgr::GetInst()->GetMouseDir().x, -CKeyMgr::GetInst()->GetMouseDir().y);
 			m_ChangeFrm[idx].vOffset += vMouseMove / AtlasSize;
+		}
+
+		// Collider 영역 그리기
+		std::pair<Vec2, Vec2> vecPair = AddRectOnImage(vCursorPos, m_ChangeFrm[idx].vFullSize * AtlasSize);
+
+		// Collider 영역 할당
+		if (m_bHasSelected)
+		{
+			Vec2 vRectStartPos = vecPair.first;
+			Vec2 vRectEndPos = vecPair.second;
+
+			m_ChangeFrm[idx].iColliderScale = Vec2(fabsf(vRectStartPos.x - vRectEndPos.x), fabsf(vRectStartPos.y - vRectEndPos.y));
+			
+			Vec2 vPivot = vCursorPos + Vec2(m_ChangeFrm[idx].vFullSize * AtlasSize / 2.f) + m_ChangeFrm[idx].vOffset * AtlasSize;
+			Vec2 vColliderPos = vRectStartPos + Vec2((vRectEndPos - vRectStartPos) / 2.f);
+			m_ChangeFrm[idx].iColliderPos = vColliderPos - vPivot;
 		}
 
 		if (KEY_PRESSED(KEY::LCTRL))
@@ -886,6 +933,100 @@ Vec2 AnimTool::GetClickedIdx(Vec2 _vCursorPos)
 	TexIdx.y = floor(TexIdx.y);
 
 	return TexIdx;
+}
+
+std::pair<Vec2, Vec2> AnimTool::AddRectOnImage(Vec2 _cursorPos, Vec2 _FrameSize)
+{
+	ImGuiIO& io = ImGui::GetIO();
+	Vec2 vMousePos = io.MousePos;
+
+	static Vec2 vPrevCursor = _cursorPos;
+
+
+	if (vMousePos.x < _cursorPos.x)
+		vMousePos.x = _cursorPos.x;
+	if (vMousePos.x > _cursorPos.x + _FrameSize.x)
+		vMousePos.x = _cursorPos.x + _FrameSize.x;
+	if (vMousePos.y < _cursorPos.y)
+		vMousePos.y = _cursorPos.y;
+	if (vMousePos.y > _cursorPos.y + _FrameSize.y)
+		vMousePos.y = _cursorPos.y + _FrameSize.y;
+
+	Vec2 TexCoord = vMousePos - _cursorPos;
+
+	static bool bScrollBool = 0;
+
+	static Vec2 vRectStartPos;
+	static Vec2 vRectEndPos;
+	// 그릴 사각형 좌표 잡기
+	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows))
+	{
+		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && KEY_PRESSED(KEY::LALT))
+		{
+			vRectStartPos = _cursorPos + TexCoord;
+			vRectEndPos = vRectStartPos;
+			bScrollBool = true;
+			m_bHasSelected = true;
+
+		}
+		if (ImGui::IsMouseDragging(ImGuiMouseButton_Left) && KEY_PRESSED(KEY::LALT))
+		{
+			vRectEndPos = _cursorPos + TexCoord;
+			bScrollBool = true;
+		}
+		if (ImGui::IsMouseReleased(ImGuiMouseButton_Left)  && bScrollBool && KEY_PRESSED(KEY::LALT))
+		{
+			vRectEndPos = _cursorPos + TexCoord;
+			bScrollBool = false;
+		}
+
+		// 사각형 드래그로 움직이기
+		if (ImGui::IsMouseDragging(ImGuiMouseButton_Left) && KEY_PRESSED(KEY::LSHIFT))
+		{
+			Vec2 vMouseDir = CKeyMgr::GetInst()->GetMouseDir();
+			vRectStartPos += Vec2(vMouseDir.x, -vMouseDir.y);
+			vRectEndPos += Vec2(vMouseDir.x, -vMouseDir.y);
+		}
+
+		// 사각형 키입력으로 움직이기
+		static float speed = 20.f;
+		if (KEY_PRESSED(KEY::UP) && KEY_PRESSED(KEY::LSHIFT))
+		{
+			vRectStartPos.y -= speed * DT;
+			vRectEndPos.y -= speed * DT;
+		}
+		if (KEY_PRESSED(KEY::DOWN) && KEY_PRESSED(KEY::LSHIFT))
+		{
+			vRectStartPos.y += speed * DT;
+			vRectEndPos.y += speed * DT;
+		}
+		if (KEY_PRESSED(KEY::LEFT) && KEY_PRESSED(KEY::LSHIFT))
+		{
+			vRectStartPos.x -= speed * DT;
+			vRectEndPos.x -= speed * DT;
+		}
+		if (KEY_PRESSED(KEY::RIGHT) && KEY_PRESSED(KEY::LSHIFT))
+		{
+			vRectStartPos.x += speed * DT;
+			vRectEndPos.x += speed * DT;
+		}
+	}
+
+	Vec2 vChangedCursorPos = _cursorPos - vPrevCursor;
+
+	vRectStartPos += vChangedCursorPos;
+	vRectEndPos += vChangedCursorPos;
+
+	vPrevCursor = _cursorPos;
+
+	// 선택된 영역 네모 그리기
+	if (m_bHasSelected)
+	{
+		ImDrawList* drawList = ImGui::GetWindowDrawList();
+		drawList->AddRect(vRectStartPos, vRectEndPos, IM_COL32(0, 255, 0, 255));
+	}
+
+	return std::pair<Vec2, Vec2>(vRectStartPos, vRectEndPos);
 }
 
 void AnimTool::SetAnimaton(DWORD_PTR _animKey)
