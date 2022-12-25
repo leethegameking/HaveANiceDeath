@@ -154,7 +154,8 @@ void InspectorUI::last_render()
 
 void InspectorUI::SetTargetObj(CGameObject* _Target)
 {
-	SetTargetRes(nullptr);
+	if(_Target)
+		SetTargetRes(nullptr);
 
 	m_TargetObj = _Target;
 	
@@ -227,7 +228,10 @@ void InspectorUI::SetTargetObj(CGameObject* _Target)
 void InspectorUI::SetTargetRes(Ptr<CRes> _Res)
 {
 	if (_Res.Get())
-		SetTargetObj(nullptr); 
+		SetTargetObj(nullptr);
+	else
+		m_TargetRes = nullptr;
+
 
 	if (_Res.Get())
 	{

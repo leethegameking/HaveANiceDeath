@@ -85,9 +85,7 @@ void MaterialUI::render_update()
 	if (CommonUI::ButtonCenteredOnLine("Save"))
 	{
 		Ptr<CMaterial> ptrMtrl = (CMaterial*)GetTarget().Get();
-		wstring strRelativePath = L"material//";
-		strRelativePath += ptrMtrl->GetKey();
-		ptrMtrl->Save(strRelativePath);
+		ptrMtrl->Save(ptrMtrl->GetKey());
 		CommonUI::OpenPopup("Material Save!");
 	}
 	CommonUI::NotifyPopup();

@@ -41,7 +41,7 @@ public:
 	Ptr<T> Load(const wstring& _strRelativePath);
 
 	template<typename T>
-	wstring	GetNewResName();
+	wstring	GetNewResName(const wstring& _name = L"");
 
 public:
 	Ptr<CAnimation2D> CreateAnimation(const wstring& _strKey, Ptr<CTexture> _AtlasTex, const vector<tAnim2DFrm>& _vecFrm);
@@ -196,15 +196,20 @@ Ptr<T> CResMgr::Load(const wstring& _strRelativePath)
 }
 
 template<typename T>
-inline wstring CResMgr::GetNewResName()
+inline wstring CResMgr::GetNewResName(const wstring& _name)
 {
 	RES_TYPE type = GetType<T>();
 
 	wstring strName = L"New ";
+	wstring strFolderName = L"";
+	wstring strExt = L"";
 
 	switch (type)
 	{
 	case RES_TYPE::PREFAB:
+		strName = _name + L"_pref";
+		strFolderName = L"prefab\\";
+		strExt = L".pref";
 		break;
 	case RES_TYPE::MESHDATA:
 		break;
@@ -212,6 +217,8 @@ inline wstring CResMgr::GetNewResName()
 		break;
 	case RES_TYPE::MATERIAL:
 		strName += L"Material";
+		strFolderName = L"material\\";
+		strExt = L".mtrl";
 		break;
 	case RES_TYPE::MESH:
 		break;
@@ -236,7 +243,7 @@ inline wstring CResMgr::GetNewResName()
 		wstring wstrCount = StrToWstr(strCount);
 
 		wstring strTemp = strName;
-		strTemp += wstrCount;
+		strTemp = strFolderName + strTemp + wstrCount + strExt;
 
 		if (nullptr != FindRes<T>(strTemp))
 		{
@@ -244,7 +251,7 @@ inline wstring CResMgr::GetNewResName()
 		}
 		else
 		{
-			strName = strTemp;
+			strName += wstrCount;
 			break;
 		}
 	}

@@ -121,6 +121,7 @@ void CAnimation2D::Reallocate()
 {
 	for (size_t i = 0; i < m_vecChildAnim.size(); ++i)
 	{
+		m_vecChildAnim[i]->SetName(GetName());
 		m_vecChildAnim[i]->m_vecFrm.assign(m_vecFrm.begin(), m_vecFrm.end());
 		m_vecChildAnim[i]->m_iCurIdx = 0;
 	}

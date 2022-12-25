@@ -70,7 +70,11 @@ void PopupMenuUI::MAKE_PREFAB_FUNC(DWORD_PTR _node)
 
 	CPrefab* pPrefab = new CPrefab(pObj);
 
-	CResMgr::GetInst()->AddRes<CPrefab>(pObj->GetName(), pPrefab);
+	pPrefab->SetName(CResMgr::GetInst()->GetNewResName<CPrefab>(pObj->GetName()));
+	wstring strKey = L"prefab\\" + pPrefab->GetName() + L".pref";
+	
+	CResMgr::GetInst()->AddRes<CPrefab>(strKey, pPrefab);
+	pPrefab->Save(pPrefab->GetKey());
 }
 
 void PopupMenuUI::CREATE_EMPTY_OBJECT_FUNC()
@@ -93,10 +97,11 @@ void PopupMenuUI::INSTANTIATE_FUNC(DWORD_PTR _node)
 void PopupMenuUI::ADD_NEW_MATERIAL_FUNC()
 {
 	Ptr<CMaterial> pMtrl = new CMaterial;
-	wstring strKey = CResMgr::GetInst()->GetNewResName<CMaterial>();
-	CResMgr::GetInst()->AddRes<CMaterial>(strKey, pMtrl.Get());
+	pMtrl->SetName(CResMgr::GetInst()->GetNewResName<CMaterial>());
+	wstring strKey = L"material\\"  + pMtrl->GetName() + L".mtrl";
 
-	CEventMgr::GetInst()->ResChangeFlagOn();
+	CResMgr::GetInst()->AddRes<CMaterial>(strKey, pMtrl.Get());
+	pMtrl->Save(pMtrl->GetKey());
 }
 
 void PopupMenuUI::ADD_NEW_ANIMATION_FUNC()

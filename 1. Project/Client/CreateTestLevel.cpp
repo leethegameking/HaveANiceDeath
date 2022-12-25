@@ -26,8 +26,8 @@ void CreateTestLevel()
 	// CreateDefaultAnimation();
 	
 	// TestScript Play -> P 눌러서 저장.
-	//CLevelMgr::GetInst()->ChangeLevel(CSaveLoadMgr::GetInst()->LoadLevel(L"level\\testLV.lv"));
-	//return;
+	CLevelMgr::GetInst()->ChangeLevel(CSaveLoadMgr::GetInst()->LoadLevel(L"level\\testLV.lv"));
+	return;
 
 	CLevel* pTestLevel = new CLevel;
 	pTestLevel->SetName(L"TestLevel");
