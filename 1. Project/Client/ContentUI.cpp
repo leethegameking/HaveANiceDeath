@@ -115,8 +115,8 @@ void ContentUI::ReloadContent()
 		// 리소스 타입에 해당하는 리소스를 경로로부터 로딩
 		if (RES_TYPE::END == resType)
 		{
-			// 레벨 일 경우
-			if (m_vecContentName[i].rfind(L".lv") != -1)
+			// 레벨 일 경우 (tmpsave.lv 파일은 제외) 
+			if (m_vecContentName[i].rfind(L".lv") != -1 && m_vecContentName[i].rfind(L"tmpsave.lv") == -1)
 			{
 				m_vecLevelName.push_back(m_vecContentName[i]);
 			}
