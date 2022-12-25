@@ -63,7 +63,7 @@ void PopupMenuUI::GetValidMenu(DWORD_PTR _node)
 	
 	if (pNode == nullptr)
 	{
-		m_iMenuBit |= CREATE_EMPTY_OBJECT | ADD_NEW_ANIMATION | ADD_NEW_MATERIAL;
+		m_iMenuBit |= CREATE_EMPTY_OBJECT | ADD_NEW_ANIMATION | ADD_NEW_MATERIAL | ADD_NEW_ANIMATION;
 		m_bHasAnyMenu = true;
 		return;
 	}
@@ -75,10 +75,9 @@ void PopupMenuUI::GetValidMenu(DWORD_PTR _node)
 	{
 		if(pRes->GetResType() == RES_TYPE::PREFAB)
 		{
-			m_iMenuBit |= INSTANTIATE | RENAME;
+			m_iMenuBit |= INSTANTIATE ;
 			m_bHasAnyMenu = true;
 		}
-		return;
 	}
 
 	// OutLiner
@@ -86,10 +85,13 @@ void PopupMenuUI::GetValidMenu(DWORD_PTR _node)
 
 	if (pObj)
 	{
-		m_iMenuBit |= MAKE_PREFAB | DESTROY | RENAME;
+		m_iMenuBit |= MAKE_PREFAB | DESTROY ;
 		m_bHasAnyMenu = true;
-		return;
 	}
+
+	// °øÅë
+	m_iMenuBit |= RENAME;
+	m_bHasAnyMenu = true;
 
 }
 

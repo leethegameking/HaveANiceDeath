@@ -124,6 +124,7 @@ enum class RES_TYPE
 extern const char* RES_TYPE_CHAR[(UINT)RES_TYPE::END];
 extern const wchar_t* RES_TYPE_WCHAR[(UINT)RES_TYPE::END];
 
+// DUMMY 사용하려면 char 배열 부분도 수정.
 enum class COMPONENT_TYPE
 {
 	TRANSFORM,
@@ -135,6 +136,8 @@ enum class COMPONENT_TYPE
 	LIGHT2D,
 	LIGHT3D,
 	RIGIDBODY2D,
+	DUMMY_1,
+	DUMMY_2,
 
 	// render
 	MESHRENDER,
@@ -143,6 +146,8 @@ enum class COMPONENT_TYPE
 	SKYBOX,
 	DECAL,
 	LANDSCAPE,
+	DUMMY_3,
+	DUMMY_4,
 
 	END,
 

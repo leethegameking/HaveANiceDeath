@@ -5,6 +5,7 @@
 #include "CommonUI.h"
 #include "CImGuiMgr.h"
 #include "InputTextUI.h"
+#include "AnimTool.h"
 
 #include <Engine/CResMgr.h>
 #include <Engine/CEventMgr.h>
@@ -100,6 +101,10 @@ void PopupMenuUI::ADD_NEW_MATERIAL_FUNC()
 
 void PopupMenuUI::ADD_NEW_ANIMATION_FUNC()
 {
+	AnimTool* pAnimTool = (AnimTool*)CImGuiMgr::GetInst()->FindUI("AnimTool");
+	pAnimTool->AddFlag(ImGuiWindowFlags_NoNavInputs);
+	pAnimTool->init();
+	pAnimTool->Open();
 }
 
 void PopupMenuUI::DESTROY_FUNC(DWORD_PTR _node)
@@ -116,16 +121,32 @@ void PopupMenuUI::RENAME_FUNC(DWORD_PTR _node)
 	pUI->SetData(_node);
 	pUI->SetName("Set Name");
 	pUI->Open();
-	pUI->AddDynamic_Close(this, (FUNC_2)(&PopupMenuUI::Rename_Func_Pass));
+
+	// _node == GameObject
+	if(dynamic_cast<CGameObject*>((CEntity*)((TreeNode*)(_node))->GetData()))
+		pUI->AddDynamic_Close(this, (FUNC_2)(&PopupMenuUI::Rename_Func_Obj));
+
+	// _node =- Resource
+	else
+		pUI->AddDynamic_Close(this, (FUNC_2)(&PopupMenuUI::Rename_Func_Res));
 }
 
-void PopupMenuUI::Rename_Func_Pass(DWORD_PTR _node, DWORD_PTR _name)
+void PopupMenuUI::Rename_Func_Obj(DWORD_PTR _node, DWORD_PTR _name)
 {
 	CGameObject* targetObj = (CGameObject*)(((TreeNode*)_node)->GetData());
 	string name = (char*)_name;
 	targetObj->SetName(StrToWstr(name));
 
 	CEventMgr::GetInst()->LevelChangFlagOn();
+}
+
+void PopupMenuUI::Rename_Func_Res(DWORD_PTR _node, DWORD_PTR _name)
+{
+	Ptr<CRes> targetRes = (CRes*)(((TreeNode*)_node)->GetData());
+	string name = (char*)_name;
+	targetRes->SetName(StrToWstr(name));
+
+	CEventMgr::GetInst()->ResChangeFlagOn();
 }
 
 

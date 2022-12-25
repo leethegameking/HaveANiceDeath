@@ -81,7 +81,8 @@ public:
 	// General
 	void DESTROY_FUNC(DWORD_PTR _node);
 	void RENAME_FUNC(DWORD_PTR _node);
-	void Rename_Func_Pass(DWORD_PTR _node, DWORD_PTR _name);
+	void Rename_Func_Obj(DWORD_PTR _node, DWORD_PTR _name);
+	void Rename_Func_Res(DWORD_PTR _node, DWORD_PTR _name);
 
 public:
 	void SetTreeUI(TreeUI* _TreeUI);

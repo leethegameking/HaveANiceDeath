@@ -40,6 +40,7 @@ void TreeNode::render_update()
 		strName = "\t" + strName;
 	strName += "##" + to_string(m_ID);
 
+	// Node Open 값 처음 Reset한 후, 한 번만 할당
 	if (m_bNodeOpen && m_bNodeOpenFlag)
 	{
 		ImGui::SetNextItemOpen(true);
@@ -49,6 +50,7 @@ void TreeNode::render_update()
 
 	if (ImGui::TreeNodeEx(strName.c_str(), iFlag))
 	{
+		// Reset후 Node Open 값 할당을 위한 처리.
 		m_bNodeOpenFlag = false;
 		m_bNodeOpen = true;
 
