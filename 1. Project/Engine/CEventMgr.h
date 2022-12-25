@@ -1,6 +1,11 @@
 ﻿#pragma once
 #include "singleton.h"
 
+class CLevel;
+class CGameObject;
+
+// typedef void (*SAVE_GAMEOBJECT)(CGameObject*, FILE*);
+typedef CLevel* (*LOAD_LEVEL)(wstring _strRelativePath);
 
 class CEventMgr :
     public CSingleton<CEventMgr>
@@ -16,6 +21,9 @@ private:
     bool m_bLevelChangeFlag;
 
 public:
+    static LOAD_LEVEL Load_Level_Func;
+
+public:
     void tick();
 
 public:
@@ -25,6 +33,8 @@ public:
 
     void ResChangeFlagOn() { m_bResChangeFlag = true; }
     void LevelChangFlagOn() { m_bLevelChangeFlag = true; }
+
+    void SetLoadLevelFunc(LOAD_LEVEL _loadLevelFunc) { Load_Level_Func = _loadLevelFunc; }
 
 public:
     CEventMgr();

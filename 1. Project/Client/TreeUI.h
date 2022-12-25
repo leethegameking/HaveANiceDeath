@@ -13,7 +13,7 @@ private:
     int m_ID;
 
 private:
-    string          m_strName;
+    string          m_strNodeKey;
     string          m_strShowingName;
     DWORD_PTR       m_data;
 
@@ -35,7 +35,9 @@ public:
     void render_update();
 
 private:
-    void SetNodeKey(const string& _name) { m_strName = _name; }
+    void SetNodeKey(const string& _name) { m_strNodeKey = _name; }
+    string& GetNodeKey() { return m_strNodeKey; }
+
     void SetData(DWORD_PTR _data) { m_data = _data; }
     void SetNodeName(const string& _name) { m_strShowingName = _name; }
 
@@ -69,6 +71,9 @@ private:
     UI* m_SelectInst;
     FUNC_1 m_SelectFunc;
 
+    UI* m_DBClickedInst;
+    FUNC_1 m_DBClickedFunc;
+
     UI* m_DragDropInst;
     FUNC_2 m_DragDropFunc;
 
@@ -92,13 +97,18 @@ public:
     void SetSelectedNode(TreeNode* _SelectedNode);
     TreeNode* GetSelectedNode() { return m_SelectedNode; }
 
-    AddDynFunc1(Select)
-    AddDynFunc1(RightClick)
-    AddDynFunc2(DragDrop)
+    void SetDBClickedNode(TreeNode* _DBClickedNode);
 
     void SetBeginDragNode(TreeNode* _node) { m_BeginDragNode = _node; }
+
     void SetRightClickNode(TreeNode* _node);
     void SetDropTargetNode(TreeNode* _node);
+
+    AddDynFunc1(Select)
+        AddDynFunc1(DBClicked)
+        AddDynFunc1(RightClick)
+        AddDynFunc2(DragDrop)
+
 
 public:
     TreeNode* GetRootNode() { return m_RootNode; }
@@ -107,6 +117,7 @@ public:
 public:
     PopupMenuUI* GetPopupMenu();
 
+    // 빈 곳 우클릭 이벤트 처리 위함.
     bool IsEmptySpace() { return m_bEmptySpace; }
     void SetNotEmptySpace() { m_bEmptySpace = false; }
 

@@ -12,6 +12,16 @@ wstring GetRelativePath(const wstring& _strBase, const wstring& _strPath)
 	return strRelativePath;
 }
 
+wstring GetNameFromPath(const wstring& _strPath)
+{
+	size_t StartIdx = _strPath.rfind(L"\\");
+	size_t EndIdx = _strPath.rfind(L".");
+	wstring strName = _strPath.substr(StartIdx + 1, EndIdx - StartIdx - 1);
+
+	return strName;
+}
+
+
 Vec4 MulMatrix(Vec4 _Vec4, const Matrix& _mat)
 {
 	return

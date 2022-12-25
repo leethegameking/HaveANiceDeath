@@ -15,13 +15,12 @@ public:
 	void init();
 
 public:
-	void SaveLevel(CLevel* _Level, wstring _strRelativePath);
-	CLevel* LoadLevel(wstring _strRelativePath);
+	static void SaveLevel(CLevel* _Level, wstring _strRelativePath);
+	static CLevel* LoadLevel(wstring _strRelativePath);
 
 public:
 	static void SaveGameObject(CGameObject* _Object, FILE* _File);
 	static CGameObject* LoadGameObject(FILE* _File);
-
 
 };
 

@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 wstring GetRelativePath(const wstring& _strBase, const wstring& _strPath);
+wstring GetNameFromPath(const wstring& _strPath);
 
 template<typename T>
 void Safe_Del_Vec(vector<T*>& _vec)

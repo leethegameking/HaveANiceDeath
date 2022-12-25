@@ -100,7 +100,11 @@ void TreeNode::render_update()
 			m_TreeUI->SetNotEmptySpace();
 		}
 
+		if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left) && ImGui::IsItemHovered(0))
+		{
+			m_TreeUI->SetDBClickedNode(this);
 
+		}
 
 
 		PopupMenuUI* pPopupMenu = m_TreeUI->GetPopupMenu();
@@ -261,6 +265,22 @@ void TreeUI::SetSelectedNode(TreeNode* _SelectedNode)
 	if (m_SelectInst && m_SelectFunc)
 	{
 		(m_SelectInst->*m_SelectFunc)((DWORD_PTR)m_SelectedNode);
+	}
+}
+
+void TreeUI::SetDBClickedNode(TreeNode* _DBClickedNode)
+{
+	if (m_SelectedNode)
+	{
+		m_SelectedNode->m_bSelected = false;
+	}
+
+	m_SelectedNode = _DBClickedNode;
+	m_SelectedNode->m_bSelected = true;
+
+	if (m_DBClickedInst && m_DBClickedFunc)
+	{
+		(m_DBClickedInst->*m_DBClickedFunc)((DWORD_PTR)m_SelectedNode);
 	}
 }
 

@@ -8,6 +8,7 @@
 
 #include "CCollider2D.h"
 
+LOAD_LEVEL CEventMgr::Load_Level_Func = nullptr;
 
 CEventMgr::CEventMgr()
 	: m_bLevelChanged(false)
@@ -113,6 +114,15 @@ void CEventMgr::tick()
 
 		case EVENT_TYPE::CHANGE_LEVEL:
 		{
+			// wParam : ChangeLevelPath
+			char* ChangeLevelPath = (char*)m_vecEvent[i].wParam;
+			
+			wstring wstrLevelPath = StrToWstr(string(ChangeLevelPath));
+
+			CLevel* pChangeLevel = Load_Level_Func(wstrLevelPath);
+
+			CLevelMgr::GetInst()->ChangeLevel(pChangeLevel);
+
 			m_bLevelChanged = true;
 		}
 			break;

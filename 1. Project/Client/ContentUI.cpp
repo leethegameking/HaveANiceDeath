@@ -11,16 +11,22 @@
 
 ContentUI::ContentUI()
 	: UI("Content")
-	, m_Tree(nullptr)
+	, m_ContentTree(nullptr)
 {
-	m_Tree = new TreeUI("##ContentTree");
-	AddChild(m_Tree);
+	m_ContentTree = new TreeUI("##ContentTree");
+	AddChild(m_ContentTree);
 
-	m_Tree->SetShowSeperator(false);
-	m_Tree->SetDummyRoot(true);
+	m_ContentTree->SetShowSeperator(false);
+	m_ContentTree->SetDummyRoot(true);
 
-	m_Tree->AddDynamic_Select(this, (FUNC_1)&ContentUI::SetResourceToInspector);
+	m_ContentTree->AddDynamic_Select(this, (FUNC_1)&ContentUI::SetResourceToInspector);
 
+	m_LevelLoadTree = new TreeUI("##LevelLaodTree");
+	AddChild(m_LevelLoadTree);
+
+	m_LevelLoadTree->SetShowSeperator(false);
+	m_LevelLoadTree->SetDummyRoot(true);
+	m_LevelLoadTree->AddDynamic_DBClicked(this, (FUNC_1)&ContentUI::LoadLevel);
 
 	ResetContent();
 }
@@ -48,7 +54,7 @@ void ContentUI::render_update()
 void ContentUI::ResetContent()
 {
 	// Frame 부분 open값 기억 
-	TreeNode* xRootNode = m_Tree->GetRootNode();
+	TreeNode* xRootNode = m_ContentTree->GetRootNode();
 	if (xRootNode)
 	{
 		const vector<TreeNode*>& vecTreeChild = xRootNode->GetChild();
@@ -59,15 +65,17 @@ void ContentUI::ResetContent()
 		}
 	}
 
-	m_Tree->Clear();
+	m_ContentTree->Clear();
 
+	// Res Load
 	// 더미 추가
-	TreeNode* pRootNode = m_Tree->AddItem(nullptr, "", "Content", 0);
+	TreeNode* pRootNode = m_ContentTree->AddItem(nullptr, "", "Content", 0);
 
+	
 	for (UINT i = 0; i < (UINT)RES_TYPE::END; ++i)
 	{
 		// RES_TYPE에 해당하는 문자열을 부모로 추가
-		TreeNode* pResNode = m_Tree->AddItem(pRootNode, "", ToString((RES_TYPE)i), 0, true);
+		TreeNode* pResNode = m_ContentTree->AddItem(pRootNode, "", ToString((RES_TYPE)i), 0, true);
 		if (xRootNode)
 		{
 			pResNode->m_bNodeOpen = m_vecNodeOpenBool[i];
@@ -80,10 +88,19 @@ void ContentUI::ResetContent()
 		{
 			wstring strKey = iter->first;
 			wstring strName = (iter->second).Get()->GetName();
-			m_Tree->AddItem(pResNode, WstrToStr(strKey), WstrToStr(strName), (DWORD_PTR)iter->second.Get());
+			m_ContentTree->AddItem(pResNode, WstrToStr(strKey), WstrToStr(strName), (DWORD_PTR)iter->second.Get());
 		}
 	}
-		
+
+	// Level Load
+	m_LevelLoadTree->Clear();
+	TreeNode* pLevelNameNode = m_LevelLoadTree->AddItem(pRootNode, "", "Levels", 0, true);
+	for (size_t i = 0; i < m_vecLevelName.size(); ++i)
+	{
+		wstring strName = GetNameFromPath(m_vecLevelName[i]);
+
+		TreeNode* pLevelNode = m_LevelLoadTree->AddItem(pLevelNameNode, WstrToStr(m_vecLevelName[i]), WstrToStr(strName), 0, false);
+	}
 }
 
 void ContentUI::ReloadContent()
@@ -97,8 +114,15 @@ void ContentUI::ReloadContent()
 
 		// 리소스 타입에 해당하는 리소스를 경로로부터 로딩
 		if (RES_TYPE::END == resType)
+		{
+			// 레벨 일 경우
+			if (m_vecContentName[i].rfind(L".lv") != -1)
+			{
+				m_vecLevelName.push_back(m_vecContentName[i]);
+			}
 			continue;
-
+		}
+			
 		Ptr<CRes> tmpRes;
 
 		switch (resType)
@@ -149,6 +173,18 @@ void ContentUI::SetResourceToInspector(DWORD_PTR _res)
 
 	InspectorUI* pInspectorUI = (InspectorUI*)CImGuiMgr::GetInst()->FindUI("Inspector");
 	pInspectorUI->SetTargetRes(pRes);
+}
+
+void ContentUI::LoadLevel(DWORD_PTR _levelPath)
+{
+	TreeNode* pNode = (TreeNode*)_levelPath;
+	string& strLevelPath = pNode->GetNodeKey();
+
+	tEvent evn = {};
+	evn.eType = EVENT_TYPE::CHANGE_LEVEL;
+	evn.wParam = DWORD_PTR(strLevelPath.data());
+
+	CEventMgr::GetInst()->AddEvent(evn);
 }
 
 void ContentUI::FindContentFileName(const wstring& _strFolderPath)
