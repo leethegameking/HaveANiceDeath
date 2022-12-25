@@ -141,8 +141,13 @@ void CCamera::SortObject()
 
 			// 오브젝트들을 쉐이더 도메인에 따라 분류한다.
 			const vector<CGameObject*>& vecObj = pLayer->GetObjects();
+
 			for (size_t j = 0; j < vecObj.size(); ++j)
 			{
+				// 카메라 안에 들어오는 것만 렌더링 
+				if (!InCamera(vecObj[j], Vec2(0.8f, 0.8f)))
+					continue;
+
 				CRenderComponent* pRenderCom = vecObj[j]->GetRenderComponent();
 
 				if (   nullptr == pRenderCom

@@ -8,6 +8,7 @@
 #include "TreeUI.h"
 
 #include "CImGuiMgr.h"
+#include <Engine/CRenderMgr.h>
 #include <Engine/CTileMap.h>
 #include <Engine/CResMgr.h>
 #include <Engine/CRes.h>
@@ -150,33 +151,38 @@ void TileMapUI::render_update()
 		ImVec2(p.x + my_tex_w * m_vImageScale.x / (m_AtlasTex->GetWidth() / m_vSlice.x)
 			, p.y + my_tex_h * m_vImageScale.y / (m_AtlasTex->GetHeight() / m_vSlice.y)), IM_COL32_WHITE);
 
-	CGameObject* pMainCamera = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera");
-	float camScale = pMainCamera->Camera()->GetOrthographicScale();
+	CCamera* pMainCamera = CRenderMgr::GetInst()->GetMainCam();
+	float vCamScale = pMainCamera->GetOrthographicScale();
+	Vec3 vCamPos = pMainCamera->Transform()->GetRelativePos();
 
 
-	Vec3 vTargetProjScale = GetTarget()->Transform()->GetWorldScale();
-	vTargetProjScale /= camScale;
+	Vec3 vWorldScale = GetTarget()->Transform()->GetWorldScale();
+	// vWorldSCcale /= camScale;
 
 	Vec2 vResol = CDevice::GetInst()->GetRenderResolution();
 
-	Vec2 vMouseViewPos = CKeyMgr::GetInst()->GetMouseViewPos();
+	Vec2 vMouseDirectXPos = CKeyMgr::GetInst()->GetMouseDirectXPos();
 
 	const Matrix viewMat = pMainCamera->Camera()->GetViewMat();
 
-	Vec3 vTargetProjPos = GetTarget()->Transform()->GetWorldPos();
-	Vec4 vTargetViewPos = MulMatrix(Vec4(vTargetProjPos, 1.f), viewMat);
-	vTargetProjPos = Vec3(vTargetViewPos.x, vTargetViewPos.y, vTargetViewPos.z);
-	vTargetProjPos /= camScale;
+	Vec3 vWorldPos = GetTarget()->Transform()->GetWorldPos();
+	//Vec4 vTargetViewPos = MulMatrix(Vec4(vWorldPos, 1.f), viewMat);
+	//vWorldPos = Vec3(vTargetViewPos.x, vTargetViewPos.y, vTargetViewPos.z);
+	//vWorldPos /= camScale;
 
+	if (KEY_TAP(KEY::LBTN))
+	{
+		Vec2 a = vMouseDirectXPos;
+	}
 
 	// Tile Pressed
 	if (m_bInstanceMode)
 	{
 		if (KEY_PRESSED(KEY::LBTN) &&
-			vTargetProjPos.x + vTargetProjScale.x / 2.f > vMouseViewPos.x &&
-			vTargetProjPos.x - vTargetProjScale.x / 2.f < vMouseViewPos.x &&
-			vTargetProjPos.y + vTargetProjScale.y / 2.f > vMouseViewPos.y &&
-			vTargetProjPos.y - vTargetProjScale.y / 2.f < vMouseViewPos.y)
+			vWorldPos.x + vWorldScale.x / 2.f > vMouseDirectXPos.x * vCamScale + vCamPos.x &&
+			vWorldPos.x - vWorldScale.x / 2.f < vMouseDirectXPos.x * vCamScale + vCamPos.x &&
+			vWorldPos.y + vWorldScale.y / 2.f > vMouseDirectXPos.y * vCamScale + vCamPos.y &&
+			vWorldPos.y - vWorldScale.y / 2.f < vMouseDirectXPos.y * vCamScale + vCamPos.y )
 		{
 			ArrangeTile();
 		}
@@ -233,40 +239,33 @@ void TileMapUI::SelectImageTile(Vec2 _vCursorPos, Vec2 _vImageScale)
 
 void TileMapUI::ArrangeTile()
 {
-	CGameObject* pMainCamera = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera");
-	float camScale = pMainCamera->Camera()->GetOrthographicScale();
+	CCamera* pMainCamera = CRenderMgr::GetInst()->GetMainCam();
+	float vCamScale = pMainCamera->Camera()->GetOrthographicScale();
+	Vec3 vCamPos = pMainCamera->Transform()->GetRelativePos();
 
 	Vec2 vResol = CDevice::GetInst()->GetRenderResolution();
-	Vec2 vMouseViewPos = CKeyMgr::GetInst()->GetMouseViewPos();
-	// Vec4 v4MouseViewPos = Vec4( vMouseViewPos.x, vMouseViewPos.y, 1.f, 1.f);
+	Vec2 vMouseDirectXPos = CKeyMgr::GetInst()->GetMouseDirectXPos();
 
-	
-	const Matrix viewMat = pMainCamera->Camera()->GetViewMat();
+	Vec3 vWorldPos = GetTarget()->Transform()->GetWorldPos();
+	Vec3 vWorldScale = GetTarget()->Transform()->GetWorldScale();
 
-	Vec3 vTargetProjPos = GetTarget()->Transform()->GetWorldPos();
-	Vec4 vTargetViewPos = MulMatrix(Vec4(vTargetProjPos, 1.f), viewMat);
-	vTargetProjPos = Vec3(vTargetViewPos.x, vTargetViewPos.y, vTargetViewPos.z);
-	vTargetProjPos /= camScale;
 
-	Vec3 vTargetProjScale = GetTarget()->Transform()->GetWorldScale();
-	vTargetProjScale /= camScale;
+	// Tilemap 좌측 상단 World좌표
+	Vec2 vConvertTexPos = Vec2(vWorldPos.x - vWorldScale.x / 2.f, vWorldPos.y + vWorldScale.y / 2.f);
 
-	// tex 0,0 ��ǥ�� ���� ��ǥ
-	Vec2 vConvertTexPos = Vec2(vTargetProjPos.x - vTargetProjScale.x / 2.f, vTargetProjPos.y + vTargetProjScale.y / 2.f);
-	// tex 0,0 ��ǥ ���� ������� Ŭ���� texture ��ǥ
-	Vec2 vCurTexPos = Vec2(vMouseViewPos.x - vConvertTexPos.x, -(vMouseViewPos.y - vConvertTexPos.y));
+	// Tilemap 좌측 상단 부터 마우스가 얼마나 떨어져 있는지
+	Vec2 vCurTexPos = Vec2(
+		(vMouseDirectXPos.x * vCamScale + vCamPos.x) - vConvertTexPos.x,
+		-((vMouseDirectXPos.y * vCamScale + vCamPos.y) - vConvertTexPos.y));
 
-	// ���� ��ǥ�� tilemap������ Idx
-	Vec2 vCurTexIdx = vCurTexPos / vTargetProjScale;
+	// 몇 번째 타일인지 계산
+	Vec2 vCurTexIdx = vCurTexPos / vWorldScale;
 	vCurTexIdx *= m_vTileCount;
-
-	// Vec2 Idx�� 1���� Idx�� ����
 	UINT vChangeIdx = floor(vCurTexIdx.y) * m_vTileCount.x + vCurTexIdx.x;
 
-	// 1���� Idx�� vecTile�� ������ ���õ� ��Ʋ�� �� �̹��� LT�� Set
+	// 
 	(*m_vecTile)[vChangeIdx].vLeftTop = m_SelectedTexUV;
 
-	// vecTile StructuredBuffer�� ���Ҵ� �ǵ��� bool �� ����
 	GetTarget()->TileMap()->DataChanged();
 }
 

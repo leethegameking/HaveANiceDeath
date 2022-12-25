@@ -1,4 +1,7 @@
 ﻿#include "pch.h"
+#include "CCamera.h"
+
+#include "CDevice.h"
 
 wstring GetRelativePath(const wstring& _strBase, const wstring& _strPath)
 {
@@ -19,6 +22,28 @@ wstring GetNameFromPath(const wstring& _strPath)
 	wstring strName = _strPath.substr(StartIdx + 1, EndIdx - StartIdx - 1);
 
 	return strName;
+}
+
+bool InCamera(CGameObject* _obj, Vec2 _cameraExtenseion)
+{
+	CCamera* mainCam = CRenderMgr::GetInst()->GetMainCam();
+	float vCamScale = mainCam->GetOrthographicScale();
+	static Vec2 vRenderResol = CDevice::GetInst()->GetRenderResolution();
+	Vec2 vScreenCoord = vCamScale * vRenderResol;
+
+	Vec3 vCamPos = mainCam->Transform()->GetRelativePos();
+	Vec3 vPos =_obj->Transform()->GetRelativePos();
+	Vec3 vScale = _obj->Transform()->GetRelativeScale();
+
+	if (
+		vCamPos.x - vScreenCoord.x * _cameraExtenseion.x / 2.f < vPos.x + vScale.x / 2.f &&
+		vCamPos.x + vScreenCoord.x * _cameraExtenseion.x / 2.f > vPos.x - vScale.x / 2.f &&
+		vCamPos.y - vScreenCoord.y * _cameraExtenseion.y / 2.f < vPos.y + vScale.y / 2.f &&
+		vCamPos.y + vScreenCoord.y * _cameraExtenseion.y / 2.f > vPos.y - vScale.y / 2.f)
+	{
+		return true;
+	}
+	return false;
 }
 
 

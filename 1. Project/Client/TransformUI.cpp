@@ -3,6 +3,7 @@
 
 #include <Engine/CTransform.h>
 
+#include <Engine/CRenderMgr.h>
 #include <Engine/CLevelMgr.h>
 #include <Engine/CCamera.h>
 #include <Engine/CKeyMgr.h>
@@ -66,35 +67,32 @@ void TransformUI::render_update()
 		GetTarget()->Transform()->SetIgnoreParentScale(m_bIgnScale);
 	}
 
-	CGameObject* pMainCamera = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera");
-	float camScale = pMainCamera->Camera()->GetOrthographicScale();
+	CCamera* pMainCamera = CRenderMgr::GetInst()->GetMainCam();
+	Vec3 vCamPos = pMainCamera->Transform()->GetRelativePos();
+	float vCamScale = pMainCamera->GetOrthographicScale();
 
 
-	Vec3 vTargetProjScale = GetTarget()->Transform()->GetWorldScale();
-	vTargetProjScale /= camScale;
+	Vec3 vWorldScale = GetTarget()->Transform()->GetWorldScale();
 
 	Vec2 vResol = CDevice::GetInst()->GetRenderResolution();
 
-	Vec2 vMouseViewPos = CKeyMgr::GetInst()->GetMouseViewPos();
+	Vec2 vMouseDirectXPos = CKeyMgr::GetInst()->GetMouseDirectXPos();
 
 	const Matrix viewMat = pMainCamera->Camera()->GetViewMat();
 
-	Vec3 vTargetProjPos = GetTarget()->Transform()->GetWorldPos();
-	Vec4 vTargetViewPos = MulMatrix(Vec4(vTargetProjPos, 1.f), viewMat);
-	vTargetProjPos = Vec3(vTargetViewPos.x, vTargetViewPos.y, vTargetViewPos.z);
-	vTargetProjPos /= camScale;
+	Vec3 vWorldPos = GetTarget()->Transform()->GetWorldPos();
 
 
 	// Tile Pressed
 	if (KEY_PRESSED(KEY::LBTN) && m_bMove &&
-		vTargetProjPos.x + vTargetProjScale.x / 2.f > vMouseViewPos.x &&
-		vTargetProjPos.x - vTargetProjScale.x / 2.f < vMouseViewPos.x &&
-		vTargetProjPos.y + vTargetProjScale.y / 2.f > vMouseViewPos.y &&
-		vTargetProjPos.y - vTargetProjScale.y / 2.f < vMouseViewPos.y)
+		vWorldPos.x + vWorldScale.x / 2.f > (vMouseDirectXPos.x * vCamScale + vCamPos.x)  &&
+		vWorldPos.x - vWorldScale.x / 2.f < (vMouseDirectXPos.x * vCamScale + vCamPos.x)  &&
+		vWorldPos.y + vWorldScale.y / 2.f > (vMouseDirectXPos.y * vCamScale + vCamPos.y)  &&
+		vWorldPos.y - vWorldScale.y / 2.f < (vMouseDirectXPos.y * vCamScale + vCamPos.y)  )
 	{
 		Vec2 vMouseDir = CKeyMgr::GetInst()->GetMouseDir();
 		Vec3 vTargetPos = GetTarget()->Transform()->GetRelativePos();
-		GetTarget()->Transform()->SetRelativePos(Vec3(vTargetPos.x + vMouseDir.x * camScale, vTargetPos.y + vMouseDir.y * camScale, vTargetPos.z ));
+		GetTarget()->Transform()->SetRelativePos(Vec3(vTargetPos.x + vMouseDir.x * vCamScale, vTargetPos.y + vMouseDir.y * vCamScale, vTargetPos.z ));
 	}
 }
 

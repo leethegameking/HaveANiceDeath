@@ -96,6 +96,7 @@ void CRenderMgr::render_game()
 	// 렌더링의 기준을 카메라로 설정
 	for (size_t i = 0; i < m_vecCam.size(); ++i)
 	{
+
 		m_vecCam[i]->render();
 	}
 }

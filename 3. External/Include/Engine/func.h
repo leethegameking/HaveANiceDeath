@@ -3,6 +3,10 @@
 wstring GetRelativePath(const wstring& _strBase, const wstring& _strPath);
 wstring GetNameFromPath(const wstring& _strPath);
 
+class CGameObject;
+
+bool InCamera(CGameObject* _obj, Vec2 _cameraExtenseion = Vec2(1.f,1.f));
+
 template<typename T>
 void Safe_Del_Vec(vector<T*>& _vec)
 {

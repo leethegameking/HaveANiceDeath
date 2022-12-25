@@ -73,7 +73,7 @@ int vkarr[(UINT)KEY::END]
 };
 
 #include "CDevice.h"
-Vec2 CKeyMgr::GetMouseViewPos()
+Vec2 CKeyMgr::GetMouseDirectXPos()
 {
 	Vec2 resol = CDevice::GetInst()->GetRenderResolution();
 

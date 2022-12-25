@@ -119,7 +119,7 @@ public:
 	}
 
 	Vec2 GetMousePos() { return m_vMousePos; }
-	Vec2 GetMouseViewPos();
+	Vec2 GetMouseDirectXPos();
 
 	Vec2 GetMouseDir() { return m_vMouseDir; };
 	
