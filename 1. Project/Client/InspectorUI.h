@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "UI.h"
 
 #include <Engine/Ptr.h>
@@ -20,6 +20,7 @@ public:
     ResUI* m_arrResUI[(UINT)RES_TYPE::END];
 
     ComboBox* m_CompComboBox;
+    ComboBox* m_ScriptComboBox;
 
     vector<ScriptUI*> m_vecScriptUI;
 
@@ -34,6 +35,7 @@ private:
 
 public:
     void AddComponent(DWORD_PTR _idx);
+    void AddScript(DWORD_PTR _idx);
 
 public:
     InspectorUI();

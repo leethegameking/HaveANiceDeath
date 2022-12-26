@@ -13,6 +13,7 @@ ComboBox::ComboBox()
     , m_SelectedNotifyFunc(nullptr)
     , m_SelectedNotifyInst(nullptr)
 {
+    ++ID;
 }
 
 ComboBox::~ComboBox()

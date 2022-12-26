@@ -21,8 +21,13 @@
 #include "Animation2DUI.h"
 #include "ComboBox.h"
 
+
 #include <Engine/CLevelMgr.h>
 #include <Engine/CGameObject.h>
+
+#include <Engine/CScript.h>
+
+#include <Script/CScriptMgr.h>
 
 #include "ScriptUI.h"
 
@@ -105,6 +110,23 @@ InspectorUI::InspectorUI()
 	m_CompComboBox->init_not_res(ComponentName, 0);
 	m_CompComboBox->AddSelectedFunc_ReturnInt(this, FUNC_1(&InspectorUI::AddComponent));
 
+
+
+	m_ScriptComboBox = new ComboBox;
+
+	vector<wstring> ScriptName;
+	CScriptMgr::GetScriptInfo(ScriptName);
+
+	vector<string> strScriptName;
+	strScriptName.reserve(ScriptName.size());
+	for (size_t i = 0; i < ScriptName.size(); ++i)
+	{
+		strScriptName.push_back(WstrToStr(ScriptName[i]));
+	}
+
+	m_ScriptComboBox->init_not_res(strScriptName, 0);
+	m_ScriptComboBox->AddSelectedFunc_ReturnInt(this, FUNC_1(&InspectorUI::AddScript));
+
 	//===================================================================================
 
 	ScriptUI* pScriptUI = new ScriptUI;
@@ -118,6 +140,9 @@ InspectorUI::~InspectorUI()
 {
 	if(m_CompComboBox)
 		delete m_CompComboBox;
+
+	if (m_ScriptComboBox)
+		delete m_ScriptComboBox;
 }
 
 void InspectorUI::update()
@@ -149,6 +174,10 @@ void InspectorUI::last_render()
 		ImGui::Text("Add Component");
 		ImGui::SameLine();
 		m_CompComboBox->render_update();
+
+		ImGui::Text("Add Script");
+		ImGui::SameLine();
+		m_ScriptComboBox->render_update();
 	}
 }
 
@@ -283,19 +312,14 @@ void InspectorUI::AddComponent(DWORD_PTR _idx)
 	case COMPONENT_TYPE::COLLIDER2D:
 		AddComp(CCollider2D);
 		break;
-	case COMPONENT_TYPE::COLLIDER3D:
-		break;
 	case COMPONENT_TYPE::ANIMATOR2D:
 		AddComp(CAnimator2D);
-		break;
-	case COMPONENT_TYPE::ANIMATOR3D:
 		break;
 	case COMPONENT_TYPE::LIGHT2D:
 		AddComp(CLight2D);
 		break;
-	case COMPONENT_TYPE::LIGHT3D:
-		break;
 	case COMPONENT_TYPE::MESHRENDER:
+		AddComp(CMeshRender);
 		break;
 	case COMPONENT_TYPE::TILEMAP:
 		AddComp(CTileMap);
@@ -303,11 +327,18 @@ void InspectorUI::AddComponent(DWORD_PTR _idx)
 	case COMPONENT_TYPE::PARTICLESYSTEM:
 		AddComp(CParticleSystem);
 		break;
+
 	case COMPONENT_TYPE::SKYBOX:
 		break;
 	case COMPONENT_TYPE::DECAL:
 		break;
 	case COMPONENT_TYPE::LANDSCAPE:
+		break;
+	case COMPONENT_TYPE::ANIMATOR3D:
+		break;
+	case COMPONENT_TYPE::COLLIDER3D:
+		break;
+	case COMPONENT_TYPE::LIGHT3D:
 		break;
 	case COMPONENT_TYPE::END:
 		break;
@@ -317,6 +348,15 @@ void InspectorUI::AddComponent(DWORD_PTR _idx)
 		break;
 	}
 
+	// 갱신
+	SetTargetObj(m_TargetObj);
+}
+
+void InspectorUI::AddScript(DWORD_PTR _idx)
+{
+	m_TargetObj->AddComponent(CScriptMgr::GetScript((int)_idx));
+
+	// 갱신
 	SetTargetObj(m_TargetObj);
 }
 
