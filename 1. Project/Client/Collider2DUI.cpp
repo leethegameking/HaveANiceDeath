@@ -36,6 +36,8 @@ void Collider2DUI::update()
 void Collider2DUI::render_update()
 {
 	ComponentUI::render_update();
+	if (!IsOpen())
+		return;
 
 	ImGui::Text("Offset-Position"); ImGui::SameLine(); ImGui::InputFloat2("##OffsetPosition", m_vOffsetPos);
 	ImGui::Text("Final-Position "); ImGui::SameLine(); ImGui::InputFloat2("##OffsetFinalPosition", m_vFinalPos);

@@ -83,6 +83,8 @@ void TileMapUI::update()
 void TileMapUI::render_update()
 {
 	ComponentUI::render_update();
+	if (!IsOpen())
+		return;
 
 	// Input InstanceMode 에서만 넣을 수 있음.
 	int Inputflag = ImGuiInputTextFlags_ReadOnly;

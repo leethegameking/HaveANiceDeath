@@ -85,7 +85,9 @@ void ParticleSystemUI::update()
 
 void ParticleSystemUI::render_update()
 {
-	ComponentUI::render_update(); 
+	ComponentUI::render_update();
+	if (!IsOpen())
+		return;
 
 	bool WorldSpawn = (bool)m_WorldSpawn;
 	ImGui::Text("WorldSpawn"); ImGui::SameLine(); ImGui::Checkbox("##ParitlceWorldSpawn", &WorldSpawn);

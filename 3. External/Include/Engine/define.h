@@ -137,7 +137,7 @@ enum class COMPONENT_TYPE
 	LIGHT3D,
 	RIGIDBODY2D,
 	DUMMY_1,
-	DUMMY_2,
+	DUMMY_2			= 10,
 
 	// render
 	MESHRENDER,
@@ -149,7 +149,7 @@ enum class COMPONENT_TYPE
 	DUMMY_3,
 	DUMMY_4,
 
-	END,
+	END				= 19,
 
 	SCRIPT,
 };

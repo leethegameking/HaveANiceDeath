@@ -250,6 +250,7 @@ void InspectorUI::SetTargetObj(CGameObject* _Target)
 		{
 			m_vecScriptUI[i]->Open();
 			m_vecScriptUI[i]->SetTargetScript(vecScript[i]);
+			m_vecScriptUI[i]->SetTarget(m_TargetObj);
 		}
 	}
 }

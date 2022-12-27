@@ -34,6 +34,8 @@ void MeshRenderUI::render_update()
 {
 	// 컴포넌트 타입 텍스트 버튼
 	ComponentUI::render_update();
+	if (!IsOpen())
+		return;
 
 	string MeshName, MtrlName;
 

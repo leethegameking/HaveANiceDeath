@@ -73,6 +73,8 @@ void CameraUI::update()
 void CameraUI::render_update()
 {
 	ComponentUI::render_update();
+	if (!IsOpen())
+		return;
 
 	ImGui::Text("Projection Type ");
 	ImGui::SameLine();

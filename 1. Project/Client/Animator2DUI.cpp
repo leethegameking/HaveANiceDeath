@@ -61,6 +61,8 @@ void Animator2DUI::update()
 void Animator2DUI::render_update()
 {
 	ComponentUI::render_update();
+	if (!IsOpen())
+		return;
 
 	if (CEventMgr::GetInst()->IsResChanged())
 	{

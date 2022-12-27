@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "CEntity.h"
 
 #include "CGameObject.h"
@@ -27,7 +27,6 @@ public:
     void SetActive(bool _isActive) { m_bActive = _isActive; }
     bool IsActive() { return m_bActive; }
     
-
     void Destroy() { GetOwner()->Destroy(); }
 
     GET_OTHER_COMPONENT(Transform);

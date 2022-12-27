@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "UI.h"
 
 class CGameObject;
@@ -16,6 +16,9 @@ public:
 	COMPONENT_TYPE GetComponentType() { return m_eType; }
 
 	virtual void render_update() override;
+
+protected:
+	void DeleteCompButton();
 
 public:
 	ComponentUI(const string& _UIName, COMPONENT_TYPE _eType);

@@ -168,9 +168,14 @@ void CGameObject::AddComponent(CComponent* _pComponent)
 	// 스크립트가 아닌 경우
 	if (COMPONENT_TYPE::SCRIPT != eComType)
 	{
+		// 이미 있었다면.
 		if (m_arrCom[(UINT)eComType])
+		{
+			delete _pComponent;
+			assert(!m_arrCom[(UINT)eComType]);
 			return;
-		// assert(!m_arrCom[(UINT)eComType]);
+		}
+		
 
 		// 입력된 Component 가 RenderComponent 라면
 		CRenderComponent* pRenderCom = dynamic_cast<CRenderComponent*>(_pComponent);
@@ -193,6 +198,37 @@ void CGameObject::AddComponent(CComponent* _pComponent)
 	}
 
 	CEventMgr::GetInst()->LevelChangFlagOn();
+}
+
+void CGameObject::DeleteComponent(CComponent* _pComponent)
+{
+	COMPONENT_TYPE eType = _pComponent->GetType();
+
+	if (eType == COMPONENT_TYPE::SCRIPT)
+	{
+		vector<CScript*>::iterator iter = m_vecScripts.begin();
+		for (; iter != m_vecScripts.end(); ++iter)
+		{
+			if (*iter == _pComponent)
+			{
+				delete *iter;
+				m_vecScripts.erase(iter);
+				return;
+			}
+		}
+	}
+	// 11 - 18 RenderComp
+	else if(COMPONENT_TYPE(10) < eType && eType < COMPONENT_TYPE(19))
+	{
+		delete _pComponent;
+		m_pRenderComponent = nullptr;
+		m_arrCom[(UINT)eType] = nullptr;
+	}
+	else
+	{
+		delete _pComponent;
+		m_arrCom[(UINT)eType] = nullptr;
+	}
 }
 
 void CGameObject::AddChild(CGameObject* _pChild)

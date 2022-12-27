@@ -37,6 +37,8 @@ void Light2DUI::update()
 void Light2DUI::render_update()
 {
 	ComponentUI::render_update();
+	if (!IsOpen())
+		return;
 
 	ImGui::Text("LightType");
 	ImGui::SameLine();

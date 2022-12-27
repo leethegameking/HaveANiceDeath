@@ -32,6 +32,12 @@ void ScriptUI::render_update()
     ImGui::PopStyleColor(3);
     ImGui::PopID();
 
+    ImGui::SameLine();
+    float x = ImGui::GetContentRegionMax().x;
+    float fCursorY = ImGui::GetCursorPosY();
+    ImGui::SetCursorPos(Vec2(x - 10.f, fCursorY));
+    DeleteCompButton();
+
     render_scriptparam();
 }
 
