@@ -4,6 +4,8 @@
 #include <Engine/CLight2D.h>
 #include <Engine/CTransform.h>
 
+#include "CommonUI.h"
+
 Light2DUI::Light2DUI()
 	:ComponentUI("Light2DUI", COMPONENT_TYPE::LIGHT2D)
 {
@@ -21,8 +23,7 @@ void Light2DUI::update()
 		tLightInfo tInfo = GetTarget()->Light2D()->GetLightInfo();
 
 		m_vDiff = tInfo.vDiff;
-		m_vSpec = tInfo.vSpec;
-		m_vEmb = tInfo.vEmb;
+
 		m_vWorldPos = tInfo.vWorldPos;
 		m_vWorldDir = tInfo.vWorldDir;
 		m_iLightType = tInfo.iLightType;
@@ -46,17 +47,21 @@ void Light2DUI::render_update()
 	ImGui::SameLine();
 	if (ImGui::RadioButton("Spotlight", radio_bool == (int)LIGHT_TYPE::SPOT)) { radio_bool = (int)LIGHT_TYPE::SPOT; }
 
+	ImGui::Text("Diffuse Color");
+	CommonUI::ColorPicker(m_vDiff);
+	ImGui::NewLine();
+
 	ImGui::Text("Direction");
 	ImGui::SameLine();
 	Vec3 vRelativeRot = GetTarget()->Transform()->GetRelativeRotation();
 	vRelativeRot.ToDegree();
 	ImGui::InputFloat("##LightDir", &vRelativeRot.z);
 
-	ImGui::Text("Radius");
+	ImGui::Text("Radius   ");
 	ImGui::SameLine();
 	ImGui::InputFloat("##LightRadius", &m_fRadius);
 
-	ImGui::Text("Angle");
+	ImGui::Text("Angle    ");
 	ImGui::SameLine();
 	m_fAngle = m_fAngle / XM_PI * 180.f;
 	ImGui::InputFloat("##LightAngle", &m_fAngle);
@@ -68,5 +73,6 @@ void Light2DUI::render_update()
 	m_fAngle = m_fAngle * XM_PI / 180.f;
 	GetTarget()->Light2D()->SetAngle(m_fAngle);
 	GetTarget()->Light2D()->SetRadius(m_fRadius);
+	GetTarget()->Light2D()->SetLightColor(m_vDiff);
 }
 

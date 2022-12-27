@@ -97,13 +97,13 @@ void Animator2DUI::render_update()
 	}
 
 	// Create Animation
-	if (CommonUI::ButtonCenteredOnLine("Create Animation", 0.5f))
-	{
-		AnimTool* pAnimTool = (AnimTool*)CImGuiMgr::GetInst()->FindUI("AnimTool");
-		pAnimTool->AddFlag(ImGuiWindowFlags_NoNavInputs);
-		pAnimTool->init();
-		pAnimTool->Open();
-	}
+	//if (CommonUI::ButtonCenteredOnLine("Create Animation", 0.5f))
+	//{
+	//	AnimTool* pAnimTool = (AnimTool*)CImGuiMgr::GetInst()->FindUI("AnimTool");
+	//	pAnimTool->AddFlag(ImGuiWindowFlags_NoNavInputs);
+	//	pAnimTool->init();
+	//	pAnimTool->Open();
+	//}
 }
 
 void Animator2DUI::SetCurAnim(DWORD_PTR _animKey)

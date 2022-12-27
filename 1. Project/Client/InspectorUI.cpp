@@ -65,7 +65,7 @@ InspectorUI::InspectorUI()
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]);
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D] = new Light2DUI;
-	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D]->SetSize(ImVec2(0.f, 200.f));
+	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D]->SetSize(ImVec2(0.f, 300.f));
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D]);
 
 	//==================================================================================
@@ -171,11 +171,11 @@ void InspectorUI::last_render()
 {
 	if (m_TargetObj)
 	{
-		ImGui::Text("Add Component");
+		ImGui::Text("Add Component ");
 		ImGui::SameLine();
 		m_CompComboBox->render_update();
 
-		ImGui::Text("Add Script");
+		ImGui::Text("Add Script    ");
 		ImGui::SameLine();
 		m_ScriptComboBox->render_update();
 	}

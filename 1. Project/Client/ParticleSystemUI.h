@@ -1,8 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #include "ComponentUI.h"
 
 #include <Engine/Ptr.h>
 #include <Engine/CTexture.h>
+
+class ComboBox;
 
 class ParticleSystemUI :
     public ComponentUI
@@ -22,12 +24,15 @@ private:
 
     Vec2                        m_fSpawnRange;
 
-    float                       m_Frequency;    // ÃÊ´ç ÆÄÆ¼Å¬ »ı¼º ¼ö
-    float                       m_fAccTime;     // ½Ã°£ ´©Àû
+    float                       m_Frequency;    // ì´ˆë‹¹ íŒŒí‹°í´ ìƒì„± ìˆ˜
+    float                       m_fAccTime;     // ì‹œê°„ ëˆ„ì 
 
     int                         m_WorldSpawn;
 
     string                      m_TexKey;
+    string                      m_CSKey;
+
+    ComboBox*                   m_CSComboBox;
 
 public:
     void SetTexture(DWORD_PTR _texKey);
@@ -35,6 +40,9 @@ public:
 public:
     void update();
     void render_update();
+
+public:
+    void SetCSKey(DWORD_PTR _CSKey);
 
 
 public:

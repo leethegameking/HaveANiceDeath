@@ -105,7 +105,8 @@ CParticleSystem::CParticleSystem(const CParticleSystem& _clone)
 
 	m_UpdateCS = (CParticleUpdateShader*)CResMgr::GetInst()->FindRes<CComputeShader>(CS_KEY).Get();
 	SetLightTex(LIGHT_TEX_KEY);
-	SetTexture(TEX_KEY);
+	if(!(TEX_KEY == L""))
+		SetTexture(TEX_KEY);
 
 	// 구조화버퍼 생성
 	m_ParticleBuffer = new CStructuredBuffer;
@@ -216,8 +217,20 @@ void CParticleSystem::SaveToFile(FILE* _File)
 {
 	CRenderComponent::SaveToFile(_File);
 
+	// TexKey
+	bool bTexKey = false;
+	if (TEX_KEY != L"")
+		bTexKey = true;
+
+	fwrite(&bTexKey, sizeof(bool), 1, _File);
+	if(bTexKey)
+		SaveWStringToFile(TEX_KEY, _File);
+
 	// CS
-	SaveResourceRef(m_UpdateCS, _File);
+	bool bCS = !!m_UpdateCS.Get();;
+	fwrite(&bCS, sizeof(bool), 1, _File);
+	if (bCS)
+		SaveWStringToFile(CS_KEY, _File);
 
 	// option
 	fwrite(&m_iMaxCount, sizeof(UINT), 1, _File);
@@ -239,8 +252,23 @@ void CParticleSystem::LoadFromFile(FILE* _File)
 {
 	CRenderComponent::LoadFromFile(_File);
 
+	// TexKey
+	bool bTexKey;
+	fread(&bTexKey, sizeof(bool), 1, _File);
+	if (bTexKey)
+	{
+		LoadWStringFromFile(TEX_KEY, _File);
+		SetTexture(TEX_KEY);
+	}
+
 	// CS
-	LoadResourceRef(m_UpdateCS, _File);
+	bool bCS;
+	fread(&bCS, sizeof(bool), 1, _File);
+	if (bCS)
+	{
+		LoadWStringFromFile(CS_KEY, _File);
+		SetUpdateCS(CS_KEY);
+	}
 
 	// option
 	fread(&m_iMaxCount, sizeof(UINT), 1, _File);

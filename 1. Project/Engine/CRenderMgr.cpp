@@ -127,7 +127,7 @@ void CRenderMgr::UpdateLight2D()
 	// 버퍼 공간이 모자랄 경우 재할당
 	if (m_pLight2DBuffer->GetElementCount() < (UINT)m_vecLight2D.size())
 	{
-		m_pLight2DBuffer->Create(m_pLight2DBuffer->GetElementSize(), (UINT)m_vecLight2D.size(), SB_TYPE::SRV_ONLY, nullptr);
+		m_pLight2DBuffer->Create(m_pLight2DBuffer->GetElementSize(), (UINT)m_vecLight2D.size(), SB_TYPE::SRV_ONLY, nullptr, true);
 	}
 
 	// 광원정보를 구조화버퍼로 옮김

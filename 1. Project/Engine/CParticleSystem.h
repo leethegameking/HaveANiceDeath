@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "CRenderComponent.h"
 
 #include "Ptr.h"
@@ -24,14 +24,15 @@ private:
 
     Vec2                        m_fSpawnRange;
 
-    float                       m_Frequency;    // ÃÊ´ç ÆÄÆ¼Å¬ »ı¼º ¼ö
-    float                       m_fAccTime;     // ½Ã°£ ´©Àû
+    float                       m_Frequency;    // ì´ˆë‹¹ íŒŒí‹°í´ ìƒì„± ìˆ˜
+    float                       m_fAccTime;     // ì‹œê°„ ëˆ„ì 
 
     int                         m_WorldSpawn;   
 
     CStructuredBuffer*          m_ParticleBuffer;
     CStructuredBuffer*          m_ParticleShare;
     Ptr<CParticleUpdateShader>  m_UpdateCS;
+    //Ptr<CComputeShader>  m_UpdateCS;
 
     UINT                        m_RenderType;
 
@@ -92,7 +93,11 @@ public:
 
     Ptr<CParticleUpdateShader> GetUpdateCS() { return m_UpdateCS; }
 
-    //void SetUpdateCS(wstring _CSkey){ m_UpdateCS = (CParticleUpdateShader*)CResMgr::GetInst()->FindRes<CComputeShader>(_CSkey).Get(); }
+    void SetUpdateCS(wstring _CSkey)
+    { 
+        m_UpdateCS = (CParticleUpdateShader*)CResMgr::GetInst()->FindRes<CComputeShader>(_CSkey).Get();
+        CS_KEY = _CSkey;
+    }
 
 public:
     void ChangeBuffer();

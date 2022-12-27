@@ -67,6 +67,16 @@ bool CommonUI::ButtonCenteredOnLine(const char* label, float alignment, float _s
     return ImGui::Button(label, ImVec2(_size,0));
 }
 
+void CommonUI::ColorPicker(Vec4& _color)
+{
+    float w = (ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.y) * 0.40f;
+    ImGui::SetNextItemWidth(w);
+    ImGui::ColorPicker3("##MyColor##0", (float*)&_color, ImGuiColorEditFlags_PickerHueBar | ImGuiColorEditFlags_NoSidePreview | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoAlpha);
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(w);
+    ImGui::ColorPicker3("##MyColor##1", (float*)&_color, ImGuiColorEditFlags_PickerHueWheel | ImGuiColorEditFlags_NoSidePreview | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoAlpha);
+}
+
 CommonUI::CommonUI()
 {
 }

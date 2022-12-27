@@ -95,9 +95,11 @@ void UI::render()
 			{
 				m_vecChildUI[i]->render();
 			}
-
+			float y = ImGui::GetCursorPosY();
 			ImGui::EndChild();
-
+			
+			float x = ImGui::GetContentRegionAvail().x;
+			m_vSize = Vec2(x, y + 10.f);
 		}
 
 		if (m_bOpen == false)

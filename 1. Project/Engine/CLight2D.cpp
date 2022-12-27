@@ -4,9 +4,12 @@
 #include "CRenderMgr.h"
 #include "CTransform.h"
 
+
 CLight2D::CLight2D()
 	: CComponent(COMPONENT_TYPE::LIGHT2D)
 {
+	tLightInfo info = {};
+	m_Info = info;
 	m_Info.iLightType = LIGHT_TYPE::POINT;
 }
 
@@ -28,7 +31,6 @@ void CLight2D::SaveToFile(FILE* _File)
 {
 	COMPONENT_TYPE eType = GetType();
 	fwrite(&eType, sizeof(COMPONENT_TYPE), 1, _File);
-
 	fwrite(&m_Info, sizeof(tLightInfo), 1, _File);
 }
 
