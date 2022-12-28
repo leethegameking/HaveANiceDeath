@@ -10,6 +10,7 @@
 #include "CMaterial.h"
 #include "CPrefab.h"
 #include "CAnimation2D.h"
+#include "CSound.h"
 
 #include "CEventMgr.h"
 
@@ -57,9 +58,14 @@ public:
 
 public:
 	void init();
+
 	const vector<D3D11_INPUT_ELEMENT_DESC>& GetInputLayoutInfo() { return m_vecLayoutInfo; }
 
 private:
+	bool DeleteRes(RES_TYPE _Type, const wstring& _strKey);
+
+private:
+	void InitSound();
 	void CreateDefaultMesh();
 	void CreateDefaultTexture();
 	void CreateDefaultGraphicsShader();
@@ -72,6 +78,8 @@ private:
 public:
 	CResMgr();
 	~CResMgr();
+
+	friend class CEventMgr;
 };
 
 template<typename T>
@@ -97,6 +105,9 @@ RES_TYPE GetType()
 
 	if (typeid(T).hash_code() == typeid(CAnimation2D).hash_code())
 		return RES_TYPE::ANIMATION2D;
+
+	if (typeid(T).hash_code() == typeid(CSound).hash_code())
+		return RES_TYPE::SOUND;
 
 	else
 		return RES_TYPE::END;

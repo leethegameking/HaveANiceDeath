@@ -64,10 +64,11 @@ Ptr<CTexture> CResMgr::CreateTexture(const wstring& _strKey, UINT _iWidth, UINT 
 {
 	Ptr<CTexture> pTex = FindRes<CTexture>(_strKey);
 	assert(!pTex.Get());
-
+	
 	pTex = new CTexture;
 	pTex->Create(_iWidth, _iHeight, _eFormat, _iBindFlag);
 
+	pTex->SetEngineRes();
 	AddRes<CTexture>(_strKey, pTex.Get());
 
 	return pTex;
@@ -83,6 +84,7 @@ Ptr<CTexture> CResMgr::CreateTexture(const wstring& _strKey, ComPtr<ID3D11Textur
 	pTex = new CTexture;
 	pTex->Create(_Tex2D);
 
+	pTex->SetEngineRes();
 	AddRes<CTexture>(_strKey, pTex.Get());
 
 	return pTex;

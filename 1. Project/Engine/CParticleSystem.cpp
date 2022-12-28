@@ -38,7 +38,7 @@ CParticleSystem::CParticleSystem()
 
 	// 구조화버퍼 생성
 	m_ParticleBuffer = new CStructuredBuffer;
-	m_ParticleBuffer->Create(sizeof(tParticle), m_iMaxCount, SB_TYPE::UAV_INC, nullptr);
+	m_ParticleBuffer->Create(sizeof(tParticle), m_iMaxCount, SB_TYPE::UAV_INC, nullptr, true);
 
 	m_ParticleShare = new CStructuredBuffer;
 	m_ParticleShare->Create(sizeof(tParticleShare), 1, SB_TYPE::UAV_INC, nullptr, true);

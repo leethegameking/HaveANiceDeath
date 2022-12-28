@@ -30,6 +30,9 @@ private:
         }
     }
 
+public:
+    int GetRefCount() const { return m_iRefCount; }
+
     // Save & Load
     virtual int Load(const wstring& _strFilePath) = 0;
     virtual void Save(const wstring& _strFilePath) = 0;

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 
 
@@ -9,6 +9,8 @@ class CImGuiMgr
 {
 private:
 	map<string, UI*> m_mapUI;
+	
+	HANDLE m_NotifyHandle;
 
 public:
 	UI* FindUI(const string& _name);
@@ -20,6 +22,7 @@ public:
 private:
 	void clear();
 	void CreateUI();
+	void ObserveContent();
 
 public:
 	CImGuiMgr();

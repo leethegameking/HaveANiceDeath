@@ -57,10 +57,17 @@ void CImGuiMgr::init(HWND _hwnd)
     ImGui_ImplDX11_Init(DEVICE, CONTEXT);
 
     CreateUI();
+
+    m_NotifyHandle = FindFirstChangeNotification(
+        CPathMgr::GetInst()->GetContentPath(), true,
+        FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_DIR_NAME);
 }
 
 void CImGuiMgr::progress()
 {
+    // 알림 확인
+    ObserveContent();
+
     ImGuiIO& io = ImGui::GetIO();
 
     // ImGui Update    
@@ -175,6 +182,21 @@ void CImGuiMgr::CreateUI()
     pUI = new InputTextUI();
     pUI->SetModal(true);
     m_mapUI.insert({ pUI->GetName(), pUI });
+}
+
+void CImGuiMgr::ObserveContent()
+{
+    DWORD dwWateState = WaitForSingleObject(m_NotifyHandle, 0);
+
+    // 설정한 핸들에 적합한 알림이 떴을 경우.
+    if (dwWateState == WAIT_OBJECT_0)
+    {
+        ContentUI* pContentUI = (ContentUI*)FindUI("Content");
+        pContentUI->ReloadContent();
+
+        // 현재 상태를 버리고 다음 알림을 기다림.
+        FindNextChangeNotification(m_NotifyHandle);
+    }
 }
 
 UI* CImGuiMgr::FindUI(const string& _name)

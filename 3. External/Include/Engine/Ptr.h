@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 
 template<typename T>
@@ -42,7 +42,7 @@ public:
 		}
 	}
 
-	T* operator ->()
+	T* operator ->() const
 	{
 		return m_pRes;
 	}

@@ -6,6 +6,8 @@
 #include "CLayer.h"
 #include "CGameObject.h"
 
+#include "CResMgr.h"
+
 #include "CCollider2D.h"
 
 LOAD_LEVEL CEventMgr::Load_Level_Func = nullptr;
@@ -134,6 +136,13 @@ void CEventMgr::tick()
 			CLevelMgr::GetInst()->ChangeLevelState((LEVEL_STATE)m_vecEvent[i].wParam);
 		}
 			break;
+
+		case EVENT_TYPE::DELETE_RES:
+		{
+			// wParam : RES_TYPE
+			// lParam : Res Address
+			CResMgr::GetInst()->DeleteRes(RES_TYPE(i), ((CRes*)m_vecEvent[i].lParam)->GetKey());
+		}
 
 		case EVENT_TYPE::END:
 			break;

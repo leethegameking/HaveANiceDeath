@@ -148,6 +148,9 @@
     <Filter Include="Engine\07. Resource\Animation2D">
       <UniqueIdentifier>{bdbb8c36-dc66-40d4-a0e1-cc19ba43f30e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\07. Resource\Sound">
+      <UniqueIdentifier>{f32fe57f-c8fc-4c98-9ee0-2445d113f5f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -297,6 +300,9 @@
     <ClInclude Include="CRigidbody2D.h">
       <Filter>Engine\06. Component\06. RigidiBody2D</Filter>
     </ClInclude>
+    <ClInclude Include="CSound.h">
+      <Filter>Engine\07. Resource\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -433,6 +439,9 @@
     </ClCompile>
     <ClCompile Include="CRigidbody2D.cpp">
       <Filter>Engine\06. Component\06. RigidiBody2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CSound.cpp">
+      <Filter>Engine\07. Resource\Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

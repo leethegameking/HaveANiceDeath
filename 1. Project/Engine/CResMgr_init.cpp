@@ -5,15 +5,40 @@
 
 void CResMgr::init()
 {
+	InitSound();
+
 	CreateDefaultMesh();
-
 	CreateDefaultTexture();
-
 	CreateDefaultGraphicsShader();
-
 	CreateDefaultComputeShader();
-
 	CreateDefaultMaterial();
+}
+
+bool CResMgr::DeleteRes(RES_TYPE _Type, const wstring& _strKey)
+{
+	map<wstring, Ptr<CRes>>::iterator iter = m_arrRes[(UINT)_Type].find(_strKey);
+
+	if (m_arrRes[(UINT)_Type].end() != iter)
+	{
+		m_arrRes[(UINT)_Type].erase(iter);
+		CEventMgr::GetInst()->ResChangeFlagOn();
+		return true;
+	}
+
+	return false;
+}
+
+void CResMgr::InitSound()
+{
+	FMOD::System_Create(&CSound::g_pFMOD);
+
+	if (nullptr == CSound::g_pFMOD)
+	{
+		assert(nullptr);
+	}
+
+	// 32개 채널 생성
+	CSound::g_pFMOD->init(32, FMOD_DEFAULT, nullptr);
 }
 
 void CResMgr::CreateDefaultMesh()

@@ -48,8 +48,8 @@ void CS_ParticleUpdate(uint3 _id : SV_DispatchThreadID)
         
         if (Particle.iActive)
         {
-            // ·£´ı°ªÀ¸·Î À§Ä¡¿Í ¹æÇâÀ» ¼³Á¤ÇÑ´Ù.
-            // »ùÇÃ¸µÀ» ½ÃµµÇÒ UV ¸¦ °è»êÇÑ´Ù.
+            // ëœë¤ê°’ìœ¼ë¡œ ìœ„ì¹˜ì™€ ë°©í–¥ì„ ì„¤ì •í•œë‹¤.
+            // ìƒ˜í”Œë§ì„ ì‹œë„í•  UV ë¥¼ ê³„ì‚°í•œë‹¤.
             float4 vRandom = (float4) 0.f;
             
             float2 vUV = float2((float) _id.x / PARTICLE_MAX, 0.5f);
@@ -58,45 +58,45 @@ void CS_ParticleUpdate(uint3 _id : SV_DispatchThreadID)
             
             vRandom = float4(GaussianSample(vUV + float2(0.f, 0.f)).x, GaussianSample(vUV + float2(0.1f, 0.f)).x, GaussianSample(vUV + float2(0.2f, 0.f)).x, GaussianSample(vUV + float2(0.3f, 0.f)).x);
            
-            vRandom.x = 87.f * vRandom.x;
+            vRandom.x = 87.l * vRandom.x;
             vRandom.x = frac(vRandom.x);
             
-            vRandom.y = 87.f * vRandom.y;
+            vRandom.y = 87.l * vRandom.y;
             vRandom.y = frac(vRandom.y);
             
-            vRandom.z = 87.f * vRandom.z;
+            vRandom.z = 87.l * vRandom.z;
             vRandom.z = frac(vRandom.z);
             
-            // »ç°¢Çü¹üÀ§·Î ½ºÆù
+            // ì‚¬ê°í˜•ë²”ìœ„ë¡œ ìŠ¤í°
             // Particle.vRelativePos.xyz = vRandom.xyz * SpawnRange.x - SpawnRange.x / 2.f;
             
-            // ¿øÇü ¹üÀ§·Î ½ºÆù
+            // ì›í˜• ë²”ìœ„ë¡œ ìŠ¤í°
             float fTheta = vRandom.x * 3.141592f * 2.f;
             Particle.vRelativePos.xy = float2(cos(fTheta), sin(fTheta)) * vRandom.y * SpawnRange.x;
             Particle.vRelativePos.z = 1.f;
             Particle.vRelativePos.xyz = float3(0.f, 0.f, 0.f);
             
-            // ÆÄÆ¼Å¬ ¹æÇâ
+            // íŒŒí‹°í´ ë°©í–¥
             // Particle.vDir.xy = normalize(float2(Particle.vRelativePos.xy));
             Particle.vDir.xy = normalize(float2(vRandom.x - 0.5f, vRandom.y - 0.5f));
 
             
-            // »ı¼ºµÉ ¶§ ¹°Ã¼ÀÇ À§Ä¡¿¡ °£¼· -> render¿¡¼­´Â ¹°Ã¼¸¦ µû¶ó´Ù´Ï°Ô ÇÔ.
+            // ìƒì„±ë  ë•Œ ë¬¼ì²´ì˜ ìœ„ì¹˜ì— ê°„ì„­ -> renderì—ì„œëŠ” ë¬¼ì²´ë¥¼ ë”°ë¼ë‹¤ë‹ˆê²Œ í•¨.
             if (IsWorldSpawn)
             {
                Particle.vRelativePos.xyz += ObjectWorldPos.xyz;
             }
             
-            // ÆÄÆ¼Å¬ ¼Ó·Â
+            // íŒŒí‹°í´ ì†ë ¥
             Particle.fSpeed = vRandom.z * (MaxSpeed - MinSpeed) + MinSpeed;
             
-            // ÆÄÆ¼Å¬ Life
+            // íŒŒí‹°í´ Life
             Particle.fCurTime = 0.f;
             Particle.fMaxTime = MaxLife; //vRandom.w * (MaxLife - MinLife) + MinLife;
         }
     }
     
-    // È°¼ºÈ­ µÈ ÆÄÆ¼Å¬À» ¾÷µ¥ÀÌÆ®
+    // í™œì„±í™” ëœ íŒŒí‹°í´ì„ ì—…ë°ì´íŠ¸
     else
     {
         Particle.fCurTime += g_fDT;

@@ -10,6 +10,7 @@
 #include "CEventMgr.h"
 #include "CDevice.h"
 #include "CCollisionMgr.h"
+#include "CSound.h"
 
 
 
@@ -70,7 +71,7 @@ void CEngine::tick()
 {
 	// Manager 업데이트
 	// CResMgr::GetInst()->tick();
-
+	CSound::g_pFMOD->update();
 	CTimeMgr::GetInst()->tick();
 	CKeyMgr::GetInst()->tick();
 	CRenderMgr::GetInst()->tick();
