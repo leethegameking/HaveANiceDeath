@@ -11,6 +11,7 @@
 #include "Animator2DUI.h"
 #include "MaterialUI.h"
 #include "Light2DUI.h"
+#include "SoundUI.h"
 
 
 #include "MeshUI.h"
@@ -97,6 +98,10 @@ InspectorUI::InspectorUI()
 	m_arrResUI[(UINT)RES_TYPE::TEXTURE] = new TextureUI;
 	m_arrResUI[(UINT)RES_TYPE::TEXTURE]->Close();
 	AddChild(m_arrResUI[(UINT)RES_TYPE::TEXTURE]);
+
+	m_arrResUI[(UINT)RES_TYPE::SOUND] = new SoundUI;
+	m_arrResUI[(UINT)RES_TYPE::SOUND]->Close();
+	AddChild(m_arrResUI[(UINT)RES_TYPE::SOUND]);
 
 	//==================================================================================
 

@@ -47,5 +47,7 @@ public:
 public:
     CSound();
     virtual ~CSound();
+
+    friend class SoundUI;
 };
 

@@ -143,6 +143,9 @@
     <Filter Include="03. UI\ModuleUI\InputTextUI">
       <UniqueIdentifier>{65dadae5-9234-4ad1-b422-065a749c8924}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. UI\01. Inspector\ResUI\SoundUI">
+      <UniqueIdentifier>{831a95d1-79a0-4990-ad86-83c60655a8cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -307,7 +310,12 @@
     <ClInclude Include="Light2DUI.h">
       <Filter>03. UI\01. Inspector\ComponentUI\Light2DUI</Filter>
     </ClInclude>
-    <ClInclude Include="InputTextUI.h" />
+    <ClInclude Include="InputTextUI.h">
+      <Filter>03. UI\ModuleUI\InputTextUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundUI.h">
+      <Filter>03. UI\01. Inspector\ResUI\SoundUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -477,6 +485,11 @@
     <ClCompile Include="Light2DUI.cpp">
       <Filter>03. UI\01. Inspector\ComponentUI\Light2DUI</Filter>
     </ClCompile>
-    <ClCompile Include="InputTextUI.cpp" />
+    <ClCompile Include="InputTextUI.cpp">
+      <Filter>03. UI\ModuleUI\InputTextUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundUI.cpp">
+      <Filter>03. UI\01. Inspector\ResUI\SoundUI</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

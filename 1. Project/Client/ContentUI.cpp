@@ -106,6 +106,7 @@ void ContentUI::ResetContent()
 void ContentUI::ReloadContent()
 {
 	wstring strFolderPath = CONTENTPATH;
+	m_vecContentName.clear();
 	FindContentFileName(strFolderPath);
 
 	for (size_t i = 0; i < m_vecContentName.size(); ++i)
@@ -154,43 +155,6 @@ void ContentUI::ReloadContent()
 
 		}
 
-		// 로딩된 리소스가 실제 파일로 존재하는지 확인
-		for (UINT i = 0; i < (UINT)RES_TYPE::END; ++i)
-		{
-			const map<wstring, Ptr<CRes>>& mapRes = CResMgr::GetInst()->GetResource(RES_TYPE(i));
-
-			map<wstring, Ptr<CRes>>::const_iterator iter = mapRes.begin();
-			for (iter; iter != mapRes.end(); ++iter)
-			{
-				// 엔진 리소스면 확인하지 않음.
-				if (iter->second->IsEngineRes())
-				{
-					continue;
-				}
-
-				wstring strRelativePath = iter->second->GetRelativePath();
-				assert(!strRelativePath.empty());
-
-				if (!filesystem::exists(strFolderPath + strRelativePath))
-				{
-					if (iter->second->GetRefCount() <= 1)
-					{
-						tEvent evn = {};
-						evn.eType = EVENT_TYPE::DELETE_RES;
-						evn.wParam = i;
-						evn.lParam = (DWORD_PTR)(iter->second.Get());
-
-						CEventMgr::GetInst()->AddEvent(evn);
-						MessageBox(nullptr, L"원본 리소스 삭제됨", L"리소스 변경 확인", MB_OK);
-					}
-					else
-					{
-						MessageBox(nullptr, L"사용중인 리소스", L"리소스 변경 확인", MB_OK);
-					}
-				}
-			}
-		}
-
 		// 이름이 없을 경우.
 		if (tmpRes->GetName() == L"")
 		{
@@ -200,6 +164,51 @@ void ContentUI::ReloadContent()
 
 			tmpRes->SetName(strKey.substr(startIdx + 1, endIdx - startIdx - 1));
 			int  a = 0;
+		}
+	}
+	
+	// 로딩된 리소스가 실제 파일로 존재하는지 확인
+	for (UINT i = 0; i < (UINT)RES_TYPE::END; ++i)
+	{
+		const map<wstring, Ptr<CRes>>& mapRes = CResMgr::GetInst()->GetResource(RES_TYPE(i));
+
+		map<wstring, Ptr<CRes>>::const_iterator iter = mapRes.begin();
+		for (iter; iter != mapRes.end(); ++iter)
+		{
+			// 엔진 리소스면 확인하지 않음.
+			if (iter->second->IsEngineRes())
+			{
+				continue;
+			}
+
+			wstring strRelativePath = iter->second->GetRelativePath();
+			assert(!strRelativePath.empty());
+
+			if (!filesystem::exists(strFolderPath + strRelativePath))
+			{
+				InspectorUI* pInsp = (InspectorUI*)CImGuiMgr::GetInst()->FindUI("Inspector");
+				 
+
+				if (pInsp->m_TargetRes.Get() != nullptr && iter->first == pInsp->m_TargetRes->GetKey())
+				{
+					pInsp->SetTargetRes(nullptr);
+				}
+
+				if (iter->second->GetRefCount() <= 1)
+				{
+					tEvent evn = {};
+					evn.eType = EVENT_TYPE::DELETE_RES;
+					evn.wParam = i;
+					evn.lParam = (DWORD_PTR)(iter->second.Get());
+
+					CEventMgr::GetInst()->AddEvent(evn);
+					MessageBox(nullptr, L"원본 리소스 삭제됨", L"리소스 변경 확인", MB_OK);
+				}
+				else
+				{
+					MessageBox(nullptr, L"사용중인 리소스", L"리소스 변경 확인", MB_OK);
+				}
+			}
 		}
 	}
 }

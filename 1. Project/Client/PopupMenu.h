@@ -87,6 +87,9 @@ public:
 public:
 	void SetTreeUI(TreeUI* _TreeUI);
 	
+private:
+	bool IsObject(DWORD_PTR _node);
+
 public:
 	PopupMenuUI(const string& _name);
 	~PopupMenuUI();

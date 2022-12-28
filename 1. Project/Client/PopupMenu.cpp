@@ -85,12 +85,12 @@ void PopupMenuUI::GetValidMenu(DWORD_PTR _node)
 
 	if (pObj)
 	{
-		m_iMenuBit |= MAKE_PREFAB | DESTROY ;
+		m_iMenuBit |= MAKE_PREFAB;
 		m_bHasAnyMenu = true;
 	}
 
 	// °øÅë
-	m_iMenuBit |= RENAME;
+	m_iMenuBit |= RENAME | DESTROY;
 	m_bHasAnyMenu = true;
 
 }
@@ -98,5 +98,14 @@ void PopupMenuUI::GetValidMenu(DWORD_PTR _node)
 void PopupMenuUI::SetTreeUI(TreeUI* _TreeUI)
 {
 	m_TreeUI = _TreeUI;
+}
+
+bool PopupMenuUI::IsObject(DWORD_PTR _node)
+{
+	if (dynamic_cast<CGameObject*>((CEntity*)((TreeNode*)(_node))->GetData()))
+	{
+		return true;
+	}
+	return false;
 }
 

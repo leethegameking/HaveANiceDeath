@@ -105,10 +105,9 @@ public:
     void SetDropTargetNode(TreeNode* _node);
 
     AddDynFunc1(Select)
-        AddDynFunc1(DBClicked)
-        AddDynFunc1(RightClick)
-        AddDynFunc2(DragDrop)
-
+    AddDynFunc1(DBClicked)
+    AddDynFunc1(RightClick)
+    AddDynFunc2(DragDrop)
 
 public:
     TreeNode* GetRootNode() { return m_RootNode; }

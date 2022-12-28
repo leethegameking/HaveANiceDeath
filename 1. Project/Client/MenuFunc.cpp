@@ -6,6 +6,7 @@
 #include "CImGuiMgr.h"
 #include "InputTextUI.h"
 #include "AnimTool.h"
+#include "InspectorUI.h"
 
 #include <Engine/CResMgr.h>
 #include <Engine/CEventMgr.h>
@@ -114,9 +115,21 @@ void PopupMenuUI::ADD_NEW_ANIMATION_FUNC()
 
 void PopupMenuUI::DESTROY_FUNC(DWORD_PTR _node)
 {
-	TreeNode* pNode = (TreeNode*)_node;
-	CGameObject* delObj = (CGameObject*)(pNode->GetData());
-	delObj->Destroy();
+	if (IsObject(_node))
+	{
+		TreeNode* pNode = (TreeNode*)_node;
+		CGameObject* delObj = (CGameObject*)(pNode->GetData());
+		delObj->Destroy();
+	}
+	else
+	{
+		TreeNode* pNode = (TreeNode*)_node;
+		Ptr<CRes> delRes = (CRes*)(pNode->GetData());
+		InspectorUI* pInsp =  (InspectorUI*)CImGuiMgr::GetInst()->FindUI("Inspector");
+		pInsp->SetTargetRes(nullptr);
+		filesystem::remove(CONTENTPATH + delRes->GetKey());
+		CEventMgr::GetInst()->ResChangeFlagOn();
+	}
 }
 
 void PopupMenuUI::RENAME_FUNC(DWORD_PTR _node)

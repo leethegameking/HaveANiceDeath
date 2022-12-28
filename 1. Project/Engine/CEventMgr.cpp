@@ -141,7 +141,8 @@ void CEventMgr::tick()
 		{
 			// wParam : RES_TYPE
 			// lParam : Res Address
-			CResMgr::GetInst()->DeleteRes(RES_TYPE(i), ((CRes*)m_vecEvent[i].lParam)->GetKey());
+			CResMgr::GetInst()->DeleteRes(RES_TYPE(m_vecEvent[i].wParam), ((CRes*)m_vecEvent[i].lParam)->GetKey());
+			ResChangeFlagOn();
 		}
 
 		case EVENT_TYPE::END:
