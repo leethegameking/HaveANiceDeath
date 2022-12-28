@@ -193,7 +193,7 @@ void CImGuiMgr::ObserveContent()
     {
         ContentUI* pContentUI = (ContentUI*)FindUI("Content");
         pContentUI->ReloadContent();
-
+        CEventMgr::GetInst()->ResChangeFlagOn();
         // 현재 상태를 버리고 다음 알림을 기다림.
         FindNextChangeNotification(m_NotifyHandle);
     }

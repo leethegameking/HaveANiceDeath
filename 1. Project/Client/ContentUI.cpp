@@ -6,6 +6,8 @@
 #include "InspectorUI.h"
 #include "CImguiMgr.h"
 
+#include "MenuUI.h"
+
 #include <Engine/CEventMgr.h>
 #include <Engine/CResMgr.h>
 
@@ -107,8 +109,10 @@ void ContentUI::ReloadContent()
 {
 	wstring strFolderPath = CONTENTPATH;
 	m_vecContentName.clear();
+	m_vecLevelName.clear();
 	FindContentFileName(strFolderPath);
 
+	
 	for (size_t i = 0; i < m_vecContentName.size(); ++i)
 	{
 		RES_TYPE resType = GetResTypeByExt(m_vecContentName[i]);
@@ -117,6 +121,7 @@ void ContentUI::ReloadContent()
 		if (RES_TYPE::END == resType)
 		{
 			// 레벨 일 경우 (tmpsave.lv 파일은 제외) 
+			
 			if (m_vecContentName[i].rfind(L".lv") != -1 && m_vecContentName[i].rfind(L"tmpsave.lv") == -1)
 			{
 				m_vecLevelName.push_back(m_vecContentName[i]);
@@ -224,6 +229,8 @@ void ContentUI::SetResourceToInspector(DWORD_PTR _res)
 
 void ContentUI::LoadLevel(DWORD_PTR _levelPath)
 {
+	MenuUI::SaveCurLevel();
+
 	TreeNode* pNode = (TreeNode*)_levelPath;
 	string& strLevelPath = pNode->GetNodeKey();
 

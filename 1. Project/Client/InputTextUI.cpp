@@ -31,6 +31,10 @@ void InputTextUI::render_update()
 		{
 			(m_CloseInst->*m_CloseFunc)(data, (DWORD_PTR)strText.data());
 		}
+		if (m_Close_Inst && m_Close_Func)
+		{
+			(m_Close_Inst->*m_Close_Func)((DWORD_PTR)strText.data());
+		}
 		ImGui::CloseCurrentPopup();
 	}
 }

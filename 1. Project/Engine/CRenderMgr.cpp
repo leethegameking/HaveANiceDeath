@@ -158,7 +158,7 @@ void CRenderMgr::CopyRenderTarget()
 
 CCamera* CRenderMgr::GetMainCam()
 {
-	if (CLevelMgr::GetInst()->GetCurLevel()->GetState() == LEVEL_STATE::PLAY)
+	if (CLevelMgr::GetInst()->GetCurLevel()->GetState() == LEVEL_STATE::PLAY || CLevelMgr::GetInst()->GetCurLevel()->GetState() == LEVEL_STATE::PAUSE )
 	{
 		if (m_vecCam.empty())
 			return nullptr;

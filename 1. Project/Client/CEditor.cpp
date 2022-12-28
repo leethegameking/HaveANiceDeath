@@ -41,9 +41,9 @@ void CEditor::init()
 	pGridObj->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
 	pGridObj->MeshRender()->SetSharedMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"GridMtrl"));
 		
-	pGridObj->GetScript<CGrid2DScript>()->SetGridColor(Vec4(0.2f, 0.9f, 0.2f, 1.f));
+	pGridObj->GetScript<CGrid2DScript>()->SetGridColor(Vec4(0.2f, 0.9f, 0.2f, 0.5f));
 	pGridObj->GetScript<CGrid2DScript>()->SetGridInterval(100.f);
-	pGridObj->GetScript<CGrid2DScript>()->SetThickness(2.f);
+	pGridObj->GetScript<CGrid2DScript>()->SetThickness(1.f);
 
 	m_vecEditorObj.push_back(pGridObj);
 

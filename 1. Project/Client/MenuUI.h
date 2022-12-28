@@ -11,6 +11,11 @@ public:
     virtual void render_update();
 
 public:
+    void CreateNewLevel(DWORD_PTR _LevelName);
+    static void SaveCurLevel();
+
+
+public:
     MenuUI();
     ~MenuUI();
 };

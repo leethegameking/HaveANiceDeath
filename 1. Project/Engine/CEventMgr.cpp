@@ -116,7 +116,7 @@ void CEventMgr::tick()
 
 		case EVENT_TYPE::CHANGE_LEVEL:
 		{
-			// wParam : ChangeLevelPath
+			// wParam : string Change Level Relative Path
 			char* ChangeLevelPath = (char*)m_vecEvent[i].wParam;
 			
 			wstring wstrLevelPath = StrToWstr(string(ChangeLevelPath));
@@ -125,15 +125,15 @@ void CEventMgr::tick()
 
 			CLevelMgr::GetInst()->ChangeLevel(pChangeLevel);
 
-			m_bLevelChanged = true;
+			LevelChangFlagOn();
 		}
 			break;
 
 		case EVENT_TYPE::CHANGE_LEVEL_STATE:
 		{
 			// wParam : Level State
-			m_bLevelChanged = true;
 			CLevelMgr::GetInst()->ChangeLevelState((LEVEL_STATE)m_vecEvent[i].wParam);
+			LevelChangFlagOn();
 		}
 			break;
 

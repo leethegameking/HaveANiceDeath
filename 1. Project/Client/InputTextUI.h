@@ -11,6 +11,9 @@ private:
     UI* m_CloseInst;
     FUNC_2 m_CloseFunc;
 
+    UI* m_Close_Inst;
+    FUNC_1 m_Close_Func;
+
 public:
     void SetData(DWORD_PTR _data) { data = _data; }
     DWORD_PTR GetData() { return data; }
@@ -22,6 +25,7 @@ public:
 
 public:
     AddDynFunc2(Close);
+    AddDynFunc1(Close_);
 
 public:
     void render_update() override;

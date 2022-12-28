@@ -2,6 +2,8 @@
 #include "CTimeMgr.h"
 #include "CEngine.h"
 
+#include "CLevelMgr.h"
+#include "CLevel.h"
 
 CTimeMgr::CTimeMgr()
 	: m_llFrequence{}
@@ -38,10 +40,20 @@ void CTimeMgr::tick()
 
 	m_llPrevCount.QuadPart = m_llCurCount.QuadPart;
 
-	// 60 프레임을 초과할 경우 강제 방어
-	if ((1.f / 60.f) < m_fDeltaTime)
+	LEVEL_STATE eState = CLevelMgr::GetInst()->GetCurLevel()->GetState();
+
+	
+	if (eState == LEVEL_STATE::PAUSE)
 	{
-		m_fDeltaTime = (1.f / 60.f);
+		m_fDeltaTime = 0.f;
+	}
+	else
+	{
+		if ((1.f / 60.f) < m_fDeltaTime)
+		{
+			// 60 프레임을 초과할 경우 강제 방어
+			m_fDeltaTime = (1.f / 60.f);
+		}
 	}
 
 	g_global.fDT = m_fDeltaTime;
