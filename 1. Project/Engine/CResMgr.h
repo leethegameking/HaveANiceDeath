@@ -218,7 +218,7 @@ inline wstring CResMgr::GetNewResName(const wstring& _name)
 	switch (type)
 	{
 	case RES_TYPE::PREFAB:
-		strName = _name + L"_pref";
+		strName = _name;
 		strFolderName = L"prefab\\";
 		strExt = L".pref";
 		break;
@@ -247,14 +247,21 @@ inline wstring CResMgr::GetNewResName(const wstring& _name)
 
 
 	// 이름 중복 막기
-	UINT Count = 1;
+	UINT Count = 0;
 	while (true)
 	{
-		string strCount = to_string(Count);
+		string strCount = "(" +  to_string(Count) + ")";
 		wstring wstrCount = StrToWstr(strCount);
 
 		wstring strTemp = strName;
-		strTemp = strFolderName + strTemp + wstrCount + strExt;
+		if (Count == 0)
+		{
+			strTemp = strFolderName + strTemp + strExt;
+		}
+		else
+		{
+			strTemp = strFolderName + strTemp + wstrCount + strExt;
+		}
 
 		if (nullptr != FindRes<T>(strTemp))
 		{
@@ -262,7 +269,10 @@ inline wstring CResMgr::GetNewResName(const wstring& _name)
 		}
 		else
 		{
-			strName += wstrCount;
+			if (!Count == 0)
+			{
+				strName += wstrCount;
+			}
 			break;
 		}
 	}

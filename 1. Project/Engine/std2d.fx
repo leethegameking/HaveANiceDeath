@@ -6,7 +6,7 @@
 
 
 
-// HLSL ·Î VertexShader ÀÛ¼ºÇÏ±â
+// HLSL ë¡œ VertexShader ì‘ì„±í•˜ê¸°
 struct VTX_IN
 {
     float3 vPos : POSITION;   
@@ -55,7 +55,7 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target
         vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
     }
     
-    // ³ëÀÌÁî ÅØ½ºÃÄ Burn È¿°ú
+    // ë…¸ì´ì¦ˆ í…ìŠ¤ì³ Burn íš¨ê³¼
     //if ( 0.f < g_float_0)
     //{
     //    vOutColor.a -= g_Noise.Sample(g_sam_0, _in.vUV).x * 0.5f + g_float_0 * 0.5f;
@@ -65,7 +65,7 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target
         discard;
        
     
-    // ±¤¿ø Ã³¸®
+    // ê´‘ì› ì²˜ë¦¬
     tLightColor color = (tLightColor) 0.f;
     
     for (int i = 0; i < g_iLight2DCount; ++i)
@@ -104,11 +104,11 @@ float4 PS_Std2D_AlphaBlend(VTX_OUT _in) : SV_Target
         vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
     }       
     
-    if (vOutColor.r != 0.f || vOutColor.g != 0.f || vOutColor.b != 0.f)
-    {
-        // float ratio = (3.f - (vOutColor.r + vOutColor.g + vOutColor.b)) * 3.f;
-        vOutColor.rgb *= 7.f;
-    }
+    //if (vOutColor.r != 0.f || vOutColor.g != 0.f || vOutColor.b != 0.f)
+    //{
+    //    // float ratio = (3.f - (vOutColor.r + vOutColor.g + vOutColor.b)) * 3.f;
+    //    vOutColor.rgb *= 7.f;
+    //}
 
     
     return vOutColor;
