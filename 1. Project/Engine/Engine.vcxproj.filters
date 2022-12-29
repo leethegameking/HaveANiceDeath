@@ -151,6 +151,9 @@
     <Filter Include="Engine\07. Resource\Sound">
       <UniqueIdentifier>{f32fe57f-c8fc-4c98-9ee0-2445d113f5f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HLSL\Render\block">
+      <UniqueIdentifier>{a68d8ec7-791b-4972-ab8f-20ea02bc15d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -443,6 +446,9 @@
     <ClCompile Include="CSound.cpp">
       <Filter>Engine\07. Resource\Sound</Filter>
     </ClCompile>
+    <ClCompile Include="MyShader.cpp">
+      <Filter>Engine\03. Manager\05. ResMgr</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
@@ -501,6 +507,9 @@
     </FxCompile>
     <FxCompile Include="tilemap.fx">
       <Filter>HLSL\Render</Filter>
+    </FxCompile>
+    <FxCompile Include="block_outer.fx">
+      <Filter>HLSL\Render\block</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

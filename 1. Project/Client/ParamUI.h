@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <Engine/Ptr.h>
 #include <Engine/CTexture.h>
@@ -19,6 +19,10 @@ public:
 	static void Param_Mat(const string& _ParamName, Matrix* _pInOut);
 
 	static bool Param_Tex(const string& _ParamName, Ptr<CTexture>& _Tex, UI* _Inst, FUNC_1 _Func);
+
+public:
+	static void ShowShaderParam(CMaterial* _pMtrl);
+	static TEX_PARAM ShowTexParam(CMaterial* _pMtrl, TEX_PARAM& _eParam);
 
 	friend class CImGuiMgr;
 };

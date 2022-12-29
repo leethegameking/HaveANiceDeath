@@ -34,8 +34,9 @@ CGameObject* CPrefab::Instantiate()
 {
     if (nullptr == m_pProtoObj)
         return nullptr;
-
-    return m_pProtoObj->Clone();
+    CGameObject* pCloneObj = m_pProtoObj->Clone();
+    pCloneObj->SetName(pCloneObj->GetName() + L"_clone");
+    return pCloneObj;
 }
 
 void CPrefab::Save(const wstring& _strRelativePath)

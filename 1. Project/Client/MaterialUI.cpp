@@ -90,83 +90,13 @@ void MaterialUI::render_update()
 	}
 	CommonUI::NotifyPopup();
 
-	ImGui::NewLine();
-	ImGui::Text("Shader Parameter");
 
 	if (pMtrl->GetShader().Get())
 	{
-		const vector<tScalarParam> vecScalar = pMtrl->GetShader()->GetScalarParam();
-		for (size_t i = 0; i < vecScalar.size(); ++i)
-		{
-			switch (vecScalar[i].eParam)
-			{
-			case INT_0:
-			case INT_1:
-			case INT_2:
-			case INT_3:
-			{
-				int iData = 0;
-				pMtrl->GetScalarParam(vecScalar[i].eParam, &iData);
-				ParamUI::Param_Int(vecScalar[i].strName, &iData);
-				pMtrl->SetScalarParam(vecScalar[i].eParam, &iData);
-			}
-			break;
-			case FLOAT_0:
-			case FLOAT_1:
-			case FLOAT_2:
-			case FLOAT_3:
-			{
-				float fData = 0;
-				pMtrl->GetScalarParam(vecScalar[i].eParam, &fData);
-				ParamUI::Param_Float(vecScalar[i].strName, &fData);
-				pMtrl->SetScalarParam(vecScalar[i].eParam, &fData);
-			}
-			break;
-			case VEC2_0:
-			case VEC2_1:
-			case VEC2_2:
-			case VEC2_3:
-			{
-
-			}
-			break;
-			case VEC4_0:
-			case VEC4_1:
-			case VEC4_2:
-			case VEC4_3:
-			{
-
-			}
-			break;
-			case MAT_0:
-			case MAT_1:
-			case MAT_2:
-			case MAT_3:
-			{
-
-			}
-			break;
-			}
-		}
-
-		const vector<tTextureParam> vecTex = pMtrl->GetShader()->GetTextureParam(); // 레퍼런스로 받아옴
-		for (size_t i = 0; i < vecTex.size(); ++i)
-		{
-			Ptr<CTexture> pTex = pMtrl->GetTexParam(vecTex[i].eParam);
-			// 버튼이 눌렸다 -> ListUI Open -> 선택된 멤버 TEX_PARAM으로 arr에 넣어줌.
-			if (ParamUI::Param_Tex(vecTex[i].strName, pTex, this, (FUNC_1)&MaterialUI::SetTexture))
-			{
-				// 선택한 아이템의 TEX_PARAM을 알려줌. (한 프레임 밀림)
-				m_eSelectTexParam = vecTex[i].eParam;
-			}
-			// 버튼이 안 눌렸다.
-			else
-			{
-				// 굳이?
-				pMtrl->SetTexParam(vecTex[i].eParam, pTex);
-			}
-
-		}
+		ImGui::NewLine();
+		ImGui::Text("Shader Parameter");
+		ParamUI::ShowShaderParam(pMtrl);
+		ParamUI::ShowTexParam(pMtrl , m_eSelectTexParam);
 	}
 }
 
@@ -189,3 +119,83 @@ void MaterialUI::SetTexture(DWORD_PTR _strTexKey)
 	CMaterial* pMtrl = (CMaterial*)GetTarget().Get();
 	pMtrl->SetTexParam(m_eSelectTexParam, pTex);
 }
+
+//void MaterialUI::ShowShaderParam(CMaterial* _pMtrl)
+//{
+//	const vector<tScalarParam> vecScalar = _pMtrl->GetShader()->GetScalarParam();
+//	for (size_t i = 0; i < vecScalar.size(); ++i)
+//	{
+//		switch (vecScalar[i].eParam)
+//		{
+//		case INT_0:
+//		case INT_1:
+//		case INT_2:
+//		case INT_3:
+//		{
+//			int iData = 0;
+//			_pMtrl->GetScalarParam(vecScalar[i].eParam, &iData);
+//			ParamUI::Param_Int(vecScalar[i].strName, &iData);
+//			_pMtrl->SetScalarParam(vecScalar[i].eParam, &iData);
+//		}
+//		break;
+//		case FLOAT_0:
+//		case FLOAT_1:
+//		case FLOAT_2:
+//		case FLOAT_3:
+//		{
+//			float fData = 0;
+//			_pMtrl->GetScalarParam(vecScalar[i].eParam, &fData);
+//			ParamUI::Param_Float(vecScalar[i].strName, &fData);
+//			_pMtrl->SetScalarParam(vecScalar[i].eParam, &fData);
+//		}
+//		break;
+//		case VEC2_0:
+//		case VEC2_1:
+//		case VEC2_2:
+//		case VEC2_3:
+//		{
+//
+//		}
+//		break;
+//		case VEC4_0:
+//		case VEC4_1:
+//		case VEC4_2:
+//		case VEC4_3:
+//		{
+//
+//		}
+//		break;
+//		case MAT_0:
+//		case MAT_1:
+//		case MAT_2:
+//		case MAT_3:
+//		{
+//
+//		}
+//		break;
+//		}
+//	}
+//}
+//
+//void MaterialUI::ShowTexParam(CMaterial* _pMtrl)
+//{
+//	const vector<tTextureParam> vecTex = _pMtrl->GetShader()->GetTextureParam(); // 레퍼런스로 받아옴
+//	for (size_t i = 0; i < vecTex.size(); ++i)
+//	{
+//		Ptr<CTexture> pTex = _pMtrl->GetTexParam(vecTex[i].eParam);
+//		// 버튼이 눌렸다 -> ListUI Open -> 선택된 멤버 TEX_PARAM으로 arr에 넣어줌.
+//		if (ParamUI::Param_Tex(vecTex[i].strName, pTex, this, (FUNC_1)&MaterialUI::SetTexture))
+//		{
+//			// 선택한 아이템의 TEX_PARAM을 알려줌. (한 프레임 밀림)
+//			m_eSelectTexParam = vecTex[i].eParam;
+//		}
+//		// 버튼이 안 눌렸다.
+//		else
+//		{
+//			// 굳이?
+//			_pMtrl->SetTexParam(vecTex[i].eParam, pTex);
+//		}
+//
+//	}
+//}
+

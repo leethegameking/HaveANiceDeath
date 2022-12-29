@@ -74,6 +74,9 @@ private:
 	void CreateDefaultAninmation();
 	void AddInputLayout(DXGI_FORMAT _eFormat, const char* _strSemanticName);
 
+private:
+	void CreateMyGraphicsShader();
+	void CreateMyCSShader();
 
 public:
 	CResMgr();

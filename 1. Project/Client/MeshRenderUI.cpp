@@ -9,9 +9,11 @@
 #include "ListUI.h"
 
 #include "TreeUI.h"
+#include "ParamUI.h"
 
 MeshRenderUI::MeshRenderUI()
 	: ComponentUI("MeshRender", COMPONENT_TYPE::MESHRENDER)
+	, m_bDynamicMtrl(false)
 {
 }
 
@@ -25,6 +27,14 @@ void MeshRenderUI::update()
 	{
 		m_Mesh = GetTarget()->MeshRender()->GetMesh();
 		m_Mtrl = GetTarget()->MeshRender()->GetCurMaterial();
+		if (GetTarget()->MeshRender()->IsDynamicMtrl())
+		{
+			m_bDynamicMtrl = true;
+		}
+		else
+		{
+			m_bDynamicMtrl = false;
+		}
 	}
 
 	ComponentUI::update();
@@ -102,6 +112,42 @@ void MeshRenderUI::render_update()
 		ImGui::EndDragDropTarget();
 	}
 	ImGui::SameLine();
+	MtrlBtn();
+
+	
+	if (ImGui::RadioButton("Shared", !m_bDynamicMtrl))
+	{
+		GetTarget()->MeshRender()->GetSharedMaterial();
+	}
+	ImGui::SameLine();
+	if (ImGui::RadioButton("Dynamic", m_bDynamicMtrl))
+	{
+		GetTarget()->MeshRender()->GetDynamicMaterial();
+	}
+
+	if (m_bDynamicMtrl)
+	{
+		ParamUI::ShowShaderParam(m_Mtrl.Get());
+	}
+
+	// Dynamic Texture 강제 설정
+	/*ImGui::Text("Mtrl Tex ");
+	ImGui::SameLine();
+
+	if (m_bDynamicMtrl)
+	{
+		Ptr<CTexture> pDynTex = m_Mtrl->GetTexArr()[0];
+		if (pDynTex.Get())
+		{
+			ImGui::InputText("##TexName", (char*)WstrToStr(pDynTex.Get()->GetName()).c_str(), MtrlName.length(), ImGuiInputTextFlags_ReadOnly);
+		}
+		ImGui::SameLine();
+	}
+	TextureBtn();*/
+}
+
+void MeshRenderUI::MtrlBtn()
+{
 	if (ImGui::Button("##MtrlBtn", Vec2(15.f, 15.f)))
 	{
 		ListUI* pListUI = dynamic_cast<ListUI*>(CImGuiMgr::GetInst()->FindUI("ListUIModal"));
@@ -128,6 +174,34 @@ void MeshRenderUI::render_update()
 	}
 }
 
+void MeshRenderUI::TextureBtn()
+{
+	if (ImGui::Button("##MtrlTextureBtn", Vec2(15.f, 15.f)))
+	{
+		ListUI* pListUI = dynamic_cast<ListUI*>(CImGuiMgr::GetInst()->FindUI("ListUIModal"));
+		assert(pListUI);
+
+		// 재질 목록을 받아와서 ListUI에 전달
+		const map<wstring, Ptr<CRes>>& mapRes = CResMgr::GetInst()->GetResource(RES_TYPE::TEXTURE);
+		static vector<wstring> vecRes;
+		vecRes.clear();
+
+		// 맵에서 이름만 뽑아서 벡터에 전달해줌.
+		map<wstring, Ptr<CRes>>::const_iterator iter = mapRes.begin();
+		for (; iter != mapRes.end(); ++iter)
+		{
+			vecRes.push_back(iter->first);
+		}
+		// 이름 ItemList로 복사
+		pListUI->SetItemList(vecRes);
+
+		// Item이 DoubleClick되었을때 이 객체의 SetMesh함수를 호출한다. 
+		pListUI->AddDynamicDBClicked(this, (FUNC_1)&MeshRenderUI::SetDynMaterialTex);
+
+		pListUI->Open();
+	}
+}
+
 void MeshRenderUI::SetMesh(DWORD_PTR _strMeshKey)
 {
 	string strKey = (char*)_strMeshKey;
@@ -149,5 +223,19 @@ void MeshRenderUI::SetMaterial(DWORD_PTR _strMaterialKey)
 
 	GetTarget()->MeshRender()->SetSharedMaterial(pMtrl);
 }
+
+void MeshRenderUI::SetDynMaterialTex(DWORD_PTR _strTextureKey)
+{
+	string strKey = (char*)_strTextureKey;
+	wstring wstrKey = wstring(strKey.begin(), strKey.end());
+
+	Ptr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(wstrKey);
+	assert(nullptr != pTex);
+
+	Ptr<CMaterial> pDynMtrl = GetTarget()->MeshRender()->GetDynamicMaterial();
+	pDynMtrl->SetTexParam(TEX_PARAM::TEX_0, pTex);
+}
+
+
 
 

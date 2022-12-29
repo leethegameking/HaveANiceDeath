@@ -28,6 +28,10 @@ public:
     void SetTargetObj(CGameObject* _Target);
     void SetTargetRes(Ptr<CRes> _Res);
 
+public:
+    ComponentUI* GetComponentUI(COMPONENT_TYPE _eType) { return m_arrComUI[(UINT)_eType]; }
+    ResUI* GetResUI(RES_TYPE _eType) { return m_arrResUI[(UINT)_eType]; }
+
 private:
     virtual void update() override;
     virtual void render_update() override;

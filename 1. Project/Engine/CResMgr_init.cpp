@@ -11,6 +11,10 @@ void CResMgr::init()
 	CreateDefaultTexture();
 	CreateDefaultGraphicsShader();
 	CreateDefaultComputeShader();
+
+	CreateMyGraphicsShader();
+	CreateMyCSShader();
+
 	CreateDefaultMaterial();
 }
 
@@ -257,6 +261,10 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 	pShader->SetBSType(BS_TYPE::ALPHABLEND);
 	pShader->SetDSType(DS_TYPE::NO_WRITE);
+
+	pShader->AddTexParam(TEX_0, "Output Texture 1");
+	pShader->AddTexParam(TEX_1, "Output Texture 2");
+	pShader->AddTexParam(TEX_2, "Output Texture 3");
 
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_TRANSPARENT);
 

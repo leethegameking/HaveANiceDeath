@@ -36,9 +36,9 @@ void CLevelMgr::ChangeLevel(CLevel* _nextLevel)
 void CLevelMgr::init()
 {
 	// Level 하나 제작하기
-	m_pCurLevel = new CLevel;
+	//m_pCurLevel = new CLevel;
 
-	m_pCurLevel->SetName(L"Level 0");
+	//m_pCurLevel->SetName(L"TestLevel");
 }
 
 void CLevelMgr::progress()

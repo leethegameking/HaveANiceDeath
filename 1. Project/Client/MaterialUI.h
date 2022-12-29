@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "ResUI.h"
 class MaterialUI :
     public ResUI
@@ -15,6 +15,9 @@ private:
 
 private:
     void SetGraphicsShader(DWORD_PTR _ShaderKey);
+
+    // void ShowShaderParam(CMaterial* _pMtrl);
+    // void ShowTexParam(CMaterial* _pMtrl);
 
 public:
     MaterialUI();

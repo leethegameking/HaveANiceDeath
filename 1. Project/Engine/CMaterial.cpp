@@ -169,6 +169,8 @@ void CMaterial::Save(const wstring& _strRelativePath)
 
 	//  셰이더
 	SaveResourceRef(m_pShader, pFile);
+
+	// texture, 상수버퍼
 	if (nullptr != m_pShader)
 	{
 		fwrite(&m_tConst, sizeof(tMtrlConst), 1, pFile);
@@ -205,5 +207,37 @@ int CMaterial::Load(const wstring& _strFilePath)
 	fclose(pFile);
 
 	return S_OK;
+}
+
+void CMaterial::DynamicSave(FILE* _File)
+{
+	//  셰이더
+	SaveResourceRef(m_pShader, _File);
+
+	// texture, 상수버퍼
+	if (nullptr != m_pShader)
+	{
+		fwrite(&m_tConst, sizeof(tMtrlConst), 1, _File);
+
+		for (UINT i = 0; i < TEX_PARAM::TEX_END; ++i)
+		{
+			SaveResourceRef(m_arrTex[i], _File);
+		}
+	}
+}
+
+void CMaterial::DynamicLoad(FILE* _File)
+{
+	LoadResourceRef(m_pShader, _File);
+
+	if (nullptr != m_pShader)
+	{
+		fread(&m_tConst, sizeof(tMtrlConst), 1, _File);
+
+		for (UINT i = 0; i < TEX_PARAM::TEX_END; ++i)
+		{
+			LoadResourceRef(m_arrTex[i], _File);
+		}
+	}
 }
 

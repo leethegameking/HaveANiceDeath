@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "CRes.h"
 #include "CGraphicsShader.h"
 
@@ -32,6 +32,12 @@ public:
     virtual void Save(const wstring& _strFilePath) override;
     virtual int Load(const wstring& _strFilePath) override;
     
+    const tMtrlConst& GetMtrlConst() { return m_tConst; }
+    void SetConstMtrl(tMtrlConst& _setValue) { m_tConst = _setValue; }
+
+private:
+    void DynamicSave(FILE* _File);
+    void DynamicLoad(FILE* _File);
 
 
     CLONE(CMaterial);
@@ -39,5 +45,7 @@ public:
     CMaterial();
     CMaterial(const CMaterial& _other);
     ~CMaterial();
+
+    friend class CRenderComponent;
 };
 

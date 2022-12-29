@@ -20,6 +20,7 @@ CRenderComponent::CRenderComponent(const CRenderComponent& _origin)
 	else if (_origin.m_pCurMtrl == _origin.m_pDynamicMtrl)
 	{
 		GetDynamicMaterial();
+		m_pCurMtrl->m_tConst = _origin.m_pCurMtrl->m_tConst;
 	}
 }
 
@@ -33,10 +34,10 @@ Ptr<CMaterial> CRenderComponent::GetSharedMaterial()
 {
 	m_pCurMtrl = m_pSharedMtrl;
 
-	if (nullptr != m_pDynamicMtrl)
-	{
-		m_pDynamicMtrl = nullptr;
-	}
+	//if (nullptr != m_pDynamicMtrl)
+	//{
+	//	m_pDynamicMtrl = nullptr;
+	//}
 
 	return m_pSharedMtrl;
 }
@@ -44,13 +45,30 @@ Ptr<CMaterial> CRenderComponent::GetSharedMaterial()
 Ptr<CMaterial> CRenderComponent::GetDynamicMaterial()
 {
 	if (nullptr != m_pDynamicMtrl)
+	{
+		m_pCurMtrl = m_pDynamicMtrl;
 		return m_pDynamicMtrl;
+	}
 
 	m_pDynamicMtrl = m_pSharedMtrl->Clone();
 	m_pDynamicMtrl->SetName(m_pSharedMtrl->GetName() + L"_Clone");
 	m_pCurMtrl = m_pDynamicMtrl;
 
 	return m_pCurMtrl;
+}
+
+bool CRenderComponent::IsDynamicMtrl()
+{
+	if (m_pCurMtrl == m_pDynamicMtrl)
+		return true;
+	return false;
+}
+
+bool CRenderComponent::HasDynamicMtrl()
+{
+	if (m_pSharedMtrl.Get())
+		return true;
+	return false;
 }
 
 void CRenderComponent::SaveToFile(FILE* _File)
@@ -60,6 +78,13 @@ void CRenderComponent::SaveToFile(FILE* _File)
 
 	SaveResourceRef<CMesh>(m_pMesh, _File);
 	SaveResourceRef<CMaterial>(m_pSharedMtrl, _File);
+
+	bool bDynMtrl = IsDynamicMtrl();
+	fwrite(&bDynMtrl, sizeof(bool), 1, _File);
+	if (IsDynamicMtrl())
+	{
+		m_pDynamicMtrl->DynamicSave(_File);
+	}
 }
 
 void CRenderComponent::LoadFromFile(FILE* _File)
@@ -67,5 +92,16 @@ void CRenderComponent::LoadFromFile(FILE* _File)
 	LoadResourceRef<CMesh>(m_pMesh, _File);
 	LoadResourceRef<CMaterial>(m_pSharedMtrl, _File);
 
-	m_pCurMtrl = m_pSharedMtrl;
+	bool bDynMtrl;
+	fread(&bDynMtrl, sizeof(bool), 1, _File);
+	if (bDynMtrl)
+	{
+		GetDynamicMaterial();
+		m_pDynamicMtrl->DynamicLoad(_File);
+	}
+	else
+	{
+		m_pCurMtrl = m_pSharedMtrl;
+	}
+
 }

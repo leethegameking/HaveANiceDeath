@@ -4,6 +4,8 @@
 #include "CImGuiMgr.h"
 #include "TreeUI.h"
 #include "ListUI.h"
+#include "InspectorUI.h"
+#include "MaterialUI.h"
 #include <Engine/CResMgr.h>
 
 UINT ParamUI::ParamCount = 0;
@@ -107,4 +109,84 @@ bool ParamUI::Param_Tex(const string& _ParamName, Ptr<CTexture>& _Tex, UI* _Inst
 	}
 
 	return false;
+}
+
+void ParamUI::ShowShaderParam(CMaterial* _pMtrl)
+{
+	const vector<tScalarParam> vecScalar = _pMtrl->GetShader()->GetScalarParam();
+	for (size_t i = 0; i < vecScalar.size(); ++i)
+	{
+		switch (vecScalar[i].eParam)
+		{
+		case INT_0:
+		case INT_1:
+		case INT_2:
+		case INT_3:
+		{
+			int iData = 0;
+			_pMtrl->GetScalarParam(vecScalar[i].eParam, &iData);
+			ParamUI::Param_Int(vecScalar[i].strName, &iData);
+			_pMtrl->SetScalarParam(vecScalar[i].eParam, &iData);
+		}
+		break;
+		case FLOAT_0:
+		case FLOAT_1:
+		case FLOAT_2:
+		case FLOAT_3:
+		{
+			float fData = 0;
+			_pMtrl->GetScalarParam(vecScalar[i].eParam, &fData);
+			ParamUI::Param_Float(vecScalar[i].strName, &fData);
+			_pMtrl->SetScalarParam(vecScalar[i].eParam, &fData);
+		}
+		break;
+		case VEC2_0:
+		case VEC2_1:
+		case VEC2_2:
+		case VEC2_3:
+		{
+
+		}
+		break;
+		case VEC4_0:
+		case VEC4_1:
+		case VEC4_2:
+		case VEC4_3:
+		{
+
+		}
+		break;
+		case MAT_0:
+		case MAT_1:
+		case MAT_2:
+		case MAT_3:
+		{
+
+		}
+		break;
+		}
+	}
+}
+
+TEX_PARAM ParamUI::ShowTexParam(CMaterial* _pMtrl, TEX_PARAM& _eParam)
+{
+	TEX_PARAM eTexParam = TEX_PARAM::TEX_END;
+
+	InspectorUI* pInspUI = (InspectorUI*)CImGuiMgr::GetInst()->FindUI("Inspector");
+
+	 UI* pMtrlUI = pInspUI->GetResUI(RES_TYPE::MATERIAL);
+
+	const vector<tTextureParam> vecTex = _pMtrl->GetShader()->GetTextureParam(); // 레퍼런스로 받아옴
+	for (size_t i = 0; i < vecTex.size(); ++i)
+	{
+		Ptr<CTexture> pTex = _pMtrl->GetTexParam(vecTex[i].eParam);
+		// 버튼이 눌렸다 -> ListUI Open -> 선택된 멤버 TEX_PARAM으로 arr에 넣어줌.
+		if (ParamUI::Param_Tex(vecTex[i].strName, pTex, pMtrlUI, (FUNC_1)&MaterialUI::SetTexture))
+		{
+			// 선택한 아이템의 TEX_PARAM을 알려줌. (한 프레임 밀림)
+			_eParam = vecTex[i].eParam;
+		}
+	}
+
+	return eTexParam;
 }

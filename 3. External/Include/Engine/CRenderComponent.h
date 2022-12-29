@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "CComponent.h"
 
 #include "CMesh.h"
@@ -10,9 +10,9 @@ class CRenderComponent :
 private:
     Ptr<CMesh>              m_pMesh;
 
-    Ptr<CMaterial>          m_pSharedMtrl;  // °øÀ¯ ÀçÁú   
-    Ptr<CMaterial>          m_pDynamicMtrl; // µ¿Àû ÀçÁú
-    Ptr<CMaterial>          m_pCurMtrl;     // ÇöÀç »ç¿ë ÁßÀÎ ÀçÁú
+    Ptr<CMaterial>          m_pSharedMtrl;  // ê³µìœ  ì¬ì§ˆ   
+    Ptr<CMaterial>          m_pDynamicMtrl; // ë™ì  ì¬ì§ˆ
+    Ptr<CMaterial>          m_pCurMtrl;     // í˜„ì¬ ì‚¬ìš© ì¤‘ì¸ ì¬ì§ˆ
 
 
 public:
@@ -27,6 +27,9 @@ public:
 
     Ptr<CMaterial> GetCurMaterial() { return m_pCurMtrl; }
     Ptr<CMaterial> GetDynamicMaterial();
+
+    bool IsDynamicMtrl();
+    bool HasDynamicMtrl();
 
 
 public:

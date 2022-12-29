@@ -112,6 +112,19 @@ struct tMtrlConst
 	Matrix matArr[4];
 
 	int iTexCheck[(UINT)TEX_PARAM::TEX_END];
+
+public:
+	// mat과 TexCheck은 바꿔주지 않음.
+	void operator = (const tMtrlConst& _other)
+	{
+		for (int i = 0; i < 4; ++i)
+		{
+			iArr[i] = _other.iArr[i];
+			fArr[i] = _other.fArr[i];
+			v2Arr[i] = _other.v2Arr[i];
+			v4Arr[i] = _other.v4Arr[i];
+		}
+	}
 };
 
 struct tGlobalData
