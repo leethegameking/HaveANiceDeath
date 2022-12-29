@@ -23,6 +23,7 @@ extern const char* Menu[(UINT)MENU_TYPE::MENU_END] =
 	// Outliner
 	"Make Prefab",
 	"Create Empty-Object",
+	"Make Parent Object",
 
 	// Content
 	"Instantiate",
@@ -42,6 +43,9 @@ void PopupMenuUI::CallMenuFunc(int _idx, DWORD_PTR _node)
 	{
 	case MENU_TYPE::MAKE_PREFAB:
 		CALL_FUNC_1(MAKE_PREFAB);
+		break;
+	case MENU_TYPE::MAKE_PARENT_OBJECT:
+		CALL_FUNC_1(MAKE_PARENT_OBJECT);
 		break;
 	case MENU_TYPE::CREATE_EMPTY_OBJECT:
 		CALL_FUNC_0(CREATE_EMPTY_OBJECT);
@@ -85,6 +89,24 @@ void PopupMenuUI::CREATE_EMPTY_OBJECT_FUNC()
 	emptyObj->AddComponent(new CTransform);
 
 	Instantiate(emptyObj, Vec3::Zero);
+}
+
+void PopupMenuUI::MAKE_PARENT_OBJECT_FUNC(DWORD_PTR _node)
+{
+	TreeNode* pNode = (TreeNode*)_node;
+	CGameObject* pObj = (CGameObject*)pNode->GetData();
+
+	if (pObj->GetParent() == nullptr)
+	{
+		return;
+	}
+
+	tEvent evn = {};
+	evn.eType = EVENT_TYPE::CHILD_TO_PARENT;
+	evn.wParam = (DWORD_PTR)pObj;
+
+	CEventMgr::GetInst()->AddEvent(evn);
+
 }
 
 void PopupMenuUI::INSTANTIATE_FUNC(DWORD_PTR _node)

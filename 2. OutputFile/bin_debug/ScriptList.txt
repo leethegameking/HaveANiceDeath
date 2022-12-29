@@ -1,6 +1,6 @@
+CGameCameraScript
 CMissileScript
 CMonsterScript
 CParticleHandler
 CPlayerScript
 CTestScript
-TestScript

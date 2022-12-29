@@ -25,6 +25,9 @@
     <ClInclude Include="CPlayerScript.h">
       <Filter>Script\MyScript</Filter>
     </ClInclude>
+    <ClInclude Include="CGameCameraScript.h">
+      <Filter>Script\MyScript</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Script.cpp">
@@ -49,6 +52,9 @@
       <Filter>Script\MyScript</Filter>
     </ClCompile>
     <ClCompile Include="CPlayerScript.cpp">
+      <Filter>Script\MyScript</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameCameraScript.cpp">
       <Filter>Script\MyScript</Filter>
     </ClCompile>
   </ItemGroup>

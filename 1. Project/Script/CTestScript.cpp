@@ -14,8 +14,6 @@ CTestScript::CTestScript()
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Speed", &fSpeed);
 	AddScriptParam(SCRIPT_PARAM::VEC2, "DIr",  &vDir);
 	AddScriptParam(SCRIPT_PARAM::VEC3, "Pos", &vPos);
-
-	testPrefab = CResMgr::GetInst()->FindRes<CPrefab>(L"testPrefab");
 }
 
 CTestScript::~CTestScript()
@@ -38,7 +36,8 @@ void CTestScript::tick()
 	// save prefab test
 	if (KEY_TAP(KEY::P))
 	{
-		testPrefab->Save(L"prefab\\testPrefab");
+		if(testPrefab.Get())
+			testPrefab->Save(L"prefab\\testPrefab");
 	}
 
 	// 
@@ -62,7 +61,6 @@ void CTestScript::SaveToFile(FILE* _pFile)
 	CScript::SaveToFile(_pFile);
 	fwrite(&fSpeed, sizeof(float), 1, _pFile);
 	fwrite(&vPos, sizeof(Vec2), 1, _pFile);
-	SaveResourceRef<CPrefab>(testPrefab, _pFile);
 }
 
 void CTestScript::LoadFromFile(FILE* _pFile)
@@ -70,7 +68,6 @@ void CTestScript::LoadFromFile(FILE* _pFile)
 	CScript::LoadFromFile(_pFile);
 	fread(&fSpeed, sizeof(float), 1, _pFile);
 	fread(&vPos, sizeof(Vec2), 1, _pFile);
-	LoadResourceRef<CPrefab>(testPrefab, _pFile);
 }
 
 

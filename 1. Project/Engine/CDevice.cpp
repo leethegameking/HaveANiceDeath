@@ -5,6 +5,13 @@
 #include "CConstBuffer.h"
 
 
+bool CDevice::IsWindowFocused()
+{
+	if(m_hWnd == GetActiveWindow())
+		return true;
+	return false;
+}
+
 CDevice::CDevice()
 	: m_hWnd(nullptr)	
 	, m_tViewPort{}

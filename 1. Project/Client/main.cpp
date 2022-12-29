@@ -98,6 +98,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
             // Present(SwapChain)
             CDevice::GetInst()->Present();
+
         }
     }
 

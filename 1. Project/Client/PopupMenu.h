@@ -8,6 +8,7 @@ enum class MENU_TYPE
 	// Outliner
 	MAKE_PREFAB,
 	CREATE_EMPTY_OBJECT,
+	MAKE_PARENT_OBJECT,
 
 	// Content
 	INSTANTIATE,
@@ -28,15 +29,16 @@ enum MENU_BIT
 	// Outliner
 	MAKE_PREFAB = 0x01,
 	CREATE_EMPTY_OBJECT = 0x02,
+	MAKE_PARENT_OBJECT = 0x04,
 
 	// Content
-	INSTANTIATE = 0x04,
-	ADD_NEW_MATERIAL = 0x08,
-	ADD_NEW_ANIMATION = 0x10,
+	INSTANTIATE = 0x08,
+	ADD_NEW_MATERIAL = 0x10,
+	ADD_NEW_ANIMATION = 0x20,
 
 	// General
-	DESTROY = 0x20,
-	RENAME = 0x40,
+	DESTROY = 0x40,
+	RENAME = 0x80,
 };
 
 
@@ -72,6 +74,7 @@ public:
 	// Outliner
 	void MAKE_PREFAB_FUNC(DWORD_PTR _node);
 	void CREATE_EMPTY_OBJECT_FUNC();
+	void MAKE_PARENT_OBJECT_FUNC(DWORD_PTR _node);
 
 	// Content
 	void INSTANTIATE_FUNC(DWORD_PTR _node);

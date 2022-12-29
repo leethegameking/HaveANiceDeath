@@ -13,6 +13,9 @@ void CommonUI::OpenPopup(const string& _name)
 
 void CommonUI::NotifyPopup()
 {
+    Vec2 vMousePos = ImGui::GetMousePos();
+    ImGui::SetNextWindowPos(vMousePos);
+
     if (ImGui::BeginPopupModal(popup_name.c_str()))
     {
         if (CommonUI::ButtonCenteredOnLine("OK"))

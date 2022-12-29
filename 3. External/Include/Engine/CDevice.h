@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Ptr.h"
 #include "CTexture.h"
@@ -11,16 +11,16 @@ class CDevice
 private:
 	HWND							m_hWnd;
 	
-	ComPtr<ID3D11Device>			m_pDevice;				// GPU ¸Ş¸ğ¸® °ü¸®
+	ComPtr<ID3D11Device>			m_pDevice;				// GPU ë©”ëª¨ë¦¬ ê´€ë¦¬
 	ComPtr<ID3D11DeviceContext>		m_pDeviceContext;		// GPU Rendering
 
 	Ptr<CTexture>					m_pRenderTargetTex;
 	Ptr<CTexture>					m_pDepthStencilTex;
 
-	ComPtr<IDXGISwapChain>			m_pSwapChain;			// RenderTarget(FrontBuffer, BackBuffer) ¸¦ °ü¸® ¹× ¿ªÇÒ ±³Ã¼ Áö½Ã
-	D3D11_VIEWPORT					m_tViewPort;			// ¹é¹öÆÛ¸¦ À©µµ¿ì¿¡ ±×¸± ¿µ¿ª(À§Ä¡, Å©±â) ÁöÁ¤
+	ComPtr<IDXGISwapChain>			m_pSwapChain;			// RenderTarget(FrontBuffer, BackBuffer) ë¥¼ ê´€ë¦¬ ë° ì—­í•  êµì²´ ì§€ì‹œ
+	D3D11_VIEWPORT					m_tViewPort;			// ë°±ë²„í¼ë¥¼ ìœˆë„ìš°ì— ê·¸ë¦´ ì˜ì—­(ìœ„ì¹˜, í¬ê¸°) ì§€ì •
 
-	Vec2							m_vRenderResolution;	// ·»´õ¸µ ¹öÆÛ ÇØ»óµµ
+	Vec2							m_vRenderResolution;	// ë Œë”ë§ ë²„í¼ í•´ìƒë„
 
 	ComPtr<ID3D11SamplerState>		m_arrSampler[(UINT)SAMPLER_TYPE::END];
 
@@ -48,17 +48,20 @@ private:
 	int CreateDepthStencilState();
 	int CreateBlendState();
 
-
 public:
 	ID3D11Device* GetDevice() { return m_pDevice.Get(); }
 	ID3D11DeviceContext* GetContext() {return m_pDeviceContext.Get(); }
 	CConstBuffer* GetConstBuffer(CB_TYPE _eType){return m_arrCB[(UINT)_eType];}
+
 
 	ComPtr<ID3D11RasterizerState> GetRasterizerState(RS_TYPE _eType) { return m_arrRS[(UINT)_eType]; }
 	ComPtr<ID3D11BlendState> GetBlendState(BS_TYPE _eType) { return m_arrBS[(UINT)_eType]; }
 	ComPtr<ID3D11DepthStencilState> GetDepthStencilState(DS_TYPE _eType) { return m_arrDS[(UINT)_eType]; }
 
 	Vec2 GetRenderResolution() { return m_vRenderResolution; }
+
+public:
+	bool IsWindowFocused();
 
 public:
 	CDevice();

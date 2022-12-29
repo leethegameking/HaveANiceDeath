@@ -75,7 +75,7 @@ void PopupMenuUI::GetValidMenu(DWORD_PTR _node)
 	{
 		if(pRes->GetResType() == RES_TYPE::PREFAB)
 		{
-			m_iMenuBit |= INSTANTIATE ;
+			m_iMenuBit |= INSTANTIATE ; 
 			m_bHasAnyMenu = true;
 		}
 	}
@@ -85,7 +85,7 @@ void PopupMenuUI::GetValidMenu(DWORD_PTR _node)
 
 	if (pObj)
 	{
-		m_iMenuBit |= MAKE_PREFAB;
+		m_iMenuBit |= MAKE_PREFAB | MAKE_PARENT_OBJECT;
 		m_bHasAnyMenu = true;
 	}
 

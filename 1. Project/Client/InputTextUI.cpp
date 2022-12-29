@@ -8,6 +8,7 @@
 InputTextUI::InputTextUI()
 	: UI("##InputTextUI")
 {
+	SetSize(Vec2(200.f, 80.f));
 	Close();
 }
 
@@ -20,8 +21,15 @@ void InputTextUI::SetName(string _name)
 	UI::SetName(_name);
 }
 
+void InputTextUI::Open()
+{
+	UI::Open();
+
+}
+
 void InputTextUI::render_update()
 {
+
 	ImGui::Text(strInputType.c_str()); ImGui::SameLine(); ImGui::InputText("##InputText", (char*)strText.data(), 256, ImGuiInputTextFlags_EnterReturnsTrue);
 
 	if (CommonUI::ButtonCenteredOnLine("OK"))

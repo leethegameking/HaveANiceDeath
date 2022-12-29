@@ -114,6 +114,20 @@ void CEventMgr::tick()
 		}
 			break;
 
+		case EVENT_TYPE::CHILD_TO_PARENT:
+		{
+			// wParam : ChildObj
+			CGameObject* pChildObj = (CGameObject*)m_vecEvent[i].wParam;
+
+			// 부모와 끊기
+			pChildObj->DisconnectFromParent();
+
+			// Layer 부모 오브젝트에 등록하기
+			CLevelMgr::GetInst()->GetCurLevel()->AddGameObject(pChildObj, pChildObj->GetLayerIdx());
+			LevelChangFlagOn();
+		}
+			break;
+
 		case EVENT_TYPE::CHANGE_LEVEL:
 		{
 			// wParam : string Change Level Relative Path

@@ -1,14 +1,17 @@
 #include "pch.h"
 #include "CScriptMgr.h"
 
+#include "CGameCameraScript.h"
 #include "CMissileScript.h"
 #include "CMonsterScript.h"
 #include "CParticleHandler.h"
 #include "CPlayerScript.h"
 #include "CTestScript.h"
 
+
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
+	_vec.push_back(L"CGameCameraScript");
 	_vec.push_back(L"CMissileScript");
 	_vec.push_back(L"CMonsterScript");
 	_vec.push_back(L"CParticleHandler");
@@ -18,6 +21,8 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 {
+	if (L"CGameCameraScript" == _strScriptName)
+		return new CGameCameraScript;
 	if (L"CMissileScript" == _strScriptName)
 		return new CMissileScript;
 	if (L"CMonsterScript" == _strScriptName)
@@ -28,6 +33,7 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CPlayerScript;
 	if (L"CTestScript" == _strScriptName)
 		return new CTestScript;
+
 	return nullptr;
 }
 
@@ -35,6 +41,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 {
 	switch (_iScriptType)
 	{
+	case (UINT)SCRIPT_TYPE::GAMECAMERASCRIPT:
+		return new CGameCameraScript;
+		break;
 	case (UINT)SCRIPT_TYPE::MISSILESCRIPT:
 		return new CMissileScript;
 		break;
@@ -51,6 +60,7 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		return new CTestScript;
 		break;
 	}
+
 	return nullptr;
 }
 
@@ -58,6 +68,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 {
 	switch ((SCRIPT_TYPE)_pScript->GetScriptType())
 	{
+	case SCRIPT_TYPE::GAMECAMERASCRIPT:
+		return L"CGameCameraScript";
+		break;
+
 	case SCRIPT_TYPE::MISSILESCRIPT:
 		return L"CMissileScript";
 		break;
@@ -77,6 +91,7 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 	case SCRIPT_TYPE::TESTSCRIPT:
 		return L"CTestScript";
 		break;
+
 	}
 	return nullptr;
 }

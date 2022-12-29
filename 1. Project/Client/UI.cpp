@@ -44,8 +44,13 @@ void UI::render()
 			if (m_bModal)
 			{
 				// UI 생성되는 위치 설정( 화면 중앙 )
-				ImVec2 vCenter = ImGui::GetMainViewport()->GetCenter();
-				ImGui::SetNextWindowPos(vCenter, ImGuiCond_::ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+				//ImVec2 vCenter = ImGui::GetMainViewport()->GetCenter();
+				//ImGui::SetNextWindowPos(vCenter, ImGuiCond_::ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+				//ImGui::SetNextWindowSize(m_vSize, ImGuiCond_::ImGuiCond_Appearing);
+				
+
+				Vec2 vMousePos = ImGui::GetMousePos();
+				ImGui::SetNextWindowPos(vMousePos, ImGuiCond_::ImGuiCond_Appearing);
 				ImGui::SetNextWindowSize(m_vSize, ImGuiCond_::ImGuiCond_Appearing);
 
 				// Modal Popup UI 띄우기

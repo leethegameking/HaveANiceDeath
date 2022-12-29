@@ -28,6 +28,7 @@ public:
     AddDynFunc1(Close_);
 
 public:
+    virtual void Open() override;
     void render_update() override;
 
 public:

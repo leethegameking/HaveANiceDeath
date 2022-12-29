@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CCameraScript.h"
 
+#include <Engine/CDevice.h>
+
 
 CCameraScript::CCameraScript()
 	: CScript(-1)
@@ -25,6 +27,9 @@ void CCameraScript::tick()
 
 void CCameraScript::Move()
 {
+	if (!CDevice::GetInst()->IsWindowFocused())
+		return;
+
 	Vec3 vPos = Transform()->GetRelativePos();
 
 	float fSpeed = m_fSpeed;
