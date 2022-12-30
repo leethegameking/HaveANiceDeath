@@ -31,9 +31,9 @@ bool InCamera(CGameObject* _obj, Vec2 _cameraExtenseion)
 	static Vec2 vRenderResol = CDevice::GetInst()->GetRenderResolution();
 	Vec2 vScreenCoord = vCamScale * vRenderResol;
 
-	Vec3 vCamPos = mainCam->Transform()->GetRelativePos();
-	Vec3 vPos =_obj->Transform()->GetRelativePos();
-	Vec3 vScale = _obj->Transform()->GetRelativeScale();
+	Vec3 vCamPos = mainCam->Transform()->GetWorldPos();
+	Vec3 vPos =_obj->Transform()->GetWorldPos();
+	Vec3 vScale = _obj->Transform()->GetWorldScale();
 
 	if (
 		vCamPos.x - vScreenCoord.x * _cameraExtenseion.x / 2.f < vPos.x + vScale.x / 2.f &&

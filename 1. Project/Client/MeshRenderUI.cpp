@@ -236,6 +236,12 @@ void MeshRenderUI::SetDynMaterialTex(DWORD_PTR _strTextureKey)
 	pDynMtrl->SetTexParam(TEX_PARAM::TEX_0, pTex);
 }
 
+void MeshRenderUI::Close()
+{
+	UI::Close();
+
+}
+
 
 
 

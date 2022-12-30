@@ -13,6 +13,9 @@ cbuffer TRANSFORM : register(b0)
     
     row_major matrix g_matWV;    
     row_major matrix g_matWVP;
+    
+    float3 g_v3Scale;
+    int padding;
 };
 
 

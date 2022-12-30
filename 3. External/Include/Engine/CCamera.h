@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "CComponent.h"
 
 
@@ -9,14 +9,14 @@ class CCamera :
     public CComponent
 {
 private:
-    Matrix                  m_matView;      // ºä Çà·Ä
-    Matrix                  m_matProj;      // Åõ¿µ Çà·Ä
+    Matrix                  m_matView;      // ë·° í–‰ë ¬
+    Matrix                  m_matProj;      // íˆ¬ì˜ í–‰ë ¬
 
-    PROJ_TYPE               m_eProjType;    // Åõ¿µ ¹æ½Ä
-    float                   m_fAspectRatio; // Á¾È¾ ºñ
+    PROJ_TYPE               m_eProjType;    // íˆ¬ì˜ ë°©ì‹
+    float                   m_fAspectRatio; // ì¢…íš¡ ë¹„
 
-    float                   m_fFar;         // Ä«¸Ş¶ó ÃÖ´ë ½Ã¾ß °Å¸®
-    float                   m_fScale;       // Åõ¿µ ¹üÀ§ ¹èÀ²
+    float                   m_fFar;         // ì¹´ë©”ë¼ ìµœëŒ€ ì‹œì•¼ ê±°ë¦¬
+    float                   m_fScale;       // íˆ¬ì˜ ë²”ìœ„ ë°°ìœ¨
 
     UINT                    m_iLayerMask;
 
@@ -24,11 +24,12 @@ private:
     vector<CGameObject*>    m_vecMask;
     vector<CGameObject*>    m_vecTransparent;
     vector<CGameObject*>    m_vecPostProcess;
+    vector<CGameObject*>    m_vecBlock;
 
-    int                     m_iCamIdx;  // Ä«¸Ş¶ó ¿ì¼±¼øÀ§
+    int                     m_iCamIdx;  // ì¹´ë©”ë¼ ìš°ì„ ìˆœìœ„
 
-    // Ä«¸Ş¶ó ¿ì¼±¼øÀ§ Á¤ÇÒ¶§
-    // static int CurExistIdx;          // Ä«¸Ş¶ó »ı¼º¸¶´Ù ++ÇÏ°í ÀÌ°ÍÀ» Idx·Î -> ¿ì¼±¼øÀ§ ±³Ã¼´Â ¼­·ÎÀÇ Idx±³Ã¼·Î ÀÌ·ç¾îÁü.
+    // ì¹´ë©”ë¼ ìš°ì„ ìˆœìœ„ ì •í• ë•Œ
+    // static int CurExistIdx;          // ì¹´ë©”ë¼ ìƒì„±ë§ˆë‹¤ ++í•˜ê³  ì´ê²ƒì„ Idxë¡œ -> ìš°ì„ ìˆœìœ„ êµì²´ëŠ” ì„œë¡œì˜ Idxêµì²´ë¡œ ì´ë£¨ì–´ì§.
 
 public:
     virtual void finaltick();
@@ -72,6 +73,7 @@ private:
     void render_mask();
     void render_transparent();
     void render_postprocess();
+    void render_block();
 
 public:
     virtual void SaveToFile(FILE* _File) override;

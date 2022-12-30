@@ -99,6 +99,9 @@ struct tTransform
 
 	Matrix matWV;
 	Matrix matWVP;
+
+	Vec3 vScale;
+	int padding;
 };
 
 extern tTransform g_transform;

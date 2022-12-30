@@ -107,6 +107,7 @@ void CTransform::UpdateData()
 	g_transform.matWorld = m_matWorld;
 	g_transform.matWV = g_transform.matWorld * g_transform.matView;
 	g_transform.matWVP = g_transform.matWV * g_transform.matProj;
+	g_transform.vScale = m_vRelativeScale;
 	
 	pCB->SetData(&g_transform);
 	pCB->UpdateData(PIPELINE_STAGE::ALL_STAGE);

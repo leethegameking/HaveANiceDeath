@@ -26,6 +26,9 @@ private:
     void SetMaterial(DWORD_PTR _strMaterialKey);
     void SetDynMaterialTex(DWORD_PTR _strTextureKey);
 
+private:
+    virtual void Close() override;
+
 public:
     MeshRenderUI();
     ~MeshRenderUI();

@@ -40,6 +40,8 @@ private:
     void DynamicLoad(FILE* _File);
 
 
+
+
     CLONE(CMaterial);
 public:
     CMaterial();

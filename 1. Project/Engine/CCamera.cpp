@@ -13,6 +13,7 @@
 #include "CMaterial.h"
 
 #include "CGameObject.h"
+#include "CMeshRender.h"
 
 
 CCamera::CCamera()
@@ -56,6 +57,7 @@ void CCamera::render()
 	render_mask();
 	render_transparent();
 	render_postprocess();
+	render_block();
 }
 
 
@@ -127,6 +129,7 @@ void CCamera::SortObject()
 	m_vecMask.clear();
 	m_vecTransparent.clear();
 	m_vecPostProcess.clear();
+	m_vecBlock.clear();
 
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 
@@ -176,6 +179,9 @@ void CCamera::SortObject()
 				case SHADER_DOMAIN::DOMAIN_POST_PROCESS:
 					m_vecPostProcess.push_back(vecObj[j]);
 					break;
+				case SHADER_DOMAIN::DOMAIN_BLOCK:
+					m_vecBlock.push_back(vecObj[j]);
+					break;
 				}
 			}
 		}
@@ -212,6 +218,37 @@ void CCamera::render_postprocess()
 	{
 		CRenderMgr::GetInst()->CopyRenderTarget();
 		m_vecPostProcess[i]->render();
+	}
+}
+
+void CCamera::render_block()
+{
+	static  vector<CGameObject*> vecTransition;
+	static  vector<CGameObject*> vecBorder;
+	vecTransition.clear();
+	vecBorder.clear();
+
+	for (size_t i = 0; i < m_vecBlock.size(); ++i)
+	{
+		tMtrlConst tConst = m_vecBlock[i]->MeshRender()->GetCurMaterial()->GetMtrlConst();
+		if (tConst.iArr[0] == 3)
+		{
+			vecBorder.push_back(m_vecBlock[i]);
+		}
+		else
+		{
+			vecTransition.push_back(m_vecBlock[i]);
+		}
+	}
+
+	for (size_t i = 0; i < vecBorder.size(); ++i)
+	{
+		vecBorder[i]->render();
+	}
+
+	for (size_t i = 0; i < vecTransition.size(); ++i)
+	{
+		vecTransition[i]->render();
 	}
 }
 

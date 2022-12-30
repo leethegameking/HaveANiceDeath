@@ -46,7 +46,9 @@ Ptr<CMaterial> CRenderComponent::GetDynamicMaterial()
 {
 	if (nullptr != m_pDynamicMtrl)
 	{
+		m_pDynamicMtrl->SetShader(m_pCurMtrl->GetShader());
 		m_pCurMtrl = m_pDynamicMtrl;
+		
 		return m_pDynamicMtrl;
 	}
 
@@ -59,7 +61,7 @@ Ptr<CMaterial> CRenderComponent::GetDynamicMaterial()
 
 bool CRenderComponent::IsDynamicMtrl()
 {
-	if (m_pCurMtrl == m_pDynamicMtrl)
+	if (m_pDynamicMtrl.Get() && m_pCurMtrl == m_pDynamicMtrl)
 		return true;
 	return false;
 }

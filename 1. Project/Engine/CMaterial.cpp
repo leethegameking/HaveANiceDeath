@@ -240,4 +240,3 @@ void CMaterial::DynamicLoad(FILE* _File)
 		}
 	}
 }
-

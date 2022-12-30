@@ -100,7 +100,8 @@ enum class SHADER_DOMAIN
 	DOMAIN_OPAQUE,		// 불투명 단계
 	DOMAIN_MASK,		// 출력, 비출력
 	DOMAIN_TRANSPARENT, // 반투명
-	DOMAIN_POST_PROCESS,// 후처리	    
+	DOMAIN_BLOCK,
+	DOMAIN_POST_PROCESS,// 후처리
 	NONE,
 };
 

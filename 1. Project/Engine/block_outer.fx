@@ -4,6 +4,9 @@
 #include "register.fx"
 #include "func.fx"
 
+
+#define ObjScale g_v3Scale
+
 #define TextureIdx g_int_0
 
 // Texture 
@@ -16,6 +19,8 @@
 #define CornerOutsideTex     g_tex_1
 #define CornerOrnementsTex   g_tex_2
 #define BlockBorderTex       g_tex_3
+
+
 
 
 
@@ -47,7 +52,6 @@ VTX_OUT VS_Block_Outer(VTX_IN _in)
     return output;
 }
 
-
 float4 PS_Block_Outer(VTX_OUT _in) : SV_Target
 {
     float4 vOutColor = float4(1.f, 0.f, 1.f, 1.f);
@@ -70,6 +74,55 @@ float4 PS_Block_Outer(VTX_OUT _in) : SV_Target
         
         case BlockBorder:
             vOutColor = BlockBorderTex.Sample(g_sam_0, _in.vUV);
+            break;
+        
+        default:
+            break;
+    }
+   
+    return vOutColor;
+}
+
+float4 PS_Block_Outer_Alpha(VTX_OUT _in) : SV_Target
+{
+    float4 vOutColor = float4(1.f, 0.f, 1.f, 1.f);
+    
+
+    
+    
+    //Texture2D sampleTex;
+    switch (TextureIdx)
+    {
+        case CornerInside:
+            vOutColor = CornerInsideTex.Sample(g_sam_0, _in.vUV);
+            break;
+        
+        case CornerOutside:
+            vOutColor = CornerOutsideTex.Sample(g_sam_0, _in.vUV);
+            break;
+        
+        case CornerOrnements:
+            vOutColor = CornerOrnementsTex.Sample(g_sam_0, _in.vUV);
+            break;
+        
+        // 크기 줄여줌
+        case BlockBorder:
+        {
+            float2 fBlockScale = float2(500.f, 50.f);
+            float2 fBlockRatio = ObjScale.xy / fBlockScale;
+            float2 vUV = _in.vUV * fBlockRatio;
+    
+            //if (fBlockRatio.x >= 1.f)
+            //{
+            //    fBlockRatio.x = 1.f;
+            //}
+            if (fBlockRatio.y >= 1.f)
+            {
+                fBlockRatio.y = 1.f;
+            }
+            
+            vOutColor = BlockBorderTex.Sample(g_sam_0, vUV);
+        }
             break;
         
         default:

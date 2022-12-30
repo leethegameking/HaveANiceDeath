@@ -374,6 +374,7 @@ void CResMgr::CreateDefaultGraphicsShader()
 	pShader->CreatePixelShader(L"shader\\tilemap.fx", "PS_TileMap");
 
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASK);
+	pShader->SetBSType(BS_TYPE::ALPHABLEND);
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 
 	pShader->SetEngineRes();
