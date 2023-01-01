@@ -98,7 +98,7 @@ void CSaveLoadMgr::SaveGameObject(CGameObject* _Object, FILE* _File)
         CComponent* pComponent = _Object->GetComponent(COMPONENT_TYPE(i));
         if (nullptr != pComponent)
         {
-            pComponent->SaveToFile(_File);
+            pComponent->SaveToFile(_File); 
         }
     }
 

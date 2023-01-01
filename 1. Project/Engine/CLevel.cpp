@@ -126,5 +126,15 @@ size_t CLevel::FindObjectIdx(CGameObject* _pObj)
 
 void CLevel::ChangeLayer(CGameObject* _srcObj, UINT _layerIdx)
 {
+	CLayer* pLayer = GetLayer(_srcObj->GetLayerIdx());
+
+	// 부모일때만
+	if (_srcObj->GetParent() == nullptr)
+	{
+		pLayer->DeregisterObject(_srcObj);
+		AddGameObject(_srcObj, _layerIdx);
+	}
+
 	_srcObj->SetLayerIdx(_layerIdx);
+
 }

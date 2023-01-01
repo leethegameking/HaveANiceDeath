@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "CEntity.h"
 
 class CGameObject;
@@ -7,8 +7,8 @@ class CLayer :
     public CEntity
 {
 private:
-    vector<CGameObject*>    m_vecParent;    // ÃÖ»óÀ§ ºÎ¸ğ¸¸
-    vector<CGameObject*>    m_vecObjects;   // ºÎ¸ğ, ÀÚ½Ä »ó°ü¾øÀÌ ¸ğµç ¿ÀºêÁ§Æ®
+    vector<CGameObject*>    m_vecParent;    // ìµœìƒìœ„ ë¶€ëª¨ë§Œ
+    vector<CGameObject*>    m_vecObjects;   // ë¶€ëª¨, ìì‹ ìƒê´€ì—†ì´ ëª¨ë“  ì˜¤ë¸Œì íŠ¸
     int                     m_iLayerIdx;
 
 public:
@@ -28,7 +28,6 @@ private:
     void RegisterObject(CGameObject* _pObj){m_vecObjects.push_back(_pObj);}
     void DeregisterObject(CGameObject* _pObj);
     void clear() { m_vecObjects.clear(); }
-
 
 public:
     CLONE_DUMMY(CLayer);

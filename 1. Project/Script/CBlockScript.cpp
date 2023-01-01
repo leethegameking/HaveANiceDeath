@@ -37,7 +37,8 @@ void CBlockScript::BeginOverlap(CCollider2D* _other)
 		if (sDir & RB_DOWN && vBlockPos.y + vBlockScale.y / 2.f < pColObj->Rigidbody2D()->GetPrevPos().y)
 		{
 			pColObj->Rigidbody2D()->SetGround(true);
-			pColObj->Transform()->SetRelativePos(pColObj->Transform()->GetRelativePos() + Vec3(vBlockPos.y + vBlockScale.y / 2.f + 0.1f, 0.f, 0.f));
+			Vec3 test = Vec3(pColObj->Transform()->GetRelativePos().x, vBlockPos.y + vBlockScale.y / 2.f + 0.1f, 0.f);
+			pColObj->Transform()->SetRelativePos( Vec3(pColObj->Transform()->GetRelativePos().x, pColObj->Transform()->GetRelativeScale().y /2.f + + vBlockPos.y + vBlockScale.y / 2.f + 0.1f, 0.f));
 		}
 	}
 

@@ -25,7 +25,7 @@ void CRigidbody2D::finaltick()
 	static bool bInit = true;
 	if (bInit)
 	{
-		m_vPrevPos = Transform()->GetWorldPos();
+		m_vPrevPos = Transform()->GetRelativePos();
 		bInit = false;
 	}
 
@@ -57,9 +57,12 @@ void CRigidbody2D::finaltick()
 		vSpeed.x = m_fMaxSpeed;
 	}
 
-	if (fabs(vSpeed.y) > m_fMaxGravitySpeed)
+	if (fabs(vSpeed.y) > fabs(m_fMaxGravitySpeed))
 	{
-		vSpeed.y = m_fMaxGravitySpeed;
+		if (vSpeed.y < 0)
+			vSpeed.y = -m_fMaxGravitySpeed;
+		else
+			vSpeed.y = m_fMaxGravitySpeed;
 	}
 
 	// 위치 결정
@@ -91,7 +94,7 @@ void CRigidbody2D::LoadFromFile(FILE* _File)
 void CRigidbody2D::CalcDir()
 {
 	m_sDir = 0;
-	Vec3 vCalDir = Transform()->GetWorldPos() - m_vPrevPos;
+	Vec3 vCalDir = Transform()->GetRelativePos() - m_vPrevPos;
 	if (vCalDir.x < 0)
 		m_sDir |= RB_LEFT;
 	else if (vCalDir.x > 0)

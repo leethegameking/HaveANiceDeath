@@ -14,6 +14,7 @@ class CRigidbody2D :
 {
 private:
     Vec3 m_vPrevPos;
+    Vec3 m_vRealTimeWorldPos;
 
     Vec2 m_vForce;
 
