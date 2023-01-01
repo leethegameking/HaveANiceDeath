@@ -130,6 +130,7 @@ void CImGuiMgr::clear()
 #include "FrameTool.h"
 #include "TileEditor.h"
 #include "AnimTool.h"
+#include "LayerNameTool.h"
 
 void CImGuiMgr::CreateUI()
 {
@@ -180,6 +181,10 @@ void CImGuiMgr::CreateUI()
     m_mapUI.insert({ pUI->GetName(), pUI });
 
     pUI = new InputTextUI();
+    pUI->SetModal(true);
+    m_mapUI.insert({ pUI->GetName(), pUI });
+
+    pUI = new LayerNameTool();
     pUI->SetModal(true);
     m_mapUI.insert({ pUI->GetName(), pUI });
 }

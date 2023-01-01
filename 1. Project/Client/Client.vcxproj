@@ -190,6 +190,7 @@
     <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="InputTextUI.h" />
     <ClInclude Include="InspectorUI.h" />
+    <ClInclude Include="LayerNameTool.h" />
     <ClInclude Include="Light2DUI.h" />
     <ClInclude Include="ListUI.h" />
     <ClInclude Include="MaterialUI.h" />
@@ -246,6 +247,7 @@
     <ClCompile Include="imgui_widgets.cpp" />
     <ClCompile Include="InputTextUI.cpp" />
     <ClCompile Include="InspectorUI.cpp" />
+    <ClCompile Include="LayerNameTool.cpp" />
     <ClCompile Include="Light2DUI.cpp" />
     <ClCompile Include="ListUI.cpp" />
     <ClCompile Include="main.cpp" />

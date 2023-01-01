@@ -2,13 +2,15 @@
 #include "UI.h"
 
 class CGameObject;
+class ComboBox;
+
 
 class ComponentUI :
     public UI
 {
 private:
-	CGameObject* m_TargetObj;
-	COMPONENT_TYPE m_eType;
+	CGameObject*	m_TargetObj;
+	COMPONENT_TYPE	m_eType;
 
 public:
 	void SetTarget(CGameObject* _pTarget) { m_TargetObj = _pTarget; }

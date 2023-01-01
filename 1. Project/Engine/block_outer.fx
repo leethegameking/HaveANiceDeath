@@ -128,6 +128,17 @@ float4 PS_Block_Outer_Alpha(VTX_OUT _in) : SV_Target
         default:
             break;
     }
+    
+    // 광원 처리
+    tLightColor color = (tLightColor) 0.f;
+    
+    for (int i = 0; i < g_iLight2DCount; ++i)
+    {
+        CalcLight2D(color, _in.vWorldPos, i);
+    }
+    
+    color.vDiff.a = 1.f;
+    vOutColor *= color.vDiff;
    
     return vOutColor;
 }

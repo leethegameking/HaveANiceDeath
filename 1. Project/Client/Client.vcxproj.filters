@@ -146,6 +146,9 @@
     <Filter Include="03. UI\01. Inspector\ResUI\SoundUI">
       <UniqueIdentifier>{831a95d1-79a0-4990-ad86-83c60655a8cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. UI\Tool\LayerNameTool">
+      <UniqueIdentifier>{e620feeb-3ddf-4772-b86f-2d6018eac0a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -315,6 +318,9 @@
     </ClInclude>
     <ClInclude Include="SoundUI.h">
       <Filter>03. UI\01. Inspector\ResUI\SoundUI</Filter>
+    </ClInclude>
+    <ClInclude Include="LayerNameTool.h">
+      <Filter>03. UI\Tool\LayerNameTool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -490,6 +496,9 @@
     </ClCompile>
     <ClCompile Include="SoundUI.cpp">
       <Filter>03. UI\01. Inspector\ResUI\SoundUI</Filter>
+    </ClCompile>
+    <ClCompile Include="LayerNameTool.cpp">
+      <Filter>03. UI\Tool\LayerNameTool</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

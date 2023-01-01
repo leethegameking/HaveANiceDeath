@@ -100,7 +100,8 @@ void TreeNode::render_update()
 			m_TreeUI->SetNotEmptySpace();
 		}
 
-		if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left) && ImGui::IsItemHovered(0))
+		// 더블클릭 체크
+		if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left) && ImGui::IsItemHovered(0) && !m_bFrame)
 		{
 			m_TreeUI->SetDBClickedNode(this);
 

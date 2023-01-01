@@ -158,6 +158,17 @@ void CEventMgr::tick()
 			CResMgr::GetInst()->DeleteRes(RES_TYPE(m_vecEvent[i].wParam), ((CRes*)m_vecEvent[i].lParam)->GetKey());
 			ResChangeFlagOn();
 		}
+		break;
+
+		case EVENT_TYPE::CHANGE_LAYER:
+		{
+			// wParam : GameObj
+			CGameObject* pObj = (CGameObject*)m_vecEvent[i].wParam;
+			UINT idx = (UINT)m_vecEvent[i].lParam;
+			CLevelMgr::GetInst()->GetCurLevel()->ChangeLayer(pObj, idx);
+			LevelChangFlagOn();
+		}
+		break;
 
 		case EVENT_TYPE::END:
 			break;

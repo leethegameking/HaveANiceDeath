@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 class CGameObject;
 class CLevel;
@@ -9,6 +9,7 @@ class CLevelMgr
 private:
 	CLevel*			m_pCurLevel;
 
+	wstring			m_LayerName[MAX_LAYER]; 
 
 public:
 	void FindObjectByName(const wstring& _strName, vector<CGameObject*>& _out);
@@ -17,6 +18,9 @@ public:
 
 public:
 	CLevel* GetCurLevel() { return m_pCurLevel; }
+
+	wstring GetLayerName(int _idx) { return m_LayerName[_idx]; }
+	void	SetLayerName(int _idx, const wstring& _name);
 
 
 public:

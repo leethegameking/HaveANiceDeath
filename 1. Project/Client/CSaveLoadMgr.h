@@ -10,6 +10,7 @@ class CSaveLoadMgr
 SINGLETON(CSaveLoadMgr)
 
 private:
+	static bool m_bFirstLoad;
 
 public:
 	void init();

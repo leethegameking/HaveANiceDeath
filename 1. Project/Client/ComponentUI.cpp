@@ -6,6 +6,9 @@
 #include <Engine/CScript.h>
 #include "ScriptUI.h"
 
+#include "ComboBox.h"
+#include <Engine/CLevelMgr.h>
+
 ComponentUI::ComponentUI(const string& _UIName, COMPONENT_TYPE _eType)
 	: UI(_UIName)
 	, m_TargetObj(nullptr)

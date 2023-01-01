@@ -21,6 +21,7 @@ public:
 
     ComboBox* m_CompComboBox;
     ComboBox* m_ScriptComboBox;
+    ComboBox* m_ComboLayer;
 
     vector<ScriptUI*> m_vecScriptUI;
 
@@ -31,6 +32,8 @@ public:
 public:
     ComponentUI* GetComponentUI(COMPONENT_TYPE _eType) { return m_arrComUI[(UINT)_eType]; }
     ResUI* GetResUI(RES_TYPE _eType) { return m_arrResUI[(UINT)_eType]; }
+    
+    
 
 private:
     virtual void update() override;
@@ -40,6 +43,7 @@ private:
 public:
     void AddComponent(DWORD_PTR _idx);
     void AddScript(DWORD_PTR _idx);
+    void SetLayer(DWORD_PTR _idx);
 
 public:
     InspectorUI();

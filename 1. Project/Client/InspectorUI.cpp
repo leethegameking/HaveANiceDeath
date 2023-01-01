@@ -24,6 +24,7 @@
 
 
 #include <Engine/CLevelMgr.h>
+#include <Engine/CLevel.h>
 #include <Engine/CGameObject.h>
 
 #include <Engine/CScript.h>
@@ -31,6 +32,8 @@
 #include <Script/CScriptMgr.h>
 
 #include "ScriptUI.h"
+
+#include "CImGuiMgr.h"
 
 InspectorUI::InspectorUI()
 	: UI("Inspector")
@@ -132,6 +135,10 @@ InspectorUI::InspectorUI()
 	m_ScriptComboBox->init_not_res(strScriptName, 0);
 	m_ScriptComboBox->AddSelectedFunc_ReturnInt(this, FUNC_1(&InspectorUI::AddScript));
 
+	m_ComboLayer = new ComboBox;
+
+	m_ComboLayer->AddSelectedFunc_ReturnInt(this, FUNC_1(&InspectorUI::SetLayer));
+
 	//===================================================================================
 
 	ScriptUI* pScriptUI = new ScriptUI;
@@ -148,6 +155,9 @@ InspectorUI::~InspectorUI()
 
 	if (m_ScriptComboBox)
 		delete m_ScriptComboBox;
+
+	if (m_ComboLayer)
+		delete m_ComboLayer;
 }
 
 void InspectorUI::update()
@@ -158,16 +168,46 @@ void InspectorUI::update()
 		SetTargetObj(nullptr);
 	}
 
+	if (CEventMgr::GetInst()->IsLevelChanged())
+	{
+		static vector<string> vecLayerName;
+		vecLayerName.clear();
+		vecLayerName.reserve(MAX_LAYER);
+		CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
+		for (UINT i = 0; i < MAX_LAYER; ++i)
+		{
+			string strLayerIdx = to_string(i);
+			vecLayerName.push_back("(" + strLayerIdx + ") " + WstrToStr(pCurLevel->GetLayer(i)->GetName()));
+		}
+		if(m_TargetObj)
+			m_ComboLayer->init_not_res(vecLayerName, m_TargetObj->GetLayerIdx());
+		else
+			m_ComboLayer->init_not_res(vecLayerName, 0);
+	}
+
 	UI::update();
 }
 
 void InspectorUI::render_update()
 {
-	// Å¸°Ù ÀÌ¸§
+	// Å¸°Ù
 	if (m_TargetObj)
 	{
 		string strObjName = string(m_TargetObj->GetName().begin(), m_TargetObj->GetName().end());
 		ImGui::Text(strObjName.c_str());
+
+		ImGui::SameLine();
+
+		// LayerCombo 
+		m_ComboLayer->SetCurIdx(m_TargetObj->GetLayerIdx());
+		m_ComboLayer->render_update();
+
+		ImGui::SameLine();
+		if (ImGui::Button("##LayerNameSetBtn"))
+		{
+			CImGuiMgr::GetInst()->FindUI("LayerNameTool")->Open();
+		}
+
 		ImGui::Separator();
 	}
 }
@@ -364,6 +404,15 @@ void InspectorUI::AddScript(DWORD_PTR _idx)
 
 	// °»½Å
 	SetTargetObj(m_TargetObj);
+}
+
+void InspectorUI::SetLayer(DWORD_PTR _idx)
+{
+	tEvent evn = {};
+	evn.eType = EVENT_TYPE::CHANGE_LAYER;
+	evn.wParam = (DWORD_PTR)m_TargetObj;
+	evn.lParam = _idx;
+	CEventMgr::GetInst()->AddEvent(evn);
 }
 
 

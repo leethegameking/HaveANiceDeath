@@ -3,6 +3,50 @@
 
 void CResMgr::CreateMyGraphicsShader()
 {
+	CreateBlockOuterShader();
+	CreateBlockInnerShader();
+}
+
+void CResMgr::CreateMyCSShader()
+{
+
+}
+
+void CResMgr::CreateBlockInnerShader()
+{
+	// Outer Block Shader
+	CGraphicsShader* pShader = nullptr;
+
+	pShader = new CGraphicsShader;
+	pShader->CreateVertexShader(L"shader\\block_inner.fx", "VS_Block_Inner");
+	pShader->CreatePixelShader(L"shader\\block_inner.fx", "PS_Block_Inner");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_WRITE);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_BLOCK);
+
+	pShader->AddTexParam(TEX_0, "Fill   ");
+
+
+	pShader->SetEngineRes();
+	AddRes<CGraphicsShader>(L"BlockInnerShader", pShader);
+
+	// Outer Block Shader Alpha
+	pShader = new CGraphicsShader;
+	pShader->CreateVertexShader(L"shader\\block_inner.fx", "VS_Block_Inner");
+	pShader->CreatePixelShader(L"shader\\block_inner.fx", "PS_Block_Inner_Alpha");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetBSType(BS_TYPE::ALPHABLEND);
+	pShader->SetDSType(DS_TYPE::NO_WRITE);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_BLOCK);
+
+	pShader->AddTexParam(TEX_0, "Fill   ");
+
+	pShader->SetEngineRes();
+	AddRes<CGraphicsShader>(L"BlockInnerShaderAlpha", pShader);
+}
+
+void CResMgr::CreateBlockOuterShader()
+{
 	// Outer Block Shader
 	CGraphicsShader* pShader = nullptr;
 
@@ -40,9 +84,4 @@ void CResMgr::CreateMyGraphicsShader()
 
 	pShader->SetEngineRes();
 	AddRes<CGraphicsShader>(L"BlockOuterShaderAlpha", pShader);
-}
-
-void CResMgr::CreateMyCSShader()
-{
-
 }

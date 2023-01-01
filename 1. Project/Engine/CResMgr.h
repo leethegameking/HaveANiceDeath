@@ -78,6 +78,10 @@ private:
 	void CreateMyGraphicsShader();
 	void CreateMyCSShader();
 
+private:
+	void CreateBlockInnerShader();
+	void CreateBlockOuterShader();
+
 public:
 	CResMgr();
 	~CResMgr();

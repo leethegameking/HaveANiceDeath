@@ -6,6 +6,7 @@
 
 CLevelMgr::CLevelMgr()
 	: m_pCurLevel(nullptr)
+	, m_LayerName{}
 {
 }
 
@@ -31,6 +32,15 @@ void CLevelMgr::ChangeLevel(CLevel* _nextLevel)
 		delete m_pCurLevel;
 
 	m_pCurLevel = _nextLevel;
+}
+
+void CLevelMgr::SetLayerName(int _idx, const wstring& _name)
+{
+	if (_name != "")
+	{
+		m_LayerName[_idx] = _name;
+		// m_pCurLevel->GetLayer(_idx)->SetName(_name);
+	}
 }
 
 void CLevelMgr::init()

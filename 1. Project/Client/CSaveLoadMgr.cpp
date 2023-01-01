@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "CSaveLoadMgr.h"
 
+#include <Engine/CLevelMgr.h>
 #include <Engine/CCollisionMgr.h>
 #include <Engine/CPathMgr.h>
 #include <Engine/CLevel.h>
@@ -12,6 +13,7 @@
 
 #include <Script/CScriptMgr.h>
 
+bool CSaveLoadMgr::m_bFirstLoad = true;
 
 CSaveLoadMgr::CSaveLoadMgr()
 {
@@ -72,6 +74,11 @@ void CSaveLoadMgr::SaveLevel(CLevel* _Level, wstring _strRelativePath)
         fwrite(&pCollisonMat[i], sizeof(WORD), 1, pFile);
     }
 
+    // Global LayerName
+    for (int i = 0; i < MAX_LAYER; ++i)
+    {
+        SaveWStringToFile(CLevelMgr::GetInst()->GetLayerName(i), pFile);
+    }
 
     fclose(pFile);
 }
@@ -168,10 +175,27 @@ CLevel* CSaveLoadMgr::LoadLevel(wstring _strRelativePath)
         CCollisionMgr::GetInst()->SetCollisionMat(i, pMatrixElement);
     }
 
-
+    // Global LayerName
+    for (int i = 0; i < MAX_LAYER; ++i)
+    {
+        if (m_bFirstLoad)
+        {
+            wstring strLayerName;
+            LoadWStringFromFile(strLayerName, pFile);
+            CLevelMgr::GetInst()->SetLayerName(i, strLayerName);
+            pLevel->GetLayer(i)->SetName(strLayerName);
+        }
+        else
+        {
+            wstring strLayerName = CLevelMgr::GetInst()->GetLayerName(i);
+            pLevel->GetLayer(i)->SetName(strLayerName);
+        }
+    }
+    
     fclose(pFile);
 
 
+    m_bFirstLoad = false;
     return pLevel;
 }
 

@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 
 #include "CEntity.h"
 #include "CLayer.h"
@@ -13,7 +13,7 @@ private:
     LEVEL_STATE     m_State;
 
 public:
-    // Ω√¡° «‘ºˆ
+    // ÏãúÏ†ê Ìï®Ïàò
     void begin();
     void tick();
     void finaltick();
@@ -34,11 +34,19 @@ public:
     void FindObjectByName(const wstring& _Name, vector<CGameObject*>& _out);
     CGameObject* FindObjectByName(const wstring& _Name);
 
+    size_t FindObjectIdx(CGameObject* _pObj);
+
+
+private:
+    void ChangeLayer(CGameObject* _srcObj, UINT _layerIdx);
+
 public:
     CLONE_DUMMY(CLevel);
 
 public:
     CLevel();
     virtual ~CLevel();
+
+    friend class CEventMgr;
 };
 

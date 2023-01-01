@@ -27,6 +27,8 @@ public:
     template<typename T>
     void SetItem(vector<string>& _vecItem);
 
+public:
+    void SetCurIdx(int _idx) { m_iCurItemIdx = _idx; }
 
 public:
     void SetPreviewIdx(int _PreviewIdx) { m_iCurItemIdx = _PreviewIdx; }

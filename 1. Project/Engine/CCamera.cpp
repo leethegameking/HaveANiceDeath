@@ -223,22 +223,35 @@ void CCamera::render_postprocess()
 
 void CCamera::render_block()
 {
-	static  vector<CGameObject*> vecTransition;
-	static  vector<CGameObject*> vecBorder;
+	static vector<CGameObject*> vecTransition;
+	static vector<CGameObject*> vecBorder;
+	static vector<CGameObject*> vecFill;
 	vecTransition.clear();
 	vecBorder.clear();
+	vecFill.clear();
 
 	for (size_t i = 0; i < m_vecBlock.size(); ++i)
 	{
-		tMtrlConst tConst = m_vecBlock[i]->MeshRender()->GetCurMaterial()->GetMtrlConst();
+		CMeshRender* pMeshrender = m_vecBlock[i]->MeshRender();
+		tMtrlConst tConst = pMeshrender->GetCurMaterial()->GetMtrlConst();
+		bool bDynamic = pMeshrender->IsDynamicMtrl();
 		if (tConst.iArr[0] == 3)
 		{
 			vecBorder.push_back(m_vecBlock[i]);
 		}
-		else
+		else if (bDynamic)
 		{
 			vecTransition.push_back(m_vecBlock[i]);
 		}
+		else
+		{
+			vecFill.push_back(m_vecBlock[i]);
+		}
+	}
+
+	for (size_t i = 0; i < vecFill.size(); ++i)
+	{
+		vecFill[i]->render();
 	}
 
 	for (size_t i = 0; i < vecBorder.size(); ++i)
@@ -246,10 +259,14 @@ void CCamera::render_block()
 		vecBorder[i]->render();
 	}
 
+
+
 	for (size_t i = 0; i < vecTransition.size(); ++i)
 	{
 		vecTransition[i]->render();
 	}
+
+
 }
 
 void CCamera::SaveToFile(FILE* _File)

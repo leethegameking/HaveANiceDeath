@@ -77,6 +77,7 @@ public:
     const vector<CGameObject*>& GetChildObject() const { return m_vecChild; }
     const vector<CScript*>& GetScripts()const { return m_vecScripts; }
 
+    void SetLayerIdx(int _idx) { m_iLayerIdx = _idx; }
     int GetLayerIdx() { return m_iLayerIdx; }
     bool IsDead() { return m_bDead; }
     bool IsGrave() { return m_bGrave; }

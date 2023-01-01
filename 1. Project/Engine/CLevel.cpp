@@ -109,3 +109,22 @@ CGameObject* CLevel::FindObjectByName(const wstring& _Name)
 
 	return nullptr;
 }
+
+// Layer내의 Vector idx 반환
+size_t CLevel::FindObjectIdx(CGameObject* _pObj)
+{
+	const vector<CGameObject*>& vecObjects = GetLayer(_pObj->GetLayerIdx())->GetObjects();
+
+	for (size_t j = 0; j < vecObjects.size(); ++j)
+	{
+		if (_pObj == vecObjects[j])
+			return  j;
+	}
+}
+
+
+
+void CLevel::ChangeLayer(CGameObject* _srcObj, UINT _layerIdx)
+{
+	_srcObj->SetLayerIdx(_layerIdx);
+}

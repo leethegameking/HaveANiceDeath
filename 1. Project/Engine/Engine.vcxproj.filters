@@ -511,5 +511,8 @@
     <FxCompile Include="block_outer.fx">
       <Filter>HLSL\Render\block</Filter>
     </FxCompile>
+    <FxCompile Include="block_inner.fx">
+      <Filter>HLSL\Render\block</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
