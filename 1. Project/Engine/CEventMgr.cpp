@@ -8,6 +8,7 @@
 
 #include "CResMgr.h"
 
+#include "CCollisionMgr.h"
 #include "CCollider2D.h"
 
 LOAD_LEVEL CEventMgr::Load_Level_Func = nullptr;
@@ -167,6 +168,24 @@ void CEventMgr::tick()
 			UINT idx = (UINT)m_vecEvent[i].lParam;
 			CLevelMgr::GetInst()->GetCurLevel()->ChangeLayer(pObj, idx);
 			LevelChangFlagOn();
+		}
+		break;
+
+		case EVENT_TYPE::ARRANGE_COLLISION_LAYER:
+		{
+			// wParam : pair<int, int> layer1, layer2
+			// lParam : Check or Release
+			std::pair<int, int>* pairLayers = (std::pair<int, int>*)m_vecEvent[i].wParam;
+			 bool bCheck = (bool)m_vecEvent[i].lParam;
+			 // 원래 Check 되어 있었다면
+			 if (bCheck)
+			 {
+				 CCollisionMgr::GetInst()->CollisionLayerRelease(pairLayers->first, pairLayers->second);
+			 }
+			 else
+			 {
+				 CCollisionMgr::GetInst()->CollisionLayerCheck(pairLayers->first, pairLayers->second);
+			 }
 		}
 		break;
 

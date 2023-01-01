@@ -14,6 +14,7 @@
 #include <Script/CScriptMgr.h>
 
 bool CSaveLoadMgr::m_bFirstLoad = true;
+bool CSaveLoadMgr::m_bPrefabLoad = false;
 
 CSaveLoadMgr::CSaveLoadMgr()
 {
@@ -87,6 +88,9 @@ void CSaveLoadMgr::SaveGameObject(CGameObject* _Object, FILE* _File)
 {
     // obj name
     _Object->SaveToFile(_File);
+
+    int iLayerIdx = _Object->GetLayerIdx();
+    fwrite(&iLayerIdx, sizeof(int), 1, _File);
 
     // obj components
     for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
@@ -199,11 +203,17 @@ CLevel* CSaveLoadMgr::LoadLevel(wstring _strRelativePath)
     return pLevel;
 }
 
+
+
 CGameObject* CSaveLoadMgr::LoadGameObject(FILE* _File)
 {
     // obj name
     CGameObject* pObject = new CGameObject;
     pObject->LoadFromFile(_File);
+
+    int iLayerIdx = 0;
+    fread(&iLayerIdx, sizeof(int), 1, _File);
+    pObject->SetLayerIdx(iLayerIdx);
 
     // obj components
     bool bProgress = true;
@@ -247,6 +257,10 @@ CGameObject* CSaveLoadMgr::LoadGameObject(FILE* _File)
 
         case COMPONENT_TYPE::PARTICLESYSTEM:
             pComponent = new CParticleSystem;
+            break;
+            
+        case COMPONENT_TYPE::RIGIDBODY2D:
+            pComponent = new CRigidbody2D;
             break;
 
         case COMPONENT_TYPE::SCRIPT:

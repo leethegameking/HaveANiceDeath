@@ -7,15 +7,6 @@
     <ClInclude Include="framework.h">
       <Filter>Default</Filter>
     </ClInclude>
-    <ClInclude Include="CMissileScript.h">
-      <Filter>Script</Filter>
-    </ClInclude>
-    <ClInclude Include="CMonsterScript.h">
-      <Filter>Script</Filter>
-    </ClInclude>
-    <ClInclude Include="CParticleHandler.h">
-      <Filter>Script</Filter>
-    </ClInclude>
     <ClInclude Include="CScriptMgr.h">
       <Filter>ScriptMgr</Filter>
     </ClInclude>
@@ -28,6 +19,9 @@
     <ClInclude Include="CGameCameraScript.h">
       <Filter>Script\MyScript</Filter>
     </ClInclude>
+    <ClInclude Include="CBlockScript.h">
+      <Filter>Script\MyScript</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Script.cpp">
@@ -35,15 +29,6 @@
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Default</Filter>
-    </ClCompile>
-    <ClCompile Include="CMissileScript.cpp">
-      <Filter>Script</Filter>
-    </ClCompile>
-    <ClCompile Include="CMonsterScript.cpp">
-      <Filter>Script</Filter>
-    </ClCompile>
-    <ClCompile Include="CParticleHandler.cpp">
-      <Filter>Script</Filter>
     </ClCompile>
     <ClCompile Include="CScriptMgr.cpp">
       <Filter>ScriptMgr</Filter>
@@ -55,6 +40,9 @@
       <Filter>Script\MyScript</Filter>
     </ClCompile>
     <ClCompile Include="CGameCameraScript.cpp">
+      <Filter>Script\MyScript</Filter>
+    </ClCompile>
+    <ClCompile Include="CBlockScript.cpp">
       <Filter>Script\MyScript</Filter>
     </ClCompile>
   </ItemGroup>

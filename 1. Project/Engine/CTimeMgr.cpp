@@ -43,7 +43,7 @@ void CTimeMgr::tick()
 	LEVEL_STATE eState = CLevelMgr::GetInst()->GetCurLevel()->GetState();
 
 	
-	if (eState == LEVEL_STATE::PAUSE)
+	if (eState == LEVEL_STATE::PAUSE || eState == LEVEL_STATE::STOP)
 	{
 		m_fDeltaTime = 0.f;
 	}

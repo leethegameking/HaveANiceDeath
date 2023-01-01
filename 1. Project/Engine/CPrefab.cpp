@@ -72,6 +72,7 @@ int CPrefab::Load(const wstring& _strFilePath)
     // load key path
     LoadKeyPath(pFile);
 
+
     m_pProtoObj = Load_GameObject_Func(pFile);
     
     fclose(pFile);

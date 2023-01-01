@@ -5,6 +5,10 @@
 
 void CLayer::DeregisterObject(CGameObject* _pObj)
 {
+	// 아직 로딩 안됨
+	if (m_vecParent.empty())
+		return;
+
 	vector<CGameObject*>::iterator iter = m_vecParent.begin();
 
 	for (; iter != m_vecParent.end(); ++iter)
@@ -16,7 +20,8 @@ void CLayer::DeregisterObject(CGameObject* _pObj)
 		}
 	}
 
-	assert(nullptr);
+	// prefab
+	// assert(nullptr);
 }
 
 CLayer::CLayer()
@@ -82,6 +87,6 @@ void CLayer::AddGameObject(CGameObject* _pObject)
 			queue.push_back(vecChild[i]);
 		}
 
-		pObj->m_iLayerIdx = m_iLayerIdx;
+		// pObj->m_iLayerIdx = m_iLayerIdx;
 	}
 }

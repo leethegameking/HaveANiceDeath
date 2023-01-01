@@ -373,6 +373,9 @@ void InspectorUI::AddComponent(DWORD_PTR _idx)
 	case COMPONENT_TYPE::PARTICLESYSTEM:
 		AddComp(CParticleSystem);
 		break;
+	case COMPONENT_TYPE::RIGIDBODY2D:
+		AddComp(CRigidbody2D);
+		break;
 
 	case COMPONENT_TYPE::SKYBOX:
 		break;

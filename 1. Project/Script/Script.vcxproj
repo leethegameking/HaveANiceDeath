@@ -167,10 +167,8 @@ call CodeGen.exe</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CBlockScript.h" />
     <ClInclude Include="CGameCameraScript.h" />
-    <ClInclude Include="CMissileScript.h" />
-    <ClInclude Include="CMonsterScript.h" />
-    <ClInclude Include="CParticleHandler.h" />
     <ClInclude Include="CPlayerScript.h" />
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="framework.h" />
@@ -178,10 +176,8 @@ call CodeGen.exe</Command>
     <ClInclude Include="CTestScript.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CBlockScript.cpp" />
     <ClCompile Include="CGameCameraScript.cpp" />
-    <ClCompile Include="CMissileScript.cpp" />
-    <ClCompile Include="CMonsterScript.cpp" />
-    <ClCompile Include="CParticleHandler.cpp" />
     <ClCompile Include="CPlayerScript.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="pch.cpp">

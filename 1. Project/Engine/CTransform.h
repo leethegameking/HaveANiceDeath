@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "CComponent.h"
 
 
@@ -41,6 +41,9 @@ public:
 
 
 	const Matrix& GetWorldMat() { return m_matWorld; }
+
+public:
+	void AddRelativePos(Vec3 _add) { m_vRelativePos += _add; }
 
 public:
 	virtual void tick() override;

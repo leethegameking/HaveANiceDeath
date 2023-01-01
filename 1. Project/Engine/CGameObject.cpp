@@ -29,7 +29,7 @@ CGameObject::CGameObject(const CGameObject& _origin)
 	, m_pParent(nullptr)
 	, m_arrCom{}
 	, m_pRenderComponent(nullptr)
-	, m_iLayerIdx(-1)
+	, m_iLayerIdx(_origin.m_iLayerIdx)
 {
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
@@ -246,8 +246,11 @@ void CGameObject::AddChild(CGameObject* _pChild)
 		}
 		else
 		{
-			CLayer* pChildLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(_pChild->m_iLayerIdx);
-			pChildLayer->DeregisterObject(_pChild);
+			if (CLevelMgr::GetInst()->GetCurLevel())
+			{
+				CLayer* pChildLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(_pChild->m_iLayerIdx);
+				pChildLayer->DeregisterObject(_pChild);
+			}
 		}
 	}
 

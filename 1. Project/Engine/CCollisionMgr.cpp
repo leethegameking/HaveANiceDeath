@@ -236,3 +236,10 @@ void CCollisionMgr::CollisionLayerRelease(int _iLeft, int _iRight)
 
 	m_matrix[iRow] &= ~(1 << iCol);
 }
+
+bool CCollisionMgr::IsLayerCollision(int _iLeft, int _iRight)
+{
+	if (m_matrix[_iLeft] & 1 << _iRight)
+		return true;
+	return false;
+}

@@ -50,7 +50,7 @@ void UI::render()
 				
 
 				Vec2 vMousePos = ImGui::GetMousePos();
-				ImGui::SetNextWindowPos(vMousePos, ImGuiCond_::ImGuiCond_Appearing);
+				ImGui::SetNextWindowPos(vMousePos, ImGuiCond_::ImGuiCond_Once);
 				ImGui::SetNextWindowSize(m_vSize, ImGuiCond_::ImGuiCond_Appearing);
 
 				// Modal Popup UI ¶ç¿ì±â

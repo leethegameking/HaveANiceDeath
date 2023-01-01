@@ -1,14 +1,12 @@
-#pragma once
+﻿#pragma once
 
 #include <vector>
 #include <string>
 
 enum SCRIPT_TYPE
 {
+	BLOCKSCRIPT,
 	GAMECAMERASCRIPT,
-	MISSILESCRIPT,
-	MONSTERSCRIPT,
-	PARTICLEHANDLER,
 	PLAYERSCRIPT,
 	TESTSCRIPT,
 	END,

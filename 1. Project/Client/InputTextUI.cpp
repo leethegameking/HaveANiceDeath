@@ -27,6 +27,17 @@ void InputTextUI::Open()
 
 }
 
+void InputTextUI::Close()
+{
+	UI::Close();
+
+	m_CloseInst = nullptr;
+	m_Close_Inst = nullptr;
+	
+	m_CloseFunc = nullptr;
+	m_Close_Func = nullptr;
+}
+
 void InputTextUI::render_update()
 {
 
@@ -34,7 +45,6 @@ void InputTextUI::render_update()
 
 	if (CommonUI::ButtonCenteredOnLine("OK"))
 	{
-		Close();
 		if (m_CloseInst && m_CloseFunc)
 		{
 			(m_CloseInst->*m_CloseFunc)(data, (DWORD_PTR)strText.data());
@@ -43,6 +53,7 @@ void InputTextUI::render_update()
 		{
 			(m_Close_Inst->*m_Close_Func)((DWORD_PTR)strText.data());
 		}
+		Close();
 		ImGui::CloseCurrentPopup();
 	}
 }

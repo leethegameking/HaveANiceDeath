@@ -166,7 +166,7 @@ void PopupMenuUI::RENAME_FUNC(DWORD_PTR _node)
 	if(dynamic_cast<CGameObject*>((CEntity*)((TreeNode*)(_node))->GetData()))
 		pUI->AddDynamic_Close(this, (FUNC_2)(&PopupMenuUI::Rename_Func_Obj));
 
-	// _node =- Resource
+	// _node == Resource
 	else
 		pUI->AddDynamic_Close(this, (FUNC_2)(&PopupMenuUI::Rename_Func_Res));
 }

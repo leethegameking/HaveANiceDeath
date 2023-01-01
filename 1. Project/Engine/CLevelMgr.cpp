@@ -46,7 +46,7 @@ void CLevelMgr::SetLayerName(int _idx, const wstring& _name)
 void CLevelMgr::init()
 {
 	// Level 하나 제작하기
-	//m_pCurLevel = new CLevel;
+	// m_pCurLevel = nullptr;
 
 	//m_pCurLevel->SetName(L"TestLevel");
 }

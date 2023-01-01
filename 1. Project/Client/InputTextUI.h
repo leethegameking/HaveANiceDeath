@@ -24,11 +24,15 @@ public:
     void SetName(string _name) override;
 
 public:
+    // Func2
     AddDynFunc2(Close);
+
+    // Func1
     AddDynFunc1(Close_);
 
 public:
     virtual void Open() override;
+    virtual void Close() override;
     void render_update() override;
 
 public:

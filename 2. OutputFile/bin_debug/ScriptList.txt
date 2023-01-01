@@ -1,3 +1,4 @@
+CBlockScript
 CGameCameraScript
 CMissileScript
 CMonsterScript
