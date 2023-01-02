@@ -14,16 +14,16 @@ void CControllerScript::tick()
 {
 	if (KEY_PRESSED(KEY::A))
 	{
-		Rigidbody2D()->SetForceSpeedX(-100.f, 0.f);
+		Rigidbody2D()->SetForceSpeedX(-100.f);
 	}
 	else if (KEY_PRESSED(KEY::D))
 	{
-		Rigidbody2D()->SetForceSpeedX(100.f, 0.f);
+		Rigidbody2D()->SetForceSpeedX(100.f);
 	}
 
 	if (KEY_TAP(KEY::SPACE))
 	{
-		Rigidbody2D()->SetGround(false);
+		// Rigidbody2D()->SetGround(false);
 		Rigidbody2D()->AddForce(Vec2(0.f, 100000.f));
 	}
 }

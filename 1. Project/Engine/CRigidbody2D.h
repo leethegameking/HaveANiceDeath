@@ -9,6 +9,20 @@ enum RIGIDBODY_DIR
     RB_RIGHT = 0x08,
 };
 
+struct tForceSpeed
+{
+    bool    Flag;
+    float   fSpeed;
+    float   fAccTime;
+    float   fMaxTime;
+
+    tForceSpeed()
+        : Flag(false)
+    {
+       
+    }
+};
+
 class CRigidbody2D :
     public CComponent
 {
@@ -32,11 +46,9 @@ private:
 
     short m_sDir;
 
-    bool m_bForceSpeedX;
-    bool m_bForceSpeedY;
-    float m_fForceSpeedX;
-    float m_fAccForceTime;
-    float m_fMaxForceTime;
+    tForceSpeed m_ForceX;
+    tForceSpeed m_ForceY;
+
 
 public:
     virtual void tick() override;

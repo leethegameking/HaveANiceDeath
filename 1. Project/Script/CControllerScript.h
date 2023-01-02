@@ -5,6 +5,8 @@ class CControllerScript :
     public CScript
 {
 public:
+
+
     float m_fSpeed;
 
     float m_fAccTime;

@@ -4,7 +4,8 @@
 #include <Engine/CGameObject.h>
 
 CBlockScript::CBlockScript()
-	:CScript((int)SCRIPT_TYPE::BLOCKSCRIPT)
+	: CScript((int)SCRIPT_TYPE::BLOCKSCRIPT)
+	, m_bGroundBlock(false)
 {
 }
 
@@ -42,7 +43,7 @@ void CBlockScript::BeginOverlap(CCollider2D* _other)
 		}
 		else if (m_sObjDir & RB_UP && m_vBlockPos.y - m_vBlockScale.y / 2.f > m_pColObj->Rigidbody2D()->GetPrevPos().y + m_vObjScale.y / 2.f)
 		{
-			DownCollision();
+ 			DownCollision();
 		}
 
 	}
@@ -60,6 +61,7 @@ void CBlockScript::RightCollision()
 
 void CBlockScript::UpCollision()
 {
+	m_bGroundBlock = true;
 	m_pColObj->Rigidbody2D()->SetGround(true);
 	m_pColObj->Transform()->SetRelativePos(Vec3(m_vObjPos.x, m_vObjScale.y / 2.f + m_vBlockPos.y + m_vBlockScale.y / 2.f, 0.f));
 }
@@ -87,8 +89,12 @@ void CBlockScript::Overlap(CCollider2D* _other)
 
 void CBlockScript::EndOverlap(CCollider2D* _other)
 {
-	CGameObject* pColObj = _other->GetOwner();
-	pColObj->Rigidbody2D()->SetGround(false);
+	if (m_bGroundBlock)
+	{
+		CGameObject* pColObj = _other->GetOwner();
+		pColObj->Rigidbody2D()->SetGround(false);
+		m_bGroundBlock = false;
+	}
 }
 
 
