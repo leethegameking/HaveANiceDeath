@@ -5,6 +5,9 @@ class CBlockScript :
     public CScript
 {
 private:
+    bool m_bGroundBlock; // 위에서 밟고 있는 블록인지
+
+private:
     Vec3 m_vBlockScale;
     Vec3 m_vBlockPos;
 

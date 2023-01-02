@@ -23,6 +23,16 @@ struct tForceSpeed
     }
 };
 
+struct tAddForce
+{
+    bool    Flag;
+    Vec2    vForce;
+
+    float   fPrevAccTime;
+    float   fAccTime;
+    float   fMaxTime;
+};
+
 class CRigidbody2D :
     public CComponent
 {
@@ -36,7 +46,7 @@ private:
 
     Vec2 m_vSpeed;
 
-    float m_fGravity;
+    float m_fGravity; // 중력 가속도
     float m_fMaxGravitySpeed;
 
     bool m_bGround;
@@ -48,6 +58,7 @@ private:
 
     tForceSpeed m_ForceX;
     tForceSpeed m_ForceY;
+    tAddForce   m_AddForce;
 
 
 public:
@@ -55,7 +66,7 @@ public:
     virtual void finaltick() override;
 
 public:
-    void AddForce(Vec2 _vForce) { m_vForce += _vForce; }
+    void AddForce(Vec2 _vForce, float _MaxTime = 0.f);
     void SetForceSpeedX(float _ForceSpeedX, float _MaxTime = 0.f);
     void SetForceSpeedY(float _ForceSpeedY, float _MaxTime = 0.f);
 

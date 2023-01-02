@@ -1,4 +1,4 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "CRigidbody2D.h"
 
 #include "CTransform.h"
@@ -31,8 +31,23 @@ void CRigidbody2D::finaltick()
 	// f = ma;
 	float fGravityForce = 0.f;
 	Vec2 vFinalForce = Vec2::Zero;
-	Vec2 fForce = m_vForce;
+	Vec2 vForce = m_vForce;
 	Vec2 vSpeed = Vec2(0.f, m_vSpeed.y);
+
+	if (m_AddForce.Flag)
+	{
+		if (m_AddForce.fAccTime <= m_AddForce.fMaxTime) // Ï¥àÍ∞Ä 0Ïùº ÎïåÎèÑ Ìïú Î≤àÏùÄ Îì§Ïñ¥Ïò¥.
+		{
+			vForce = m_AddForce.vForce * DT;
+			m_AddForce.fAccTime += DT;
+			m_AddForce.fPrevAccTime = m_AddForce.fAccTime;
+		}
+		else
+		{
+			vForce += m_AddForce.vForce * (m_AddForce.fMaxTime - m_AddForce.fPrevAccTime);
+			m_AddForce.Flag = false;
+		}
+	}
 
 	// gravity
 	if (m_bGround || m_bIgnoreGravity)
@@ -45,16 +60,16 @@ void CRigidbody2D::finaltick()
 		fGravityForce = m_fMass * m_fGravity;
 	}
 
-	// √÷¡æ º”µµ
-	vFinalForce += fForce;
+	// ÏµúÏ¢Ö ÏÜçÎèÑ
+	vFinalForce += vForce;
 	vFinalForce.y += fGravityForce;
-		// º”µµ ∫Ø»≠∑Æ
+		// ÏÜçÎèÑ Î≥ÄÌôîÎüâ
 	vSpeed += DT * vFinalForce / m_fMass;
 
-	// ∞≠¡¶¿˚¿Œ º”µµ ºº∆√  /s 
+	// Í∞ïÏ†úÏ†ÅÏù∏ ÏÜçÎèÑ ÏÑ∏ÌåÖ  /s 
 	if (m_ForceX.Flag)
 	{
-		if (m_ForceX.fAccTime <= m_ForceX.fMaxTime) // √ ∞° 0¿œ ∂ßµµ «— π¯¿∫ µÈæÓø».
+		if (m_ForceX.fAccTime <= m_ForceX.fMaxTime) // Ï¥àÍ∞Ä 0Ïùº ÎïåÎèÑ Ìïú Î≤àÏùÄ Îì§Ïñ¥Ïò¥.
 		{
 			vSpeed.x = m_ForceX.fSpeed;
 			m_ForceX.fAccTime += DT;
@@ -67,7 +82,7 @@ void CRigidbody2D::finaltick()
 
 	if (m_ForceY.Flag)
 	{
-		if (m_ForceY.fAccTime <= m_ForceY.fMaxTime) // √ ∞° 0¿œ ∂ßµµ «— π¯¿∫ µÈæÓø».
+		if (m_ForceY.fAccTime <= m_ForceY.fMaxTime) // Ï¥àÍ∞Ä 0Ïùº ÎïåÎèÑ Ìïú Î≤àÏùÄ Îì§Ïñ¥Ïò¥.
 		{
 			vSpeed.y = m_ForceY.fSpeed;
 			m_ForceY.fAccTime += DT;
@@ -79,13 +94,13 @@ void CRigidbody2D::finaltick()
 	}
 	
 
-	// ∫∏¡§
+	// Î≥¥Ï†ï
 	if (fabs(vSpeed.x) > m_fMaxSpeed)
 	{
 		vSpeed.x = m_fMaxSpeed;
 	}
 
-	// ¡ﬂ∑¬ º”µµ ∫∏¡§
+	// Ï§ëÎ†• ÏÜçÎèÑ Î≥¥Ï†ï
 	if (vSpeed.y < 0.f)
 	{
 		if (fabs(vSpeed.y) > fabs(m_fMaxGravitySpeed))
@@ -94,7 +109,7 @@ void CRigidbody2D::finaltick()
 		}
 	}
 
-	// ¿ßƒ° ∞·¡§
+	// ÏúÑÏπò Í≤∞Ï†ï
 	Vec3 vPos =Transform()->GetRelativePos();
 	vPos.x += vSpeed.x * DT;
 	vPos.y += vSpeed.y * DT;
@@ -102,11 +117,19 @@ void CRigidbody2D::finaltick()
 
 	m_vSpeed.y = vSpeed.y;
 
-	// Dir º≥¡§
+	// Dir ÏÑ§Ï†ï
 	CalcDir();
 
-	// √ ±‚»≠
+	// Ï¥àÍ∏∞Ìôî
 	m_vForce = Vec2::Zero;
+}
+
+void CRigidbody2D::AddForce(Vec2 _vForce, float _MaxTime)
+{
+	m_AddForce.Flag = true;
+	m_AddForce.fAccTime = 0.f;
+	m_AddForce.fMaxTime = _MaxTime;
+	m_AddForce.vForce = _vForce;
 }
 
 void CRigidbody2D::SetForceSpeedX(float _ForceSpeedX, float _MaxTime)

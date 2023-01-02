@@ -12,6 +12,7 @@ CControllerScript::~CControllerScript()
 
 void CControllerScript::tick()
 {
+
 	if (KEY_PRESSED(KEY::A))
 	{
 		Rigidbody2D()->SetForceSpeedX(-100.f);
@@ -24,7 +25,10 @@ void CControllerScript::tick()
 	if (KEY_TAP(KEY::SPACE))
 	{
 		// Rigidbody2D()->SetGround(false);
-		Rigidbody2D()->AddForce(Vec2(0.f, 100000.f));
+		if (Rigidbody2D()->IsGround())
+		{
+			Rigidbody2D()->SetForceSpeedY(1500.f);
+		}
 	}
 }
  
