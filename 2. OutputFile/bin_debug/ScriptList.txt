@@ -1,7 +1,5 @@
 CBlockScript
+CControllerScript
 CGameCameraScript
-CMissileScript
-CMonsterScript
-CParticleHandler
 CPlayerScript
 CTestScript

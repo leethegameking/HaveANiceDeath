@@ -149,6 +149,9 @@
     <Filter Include="03. UI\Tool\LayerNameTool">
       <UniqueIdentifier>{e620feeb-3ddf-4772-b86f-2d6018eac0a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. UI\01. Inspector\ComponentUI\RigidBody2DUI">
+      <UniqueIdentifier>{d6edf2b8-b94d-4bd2-a047-b0c800903f07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -321,6 +324,9 @@
     </ClInclude>
     <ClInclude Include="LayerNameTool.h">
       <Filter>03. UI\Tool\LayerNameTool</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBody2DUI.h">
+      <Filter>03. UI\01. Inspector\ComponentUI\RigidBody2DUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -499,6 +505,9 @@
     </ClCompile>
     <ClCompile Include="LayerNameTool.cpp">
       <Filter>03. UI\Tool\LayerNameTool</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBody2DUI.cpp">
+      <Filter>03. UI\01. Inspector\ComponentUI\RigidBody2DUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

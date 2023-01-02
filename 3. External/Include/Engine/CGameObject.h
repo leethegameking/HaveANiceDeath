@@ -79,6 +79,7 @@ public:
 
     void SetLayerIdx(int _idx) { m_iLayerIdx = _idx; }
     int GetLayerIdx() { return m_iLayerIdx; }
+
     bool IsDead() { return m_bDead; }
     bool IsGrave() { return m_bGrave; }
     void Destroy();

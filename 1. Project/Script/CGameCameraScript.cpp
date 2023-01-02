@@ -5,7 +5,7 @@
 
 CGameCameraScript::CGameCameraScript()
 	: CScript(GAMECAMERASCRIPT)
-	, m_fCamSpeed(10.f)
+	, m_fCamSpeed(100.f)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Cam Speed ", &m_fCamSpeed);
 }
@@ -27,19 +27,19 @@ void CGameCameraScript::tick()
 		fCamSpeed *= 5.f;
 	}
 
-	if (KEY_PRESSED(KEY::W))
+	if (KEY_PRESSED(KEY::W) && KEY_PRESSED(KEY::LCTRL))
 	{
 		vCamPos.y += fCamSpeed * DT;
 	}
-	if (KEY_PRESSED(KEY::S))
+	if (KEY_PRESSED(KEY::S) && KEY_PRESSED(KEY::LCTRL))
 	{
 		vCamPos.y -= fCamSpeed * DT;
 	}
-	if (KEY_PRESSED(KEY::A))
+	if (KEY_PRESSED(KEY::A) && KEY_PRESSED(KEY::LCTRL))
 	{
 		vCamPos.x -= fCamSpeed * DT;
 	}
-	if (KEY_PRESSED(KEY::D))
+	if (KEY_PRESSED(KEY::D) && KEY_PRESSED(KEY::LCTRL))
 	{
 		vCamPos.x += fCamSpeed * DT;
 	}
@@ -49,10 +49,14 @@ void CGameCameraScript::tick()
 
 void CGameCameraScript::SaveToFile(FILE* _pFile)
 {
+	CScript::SaveToFile(_pFile);
+	fwrite(&m_fCamSpeed, sizeof(float), 1, _pFile);
 }
 
 void CGameCameraScript::LoadFromFile(FILE* _pFile)
 {
+	CScript::LoadFromFile(_pFile);
+	fread(&m_fCamSpeed, sizeof(float), 1, _pFile);
 }
 
 

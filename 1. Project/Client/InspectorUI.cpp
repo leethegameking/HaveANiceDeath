@@ -12,6 +12,7 @@
 #include "MaterialUI.h"
 #include "Light2DUI.h"
 #include "SoundUI.h"
+#include "RigidBody2DUI.h"
 
 
 #include "MeshUI.h"
@@ -71,6 +72,10 @@ InspectorUI::InspectorUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D] = new Light2DUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D]->SetSize(ImVec2(0.f, 300.f));
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY2D] = new RigidBody2DUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY2D]->SetSize(ImVec2(0.f, 300.f));
+	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY2D]);
 
 	//==================================================================================
 

@@ -205,6 +205,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResUI.h" />
     <ClInclude Include="ComputeShaderUI.h" />
+    <ClInclude Include="RigidBody2DUI.h" />
     <ClInclude Include="ScriptUI.h" />
     <ClInclude Include="SoundUI.h" />
     <ClInclude Include="targetver.h" />
@@ -266,6 +267,7 @@
     <ClCompile Include="PopupMenu.cpp" />
     <ClCompile Include="ResUI.cpp" />
     <ClCompile Include="ComputeShaderUI.cpp" />
+    <ClCompile Include="RigidBody2DUI.cpp" />
     <ClCompile Include="ScriptUI.cpp" />
     <ClCompile Include="SoundUI.cpp" />
     <ClCompile Include="TextureUI.cpp" />

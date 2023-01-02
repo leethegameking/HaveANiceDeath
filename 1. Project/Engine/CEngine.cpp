@@ -12,8 +12,10 @@
 #include "CCollisionMgr.h"
 #include "CSound.h"
 
-
-
+#include "CLevel.h"
+#include "CGameObject.h"
+#include "CCollider2D.h"
+#include "CTransform.h"
 
 
 CEngine::CEngine()
@@ -78,6 +80,18 @@ void CEngine::tick()
 
 	CLevelMgr::GetInst()->progress();
 
+	for (int i = 0; i < MAX_LAYER; ++i)
+	{
+		const vector<CGameObject*>& vecObj =CLevelMgr::GetInst()->GetCurLevel()->GetLayer(i)->GetObjects();
+		for (size_t j = 0; j < vecObj.size(); ++j)
+		{
+			if (vecObj[j]->GetComponent(COMPONENT_TYPE::COLLIDER2D))
+			{
+				vecObj[j]->Transform()->finaltick();
+				vecObj[j]->Collider2D()->finaltick();
+			}
+		}
+	}
 	CCollisionMgr::GetInst()->tick();
 }
 

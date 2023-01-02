@@ -144,7 +144,6 @@ bool CCollisionMgr::IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight)
 		return false;
 	}
 
-
 	// 0 --- 1
 	// |  \  | 
 	// 3 --- 2	

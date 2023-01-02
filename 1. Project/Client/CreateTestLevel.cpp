@@ -12,11 +12,9 @@
 #include <Engine/CGameObject.h>
 #include <Engine/GlobalComponent.h>
 #include <Engine/CPaintShader.h>
-#include <Engine/CParticleHandler.h>
 #include <Engine/CTileMap.h>
 #include <Engine/CLevelMgr.h>
 
-#include <Script/CMonsterScript.h>
 #include <Script/CTestScript.h>
 #include <Script/CPlayerScript.h>
 

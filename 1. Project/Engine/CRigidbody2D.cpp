@@ -12,7 +12,11 @@ CRigidbody2D::CRigidbody2D()
 	, m_fMass(1.f)
 	, m_fMaxSpeed(100.f)
 	, m_fMaxGravitySpeed(100.f)
-	, m_fGravity(- 10.f)
+	, m_fGravity(- 20.f)
+	, m_fForceSpeedX()
+	, m_fMaxForceTime()
+	, m_bForceSpeedX(false)
+	, m_bForceSpeedY(false)
 {
 }
 
@@ -20,14 +24,13 @@ CRigidbody2D::~CRigidbody2D()
 {
 }
 
+void CRigidbody2D::tick()
+{
+	m_vPrevPos = Transform()->GetRelativePos();
+}
+
 void CRigidbody2D::finaltick()
 {
-	static bool bInit = true;
-	if (bInit)
-	{
-		m_vPrevPos = Transform()->GetRelativePos();
-		bInit = false;
-	}
 
 	// f = ma;
 	float fGravityForce = 0.f;
@@ -49,7 +52,36 @@ void CRigidbody2D::finaltick()
 	// 최종 속도
 	vFinalForce += fForce;
 	vFinalForce.y += fGravityForce;
-	vSpeed += DT * fGravityForce;
+		// 속도 변화량
+	vSpeed += DT * vFinalForce / m_fMass;
+
+	// 강제적인 속도 세팅  /s 
+	if (m_bForceSpeedX)
+	{
+		if (m_fAccForceTime <= m_fMaxForceTime) // 초가 0일 때도 한 번은 들어옴.
+		{
+			vSpeed.x = m_fForceSpeedX;
+			m_fAccForceTime += DT;
+		}
+		else
+		{
+			m_bForceSpeedX = false;
+		}
+	}
+
+	if (m_bForceSpeedY)
+	{
+		if (m_fAccForceTime <= m_fMaxForceTime) // 초가 0일 때도 한 번은 들어옴.
+		{
+			vSpeed.y = m_bForceSpeedY;
+			m_fAccForceTime += DT;
+		}
+		else
+		{
+			m_bForceSpeedX = false;
+		}
+	}
+	
 
 	// 보정
 	if (fabs(vSpeed.x) > m_fMaxSpeed)
@@ -57,12 +89,13 @@ void CRigidbody2D::finaltick()
 		vSpeed.x = m_fMaxSpeed;
 	}
 
-	if (fabs(vSpeed.y) > fabs(m_fMaxGravitySpeed))
+	// 중력 속도 보정
+	if (vSpeed.y < 0)
 	{
-		if (vSpeed.y < 0)
+		if (fabs(vSpeed.y) > fabs(m_fMaxGravitySpeed))
+		{
 			vSpeed.y = -m_fMaxGravitySpeed;
-		else
-			vSpeed.y = m_fMaxGravitySpeed;
+		}
 	}
 
 	// 위치 결정
@@ -78,7 +111,24 @@ void CRigidbody2D::finaltick()
 
 	// 초기화
 	m_vForce = Vec2::Zero;
-	m_vPrevPos = vPos;
+}
+
+void CRigidbody2D::SetForceSpeedX(float _ForceSpeedX, float _MaxTime)
+{
+	m_bForceSpeedX = true;
+
+	m_fAccForceTime = 0.f;
+	m_fMaxForceTime = _MaxTime;
+	m_fForceSpeedX = _ForceSpeedX;
+}
+
+void CRigidbody2D::SetForceSpeedY(float _ForceSpeedY, float _MaxTime)
+{
+	m_bForceSpeedY = true;
+
+	m_fAccForceTime = 0.f;
+	m_fMaxForceTime = _MaxTime;
+	m_fForceSpeedX = _ForceSpeedY;
 }
 
 void CRigidbody2D::SaveToFile(FILE* _File)
