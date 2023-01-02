@@ -50,7 +50,7 @@ void ListUI::init(vector<string> _itemList, int _bitInitial)
 
 	for (int i = 0; i < _itemList.size(); ++i)
 	{
-		m_bMultiSelectIdx.push_back((_bitInitial >> (_itemList.size() - i - 1)) % 2);
+		m_bMultiSelectIdx.push_back((_bitInitial & (1 << i)));
 	}
 }
 
@@ -75,7 +75,7 @@ void ListUI::render_update()
 	string str = "##ListBox" + to_string(m_ID);
 	if (ImGui::BeginListBox(str.c_str(), vRegion))
 	{
-		static size_t PrevItemListSize = 0;
+		static size_t PrevItemListSize = MAX_LAYER;
 
 		if(m_bMultiSelect)
 		{

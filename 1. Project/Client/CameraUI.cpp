@@ -32,8 +32,6 @@ CameraUI::~CameraUI()
 }
 
 
-
-
 void CameraUI::SetLayerVisible()
 {
 	for (int i = 0; i < MAX_LAYER; ++i)

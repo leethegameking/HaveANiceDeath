@@ -92,6 +92,7 @@ void CEngine::tick()
 			}
 		}
 	}
+
 	CCollisionMgr::GetInst()->tick();
 }
 
