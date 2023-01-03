@@ -8,8 +8,12 @@ enum BIT_FUNC_OPT
 	BIT_LEAST_ONE,
 	BIT_EQUAL,
 };
-// 하나라도 맞음.
-bool HasBit(int _originBit, int _cmpBits, BIT_FUNC_OPT _opt);
+
+bool CalBit(UINT _originBit, UINT _cmpBits, BIT_FUNC_OPT _opt);
+
+void AddBit(UINT& _src, UINT _add);
+void RemoveBit(UINT& _src, UINT _remove);
+
 
 class CGameObject;
 

@@ -38,6 +38,7 @@ class CRigidbody2D :
 {
 private:
     Vec3 m_vPrevPos;
+    Vec2 m_vPrevColPos;
     // Vec3 m_vRealTimeWorldPos;
 
     Vec2 m_vForce;
@@ -78,6 +79,7 @@ public:
 
     void SetPrevPos(Vec3 _PrevPos) { m_vPrevPos = _PrevPos; }
     Vec3 GetPrevPos() { return m_vPrevPos; }
+    Vec2 GetPrevColPos() { return m_vPrevColPos; }
 
     Vec2 GetSpeed() { return m_vSpeed; }
 

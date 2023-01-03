@@ -32,20 +32,20 @@ void CBlockScript::BeginOverlap(CCollider2D* _other)
 		m_sObjDir = m_pColObj->Rigidbody2D()->GetDir();
 
 		// Vec3 test=  m_pColObj->Rigidbody2D()->GetPrevPos();
-		if (m_sObjDir & RB_DOWN && m_vBlockPos.y + m_vBlockScale.y / 2.f < m_pColObj->Rigidbody2D()->GetPrevPos().y - m_vObjScale.y / 2.f)
+		if (m_sObjDir & RB_DOWN && m_vBlockColPos.y + m_vBlockColScale.y / 2.f < m_pColObj->Rigidbody2D()->GetPrevPos().y - m_vObjColScale.y / 2.f)
 		{
 			UpCollision(_other);
 		}
-		else if (m_sObjDir & RB_UP && m_vBlockPos.y - m_vBlockScale.y / 2.f > m_pColObj->Rigidbody2D()->GetPrevPos().y + m_vObjScale.y / 2.f)
+		else if (m_sObjDir & RB_UP && m_vBlockColPos.y - m_vBlockColScale.y / 2.f > m_pColObj->Rigidbody2D()->GetPrevPos().y + m_vObjColScale.y / 2.f)
 		{
  			DownCollision();
 		}
 
-		if (m_sObjDir & RB_LEFT && m_vBlockPos.x + m_vBlockScale.x / 2.f < m_pColObj->Rigidbody2D()->GetPrevPos().x - m_vObjScale.x / 2.f)
+		if (m_sObjDir & RB_LEFT && m_vBlockColPos.x + m_vBlockColScale.x / 2.f < m_pColObj->Rigidbody2D()->GetPrevPos().x - m_vObjColScale.x / 2.f)
 		{
 			RightCollision();
 		}
- 		else if (m_sObjDir & RB_RIGHT && m_vBlockPos.x - m_vBlockScale.x / 2.f > m_pColObj->Rigidbody2D()->GetPrevPos().x + m_vObjScale.x / 2.f)
+ 		else if (m_sObjDir & RB_RIGHT && m_vBlockColPos.x - m_vBlockColScale.x / 2.f > m_pColObj->Rigidbody2D()->GetPrevPos().x + m_vObjColScale.x / 2.f)
 		{
 			LeftCollision();
 		}
@@ -58,11 +58,11 @@ void CBlockScript::Overlap(CCollider2D* _other)
 
 	if (m_pColObj->Rigidbody2D())
 	{
-		if (m_sObjDir & RB_LEFT && m_vBlockPos.x + m_vBlockScale.x / 2.f < m_pColObj->Rigidbody2D()->GetPrevPos().x - m_vObjScale.x / 2.f)
+		if (m_sObjDir & RB_LEFT && m_vBlockColPos.x + m_vBlockColScale.x / 2.f < m_pColObj->Rigidbody2D()->GetPrevPos().x - m_vObjColScale.x / 2.f)
 		{
 			RightCollision();
 		}
-		else if (m_sObjDir & RB_RIGHT && m_vBlockPos.x - m_vBlockScale.x / 2.f > m_pColObj->Rigidbody2D()->GetPrevPos().x + m_vObjScale.x / 2.f)
+		else if (m_sObjDir & RB_RIGHT && m_vBlockColPos.x - m_vBlockColScale.x / 2.f > m_pColObj->Rigidbody2D()->GetPrevPos().x + m_vObjColScale.x / 2.f)
 		{
 			LeftCollision();
 		}
@@ -81,19 +81,19 @@ void CBlockScript::EndOverlap(CCollider2D* _other)
 
 void CBlockScript::LeftCollision()
 {
-	m_pColObj->Transform()->SetRelativePos(Vec3(m_vBlockPos.x - m_vBlockScale.x / 2.f - m_vObjScale.x / 2.f - 0.01f, m_vObjPos.y, 0.f));
+	m_pColObj->Transform()->SetRelativePos(Vec3(m_vBlockColPos.x - m_vBlockColScale.x / 2.f - m_vObjColScale.x / 2.f - 0.01f, m_vObjColPos.y, 0.f));
 }
 
 void CBlockScript::RightCollision()
 {
-	m_pColObj->Transform()->SetRelativePos(Vec3(m_vBlockPos.x + m_vBlockScale.x / 2.f + m_vObjScale.x / 2.f + 0.01f, m_vObjPos.y, 0.f));
+	m_pColObj->Transform()->SetRelativePos(Vec3(m_vBlockColPos.x + m_vBlockColScale.x / 2.f + m_vObjColScale.x / 2.f + 0.01f, m_vObjColPos.y, 0.f));
 }
 
 void CBlockScript::UpCollision(CCollider2D* _other)
 {
 	m_bGroundBlock = true;
 	m_pColObj->Rigidbody2D()->SetGround(true);
-	m_pColObj->Transform()->SetRelativePos(Vec3(m_vObjPos.x, m_vObjScale.y / 2.f + m_vBlockPos.y + m_vBlockScale.y / 2.f, 0.f));
+	m_pColObj->Transform()->SetRelativePos(Vec3(m_vObjColPos.x, m_vObjColScale.y / 2.f + m_vBlockColPos.y + m_vBlockColScale.y / 2.f, 0.f));
 
 	CUnitScript* pUnitScript = _other->GetOwner()->GetScript<CUnitScript>();
 	if (m_bPlatform)
@@ -109,7 +109,7 @@ void CBlockScript::UpCollision(CCollider2D* _other)
 void CBlockScript::DownCollision()
 {
 	m_pColObj->Rigidbody2D()->SetForceSpeedY(0.f);
-	m_pColObj->Transform()->SetRelativePos(Vec3(m_vObjPos.x, m_vBlockPos.y - m_vObjScale.y / 2.f - m_vBlockScale.y / 2.f - 0.01f, 0.f));
+	m_pColObj->Transform()->SetRelativePos(Vec3(m_vObjColPos.x, m_vBlockColPos.y - m_vObjColScale.y / 2.f - m_vBlockColScale.y / 2.f - 0.01f, 0.f));
 }
 
 void CBlockScript::SetMemberData(CCollider2D* _other)
@@ -119,8 +119,14 @@ void CBlockScript::SetMemberData(CCollider2D* _other)
 	m_vBlockPos = Transform()->GetRelativePos();
 	m_vBlockScale = Transform()->GetRelativeScale();
 
+	m_vBlockColPos = Collider2D()->GetFinalPos();
+	m_vBlockColScale = Collider2D()->GetFinalScale();
+	
 	m_vObjPos = m_pColObj->Transform()->GetRelativePos();
 	m_vObjScale = m_pColObj->Transform()->GetRelativeScale();
+
+	m_vObjColPos = m_pColObj->Collider2D()->GetFinalPos();
+	m_vObjColScale = m_pColObj->Collider2D()->GetFinalScale();;
 }
 
 

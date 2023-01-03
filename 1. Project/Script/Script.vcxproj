@@ -167,6 +167,7 @@ call CodeGen.exe</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CAnimController.h" />
     <ClInclude Include="CBlockScript.h" />
     <ClInclude Include="CControllerScript.h" />
     <ClInclude Include="CGameCameraScript.h" />
@@ -178,6 +179,8 @@ call CodeGen.exe</Command>
     <ClInclude Include="CTestScript.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnimInit.cpp" />
+    <ClCompile Include="CAnimController.cpp" />
     <ClCompile Include="CBlockScript.cpp" />
     <ClCompile Include="CControllerScript.cpp" />
     <ClCompile Include="CGameCameraScript.cpp" />

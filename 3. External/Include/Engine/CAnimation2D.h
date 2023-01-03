@@ -27,6 +27,8 @@ public:
     vector<tAnim2DFrm>* GetFrmVec() { return &m_vecFrm; }
 
     const Ptr<CAnimation2D>& GetMasterAnim() { return m_pMasterAnim; }
+    Vec2 GetPosChange() { return m_vPosChange; }
+    void SetPosChange(Vec2 _PosChange) { m_vPosChange = _PosChange; }
 
 
 public:

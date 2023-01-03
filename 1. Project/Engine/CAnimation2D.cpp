@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CAnimation2D.h"
 
 #include "CDevice.h"
@@ -33,7 +33,7 @@ CAnimation2D::CAnimation2D(CAnimation2D& _origin)
 	, m_vecFrm(_origin.m_vecFrm)
 	, m_vecChildAnim{}
 {
-	// ¸¶½ºÅÍ
+	// ë§ˆìŠ¤í„°
 	if (_origin.m_pMasterAnim.Get() == nullptr)
 		m_pMasterAnim = &_origin;
 }
@@ -52,17 +52,17 @@ void CAnimation2D::finaltick()
 	if (m_bFinish)
 		return;
 
-	// ½Ã°£ Ã¼Å©
+	// ì‹œê°„ ì²´í¬
 	m_fAccTime += DT;
 
 
-	// ´©Àû ½Ã°£ÀÌ ÇØ´ç ÇÁ·¹ÀÓ À¯Áö½Ã°£À» ³Ñ¾î¼­¸é ´ÙÀ½ÇÁ·¹ÀÓÀ¸·Î ³Ñ¾î°¨
+	// ëˆ„ì  ì‹œê°„ì´ í•´ë‹¹ í”„ë ˆì„ ìœ ì§€ì‹œê°„ì„ ë„˜ì–´ì„œë©´ ë‹¤ìŒí”„ë ˆì„ìœ¼ë¡œ ë„˜ì–´ê°
 	if (m_vecFrm[m_iCurIdx].fDuration < m_fAccTime)
 	{
 		m_fAccTime = 0.f;
 		++m_iCurIdx;
 
-		// ÃÖ´ë ÇÁ·¹ÀÓ¿¡ µµ´ŞÇÏ¸é Finish »óÅÂ·Î ÀüÈ¯
+		// ìµœëŒ€ í”„ë ˆì„ì— ë„ë‹¬í•˜ë©´ Finish ìƒíƒœë¡œ ì „í™˜
 		if (m_vecFrm.size() <= m_iCurIdx)
 		{
 			m_iCurIdx = (int)m_vecFrm.size() - 1;
@@ -228,7 +228,7 @@ int CAnimation2D::Load(const wstring& _strFilePath)
 	}
 	
 	// PosChange
-	// fread(&m_vPosChange, sizeof(Vec2), 1, pFile);
+	fread(&m_vPosChange, sizeof(Vec2), 1, pFile);
 
 	fclose(pFile);
 

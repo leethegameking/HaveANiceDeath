@@ -3,26 +3,6 @@
 
 class CAnimation2D;
 
-enum class ANIM_DIR
-{
-    LEFT = -1,
-    RIGHT = 1,
-};
-
-enum ANIM_CONDITION
-{
-	ANIM_CHANGED            = 0x00000001,
-	ANIM_NOT_CHANGED        = 0x00000002,
-	ANIM_PLAYING            = 0x00000004,
-	ANIM_FINISHED           = 0x00000008,
-	GROUND                  = 0x00000010,
-	AERIAL                  = 0x00000020,
-	ANIM_REPEAT             = 0x00000040,
-    ANIM_NOT_REPEAT         = 0x00000080,
-    ANIM_DIR_CHANGED        = 0x00000100,
-    ANIM_DIR_NOT_CHANGED    = 0x00000200,
-};
-
 enum PLAYER_ANIM
 {
     PlayerIdle              = 0x00000001,

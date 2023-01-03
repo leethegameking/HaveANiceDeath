@@ -15,6 +15,8 @@
 
 #include "CSaveLoadMgr.h"
 
+#include <Script/CAnimController.h>
+
 
 HINSTANCE   g_hInst = nullptr;
 HWND        g_hWnd = nullptr;
@@ -60,6 +62,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     CImGuiMgr::GetInst()->init(g_hWnd);
 
+    CAnimController::AnimConInit();
+
 
 
 
@@ -102,7 +106,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
     }
 
-
+    CAnimController::DelAnimConMap();
 
 
     return (int) msg.wParam;

@@ -10,9 +10,6 @@
     <ClInclude Include="CScriptMgr.h">
       <Filter>ScriptMgr</Filter>
     </ClInclude>
-    <ClInclude Include="CGameCameraScript.h">
-      <Filter>Script</Filter>
-    </ClInclude>
     <ClInclude Include="CTestScript.h">
       <Filter>Script</Filter>
     </ClInclude>
@@ -28,6 +25,12 @@
     <ClInclude Include="CPlayerScript.h">
       <Filter>Script\Unit\Player</Filter>
     </ClInclude>
+    <ClInclude Include="CAnimController.h">
+      <Filter>Script\AnimController</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameCameraScript.h">
+      <Filter>Script\GameCamera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Script.cpp">
@@ -38,12 +41,6 @@
     </ClCompile>
     <ClCompile Include="CScriptMgr.cpp">
       <Filter>ScriptMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="CGameCameraScript.cpp">
-      <Filter>Script</Filter>
-    </ClCompile>
-    <ClCompile Include="CTestScript.cpp">
-      <Filter>Script</Filter>
     </ClCompile>
     <ClCompile Include="CBlockScript.cpp">
       <Filter>Script\Block</Filter>
@@ -56,6 +53,18 @@
     </ClCompile>
     <ClCompile Include="CPlayerScript.cpp">
       <Filter>Script\Unit\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimController.cpp">
+      <Filter>Script\AnimController</Filter>
+    </ClCompile>
+    <ClCompile Include="CTestScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameCameraScript.cpp">
+      <Filter>Script\GameCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimInit.cpp">
+      <Filter>Script\AnimController\AnimInit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +88,15 @@
     </Filter>
     <Filter Include="Script\Unit\Enemy">
       <UniqueIdentifier>{41ae44eb-f60c-40f8-80ec-ee86c75cf94b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\AnimController">
+      <UniqueIdentifier>{46107ef1-4525-41c7-8200-ec761fd9a2c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\GameCamera">
+      <UniqueIdentifier>{143f7020-91e5-49bf-955b-1a1c0f95e6ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\AnimController\AnimInit">
+      <UniqueIdentifier>{65d3f10a-9571-4a88-887d-df04315ac287}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

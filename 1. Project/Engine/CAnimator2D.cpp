@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CAnimator2D.h"
 #include "CAnimation2D.h"
 
@@ -54,7 +54,7 @@ CAnimator2D::~CAnimator2D()
 
 		iter->second = nullptr;
 	}
-	// Å¬·Ğ ¹ŞÀº ¾Ö´Ï¸ŞÀÌ¼Ç °´Ã¼¸¦ °¡Áø °ÍÀÌ »ç¶óÁ³À»‹š. MasterAnim ÀÚ½Ä vector¿¡¼­ »©ÁÜ
+	// í´ë¡  ë°›ì€ ì• ë‹ˆë©”ì´ì…˜ ê°ì²´ë¥¼ ê°€ì§„ ê²ƒì´ ì‚¬ë¼ì¡Œì„ë–„. MasterAnim ìì‹ vectorì—ì„œ ë¹¼ì¤Œ
 }
 
 void CAnimator2D::finaltick()
@@ -62,14 +62,14 @@ void CAnimator2D::finaltick()
 	if (!IsValid(m_pCurAnim.Get()))
 		return;
 
-	// Animation ÀÌ Finish »óÅÂÀÌ°í, ¹İº¹Àç»ıÀ» ÇÏ±â·Î ÇÑ °æ¿ì
+	// Animation ì´ Finish ìƒíƒœì´ê³ , ë°˜ë³µì¬ìƒì„ í•˜ê¸°ë¡œ í•œ ê²½ìš°
 	if (m_pCurAnim->m_bFinish && m_bRepeat)
 	{
-		// ´Ù½Ã 0 ÇÁ·¹ÀÓÀ¸·Î ¸®¼Â½ÃÄÑ¼­ µ¿ÀÛÇÏ°Ô ÇÑ´Ù.
+		// ë‹¤ì‹œ 0 í”„ë ˆì„ìœ¼ë¡œ ë¦¬ì…‹ì‹œì¼œì„œ ë™ì‘í•˜ê²Œ í•œë‹¤.
 		m_pCurAnim->Reset();
 	}
 
-	// Animation ¾÷µ¥ÀÌÆ®
+	// Animation ì—…ë°ì´íŠ¸
 	m_pCurAnim->finaltick();
 }
 
@@ -128,10 +128,10 @@ void CAnimator2D::Play(const wstring& _strKey, bool _bRepeat)
 		m_pCurAnim = pAnim;
 	}
 
-	// ¹İº¹Àç»ı
+	// ë°˜ë³µì¬ìƒ
 	m_bRepeat = _bRepeat;
 
-	// ÁöÁ¤µÈ Animation À» ÃÊ±âÈ­
+	// ì§€ì •ëœ Animation ì„ ì´ˆê¸°í™”
 	if(m_pCurAnim.Get())
 		m_pCurAnim->Reset();	
 }

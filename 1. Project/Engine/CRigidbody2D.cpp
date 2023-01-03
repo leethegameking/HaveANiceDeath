@@ -2,6 +2,7 @@
 #include "CRigidbody2D.h"
 
 #include "CTransform.h"
+#include "CCollider2D.h"
 
 #include "CTimeMgr.h"
 
@@ -23,6 +24,9 @@ CRigidbody2D::~CRigidbody2D()
 void CRigidbody2D::tick()
 {
 	m_vPrevPos = Transform()->GetRelativePos();
+
+	// CollisionMgr 위치보정 전 값이 들어옴.
+	m_vPrevColPos = Collider2D()->GetFinalPos();
 }
 
 void CRigidbody2D::finaltick()

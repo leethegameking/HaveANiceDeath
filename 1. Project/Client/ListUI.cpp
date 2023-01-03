@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "ListUI.h"
 
 #include "CommonUI.h"
@@ -81,7 +81,7 @@ void ListUI::render_update()
 		{
 			for (size_t i = 0; i < m_ItemList.size(); ++i)
 			{
-				char buf[32];
+				char buf[256];
 				sprintf_s(buf, m_ItemList[i].c_str(), i);
 
 				if (m_ItemList.size() != PrevItemListSize)
@@ -115,14 +115,14 @@ void ListUI::render_update()
 			{
 				bool Selectable = (m_iSelectIdx == i);
 
-				// i¹øÂ° ¾ÆÀÌÅÛÀÌ ´­·È´Ù¸é
+				// ië²ˆì§¸ ì•„ì´í…œì´ ëˆŒë ¸ë‹¤ë©´
 				if (ImGui::Selectable(m_ItemList[i].c_str(), Selectable))
 				{
-					// ´­¸° ¾ÆÀÌÅÛ ÀÎµ¦½º¸¦ ÀúÀåÇØÁØ´Ù. -> ´Ù½Ã µé¾î¿Ã ¶§µµ true
+					// ëˆŒë¦° ì•„ì´í…œ ì¸ë±ìŠ¤ë¥¼ ì €ì¥í•´ì¤€ë‹¤. -> ë‹¤ì‹œ ë“¤ì–´ì˜¬ ë•Œë„ true
 					m_iSelectIdx = i;
 				}
 
-				// ÃÊ±â¿¡ ´­·Á ÀÖ´Â ¾ÆÀÌÅÛ ¼³Á¤
+				// ì´ˆê¸°ì— ëˆŒë ¤ ìˆëŠ” ì•„ì´í…œ ì„¤ì •
 				//if (Selectable)
 				//{
 				//	ImGui::SetItemDefaultFocus();

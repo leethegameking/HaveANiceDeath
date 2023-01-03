@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CScriptMgr.h"
 
+#include "CAnimController.h"
 #include "CBlockScript.h"
 #include "CControllerScript.h"
 #include "CGameCameraScript.h"
@@ -10,6 +11,7 @@
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
+	_vec.push_back(L"CAnimController");
 	_vec.push_back(L"CBlockScript");
 	_vec.push_back(L"CControllerScript");
 	_vec.push_back(L"CGameCameraScript");
@@ -20,6 +22,8 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 {
+	if (L"CAnimController" == _strScriptName)
+		return new CAnimController;
 	if (L"CBlockScript" == _strScriptName)
 		return new CBlockScript;
 	if (L"CControllerScript" == _strScriptName)
@@ -39,6 +43,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 {
 	switch (_iScriptType)
 	{
+	case (UINT)SCRIPT_TYPE::ANIMCONTROLLER:
+		return new CAnimController;
+		break;
 	case (UINT)SCRIPT_TYPE::BLOCKSCRIPT:
 		return new CBlockScript;
 		break;
@@ -65,6 +72,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 {
 	switch ((SCRIPT_TYPE)_pScript->GetScriptType())
 	{
+	case SCRIPT_TYPE::ANIMCONTROLLER:
+		return L"CAnimController";
+		break;
+
 	case SCRIPT_TYPE::BLOCKSCRIPT:
 		return L"CBlockScript";
 		break;

@@ -24,7 +24,7 @@ wstring GetNameFromPath(const wstring& _strPath)
 	return strName;
 }
 
-bool HasBit(int _originBit, int _cmpBits, BIT_FUNC_OPT _opt)
+bool CalBit(UINT _originBit, UINT _cmpBits, BIT_FUNC_OPT _opt)
 {
 	switch (_opt)
 	{
@@ -38,12 +38,22 @@ bool HasBit(int _originBit, int _cmpBits, BIT_FUNC_OPT _opt)
 
 	case BIT_EQUAL:
 	{
-		if (_originBit - _cmpBits == _cmpBits)
+		if (_originBit - _cmpBits == 0)
 			return true;
 		return false;
 	}
 		break;
 	}
+}
+
+void AddBit(UINT& _src, UINT _add)
+{
+	_src |= _add;
+}
+
+void RemoveBit(UINT& _src, UINT _remove)
+{
+	_src &= ~_remove;
 }
 
 bool InCamera(CGameObject* _obj, Vec2 _cameraExtenseion)

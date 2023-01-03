@@ -11,10 +11,16 @@ private:
     Vec3 m_vBlockScale;
     Vec3 m_vBlockPos;
 
+    Vec2 m_vBlockColScale;
+    Vec2 m_vBlockColPos;
+
     CGameObject* m_pColObj;
 
     Vec3 m_vObjPos;
     Vec3 m_vObjScale;
+
+    Vec2 m_vObjColPos;
+    Vec2 m_vObjColScale;
 
     short m_sObjDir;
 

@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "AnimTool.h"
 
 #include "ComboBox.h"
@@ -30,7 +30,7 @@ AnimTool::AnimTool()
 	m_CreateCombo = new ComboBox;
 	m_EditCombo = new ComboBox;
 
-	// µğÆúÆ®
+	// ë””í´íŠ¸
 	//map<wstring, Ptr<CRes>> mapAnim = CResMgr::GetInst()->GetResource(RES_TYPE::ANIMATION2D);
 	//map<wstring, Ptr<CRes>>::iterator iter = mapAnim.begin();
 	//m_pCurAnim = (CAnimation2D*)(iter->second.Get());
@@ -108,7 +108,7 @@ void AnimTool::render_update()
 		{
 			ClearFrm();
 
-			// ¿¹¿ÜÃ³¸®
+			// ì˜ˆì™¸ì²˜ë¦¬
 			if (m_pCurAnim.Get() == nullptr)
 			{
 				map<wstring, Ptr<CRes>> mapAnim = CResMgr::GetInst()->GetResource(RES_TYPE::ANIMATION2D);
@@ -154,7 +154,6 @@ void AnimTool::EditMode()
 		m_ChangeFrm.assign(vecFrm->begin(), vecFrm->end());
 		m_AtlasTex = m_pCurAnim->GetAtlas();
 		m_AtlasSRV = m_AtlasTex->GetSRV().Get();
-		m_bAnimChanged = false;
 	}
 	ImGui::SameLine();
 	m_EditCombo->render_update();
@@ -228,13 +227,13 @@ void AnimTool::FrameWindow()
 
 
 	static ImVec4 tintColor = ImVec4(1.f, 1.f, 1.f, 1.f);
-	// ÇÁ·¹ÀÓ ¼ö ¸¸Å­ ÀÌ¹ÌÁö¹öÆ°À¸·Î Ç¥½Ã
+	// í”„ë ˆì„ ìˆ˜ ë§Œí¼ ì´ë¯¸ì§€ë²„íŠ¼ìœ¼ë¡œ í‘œì‹œ
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
 	for (size_t i = 0; i < m_ChangeFrm.size(); ++i)
 	{
 		Vec2 vFrameIdxPos = ImGui::GetCursorScreenPos();
 
-		// ÇÁ·¹ÀÓ ¼±ÅÃ Ç¥½Ã
+		// í”„ë ˆì„ ì„ íƒ í‘œì‹œ
 		if (IsCreateMode())
 		{
 			if (i == m_CreateFrmIdx)
@@ -242,7 +241,7 @@ void AnimTool::FrameWindow()
 			else
 				tintColor = ImVec4(1.f, 1.f, 1.f, 1.f);
 		}
-		// ÇÁ·¹ÀÓ ¼±ÅÃ Ç¥½Ã
+		// í”„ë ˆì„ ì„ íƒ í‘œì‹œ
 		if (IsEditMode())
 		{
 			if (i == m_EditFrmIdx)
@@ -265,7 +264,7 @@ void AnimTool::FrameWindow()
 				m_EditFrmIdx = i;
 			}
 		}
-		// Áö¿ì±â ¿É¼Ç
+		// ì§€ìš°ê¸° ì˜µì…˜
 		if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
 		{
 			if (IsCreateMode())
@@ -300,12 +299,12 @@ void AnimTool::AtlasWindow()
 	static float fFPS = 0.f;
 	static Vec2 fFullsize = Vec2(0.f, 0.f);
 
-	// ÀÌ¹ÌÁö Å©±â Ç¥½Ã
+	// ì´ë¯¸ì§€ í¬ê¸° í‘œì‹œ
 	ImGui::Text("Width :"); ImGui::SameLine(); ImGui::Text((to_string((int)my_tex_w) + "px" + " |").c_str());
 	ImGui::SameLine();
 	ImGui::Text("Height :"); ImGui::SameLine(); ImGui::Text((to_string((int)my_tex_h) + "px").c_str());
 
-	// ¶óµğ¿À¹öÆ° 
+	// ë¼ë””ì˜¤ë²„íŠ¼ 
 	if (ImGui::RadioButton("Uniformed Atlas", m_bUniformed == true)) { m_bUniformed = true; m_bHasSelected = false; }
 	ImGui::SameLine();
 	if (ImGui::RadioButton("Indulgent Atlas", m_bUniformed == false)) { m_bUniformed = false; m_bHasSelected = false; }
@@ -318,7 +317,7 @@ void AnimTool::AtlasWindow()
 		if (ImGui::RadioButton("Auto", m_bDragMode == false)) { m_bDragMode = false; }
 	}
 
-	// Á¤·Ä µÇ¾úÀ» ¶§ slice count Ç¥½Ã
+	// ì •ë ¬ ë˜ì—ˆì„ ë•Œ slice count í‘œì‹œ
 	if (IsUniformed())
 	{
 		static int iSliceCount[2];
@@ -335,14 +334,14 @@ void AnimTool::AtlasWindow()
 	ImGui::PopItemWidth();
 	m_vAtlasScale = Vec2(fScale, fScale);
 
-	// ³»ºÎ µ¶¸³ÀûÀÎ Ã¢ »ı¼ºÇØ¼­ ÀÌ¹ÌÁö ¶ç¿ò.
+	// ë‚´ë¶€ ë…ë¦½ì ì¸ ì°½ ìƒì„±í•´ì„œ ì´ë¯¸ì§€ ë„ì›€.
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNavInputs;
 	ImGui::BeginChild("ChildImage", ImVec2(ImGui::GetContentRegionAvail().x / 2.f, 500.f), true, window_flags);
 	Vec2 vCursorPos = ImGui::GetCursorScreenPos();
 	ImGui::Image(m_AtlasSRV, ImVec2(my_tex_w * m_vAtlasScale.x, my_tex_h * m_vAtlasScale.y),
 		ImVec2(0, 0), ImVec2(1, 1), ImVec4(1, 1, 1, 1), ImVec4(1.f, 1.f, 1.f, 0.5f));
 
-	// ÀÌ¹ÌÁö Å¬¸¯ ÀÌº¥Æ® -> Idx¹İÈ¯
+	// ì´ë¯¸ì§€ í´ë¦­ ì´ë²¤íŠ¸ -> Idxë°˜í™˜
 	if (IsUniformed())
 	{
 		if (ImGui::IsItemHovered() && ImGui::IsItemClicked())
@@ -353,7 +352,7 @@ void AnimTool::AtlasWindow()
 
 	}
 
-	// ÀÌ¹ÌÁö Å¬¸¯½Ã »ç°¢Çü ±×¸®°í LT, RB ÁÂÇ¥ ¾Ë¾Æ³¿. + Cursor¸¦ ±âÁØÀ¸·Î 
+	// ì´ë¯¸ì§€ í´ë¦­ì‹œ ì‚¬ê°í˜• ê·¸ë¦¬ê³  LT, RB ì¢Œí‘œ ì•Œì•„ëƒ„. + Cursorë¥¼ ê¸°ì¤€ìœ¼ë¡œ 
 	if (IsIndulgent())
 	{
 		ImGuiIO& io = ImGui::GetIO();
@@ -374,9 +373,9 @@ void AnimTool::AtlasWindow()
 
 		if (m_bDragMode)
 		{
-			// ½ºÅ©·Ñ Released¿¡¼­¸¸ È£ÃâµÊ -> ÀÓ½Ã Ã³¸®.
+			// ìŠ¤í¬ë¡¤ Releasedì—ì„œë§Œ í˜¸ì¶œë¨ -> ì„ì‹œ ì²˜ë¦¬.
 			static bool bScrollBool = 0;
-			// ±×¸± »ç°¢Çü ÁÂÇ¥ Àâ±â
+			// ê·¸ë¦´ ì‚¬ê°í˜• ì¢Œí‘œ ì¡ê¸°
 			if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows))
 			{
 				if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !KEY_PRESSED(KEY::LSHIFT))
@@ -398,7 +397,7 @@ void AnimTool::AtlasWindow()
 					bScrollBool = false;
 				}
 
-				// »ç°¢Çü µå·¡±×·Î ¿òÁ÷ÀÌ±â
+				// ì‚¬ê°í˜• ë“œë˜ê·¸ë¡œ ì›€ì§ì´ê¸°
 				if (ImGui::IsMouseDragging(ImGuiMouseButton_Left) && KEY_PRESSED(KEY::LSHIFT))
 				{
 					Vec2 vMouseDir = CKeyMgr::GetInst()->GetMouseDir();
@@ -406,7 +405,7 @@ void AnimTool::AtlasWindow()
 					vRectEndPos += Vec2(vMouseDir.x, -vMouseDir.y);
 				}
 
-				// »ç°¢Çü Å°ÀÔ·ÂÀ¸·Î ¿òÁ÷ÀÌ±â
+				// ì‚¬ê°í˜• í‚¤ì…ë ¥ìœ¼ë¡œ ì›€ì§ì´ê¸°
 				static float speed = 20.f;
 				if (KEY_PRESSED(KEY::UP) && KEY_PRESSED(KEY::LSHIFT))
 				{
@@ -442,10 +441,10 @@ void AnimTool::AtlasWindow()
 				m_ChangeFrm.push_back(tFrm);
 			}
 		}
-		// ÀÚµ¿¼±ÅÃ¸ğµå
+		// ìë™ì„ íƒëª¨ë“œ
 		else
 		{
-			// ¹Ì¸® »ı¼º
+			// ë¯¸ë¦¬ ìƒì„±
 			static vector<vector<tBGRA>> inVec;
 			if (m_bImageChanged)
 			{
@@ -454,17 +453,17 @@ void AnimTool::AtlasWindow()
 				m_bImageChanged = false;
 			}
 
-			// ÀÚµ¿¼±ÅÃ ¹öÆ°
+			// ìë™ì„ íƒ ë²„íŠ¼
 			if (ImGui::IsMouseDoubleClicked(0) && KEY_PRESSED(KEY::LSHIFT))
 			{
 				Vec2 AutoSelectPos = Vec2(TexCoord.x / m_vAtlasScale.x, TexCoord.y / m_vAtlasScale.y);
 				while (true)
 				{
-					// °á°ú·Î ³ª¿Â ÇÈ¼¿ Áß°£¿¡¼­ ´Ù½Ã ³ÊºñÅ½»ö ½ÃÀÛ 
+					// ê²°ê³¼ë¡œ ë‚˜ì˜¨ í”½ì…€ ì¤‘ê°„ì—ì„œ ë‹¤ì‹œ ë„ˆë¹„íƒìƒ‰ ì‹œì‘ 
 					Vec4 out = m_AtlasTex->WIdthSearch(inVec, AutoSelectPos);
 					AutoSelectPos = Vec2(out.z + 5.f, out.y + (out.w - out.y) / 2.f);
 
-					// ´õ ÀÌ»ó ÇÈ¼¿À» Ã£Áö ¸øÇÑ´Ù¸é Å»Ãâ
+					// ë” ì´ìƒ í”½ì…€ì„ ì°¾ì§€ ëª»í•œë‹¤ë©´ íƒˆì¶œ
 					if (out.w - out.y == 0.f)
 						break;
 
@@ -496,7 +495,7 @@ void AnimTool::AtlasWindow()
 			}
 
 
-			// Å¬¸¯À¸·Î ¼±ÅÃ
+			// í´ë¦­ìœ¼ë¡œ ì„ íƒ
 			if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows) && ImGui::IsMouseClicked(0) && !KEY_PRESSED(KEY::LCTRL))
 			{
 				//if (ImGui::IsMouseClicked(0))
@@ -508,7 +507,7 @@ void AnimTool::AtlasWindow()
 				vRectStartPos = Vec2(vCursorPos.x + out.x * m_vAtlasScale.x, vCursorPos.y + out.y * m_vAtlasScale.y);
 				vRectEndPos = Vec2(vCursorPos.x + out.z * m_vAtlasScale.x, vCursorPos.y + out.w * m_vAtlasScale.y);
 
-				// ´õºíÅ¬¸¯À¸·Î ÇÁ·¹ÀÓ Ãß°¡
+				// ë”ë¸”í´ë¦­ìœ¼ë¡œ í”„ë ˆì„ ì¶”ê°€
 				if (ImGui::IsMouseDoubleClicked(0) && !KEY_PRESSED(KEY::LSHIFT))
 				{
 					Vec2 LTUV = Vec2(out.x, out.y) / AtlasSize;
@@ -525,7 +524,7 @@ void AnimTool::AtlasWindow()
 				}
 			}
 
-			// ÀÌ¹ÌÁö Ãß°¡ ÇÒ´ç.
+			// ì´ë¯¸ì§€ ì¶”ê°€ í• ë‹¹.
 			if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows) && ImGui::IsMouseClicked(0) && KEY_PRESSED(KEY::LCTRL))
 			{
 				m_bHasSelected = true;
@@ -559,7 +558,7 @@ void AnimTool::AtlasWindow()
 
 		vPrevCursor = vCursorPos;
 
-		// ¼±ÅÃµÈ ¿µ¿ª ³×¸ğ ±×¸®±â
+		// ì„ íƒëœ ì˜ì—­ ë„¤ëª¨ ê·¸ë¦¬ê¸°
 		if (m_bHasSelected)
 		{
 			ImDrawList* drawList = ImGui::GetWindowDrawList();
@@ -567,10 +566,10 @@ void AnimTool::AtlasWindow()
 		}
 	}
 
-	// ±×¸®µå  ¹× »ç°¢Çü ±×¸®±â
+	// ê·¸ë¦¬ë“œ  ë° ì‚¬ê°í˜• ê·¸ë¦¬ê¸°
 	if (IsUniformed())
 	{
-		// ±×¸®µå
+		// ê·¸ë¦¬ë“œ
 		ImDrawList* draw_list = ImGui::GetWindowDrawList();
 		Vec2 vGridStep = Vec2(my_tex_w / m_vSliceCount.x, my_tex_h / m_vSliceCount.y);
 		for (float x = 0.f; x < my_tex_w; x += vGridStep.x)
@@ -583,7 +582,7 @@ void AnimTool::AtlasWindow()
 				ImVec2(vCursorPos.x + my_tex_w * m_vAtlasScale.x, vCursorPos.y + y * m_vAtlasScale.y),
 				IM_COL32(200, 200, 200, 40));
 
-		// »ç°¢Çü
+		// ì‚¬ê°í˜•
 		if (m_bHasSelected)
 		{
 			Vec2 vSlice = Vec2(my_tex_w / m_vSliceCount.x, my_tex_h / m_vSliceCount.y);
@@ -694,7 +693,7 @@ void AnimTool::SettingWindow()
 
 
 				ImGui::PushItemWidth(100.f);
-				// ÇÁ·¹ÀÓ Á¤º¸
+				// í”„ë ˆì„ ì •ë³´
 				ImGui::Text("LeftTop ");	ImGui::SameLine(); ImGui::InputFloat2("##LeftTop", vLeftTop);
 				ImGui::Text("Slice   ");	ImGui::SameLine(); ImGui::InputFloat2("##Slice", vSlice);
 				ImGui::Text("Offset  ");	ImGui::SameLine(); ImGui::InputFloat2("##Offset", vOffset);
@@ -716,13 +715,24 @@ void AnimTool::SettingWindow()
 			}
 			if (m_bAllChange)
 			{
-				static float fFPS = 0.f;
-				static Vec2 vFullsize = Vec2(400.f, 400.f);
-				static Vec2 vOffset = Vec2::Zero;
+				static float	fFPS = 0.f;
+				static Vec2		vFullsize = Vec2(600.f, 600.f);
+				static Vec2		vOffset = Vec2::Zero;
+				static Vec2		vPosChange = m_pCurAnim.Get()->GetPosChange();
+
+				if (m_bAnimChanged)
+				{
+					fFPS = m_ChangeFrm[idx].fDuration * m_ChangeFrm.size();
+					vFullsize = m_ChangeFrm[idx].vFullSize;
+					vOffset = m_ChangeFrm[idx].vOffset;
+					vPosChange = m_pCurAnim.Get()->GetPosChange();
+					m_bAnimChanged = false;
+				}
 
 				ImGui::Text("FPS         "); ImGui::SameLine(); ImGui::InputFloat("##FPS", &fFPS, 0, 0);
 				ImGui::Text("FullSize    "); ImGui::SameLine(); ImGui::InputFloat2("##Fullsize", vFullsize);
 				ImGui::Text("Offset      "); ImGui::SameLine(); ImGui::InputFloat2("##Offset", vOffset);
+				ImGui::Text("PosChange   "); ImGui::SameLine(); ImGui::InputFloat2("##PosChange", vPosChange);
 
 
 				for (size_t i = 0; i < m_ChangeFrm.size(); ++i)
@@ -730,12 +740,12 @@ void AnimTool::SettingWindow()
 					m_ChangeFrm[i].fDuration = 1.f / fFPS;
 					m_ChangeFrm[i].vFullSize = vFullsize / vAtlasSize;
 					m_ChangeFrm[i].vOffset = vOffset / vAtlasSize;
-
+					m_pCurAnim.Get()->SetPosChange(vPosChange);
 				}
 			}
 		}
 
-		// ÄÁÆß
+		// ì»¨íŒ
 		if (IsCreateMode())
 		{
 			if (CommonUI::ButtonCenteredOnLine("Confirm", 0.5f))
@@ -761,7 +771,7 @@ void AnimTool::SettingWindow()
 		}
 		if (IsEditMode())
 		{
-			// ÄÁÆß
+			// ì»¨íŒ
 			if (CommonUI::ButtonCenteredOnLine("Confirm", 0.5f))
 			{
 				Ptr<CAnimation2D> pMasterAnim = CResMgr::GetInst()->FindRes<CAnimation2D>(m_pCurAnim->GetKey());
@@ -819,7 +829,7 @@ void AnimTool::FrameImageWindow()
 		draw_list->AddLine(Vec2(vCursorPos.x, vFullsize.y / 2.f + vCursorPos.y),
 			Vec2(vCursorPos.x + vFullsize.x, vFullsize.y / 2.f + vCursorPos.y),
 			IM_COL32(255, 255, 255, 100));
-		// ¹İÅõ¸í Àü ÀÌ¹ÌÁö
+		// ë°˜íˆ¬ëª… ì „ ì´ë¯¸ì§€
 		if (idx != 0)
 		{
 			Vec2 vDiff = (m_ChangeFrm[idx - 1].vFullSize - m_ChangeFrm[idx - 1].vSlice) / 2.f;
@@ -829,24 +839,24 @@ void AnimTool::FrameImageWindow()
 				m_ChangeFrm[idx - 1].vLeftTop, m_ChangeFrm[idx - 1].vLeftTop + m_ChangeFrm[idx - 1].vSlice, IM_COL32(255, 255, 255, 150));
 		}
 		
-		// ÇöÀç ÀÌ¹ÌÁö
+		// í˜„ì¬ ì´ë¯¸ì§€
 		Vec2 vDiff = (m_ChangeFrm[idx].vFullSize - m_ChangeFrm[idx].vSlice) / 2.f;
 		Vec2 vImageStart = vCursorPos + (m_ChangeFrm[idx].vOffset + vDiff) * AtlasSize;
 		draw_list->AddImage(m_AtlasSRV,
 			vImageStart, vImageStart + m_ChangeFrm[idx].vSlice * AtlasSize,
 			m_ChangeFrm[idx].vLeftTop, m_ChangeFrm[idx].vLeftTop + m_ChangeFrm[idx].vSlice, IM_COL32(255, 255, 255, 255));
 
-		// µå·¡±×·Î ÀÌ¹ÌÁö ¿òÁ÷ÀÌ±â
+		// ë“œë˜ê·¸ë¡œ ì´ë¯¸ì§€ ì›€ì§ì´ê¸°
 		if (ImGui::IsMouseDragging(0) && ImGui::IsWindowHovered() && KEY_PRESSED(KEY::LCTRL))
 		{
 			Vec2 vMouseMove = Vec2(CKeyMgr::GetInst()->GetMouseDir().x, -CKeyMgr::GetInst()->GetMouseDir().y);
 			m_ChangeFrm[idx].vOffset += vMouseMove / AtlasSize;
 		}
 
-		// Collider ¿µ¿ª ±×¸®±â
+		// Collider ì˜ì—­ ê·¸ë¦¬ê¸°
 		std::pair<Vec2, Vec2> vecPair = AddRectOnImage(vCursorPos, m_ChangeFrm[idx].vFullSize * AtlasSize);
 
-		// Collider ¿µ¿ª ÇÒ´ç
+		// Collider ì˜ì—­ í• ë‹¹
 		if (m_bHasSelected)
 		{
 			Vec2 vRectStartPos = vecPair.first;
@@ -857,6 +867,10 @@ void AnimTool::FrameImageWindow()
 			Vec2 vPivot = vCursorPos + Vec2(m_ChangeFrm[idx].vFullSize * AtlasSize / 2.f) + m_ChangeFrm[idx].vOffset * AtlasSize;
 			Vec2 vColliderPos = vRectStartPos + Vec2((vRectEndPos - vRectStartPos) / 2.f);
 			m_ChangeFrm[idx].iColliderPos = vColliderPos - vPivot;
+		}
+		else
+		{
+			m_ChangeFrm[idx].iColliderPos = Vec2::Zero;
 		}
 
 		if (KEY_PRESSED(KEY::LCTRL))
@@ -919,7 +933,7 @@ Vec2 AnimTool::GetClickedIdx(Vec2 _vCursorPos)
 {
 	ImGuiIO& io = ImGui::GetIO();
 
-	// KeyMgr°¡ ¹Ş¾Æ¿À´Â ÁÂÇ¥¿Í Â÷ÀÌ°¡ ÀÖÀ½.
+	// KeyMgrê°€ ë°›ì•„ì˜¤ëŠ” ì¢Œí‘œì™€ ì°¨ì´ê°€ ìˆìŒ.
 	Vec2 vMousePos = io.MousePos;
 
 	Vec2 TexCoord = ((vMousePos - _vCursorPos) / m_vAtlasScale);
@@ -958,9 +972,14 @@ std::pair<Vec2, Vec2> AnimTool::AddRectOnImage(Vec2 _cursorPos, Vec2 _FrameSize)
 
 	static Vec2 vRectStartPos;
 	static Vec2 vRectEndPos;
-	// ±×¸± »ç°¢Çü ÁÂÇ¥ Àâ±â
+	// ê·¸ë¦´ ì‚¬ê°í˜• ì¢Œí‘œ ì¡ê¸°
 	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows))
 	{
+		if(ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+		{
+			m_bHasSelected = false;
+		}
+
 		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && KEY_PRESSED(KEY::LALT))
 		{
 			vRectStartPos = _cursorPos + TexCoord;
@@ -980,7 +999,7 @@ std::pair<Vec2, Vec2> AnimTool::AddRectOnImage(Vec2 _cursorPos, Vec2 _FrameSize)
 			bScrollBool = false;
 		}
 
-		// »ç°¢Çü µå·¡±×·Î ¿òÁ÷ÀÌ±â
+		// ì‚¬ê°í˜• ë“œë˜ê·¸ë¡œ ì›€ì§ì´ê¸°
 		if (ImGui::IsMouseDragging(ImGuiMouseButton_Left) && KEY_PRESSED(KEY::LSHIFT))
 		{
 			Vec2 vMouseDir = CKeyMgr::GetInst()->GetMouseDir();
@@ -988,7 +1007,7 @@ std::pair<Vec2, Vec2> AnimTool::AddRectOnImage(Vec2 _cursorPos, Vec2 _FrameSize)
 			vRectEndPos += Vec2(vMouseDir.x, -vMouseDir.y);
 		}
 
-		// »ç°¢Çü Å°ÀÔ·ÂÀ¸·Î ¿òÁ÷ÀÌ±â
+		// ì‚¬ê°í˜• í‚¤ì…ë ¥ìœ¼ë¡œ ì›€ì§ì´ê¸°
 		static float speed = 20.f;
 		if (KEY_PRESSED(KEY::UP) && KEY_PRESSED(KEY::LSHIFT))
 		{
@@ -1019,7 +1038,7 @@ std::pair<Vec2, Vec2> AnimTool::AddRectOnImage(Vec2 _cursorPos, Vec2 _FrameSize)
 
 	vPrevCursor = _cursorPos;
 
-	// ¼±ÅÃµÈ ¿µ¿ª ³×¸ğ ±×¸®±â
+	// ì„ íƒëœ ì˜ì—­ ë„¤ëª¨ ê·¸ë¦¬ê¸°
 	if (m_bHasSelected)
 	{
 		ImDrawList* drawList = ImGui::GetWindowDrawList();
