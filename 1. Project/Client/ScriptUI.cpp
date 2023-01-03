@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "ScriptUI.h"
 
 #include <Engine/CScript.h>
@@ -49,6 +49,9 @@ void ScriptUI::render_scriptparam()
     {
         switch (vecParam[i].Type)
         {
+        case SCRIPT_PARAM::BOOL:
+            ParamUI::Param_Bool(vecParam[i].strParamName, (bool*)(vecParam[i].pParam));
+            break;
         case SCRIPT_PARAM::INT:
             ParamUI::Param_Int(vecParam[i].strParamName, (int*)(vecParam[i].pParam));
             break;

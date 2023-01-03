@@ -1,6 +1,9 @@
 ﻿#include "pch.h"
 #include "CControllerScript.h"
 
+#include "CScriptMgr.h"
+#include "CUnitScript.h"
+
 CControllerScript::CControllerScript()
 	: CScript((UINT)SCRIPT_TYPE::CONTROLLERSCRIPT)
 {
@@ -38,7 +41,13 @@ void CControllerScript::tick()
 		{
 			if (Rigidbody2D()->IsGround())
 			{
-				Rigidbody2D()->SetGround(false);
+				CUnitScript* pUnitScript = GetOwner()->GetScript<CUnitScript>();
+				if (pUnitScript && HasBit(pUnitScript->GetStateBits(), UNIT_GROUND_PLATFORM, BIT_LEAST_ONE))
+				{
+					Rigidbody2D()->SetGround(false);
+
+					pUnitScript->RemoveStateBits(UNIT_GROUND_PLATFORM | UNIT_GROUND);
+				}
 			}
 		}
 	}

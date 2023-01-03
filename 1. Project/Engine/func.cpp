@@ -24,6 +24,28 @@ wstring GetNameFromPath(const wstring& _strPath)
 	return strName;
 }
 
+bool HasBit(int _originBit, int _cmpBits, BIT_FUNC_OPT _opt)
+{
+	switch (_opt)
+	{
+	case BIT_LEAST_ONE:
+	{
+		if (_originBit & _cmpBits)
+			return true;
+		return false;
+	}
+		break;
+
+	case BIT_EQUAL:
+	{
+		if (_originBit - _cmpBits == _cmpBits)
+			return true;
+		return false;
+	}
+		break;
+	}
+}
+
 bool InCamera(CGameObject* _obj, Vec2 _cameraExtenseion)
 {
 	CCamera* mainCam = CRenderMgr::GetInst()->GetMainCam();

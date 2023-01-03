@@ -3,6 +3,14 @@
 wstring GetRelativePath(const wstring& _strBase, const wstring& _strPath);
 wstring GetNameFromPath(const wstring& _strPath);
 
+enum BIT_FUNC_OPT
+{
+	BIT_LEAST_ONE,
+	BIT_EQUAL,
+};
+// 하나라도 맞음.
+bool HasBit(int _originBit, int _cmpBits, BIT_FUNC_OPT _opt);
+
 class CGameObject;
 
 bool InCamera(CGameObject* _obj, Vec2 _cameraExtenseion = Vec2(1.f,1.f));

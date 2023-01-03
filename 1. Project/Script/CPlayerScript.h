@@ -36,26 +36,12 @@ enum PLAYER_ANIM
 
 extern wstring PlayerKey[PLAYER_ANIM_END];
 
+
 class CPlayerScript :
     public CScript
 {
 private:
-    Ptr<CAnimation2D> m_pCurAnim;
-    Ptr<CAnimation2D> m_pPrevAnim;
 
-    PLAYER_ANIM m_eCurAnim;
-    PLAYER_ANIM m_ePrevAnim;
-
-    ANIM_DIR m_eCurDir;
-    ANIM_DIR m_ePrevDir;
-
-    bool m_bGround;
-    bool m_bDirChanged;
-    bool m_bEnsureFinish;
-
-    float m_fSpeed;
-    
-    int m_iAnimCondBit;
 
 public:
     virtual void begin() override;
@@ -66,28 +52,7 @@ public:
     virtual void EndOverlap(CCollider2D* _pOther) override;
 
 private:
-    void GetConditionBit();
 
-    void GetAnimPlaying();
-    void GetAnimChanged();
-    void GetAnimRepeat();
-    void GetDirChanged();
-    void GetGround();
-
-
-    void SetAnimLeft();
-    void SetAnimRight();
-
-    void GetAnimEnum();
-
-    void EnsureFinish();
-
-
-
-    void MoveHorizontal();
-    void MoveHorizontalReverse();
-
-    void SetPrevValues();
 
 public:
     virtual void SaveToFile(FILE* _pFile) override;

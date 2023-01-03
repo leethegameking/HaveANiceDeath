@@ -3,3 +3,4 @@ CControllerScript
 CGameCameraScript
 CPlayerScript
 CTestScript
+CUnitScript

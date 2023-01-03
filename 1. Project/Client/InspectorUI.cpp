@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "InspectorUI.h"
 
 #include "ComponentUI.h"
@@ -167,7 +167,7 @@ InspectorUI::~InspectorUI()
 
 void InspectorUI::update()
 {
-	// Å¸°ÙµÈ ¿ÀºêÁ§Æ®°¡ »èÁ¦µÉ ¶§. but Res°¡ Å¸°ÙµÉ¶§¿¡µµ µé¾î¿À°í ÀÖÀ½. -> Á¶°Ç Ãß°¡ÇØÁÜ !m_TargetRes.Get()
+	// íƒ€ê²Ÿëœ ì˜¤ë¸Œì íŠ¸ê°€ ì‚­ì œë  ë•Œ. but Resê°€ íƒ€ê²Ÿë ë•Œì—ë„ ë“¤ì–´ì˜¤ê³  ìžˆìŒ. -> ì¡°ê±´ ì¶”ê°€í•´ì¤Œ !m_TargetRes.Get()
 	if (!IsValid(m_TargetObj) && !m_TargetRes.Get())
 	{
 		SetTargetObj(nullptr);
@@ -195,7 +195,7 @@ void InspectorUI::update()
 
 void InspectorUI::render_update()
 {
-	// Å¸°Ù
+	// íƒ€ê²Ÿ
 	if (m_TargetObj)
 	{
 		string strObjName = string(m_TargetObj->GetName().begin(), m_TargetObj->GetName().end());
@@ -240,7 +240,7 @@ void InspectorUI::SetTargetObj(CGameObject* _Target)
 	
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
-		// ÀÓ½Ã if ¾ÆÁ÷ ¸ðµç ÄÄÆ÷³ÍÆ®¿¡ ´ëÀÀ X
+		// ìž„ì‹œ if ì•„ì§ ëª¨ë“  ì»´í¬ë„ŒíŠ¸ì— ëŒ€ì‘ X
 		if (m_arrComUI[i])
 		{
 			if (m_TargetObj)
@@ -249,7 +249,7 @@ void InspectorUI::SetTargetObj(CGameObject* _Target)
 				{
 					m_arrComUI[i]->SetTarget(m_TargetObj);
 					m_arrComUI[i]->init();
-					m_arrComUI[i]->Open(); // TargetObject¿Í Component¸¦ º¸Àå.
+					m_arrComUI[i]->Open(); // TargetObjectì™€ Componentë¥¼ ë³´ìž¥.
 				}
 				else
 				{
@@ -265,6 +265,7 @@ void InspectorUI::SetTargetObj(CGameObject* _Target)
 		}
 	}
 
+	// Script render
 	if (nullptr == m_TargetObj)
 	{
 		for (auto& pScript : m_vecScriptUI)
@@ -402,7 +403,7 @@ void InspectorUI::AddComponent(DWORD_PTR _idx)
 		break;
 	}
 
-	// °»½Å
+	// ê°±ì‹ 
 	SetTargetObj(m_TargetObj);
 }
 
@@ -410,7 +411,7 @@ void InspectorUI::AddScript(DWORD_PTR _idx)
 {
 	m_TargetObj->AddComponent(CScriptMgr::GetScript((int)_idx));
 
-	// °»½Å
+	// ê°±ì‹ 
 	SetTargetObj(m_TargetObj);
 }
 

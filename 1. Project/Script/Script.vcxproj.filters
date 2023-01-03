@@ -10,20 +10,23 @@
     <ClInclude Include="CScriptMgr.h">
       <Filter>ScriptMgr</Filter>
     </ClInclude>
-    <ClInclude Include="CBlockScript.h">
-      <Filter>Script</Filter>
-    </ClInclude>
     <ClInclude Include="CGameCameraScript.h">
-      <Filter>Script</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlayerScript.h">
       <Filter>Script</Filter>
     </ClInclude>
     <ClInclude Include="CTestScript.h">
       <Filter>Script</Filter>
     </ClInclude>
+    <ClInclude Include="CBlockScript.h">
+      <Filter>Script\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="CUnitScript.h">
+      <Filter>Script\Unit</Filter>
+    </ClInclude>
     <ClInclude Include="CControllerScript.h">
-      <Filter>Script</Filter>
+      <Filter>Script\Unit\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerScript.h">
+      <Filter>Script\Unit\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -36,20 +39,23 @@
     <ClCompile Include="CScriptMgr.cpp">
       <Filter>ScriptMgr</Filter>
     </ClCompile>
-    <ClCompile Include="CBlockScript.cpp">
-      <Filter>Script</Filter>
-    </ClCompile>
     <ClCompile Include="CGameCameraScript.cpp">
-      <Filter>Script</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlayerScript.cpp">
       <Filter>Script</Filter>
     </ClCompile>
     <ClCompile Include="CTestScript.cpp">
       <Filter>Script</Filter>
     </ClCompile>
+    <ClCompile Include="CBlockScript.cpp">
+      <Filter>Script\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="CUnitScript.cpp">
+      <Filter>Script\Unit</Filter>
+    </ClCompile>
     <ClCompile Include="CControllerScript.cpp">
-      <Filter>Script</Filter>
+      <Filter>Script\Unit\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerScript.cpp">
+      <Filter>Script\Unit\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +67,18 @@
     </Filter>
     <Filter Include="ScriptMgr">
       <UniqueIdentifier>{a4cd9dab-2e89-4297-b684-5e7d5c008792}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Unit">
+      <UniqueIdentifier>{df8df9d0-f36b-413e-bc20-3ac43daa9528}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Block">
+      <UniqueIdentifier>{ff7397d0-bcce-490c-8d9d-8af4cafa5ba7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Unit\Player">
+      <UniqueIdentifier>{67411690-bbea-47ae-b428-a5d745da7ea4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Unit\Enemy">
+      <UniqueIdentifier>{41ae44eb-f60c-40f8-80ec-ee86c75cf94b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

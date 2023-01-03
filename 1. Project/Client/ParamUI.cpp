@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "ParamUI.h"
 
 #include "CImGuiMgr.h"
@@ -9,6 +9,13 @@
 #include <Engine/CResMgr.h>
 
 UINT ParamUI::ParamCount = 0;
+
+void ParamUI::Param_Bool(const string& _ParamName, bool* _bInOut)
+{
+	string id = _ParamName + "##" + to_string(ParamCount);
+	++ParamCount;
+	ImGui::Checkbox(id.c_str(), _bInOut);
+}
 
 void ParamUI::Param_Int(const string& _ParamName, int* _pInOut)
 {
@@ -62,12 +69,12 @@ bool ParamUI::Param_Tex(const string& _ParamName, Ptr<CTexture>& _Tex, UI* _Inst
 		ImGui::Image(nullptr, ImVec2(100.f, 100.f));
 	}
 	
-	// ÀÌ¹ÌÁö µå¶ø ¹Ş´Â °Í Ã¼Å©
+	// ì´ë¯¸ì§€ ë“œë ë°›ëŠ” ê²ƒ ì²´í¬
 	if (ImGui::BeginDragDropTarget())
 	{
 		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("##ContentTree"))
 		{
-			// void* °ª typecast
+			// void* ê°’ typecast
 			TreeNode* pNode = (TreeNode*)payload->Data;
 			CRes* pRes = (CRes*)pNode->GetData();
 
@@ -82,7 +89,7 @@ bool ParamUI::Param_Tex(const string& _ParamName, Ptr<CTexture>& _Tex, UI* _Inst
 	char szName[50] = "";
 	sprintf_s(szName, 50, "##TexBtn%d", ParamCount++);
 
-	// ¹öÆ° -> ListUI È£Ãâ¿ë (Res ´õºíÅ¬¸¯½Ã ÇÔ¼öÆ÷ÀÎÅÍ·Î ÇÔ¼ö È£Ãâ)
+	// ë²„íŠ¼ -> ListUI í˜¸ì¶œìš© (Res ë”ë¸”í´ë¦­ì‹œ í•¨ìˆ˜í¬ì¸í„°ë¡œ í•¨ìˆ˜ í˜¸ì¶œ)
 	ImGui::SameLine();
 	if (ImGui::Button(szName, Vec2(15.f, 15.f)))
 	{
@@ -90,7 +97,7 @@ bool ParamUI::Param_Tex(const string& _ParamName, Ptr<CTexture>& _Tex, UI* _Inst
 		assert(pListUI);
 
 
-		// ÅØ½ºÃÄ ¸ñ·Ï ¹Ş¾Æ¿Í¼­ 
+		// í…ìŠ¤ì³ ëª©ë¡ ë°›ì•„ì™€ì„œ 
 		const map<wstring, Ptr<CRes>>& mapRes = CResMgr::GetInst()->GetResource(RES_TYPE::TEXTURE);
 		static vector<wstring> vecRes;
 		vecRes.clear();
@@ -176,14 +183,14 @@ TEX_PARAM ParamUI::ShowTexParam(CMaterial* _pMtrl, TEX_PARAM& _eParam)
 
 	 UI* pMtrlUI = pInspUI->GetResUI(RES_TYPE::MATERIAL);
 
-	const vector<tTextureParam> vecTex = _pMtrl->GetShader()->GetTextureParam(); // ·¹ÆÛ·±½º·Î ¹Ş¾Æ¿È
+	const vector<tTextureParam> vecTex = _pMtrl->GetShader()->GetTextureParam(); // ë ˆí¼ëŸ°ìŠ¤ë¡œ ë°›ì•„ì˜´
 	for (size_t i = 0; i < vecTex.size(); ++i)
 	{
 		Ptr<CTexture> pTex = _pMtrl->GetTexParam(vecTex[i].eParam);
-		// ¹öÆ°ÀÌ ´­·È´Ù -> ListUI Open -> ¼±ÅÃµÈ ¸â¹ö TEX_PARAMÀ¸·Î arr¿¡ ³Ö¾îÁÜ.
+		// ë²„íŠ¼ì´ ëˆŒë ¸ë‹¤ -> ListUI Open -> ì„ íƒëœ ë©¤ë²„ TEX_PARAMìœ¼ë¡œ arrì— ë„£ì–´ì¤Œ.
 		if (ParamUI::Param_Tex(vecTex[i].strName, pTex, pMtrlUI, (FUNC_1)&MaterialUI::SetTexture))
 		{
-			// ¼±ÅÃÇÑ ¾ÆÀÌÅÛÀÇ TEX_PARAMÀ» ¾Ë·ÁÁÜ. (ÇÑ ÇÁ·¹ÀÓ ¹Ğ¸²)
+			// ì„ íƒí•œ ì•„ì´í…œì˜ TEX_PARAMì„ ì•Œë ¤ì¤Œ. (í•œ í”„ë ˆì„ ë°€ë¦¼)
 			_eParam = vecTex[i].eParam;
 		}
 	}

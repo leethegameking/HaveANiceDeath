@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "CComponent.h"
 
 
@@ -10,6 +10,7 @@
 
 enum class SCRIPT_PARAM
 {
+    BOOL,
     INT,
     FLOAT,
     VEC2,

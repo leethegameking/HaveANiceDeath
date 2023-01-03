@@ -11,6 +11,7 @@ private:
 	static UINT ParamCount;
 
 public:
+	static void Param_Bool(const string& _ParamName, bool* _bInOut);
 	static void Param_Int(const string& _ParamName, int* _pInOut);
 	static void Param_Float(const string& _ParamName, float* _pInOut);
 	static void Param_Vec2(const string& _ParamName, Vec2* _pInOut);

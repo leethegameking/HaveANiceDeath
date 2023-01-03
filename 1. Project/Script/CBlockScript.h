@@ -18,6 +18,8 @@ private:
 
     short m_sObjDir;
 
+    bool m_bPlatform;
+
 public:
     void tick() override;
 
@@ -26,11 +28,14 @@ private:
     //       Box 기준 
     void LeftCollision();
     void RightCollision();
-    void UpCollision();
+    void UpCollision(CCollider2D* _other);
     void DownCollision();
     //=======================
     
     void SetMemberData(CCollider2D* _other);
+
+public:
+    bool IsPlatform() { return m_bPlatform; }
 
 public:
     virtual void SaveToFile(FILE* _pFile) override;
@@ -39,6 +44,8 @@ public:
     virtual void BeginOverlap(CCollider2D* _other) override;
     virtual void Overlap(CCollider2D* _other) override;
     virtual void EndOverlap(CCollider2D* _other) override;
+
+    
 
     CLONE(CBlockScript)
 public:
