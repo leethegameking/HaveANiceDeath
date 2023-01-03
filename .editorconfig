@@ -1,7 +1,0 @@
-root = true
-
-[*.{h, cpp}]
-charset = utf-8-bom
-
-[*.fx]
-charset = utf-8

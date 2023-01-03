@@ -7,7 +7,8 @@ class CControllerScript :
 public:
     bool m_bJump;
 
-    float m_fSpeed;
+    float m_fSpeedX;
+    float m_fJumpSpeed;
 
     float m_fAccTime;
 

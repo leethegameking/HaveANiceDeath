@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CBlockScript.h"
 
 #include <Engine/CGameObject.h>
@@ -33,10 +33,10 @@ void CBlockScript::BeginOverlap(CCollider2D* _other)
 
 	if (m_pColObj->Rigidbody2D())
 	{
-		// ¹æÇâ ±¸ÇØÁÜ ( ³ªÁß¿¡ SetMemberData·Î ³Ö¾îÁÙ ¿¹Á¤ )
+		// ë°©í–¥ êµ¬í•´ì¤Œ ( ë‚˜ì¤‘ì— SetMemberDataë¡œ ë„£ì–´ì¤„ ì˜ˆì • )
 		m_sObjDir = m_pColObj->Rigidbody2D()->GetDir();
 
-		Vec3 test=  m_pColObj->Rigidbody2D()->GetPrevPos();
+		// Vec3 test=  m_pColObj->Rigidbody2D()->GetPrevPos();
 		if (m_sObjDir & RB_DOWN && m_vBlockPos.y + m_vBlockScale.y / 2.f < m_pColObj->Rigidbody2D()->GetPrevPos().y - m_vObjScale.y / 2.f)
 		{
 			UpCollision();
@@ -46,17 +46,52 @@ void CBlockScript::BeginOverlap(CCollider2D* _other)
  			DownCollision();
 		}
 
+		if (m_sObjDir & RB_LEFT && m_vBlockPos.x + m_vBlockScale.x / 2.f < m_pColObj->Rigidbody2D()->GetPrevPos().x - m_vObjScale.x / 2.f)
+		{
+			RightCollision();
+		}
+ 		else if (m_sObjDir & RB_RIGHT && m_vBlockPos.x - m_vBlockScale.x / 2.f > m_pColObj->Rigidbody2D()->GetPrevPos().x + m_vObjScale.x / 2.f)
+		{
+			LeftCollision();
+		}
 	}
 }
 
+void CBlockScript::Overlap(CCollider2D* _other)
+{
+	SetMemberData(_other);
+
+	if (m_pColObj->Rigidbody2D())
+	{
+		if (m_sObjDir & RB_LEFT && m_vBlockPos.x + m_vBlockScale.x / 2.f < m_pColObj->Rigidbody2D()->GetPrevPos().x - m_vObjScale.x / 2.f)
+		{
+			RightCollision();
+		}
+		else if (m_sObjDir & RB_RIGHT && m_vBlockPos.x - m_vBlockScale.x / 2.f > m_pColObj->Rigidbody2D()->GetPrevPos().x + m_vObjScale.x / 2.f)
+		{
+			LeftCollision();
+		}
+	}
+}
+
+void CBlockScript::EndOverlap(CCollider2D* _other)
+{
+	if (m_bGroundBlock)
+	{
+		CGameObject* pColObj = _other->GetOwner();
+		pColObj->Rigidbody2D()->SetGround(false);
+		m_bGroundBlock = false;
+	}
+}
 
 void CBlockScript::LeftCollision()
 {
-
+	m_pColObj->Transform()->SetRelativePos(Vec3(m_vBlockPos.x - m_vBlockScale.x / 2.f - m_vObjScale.x / 2.f - 0.01f, m_vObjPos.y, 0.f));
 }
 
 void CBlockScript::RightCollision()
 {
+	m_pColObj->Transform()->SetRelativePos(Vec3(m_vBlockPos.x + m_vBlockScale.x / 2.f + m_vObjScale.x / 2.f + 0.01f, m_vObjPos.y, 0.f));
 }
 
 void CBlockScript::UpCollision()
@@ -83,18 +118,6 @@ void CBlockScript::SetMemberData(CCollider2D* _other)
 	m_vObjScale = m_pColObj->Transform()->GetRelativeScale();
 }
 
-void CBlockScript::Overlap(CCollider2D* _other)
-{
-}
 
-void CBlockScript::EndOverlap(CCollider2D* _other)
-{
-	if (m_bGroundBlock)
-	{
-		CGameObject* pColObj = _other->GetOwner();
-		pColObj->Rigidbody2D()->SetGround(false);
-		m_bGroundBlock = false;
-	}
-}
 
 

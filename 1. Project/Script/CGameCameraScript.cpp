@@ -3,6 +3,7 @@
 
 #include <Engine/CDevice.h>
 
+// == ÇÑ±¹¾î
 CGameCameraScript::CGameCameraScript()
 	: CScript(GAMECAMERASCRIPT)
 	, m_fCamSpeed(100.f)

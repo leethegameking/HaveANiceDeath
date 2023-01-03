@@ -95,9 +95,12 @@ void CRigidbody2D::finaltick()
 	
 
 	// 보정
-	if (fabs(vSpeed.x) > m_fMaxSpeed)
+	if (fabs(vSpeed.x) > fabs(m_fMaxSpeed))
 	{
-		vSpeed.x = m_fMaxSpeed;
+		if (vSpeed.x < 0.f)
+			vSpeed.x = -m_fMaxSpeed;
+		else
+			vSpeed.x = m_fMaxSpeed;
 	}
 
 	// 중력 속도 보정
@@ -150,16 +153,6 @@ void CRigidbody2D::SetForceSpeedY(float _ForceSpeedY, float _MaxTime)
 	m_ForceY.fSpeed = _ForceSpeedY;
 }
 
-void CRigidbody2D::SaveToFile(FILE* _File)
-{
-	COMPONENT_TYPE eType = GetType();
-	fwrite(&eType, sizeof(COMPONENT_TYPE), 1, _File);
-}
-
-void CRigidbody2D::LoadFromFile(FILE* _File)
-{
-}
-
 void CRigidbody2D::CalcDir()
 {
 	m_sDir = 0;
@@ -173,4 +166,24 @@ void CRigidbody2D::CalcDir()
 		m_sDir |= RB_DOWN;
 	else if (vCalDir.y > 0)
 		m_sDir |= RB_UP;
+}
+
+void CRigidbody2D::SaveToFile(FILE* _File)
+{
+	COMPONENT_TYPE eType = GetType();
+	fwrite(&eType, sizeof(COMPONENT_TYPE), 1, _File);
+	fwrite(&m_fMass, sizeof(float), 1, _File);
+	fwrite(&m_fGravity, sizeof(float), 1, _File);
+	fwrite(&m_fMaxGravitySpeed, sizeof(float), 1, _File);
+	fwrite(&m_fMaxSpeed, sizeof(float), 1, _File);
+	fwrite(&m_bIgnoreGravity, sizeof(bool), 1, _File);
+}
+
+void CRigidbody2D::LoadFromFile(FILE* _File)
+{
+	fread(&m_fMass, sizeof(float), 1, _File);
+	fread(&m_fGravity, sizeof(float), 1, _File);
+	fread(&m_fMaxGravitySpeed, sizeof(float), 1, _File);
+	fread(&m_fMaxSpeed, sizeof(float), 1, _File);
+	fread(&m_bIgnoreGravity, sizeof(bool), 1, _File);
 }

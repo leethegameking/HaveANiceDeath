@@ -14,35 +14,35 @@ void ParamUI::Param_Int(const string& _ParamName, int* _pInOut)
 {
 	ImGui::Text(_ParamName.c_str());
 	ImGui::SameLine();
-	ImGui::InputInt("##InputInt", _pInOut);
+	ImGui::InputInt(("##" + _ParamName).c_str(), _pInOut);
 }
 
 void ParamUI::Param_Float(const string& _ParamName, float* _pInOut)
 {
 	ImGui::Text(_ParamName.c_str());
 	ImGui::SameLine();
-	ImGui::InputFloat("##InputFloat", _pInOut);
+	ImGui::InputFloat(("##"+_ParamName).c_str(), _pInOut);
 }
 
 void ParamUI::Param_Vec2(const string& _ParamName, Vec2* _pInOut)
 {
 	ImGui::Text(_ParamName.c_str());
 	ImGui::SameLine();
-	ImGui::InputFloat2("##InputVec2", *_pInOut);
+	ImGui::InputFloat2(("##" + _ParamName).c_str(), *_pInOut);
 }
 
 void ParamUI::Param_Vec3(const string& _ParamName, Vec3* _pInOut)
 {
 	ImGui::Text(_ParamName.c_str());
 	ImGui::SameLine();
-	ImGui::InputFloat3("##InputVec3", *_pInOut);
+	ImGui::InputFloat3(("##" + _ParamName).c_str(), * _pInOut);
 }
 
 void ParamUI::Param_Vec4(const string& _ParamName, Vec4* _pInOut)
 {
 	ImGui::Text(_ParamName.c_str());
 	ImGui::SameLine();
-	ImGui::InputFloat4("##InputVec4", *_pInOut);
+	ImGui::InputFloat4(("##" + _ParamName).c_str(), *_pInOut);
 }
 
 void ParamUI::Param_Mat(const string& _ParamName, Matrix* _pInOut)
