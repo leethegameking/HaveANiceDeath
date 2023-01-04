@@ -1,10 +1,14 @@
 ﻿#pragma once
 #include <Engine/CScript.h>
 
+class CAnimController;
+
 class CControllerScript :
     public CScript
 {
 public:
+    CAnimController* m_sAnimCtrl;
+
     bool m_bJump;
 
     float m_fSpeedX;
@@ -13,6 +17,7 @@ public:
     float m_fAccTime;
 
 public:
+    void begin() override;
     void tick() override;
 
 public:

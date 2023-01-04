@@ -3,6 +3,7 @@
 
 #include "CScriptMgr.h"
 #include "CUnitScript.h"
+#include "CAnimController.h"
 
 CControllerScript::CControllerScript()
 	: CScript((UINT)SCRIPT_TYPE::CONTROLLERSCRIPT)
@@ -15,9 +16,13 @@ CControllerScript::~CControllerScript()
 {
 }
 
+void CControllerScript::begin()
+{
+	m_sAnimCtrl = GetOwner()->GetScript<CAnimController>();
+}
+
 void CControllerScript::tick()
 {
-
 	if (KEY_PRESSED(KEY::A))
 	{
 		Rigidbody2D()->SetForceSpeedX(-m_fSpeedX);

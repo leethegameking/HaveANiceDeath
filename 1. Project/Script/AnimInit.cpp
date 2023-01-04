@@ -3,8 +3,7 @@
 
 #include <Engine/CResMgr.h>
 
-map<wstring, tAnimNode*> CAnimController::mapPlayerNode;
-map<wstring, tAnimNode*> CAnimController::mapEnemyNode;
+map<wstring, tAnimNode*> CAnimController::mapAnimNode;
 
 void CAnimController::AnimConInit()
 {
@@ -12,7 +11,9 @@ void CAnimController::AnimConInit()
 }
 
 
-#define FindPlayerNode(AnimPath) mapPlayerNode.find(L#AnimPath)->second
+#define FindNode(AnimPath) mapAnimNode.find(L#AnimPath)->second
+#define PushTranNode(AnimPath) 	pTrNode = new tTransitionNode(L#AnimPath); \
+								pNode->vecNextAnim.push_back(pTrNode)
 void CAnimController::CreatePlayerAnimCon()
 {
 	
@@ -23,29 +24,57 @@ void CAnimController::CreatePlayerAnimCon()
 	map<wstring, Ptr<CRes>>::iterator iter = mapAnim.begin();
 	for (; iter != mapAnim.end(); ++iter)
 	{
-		wstring strAnimKey = iter->second->GetKey();
-		if (strAnimKey.rfind(L"player") != -1)
-		{
-			pPlayerNode = new tAnimNode;
-			pPlayerNode->pAnimKey = strAnimKey;
-			mapPlayerNode.insert({ strAnimKey, pPlayerNode });
-		}
+		pPlayerNode = new tAnimNode;
+		pPlayerNode->pAnim = (CAnimation2D*)iter->second.Get();
+		pPlayerNode->pAnimKey = pPlayerNode->pAnim->GetKey();
+		mapAnimNode.insert({ pPlayerNode->pAnimKey, pPlayerNode });
 	}
 
-	tAnimNode* pAnimNode = FindPlayerNode(animation\\player\\PlayerIdle.anim);
-	pAnimNode->vecNextAnim.push_back(FindPlayerNode(animation\\player\\PlayerIdleToRun.anim));	pAnimNode->vecEnsureFinish.push_back(false);
-	pAnimNode->vecNextAnim.push_back(FindPlayerNode(animation\\player\\PlayerIdleUturn.anim));	pAnimNode->vecEnsureFinish.push_back(false);
-	pAnimNode->vecNextAnim.push_back(FindPlayerNode(animation\\player\\PlayerJumpDown.anim));	pAnimNode->vecEnsureFinish.push_back(false);
-	pAnimNode->vecNextAnim.push_back(FindPlayerNode(animation\\player\\PlayerIdle.anim));		pAnimNode->vecEnsureFinish.push_back(true);
 
-	AddBit(pAnimNode->iCond, GROUND);
+	tAnimNode* pNode = nullptr;
+	tTransitionNode* pTrNode = nullptr;
 
-	pAnimNode = FindPlayerNode(animation\\player\\PlayerIdleToRun.anim);
+	pNode = FindNode(animation\\player\\PlayerIdle.anim);  pNode->bNeedDirChange = true;
+	PushTranNode(animation\\player\\PlayerIdle.anim);
+	AddBit(pTrNode->iTranCond, GROUND | ANIM_FINISHED);
+	PushTranNode(animation\\player\\PlayerIdleToRun.anim);
+	AddBit(pTrNode->iTranCond, GROUND | KEY_A_OR_D);
+	PushTranNode(animation\\player\\PlayerIdleUturnR.anim);
+	AddBit(pTrNode->iTranCond, GROUND | KEY_A_OR_D | ANIM_DIR_CHANGED);
 
+
+	pNode = FindNode(animation\\player\\PlayerIdleToRun.anim);
+	PushTranNode(animation\\player\\PlayerRun.anim);
+	AddBit(pTrNode->iTranCond, GROUND | KEY_A_OR_D | ANIM_FINISHED);
+	PushTranNode(animation\\player\\PlayerRunToIdle.anim);
+	AddBit(pTrNode->iTranCond, GROUND);
+
+	pNode = FindNode(animation\\player\\PlayerRun.anim); pNode->bNeedDirChange = true;
+	PushTranNode(animation\\player\\PlayerRun.anim);
+	AddBit(pTrNode->iTranCond, GROUND | KEY_A_OR_D | ANIM_FINISHED);
+	PushTranNode(animation\\player\\PlayerRunToIdle.anim);
+	AddBit(pTrNode->iTranCond, GROUND);
+	PushTranNode(animation\\player\\PlayerRunUturnR.anim);
+	AddBit(pTrNode->iTranCond, GROUND | KEY_A_OR_D | ANIM_DIR_CHANGED);
+
+	pNode = FindNode(animation\\player\\PlayerRunToIdle.anim);
+	PushTranNode(animation\\player\\PlayerIdle.anim);
+
+	pNode = FindNode(animation\\player\\PlayerIdleUturnR.anim); pNode->bDirChangeAnim = true;
+	PushTranNode(animation\\player\\PlayerIdle.anim);
+
+	pNode = FindNode(animation\\player\\PlayerRunUturnR.anim); pNode->bDirChangeAnim = true;
+	PushTranNode(animation\\player\\PlayerRun.anim);
 }
 
 void CAnimController::DelAnimConMap()
 {
-	Safe_Del_Map<wstring, tAnimNode*>(mapPlayerNode);
-	Safe_Del_Map<wstring, tAnimNode*>(mapEnemyNode);
+	map<wstring, tAnimNode*>::iterator iter = mapAnimNode.begin();
+	for (; iter != mapAnimNode.end(); ++iter)
+	{
+		vector<tTransitionNode*>& vecTrNode = iter->second->vecNextAnim;
+		Safe_Del_Vec(vecTrNode);
+	}
+	Safe_Del_Map<wstring, tAnimNode*>(mapAnimNode);
 }
+

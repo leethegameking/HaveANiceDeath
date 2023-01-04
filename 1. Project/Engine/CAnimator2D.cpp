@@ -123,8 +123,8 @@ void CAnimator2D::Play(const wstring& _strKey, bool _bRepeat)
 
 	if (IsValid(pAnim.Get()))
 	{
-		if(m_pCurAnim.Get())
-			m_pCurAnim->Reset();
+		//if(m_pCurAnim.Get())
+		//	m_pCurAnim->Reset();
 		m_pCurAnim = pAnim;
 	}
 

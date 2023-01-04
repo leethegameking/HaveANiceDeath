@@ -37,6 +37,9 @@ public:
 public:
     bool IsFinish() { return m_bFinish; }
 
+    // OneFrameAfter Finish
+    bool OFAFinish();
+
 public:
     void Reset()
     {

@@ -3,7 +3,10 @@
 
 enum ANIM_CONDITION
 {
-    GROUND = 0x00000001,
+    GROUND              = 0x00000001,
+    KEY_A_OR_D          = 0x00000002,
+    ANIM_DIR_CHANGED    = 0x00000004,
+    ANIM_FINISHED       = 0x00000008,
     //ANIM_CHANGED = 0x00000001,
     //ANIM_NOT_CHANGED = 0x00000002,
     //ANIM_PLAYING = 0x00000004,
@@ -28,35 +31,56 @@ enum OBJ_TYPE
     OBJ_ENEMY,
 };
 
+struct tTransitionNode
+{
+    Ptr<CAnimation2D>           pAnim;
+    wstring                     pAnimKey;
+
+    UINT                        iTranCond;
+
+    tTransitionNode(wstring _Animkey)
+        : iTranCond(0)
+    {
+        pAnimKey = _Animkey;
+        pAnim = CResMgr::GetInst()->FindRes<CAnimation2D>(_Animkey);
+    }
+};
+
 struct tAnimNode
 {
-    wstring pAnimKey;
+    Ptr<CAnimation2D>           pAnim;
+    wstring                     pAnimKey;
 
-    vector<tAnimNode*> vecNextAnim;
-    vector<bool>       vecEnsureFinish;
-    
-    bool IsFinished;
-    UINT iCondCmp;
-    UINT iCond;
+    UINT                        iCond;
 
-    tAnimNode* tNextAnim;
+    vector<tTransitionNode*>    vecNextAnim;
+
+    bool                        bNeedDirChange; // Idle, Run 
+    bool                        bDirChangeAnim; // Uturn
 
     tAnimNode()
-        : iCond(0)
-    {}
+        : bNeedDirChange(false)
+        , bDirChangeAnim(false)
+    {
+
+    }
 };
+
+
 
 class CAnimController :
     public CScript
 {
 private:
-    int                             m_ObjType;
+    int         m_ObjType;
 
-    //map<wstring, Ptr<CAnimation2D>> m_mapAnim;
-    //vector<wstring>                 m_vecAnimName;
-    //vector<Ptr<CAnimation2D>>       m_vecAnim;
+    tAnimNode*  m_pAnimNode;
+    tAnimNode*  m_pPrevAnimNode;
 
-    tAnimNode*                       m_pAnimNode;
+    ANIM_DIR    m_eAnimDir;
+
+private: // 외부에서 bit 결정
+    bool m_bDirChanged; // CController
 
 public:
     static void AnimConInit();
@@ -65,11 +89,18 @@ public:
 private:
     static void CreatePlayerAnimCon();
 private:
-    static  map<wstring, tAnimNode*> mapPlayerNode;
-    static  map<wstring, tAnimNode*> mapEnemyNode;
+    static  map<wstring, tAnimNode*> mapAnimNode;
 
 public:
     void GetCondBit();
+
+    tAnimNode* GetCurAnimNode() { return m_pAnimNode; }
+
+    ANIM_DIR GetAnimDir() { return m_eAnimDir; }
+    void SetAnimDir(ANIM_DIR _eDir) { m_eAnimDir = _eDir; }
+
+    bool GetDirChanged() { return m_bDirChanged; }
+    void SetDirChanged(bool _b) { m_bDirChanged = true; }
 
 public:
     void begin() override;
@@ -87,5 +118,8 @@ public:
 public:
     CAnimController();
     ~CAnimController();
+
+private:
+
 };
 

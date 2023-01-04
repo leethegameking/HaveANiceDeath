@@ -71,6 +71,20 @@ void CAnimation2D::finaltick()
 	}	
 }
 
+bool CAnimation2D::OFAFinish()
+{
+	static bool bOneFrameAfter = false;
+	if (m_bFinish)
+		bOneFrameAfter = true;
+
+	if (bOneFrameAfter)
+	{
+		bOneFrameAfter = false;
+		return m_bFinish;
+	}
+	return false;
+}
+
 void CAnimation2D::Create(const wstring& _strKey, Ptr<CTexture> _AtlasTex
 	, Vec2 _vLeftTop, Vec2 _vOffset, Vec2 _vSlice, float _fStep, int _iMaxFrm, float _FPS, Vec2 _vFullsize, bool _bVTHZ)
 {
