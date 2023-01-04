@@ -60,7 +60,7 @@ void CAnimController::CreatePlayerAnimCon()
 	pNode = FindNode(animation\\player\\PlayerRunToIdle.anim);
 	PushTranNode(animation\\player\\PlayerIdle.anim);
 
-	pNode = FindNode(animation\\player\\PlayerIdleUturnR.anim); pNode->bDirChangeAnim = true;
+	pNode = FindNode(animation\\player\\PlayerIdleUturnR.anim); pNode->bDirChangeAnim = true; pNode->bNoMove = true;
 	PushTranNode(animation\\player\\PlayerIdle.anim);
 
 	pNode = FindNode(animation\\player\\PlayerRunUturnR.anim); pNode->bDirChangeAnim = true;

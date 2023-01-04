@@ -145,18 +145,20 @@ void AnimTool::CreateMode()
 	FrameImageWindow();
 	SettingWindow();
 }
-
+	
 void AnimTool::EditMode()
 {
+	m_bAnimChanged = false;
+	ImGui::SameLine();
+	m_EditCombo->render_update();
 	if (m_bAnimChanged)
 	{
 		vector<tAnim2DFrm>* vecFrm = m_pCurAnim->GetFrmVec();
 		m_ChangeFrm.assign(vecFrm->begin(), vecFrm->end());
 		m_AtlasTex = m_pCurAnim->GetAtlas();
 		m_AtlasSRV = m_AtlasTex->GetSRV().Get();
+		m_EditFrmIdx = 0;
 	}
-	ImGui::SameLine();
-	m_EditCombo->render_update();
 	FrameWindow();
 	FrameImageWindow(); ImGui::SameLine(); SettingWindow();
 }
@@ -698,7 +700,7 @@ void AnimTool::SettingWindow()
 				ImGui::Text("Slice   ");	ImGui::SameLine(); ImGui::InputFloat2("##Slice", vSlice);
 				ImGui::Text("Offset  ");	ImGui::SameLine(); ImGui::InputFloat2("##Offset", vOffset);
 				ImGui::Text("Fullsize");	ImGui::SameLine(); ImGui::InputFloat2("##Fullsize", vFullSize);
-				ImGui::Text("Duration");	ImGui::SameLine(); ImGui::InputFloat("##Duation", &m_ChangeFrm[m_CreateFrmIdx].fDuration, 0, 0);
+				ImGui::Text("Duration");	ImGui::SameLine(); ImGui::InputFloat("##Duation", &m_ChangeFrm[idx].fDuration, 0, 0);
 
 				ImGui::Checkbox("Collider On",  &bOpen);
 				ImGui::Text("ColliderPos   "); ImGui::SameLine(); ImGui::InputFloat2("##ColliderPos", m_ChangeFrm[idx].iColliderPos);
@@ -715,18 +717,17 @@ void AnimTool::SettingWindow()
 			}
 			if (m_bAllChange)
 			{
-				static float	fFPS = 0.f;
-				static Vec2		vFullsize = Vec2(600.f, 600.f);
-				static Vec2		vOffset = Vec2::Zero;
-				static Vec2		vPosChange = m_pCurAnim.Get()->GetPosChange();
+				static float	fFPS		= 1.f / m_ChangeFrm[idx].fDuration;
+				static Vec2		vFullsize	= m_ChangeFrm[idx].vFullSize * m_AtlasTex->GetSize();
+				static Vec2		vOffset		= m_ChangeFrm[idx].vOffset * m_AtlasTex->GetSize();
+				static Vec2		vPosChange	= m_pCurAnim.Get()->GetPosChange();
 
 				if (m_bAnimChanged)
 				{
-					fFPS = m_ChangeFrm[idx].fDuration * m_ChangeFrm.size();
-					vFullsize = m_ChangeFrm[idx].vFullSize;
-					vOffset = m_ChangeFrm[idx].vOffset;
-					vPosChange = m_pCurAnim.Get()->GetPosChange();
-					m_bAnimChanged = false;
+					fFPS		= 1.f / m_ChangeFrm[idx].fDuration;
+					vFullsize	= m_ChangeFrm[idx].vFullSize * m_AtlasTex->GetSize();
+					vOffset		= m_ChangeFrm[idx].vOffset * m_AtlasTex->GetSize();
+					vPosChange	= m_pCurAnim.Get()->GetPosChange();
 				}
 
 				ImGui::Text("FPS         "); ImGui::SameLine(); ImGui::InputFloat("##FPS", &fFPS, 0, 0);

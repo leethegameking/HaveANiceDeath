@@ -84,7 +84,7 @@ void CAnimController::tick()
 		}
 		bOneFrameAfter = false;
 	}
-}
+}	
 
 void CAnimController::GetCondBit()
 {

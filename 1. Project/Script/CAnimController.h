@@ -56,11 +56,13 @@ struct tAnimNode
     vector<tTransitionNode*>    vecNextAnim;
 
     bool                        bNeedDirChange; // Idle, Run 
-    bool                        bDirChangeAnim; // Uturn
+    bool                        bDirChangeAnim; // IdleUturn , RunUturn
+    bool                        bNoMove;        // Uturn
 
     tAnimNode()
         : bNeedDirChange(false)
         , bDirChangeAnim(false)
+        , bNoMove(false)
     {
 
     }

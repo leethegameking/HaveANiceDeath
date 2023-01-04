@@ -23,6 +23,9 @@ void CControllerScript::begin()
 
 void CControllerScript::tick()
 {
+	if (m_sAnimCtrl->GetCurAnimNode()->bNoMove)
+		return;
+
 	if (KEY_PRESSED(KEY::A))
 	{
 		Rigidbody2D()->SetForceSpeedX(-m_fSpeedX);
