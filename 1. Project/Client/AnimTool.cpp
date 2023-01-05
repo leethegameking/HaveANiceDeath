@@ -720,14 +720,22 @@ void AnimTool::SettingWindow()
 				static float	fFPS		= 1.f / m_ChangeFrm[idx].fDuration;
 				static Vec2		vFullsize	= m_ChangeFrm[idx].vFullSize * m_AtlasTex->GetSize();
 				static Vec2		vOffset		= m_ChangeFrm[idx].vOffset * m_AtlasTex->GetSize();
-				static Vec2		vPosChange	= m_pCurAnim.Get()->GetPosChange();
+				static Vec2		vPosChange = Vec2::Zero; 
+				if (m_pCurAnim.Get())
+				{
+					vPosChange = m_pCurAnim.Get()->GetPosChange();
+				}
 
 				if (m_bAnimChanged)
 				{
 					fFPS		= 1.f / m_ChangeFrm[idx].fDuration;
 					vFullsize	= m_ChangeFrm[idx].vFullSize * m_AtlasTex->GetSize();
 					vOffset		= m_ChangeFrm[idx].vOffset * m_AtlasTex->GetSize();
-					vPosChange	= m_pCurAnim.Get()->GetPosChange();
+
+					if (m_pCurAnim.Get())
+					{
+						vPosChange = m_pCurAnim.Get()->GetPosChange();
+					}
 				}
 
 				ImGui::Text("FPS         "); ImGui::SameLine(); ImGui::InputFloat("##FPS", &fFPS, 0, 0);
@@ -741,7 +749,10 @@ void AnimTool::SettingWindow()
 					m_ChangeFrm[i].fDuration = 1.f / fFPS;
 					m_ChangeFrm[i].vFullSize = vFullsize / vAtlasSize;
 					m_ChangeFrm[i].vOffset = vOffset / vAtlasSize;
-					m_pCurAnim.Get()->SetPosChange(vPosChange);
+					if (m_pCurAnim.Get())
+					{
+						m_pCurAnim.Get()->SetPosChange(vPosChange);
+					}
 				}
 			}
 		}
@@ -779,6 +790,7 @@ void AnimTool::SettingWindow()
 				pMasterAnim->GetFrmVec()->assign(m_ChangeFrm.begin(), m_ChangeFrm.end());
 				pMasterAnim->Reallocate();
 				ImGui::OpenPopup("Frame Edit");
+				pMasterAnim->Save(pMasterAnim->GetKey());
 			}
 			if (ImGui::BeginPopupModal("Frame Edit"))
 			{

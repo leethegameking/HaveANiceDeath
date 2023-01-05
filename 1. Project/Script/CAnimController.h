@@ -12,16 +12,17 @@ enum ANIM_CONDITION
     AERIAL_TO_GROUND    = 0x00000040,
     SPEED_Y_POSITIVE    = 0x00000080, 
     SPEED_Y_TURN        = 0x00000100,
-    //ANIM_CHANGED = 0x00000001,
-    //ANIM_NOT_CHANGED = 0x00000002,
-    //ANIM_PLAYING = 0x00000004,
-    //ANIM_FINISHED = 0x00000008,
-    //GROUND = 0x00000010,
-    //AERIAL = 0x00000020,
-    //ANIM_REPEAT = 0x00000040,
-    //ANIM_NOT_REPEAT = 0x00000080,
-    //ANIM_DIR_CHANGED = 0x00000100,
-    //ANIM_DIR_NOT_CHANGED = 0x00000200,
+    COMBO_PROGRESS      = 0x00000200,
+    MOUSE_LEFT          = 0x00000400,
+};
+
+enum PLAYER_COMBO
+{
+    COMBO_NONE,
+    COMBO1,
+    COMBO2, // FightToIdle
+    COMBO3, // FightToIdle
+    COMBO4,
 };
 
 enum ANIM_PREFERENCES
@@ -29,6 +30,8 @@ enum ANIM_PREFERENCES
     NEED_DIR_CHANGE     = 0x00000001,
     DIR_CHANGE_ANIM     = 0x00000002,
     NO_MOVE             = 0x00000004,
+    COMBO_ANIM          = 0x00000008,
+    HAS_RESERVE         = 0x00000010,
 };
 
 enum class ANIM_DIR
@@ -69,19 +72,21 @@ struct tAnimNode
     wstring                     pAnimKey;
 
     UINT                        iCond;
-
     UINT                        iPreferences;
 
     vector<tTransitionNode*>    vecNextAnim;
 
+    tAnimNode*                  pReserveAnim;
 
     tAnimNode()
         : iPreferences(0)
+        , iCond(0)
     {
 
     }
 
     void AddPreferences(UINT _Preferences) { AddBit(iPreferences, _Preferences); }
+    void SetReserve(const wstring& _pAnimPath);
 };
 
 
@@ -90,18 +95,25 @@ class CAnimController :
     public CScript
 {
 private:
-    int         m_ObjType;
+    int             m_ObjType;
 
-    tAnimNode*  m_pAnimNode;
-    tAnimNode*  m_pPrevAnimNode;
+    tAnimNode*      m_pAnimNode;
+    tAnimNode*      m_pPrevAnimNode;
+    tAnimNode*      m_pReserveNode;
+    tAnimNode*      m_pTmpSaveNode;
 
-    ANIM_DIR    m_eAnimDir;
+    ANIM_DIR        m_eAnimDir;
+    UINT            m_iCombo;
+    UINT            m_iPrevCombo;
+    bool            m_bCombo;
+    bool            m_bBitCombo;
+    bool            m_bComboProgress;
 
-    bool        m_bGround;
-    bool        m_bPrevGround;
+    bool            m_bGround;
+    bool            m_bPrevGround;
 
-    float       m_fSpeed;
-    float       m_fPrevSpeed;
+    float           m_fSpeed;
+    float           m_fPrevSpeed;
 private:
 
 
@@ -111,16 +123,23 @@ public:
     static void DelAnimConMap();
 private:
     static void CreatePlayerAnimCon();
-private:
+public:
     static  map<wstring, tAnimNode*> mapAnimNode;
 
 public:
-    void GetCondBit();
+    void SetCondBit();
+    void SetComboProgress();
+    void SetReserveNode();
 
     tAnimNode* GetCurAnimNode() { return m_pAnimNode; }
 
     ANIM_DIR GetAnimDir() { return m_eAnimDir; }
     void SetAnimDir(ANIM_DIR _eDir) { m_eAnimDir = _eDir; }
+
+private:
+    void ComboDelay(); // 콤보 모션 지연
+    void NodeProgress();
+    void SetDir();
 
 public:
     void begin() override;

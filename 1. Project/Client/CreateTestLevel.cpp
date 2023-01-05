@@ -22,6 +22,7 @@
 void CreateTestLevel()
 {
 	CLevelMgr::GetInst()->ChangeLevel(CSaveLoadMgr::GetInst()->LoadLevel(L"level\\RBTest.lv"));
+	/*CLevelMgr::GetInst()->ChangeLevel(CSaveLoadMgr::GetInst()->LoadLevel(L"level\\TestLevel.lv"));*/
 	return;
 
 
