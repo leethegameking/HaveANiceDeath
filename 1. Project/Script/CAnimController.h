@@ -32,6 +32,7 @@ enum ANIM_PREFERENCES
     NO_MOVE             = 0x00000004,
     COMBO_ANIM          = 0x00000008,
     HAS_RESERVE         = 0x00000010,
+    REPEAT              = 0x00000020,
 };
 
 enum class ANIM_DIR
@@ -63,6 +64,8 @@ struct tTransitionNode
     }
 
     void AddExclude(UINT _Exclude) { AddBit(iExcludeCond, _Exclude); }
+    // 해당 비트만 포함된다면
+    void AddInclude(UINT _Include) { AddBit(iTranCond, _Include); AddBit(iExcludeCond, ~_Include); }
     void AddTran(UINT _Tran) { AddBit(iTranCond, _Tran); }
 };
 
@@ -101,6 +104,7 @@ private:
     tAnimNode*      m_pPrevAnimNode;
     tAnimNode*      m_pReserveNode;
     tAnimNode*      m_pTmpSaveNode;
+    tAnimNode*      m_pNextNode;
 
     ANIM_DIR        m_eAnimDir;
     UINT            m_iCombo;
@@ -111,11 +115,15 @@ private:
 
     bool            m_bGround;
     bool            m_bPrevGround;
+    bool            m_bDirChanging;
 
     float           m_fSpeed;
     float           m_fPrevSpeed;
 private:
 
+public:
+    void begin() override;
+    virtual void tick();
 
 public:
     static void AnimConInit();
@@ -127,23 +135,21 @@ public:
     static  map<wstring, tAnimNode*> mapAnimNode;
 
 public:
-    void SetCondBit();
-    void SetComboProgress();
-    void SetReserveNode();
-
     tAnimNode* GetCurAnimNode() { return m_pAnimNode; }
 
     ANIM_DIR GetAnimDir() { return m_eAnimDir; }
     void SetAnimDir(ANIM_DIR _eDir) { m_eAnimDir = _eDir; }
 
 private:
+    void SetCondBit();
+    void SetComboProgress();
+    void SetReserveNode();
+    void PlayNextNode();
     void ComboDelay(); // 콤보 모션 지연
     void NodeProgress();
     void SetDir();
 
-public:
-    void begin() override;
-    virtual void tick();
+
 
 public:
     virtual void BeginOverlap(CCollider2D* _other) override;
