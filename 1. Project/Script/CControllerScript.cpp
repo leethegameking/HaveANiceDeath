@@ -23,7 +23,7 @@ void CControllerScript::begin()
 
 void CControllerScript::tick()
 {
-	if (m_sAnimCtrl->GetCurAnimNode()->bNoMove)
+	if (CalBit(m_sAnimCtrl->GetCurAnimNode()->iPreferences, NO_MOVE, BIT_INCLUDE))
 		return;
 
 	if (KEY_PRESSED(KEY::A))

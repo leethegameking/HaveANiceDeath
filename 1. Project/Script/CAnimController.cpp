@@ -7,20 +7,10 @@ CAnimController::CAnimController()
 	: CScript(int(SCRIPT_TYPE::ANIMCONTROLLER))
 	, m_ObjType(OBJ_PLAYER)
 	, m_eAnimDir(ANIM_DIR::ANIM_RIGHT)
-	, m_bDirChanged(false)
+	, m_bPrevGround(false)
+	, m_fSpeed(0.f)
+	,m_fPrevSpeed(0.f)
 {
-	//m_mapAnim = Animator2D()->GetAnimMap();
-
-	//m_vecAnimName.reserve(m_mapAnim.size());
-	//
-	//map<wstring, Ptr<CAnimation2D>>::iterator iter = m_mapAnim.begin();
-	//for (; iter != m_mapAnim.end(); ++iter)
-	//{
-	//	m_vecAnimName.push_back(iter->first);
-	//	m_vecAnim.push_back(iter->second);
-	//}
-
-	// Unit 상속받은 Player Enemy 스크립트 완성되면 Type분기처리
 }
 
 CAnimController::~CAnimController()
@@ -47,31 +37,56 @@ void CAnimController::tick()
 	for (size_t i = 0; i < m_pAnimNode->vecNextAnim.size(); ++i)
 	{
 		// 아무것도 들어 있지 않은 경우 -> 다음 애니메이션으로 기본 전환. (Run to Idle.)
-		if (m_pAnimNode->vecNextAnim[i]->iTranCond == 0 && CalBit(m_pAnimNode->iCond, ANIM_FINISHED, BIT_FUNC_OPT::BIT_LEAST_ONE))
+		if (m_pAnimNode->vecNextAnim[i]->iTranCond == 0)
 		{
-			Animator2D()->Play(m_pAnimNode->vecNextAnim[i]->pAnimKey, false);
-			m_pAnimNode = mapAnimNode.find(m_pAnimNode->vecNextAnim[i]->pAnimKey)->second;
-			break;
+			if (CalBit(m_pAnimNode->iCond, ANIM_FINISHED, BIT_INCLUDE))
+			{
+				Animator2D()->Play(m_pAnimNode->vecNextAnim[i]->pAnimKey, false);
+				m_pAnimNode = mapAnimNode.find(m_pAnimNode->vecNextAnim[i]->pAnimKey)->second;
+				break;
+			}
 		}
-
-		if (CalBit(m_pAnimNode->iCond, m_pAnimNode->vecNextAnim[i]->iTranCond, BIT_FUNC_OPT::BIT_EQUAL))
+		else
 		{
-			Animator2D()->Play(m_pAnimNode->vecNextAnim[i]->pAnimKey, false);
-			m_pAnimNode = mapAnimNode.find(m_pAnimNode->vecNextAnim[i]->pAnimKey)->second;
-			break;
+			// Exclude List 빼준 후
+			RemoveBit(m_pAnimNode->iCond, m_pAnimNode->vecNextAnim[i]->iExcludeCond);
+
+			if (CalBit(m_pAnimNode->iCond, m_pAnimNode->vecNextAnim[i]->iTranCond, BIT_EQUAL))
+			{
+				Animator2D()->Play(m_pAnimNode->vecNextAnim[i]->pAnimKey, false);
+				m_pAnimNode = mapAnimNode.find(m_pAnimNode->vecNextAnim[i]->pAnimKey)->second;
+				break;
+			}
 		}
 	}
 	
 	static bool bOneFrameAfter = false;
-	if (m_pPrevAnimNode->bDirChangeAnim && Animator2D()->FindAnimation(m_pPrevAnimNode->pAnimKey)->IsFinish())
+	// Uturn 방향전환
+	if (CalBit(m_pPrevAnimNode->iPreferences, DIR_CHANGE_ANIM, BIT_INCLUDE))
 	{
-		bOneFrameAfter = true;
+		if (Animator2D()->FindAnimation(m_pPrevAnimNode->pAnimKey)->IsFinish())
+		{
+			bOneFrameAfter = true;
+		}
+	}
+	// 공중 방향전환
+	else if( !CalBit(m_pAnimNode->iCond, GROUND, BIT_INCLUDE) )
+	{
+		if (KEY_PRESSED(KEY::A))
+		{
+			m_eAnimDir = ANIM_DIR::ANIM_LEFT;
+			Transform()->SetRelativeRotation(Vec3(0.f, XM_PI, 0.f));
+		}
+		else if (KEY_PRESSED(KEY::D))
+		{
+			m_eAnimDir = ANIM_DIR::ANIM_RIGHT;
+			Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
+		}
 	}
 
 	// 한 프레임 후에 Animation 방향 뒤집어줌 ( 아예 함수로 render 다음에 넣는 방향도 생각 )
 	if (bOneFrameAfter)
 	{
-		 
 		if (m_eAnimDir == ANIM_DIR::ANIM_LEFT)
 		{
 			m_eAnimDir = ANIM_DIR::ANIM_RIGHT;
@@ -89,41 +104,71 @@ void CAnimController::tick()
 void CAnimController::GetCondBit()
 {
 	m_pAnimNode->iCond = 0;
-	m_bDirChanged = false;
 
+	// GROUND
+	m_bPrevGround = m_bGround;
 	if (Rigidbody2D()->IsGround())
+	{
+		m_bGround = true;
 		AddBit(m_pAnimNode->iCond, GROUND);
+	}
+	else
+	{
+		m_bGround = false;
+	}
 
+	// ANIM_FINISHED
 	if (Animator2D()->GetCurAnim()->OFAFinish())
 		AddBit(m_pAnimNode->iCond, ANIM_FINISHED);
 
+	// KEY_A_OR_D
 	if( KEY_PRESSED(KEY::A) || KEY_PRESSED(KEY::D) )
 		AddBit(m_pAnimNode->iCond, KEY_A_OR_D);
 
 
+	// ANIM_DIR_CHANGED
 	if (KEY_PRESSED(KEY::A))
 	{
 		if (m_eAnimDir != ANIM_DIR::ANIM_LEFT)
 		{
-			if (m_pAnimNode->bNeedDirChange)
+			if (CalBit(m_pAnimNode->iPreferences, NEED_DIR_CHANGE, BIT_INCLUDE))
 			{
 				AddBit(m_pAnimNode->iCond, ANIM_DIR_CHANGED);
-				m_bDirChanged = true;
+			}
+		}
+	}
+	else if (KEY_PRESSED(KEY::D))
+	{
+		if (m_eAnimDir != ANIM_DIR::ANIM_RIGHT)
+		{
+			if (CalBit(m_pAnimNode->iPreferences, NEED_DIR_CHANGE, BIT_INCLUDE))
+			{
+				AddBit(m_pAnimNode->iCond, ANIM_DIR_CHANGED);
 			}
 		}
 	}
 
-	if (KEY_PRESSED(KEY::D))
+	// GROUND_TO_AERIAL | AERIAL_TO_GROUND
+	if (m_bPrevGround != m_bGround)
 	{
-		if (m_eAnimDir != ANIM_DIR::ANIM_RIGHT)
-		{
-			if (m_pAnimNode->bNeedDirChange)
-			{
-				AddBit(m_pAnimNode->iCond, ANIM_DIR_CHANGED);
-				m_bDirChanged = true;
-			}
-		}
+ 		if(m_bGround == true)
+			AddBit(m_pAnimNode->iCond, AERIAL_TO_GROUND);
+		else
+			AddBit(m_pAnimNode->iCond, GROUND_TO_AERIAL);
 	}
+
+	// SPEED_Y_POSITIVE
+	m_fPrevSpeed = m_fSpeed;
+	m_fSpeed = Rigidbody2D()->GetSpeed().y;
+	if (Rigidbody2D()->GetSpeed().y > 0.f)
+	{
+		AddBit(m_pAnimNode->iCond, SPEED_Y_POSITIVE);
+	}
+
+	// SPEED_Y_TURN
+	if (m_fPrevSpeed >= 0.f && m_fSpeed < 0.f )
+		AddBit(m_pAnimNode->iCond, SPEED_Y_TURN);
+	
 }
 
 void CAnimController::BeginOverlap(CCollider2D* _other)

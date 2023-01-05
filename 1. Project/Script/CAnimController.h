@@ -7,6 +7,11 @@ enum ANIM_CONDITION
     KEY_A_OR_D          = 0x00000002,
     ANIM_DIR_CHANGED    = 0x00000004,
     ANIM_FINISHED       = 0x00000008,
+    KEY_SPACE           = 0x00000010,
+    GROUND_TO_AERIAL    = 0x00000020,
+    AERIAL_TO_GROUND    = 0x00000040,
+    SPEED_Y_POSITIVE    = 0x00000080, 
+    SPEED_Y_TURN        = 0x00000100,
     //ANIM_CHANGED = 0x00000001,
     //ANIM_NOT_CHANGED = 0x00000002,
     //ANIM_PLAYING = 0x00000004,
@@ -17,6 +22,13 @@ enum ANIM_CONDITION
     //ANIM_NOT_REPEAT = 0x00000080,
     //ANIM_DIR_CHANGED = 0x00000100,
     //ANIM_DIR_NOT_CHANGED = 0x00000200,
+};
+
+enum ANIM_PREFERENCES
+{
+    NEED_DIR_CHANGE     = 0x00000001,
+    DIR_CHANGE_ANIM     = 0x00000002,
+    NO_MOVE             = 0x00000004,
 };
 
 enum class ANIM_DIR
@@ -37,13 +49,18 @@ struct tTransitionNode
     wstring                     pAnimKey;
 
     UINT                        iTranCond;
+    UINT                        iExcludeCond;
 
     tTransitionNode(wstring _Animkey)
         : iTranCond(0)
+        , iExcludeCond(0)
     {
         pAnimKey = _Animkey;
         pAnim = CResMgr::GetInst()->FindRes<CAnimation2D>(_Animkey);
     }
+
+    void AddExclude(UINT _Exclude) { AddBit(iExcludeCond, _Exclude); }
+    void AddTran(UINT _Tran) { AddBit(iTranCond, _Tran); }
 };
 
 struct tAnimNode
@@ -53,19 +70,18 @@ struct tAnimNode
 
     UINT                        iCond;
 
+    UINT                        iPreferences;
+
     vector<tTransitionNode*>    vecNextAnim;
 
-    bool                        bNeedDirChange; // Idle, Run 
-    bool                        bDirChangeAnim; // IdleUturn , RunUturn
-    bool                        bNoMove;        // Uturn
 
     tAnimNode()
-        : bNeedDirChange(false)
-        , bDirChangeAnim(false)
-        , bNoMove(false)
+        : iPreferences(0)
     {
 
     }
+
+    void AddPreferences(UINT _Preferences) { AddBit(iPreferences, _Preferences); }
 };
 
 
@@ -81,8 +97,13 @@ private:
 
     ANIM_DIR    m_eAnimDir;
 
-private: // 외부에서 bit 결정
-    bool m_bDirChanged; // CController
+    bool        m_bGround;
+    bool        m_bPrevGround;
+
+    float       m_fSpeed;
+    float       m_fPrevSpeed;
+private:
+
 
 public:
     static void AnimConInit();
@@ -100,9 +121,6 @@ public:
 
     ANIM_DIR GetAnimDir() { return m_eAnimDir; }
     void SetAnimDir(ANIM_DIR _eDir) { m_eAnimDir = _eDir; }
-
-    bool GetDirChanged() { return m_bDirChanged; }
-    void SetDirChanged(bool _b) { m_bDirChanged = true; }
 
 public:
     void begin() override;

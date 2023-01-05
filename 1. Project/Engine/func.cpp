@@ -43,6 +43,16 @@ bool CalBit(UINT _originBit, UINT _cmpBits, BIT_FUNC_OPT _opt)
 		return false;
 	}
 		break;
+
+	case BIT_INCLUDE:
+	{
+		if ((_originBit & _cmpBits) == _cmpBits)
+			return true;
+		return false;
+	}
+		break;
+
+
 	}
 }
 

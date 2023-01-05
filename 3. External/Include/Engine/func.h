@@ -7,6 +7,7 @@ enum BIT_FUNC_OPT
 {
 	BIT_LEAST_ONE,
 	BIT_EQUAL,
+	BIT_INCLUDE,
 };
 
 bool CalBit(UINT _originBit, UINT _cmpBits, BIT_FUNC_OPT _opt);

@@ -34,37 +34,86 @@ void CAnimController::CreatePlayerAnimCon()
 	tAnimNode* pNode = nullptr;
 	tTransitionNode* pTrNode = nullptr;
 
-	pNode = FindNode(animation\\player\\PlayerIdle.anim);  pNode->bNeedDirChange = true;
+	// ============================== Ground ==============================
+	pNode = FindNode(animation\\player\\PlayerIdle.anim); pNode->AddPreferences(NEED_DIR_CHANGE);
 	PushTranNode(animation\\player\\PlayerIdle.anim);
-	AddBit(pTrNode->iTranCond, GROUND | ANIM_FINISHED);
+	pTrNode->AddTran(GROUND | ANIM_FINISHED);
 	PushTranNode(animation\\player\\PlayerIdleToRun.anim);
-	AddBit(pTrNode->iTranCond, GROUND | KEY_A_OR_D);
+	pTrNode->AddTran(GROUND | KEY_A_OR_D);
 	PushTranNode(animation\\player\\PlayerIdleUturnR.anim);
-	AddBit(pTrNode->iTranCond, GROUND | KEY_A_OR_D | ANIM_DIR_CHANGED);
+	pTrNode->AddTran(GROUND | KEY_A_OR_D | ANIM_DIR_CHANGED);
+	PushTranNode(animation\\player\\PlayerJumpStart.anim);
+	pTrNode->AddTran(GROUND_TO_AERIAL | SPEED_Y_POSITIVE );			pTrNode->AddExclude(KEY_A_OR_D);
+	PushTranNode(animation\\player\\PlayerFalling.anim);
+	pTrNode->AddTran(SPEED_Y_TURN);									pTrNode->AddExclude(KEY_A_OR_D);
 
-
-	pNode = FindNode(animation\\player\\PlayerIdleToRun.anim);
+	pNode = FindNode(animation\\player\\PlayerIdleToRun.anim); 	pNode->AddPreferences(NEED_DIR_CHANGE);
 	PushTranNode(animation\\player\\PlayerRun.anim);
-	AddBit(pTrNode->iTranCond, GROUND | KEY_A_OR_D | ANIM_FINISHED);
+	pTrNode->AddTran(GROUND | KEY_A_OR_D | ANIM_FINISHED);
 	PushTranNode(animation\\player\\PlayerRunToIdle.anim);
-	AddBit(pTrNode->iTranCond, GROUND);
-
-	pNode = FindNode(animation\\player\\PlayerRun.anim); pNode->bNeedDirChange = true;
-	PushTranNode(animation\\player\\PlayerRun.anim);
-	AddBit(pTrNode->iTranCond, GROUND | KEY_A_OR_D | ANIM_FINISHED);
-	PushTranNode(animation\\player\\PlayerRunToIdle.anim);
-	AddBit(pTrNode->iTranCond, GROUND);
+	pTrNode->AddTran(GROUND);
 	PushTranNode(animation\\player\\PlayerRunUturnR.anim);
-	AddBit(pTrNode->iTranCond, GROUND | KEY_A_OR_D | ANIM_DIR_CHANGED);
+	pTrNode->AddTran(GROUND | KEY_A_OR_D | ANIM_DIR_CHANGED);
+	PushTranNode(animation\\player\\PlayerJumpStart.anim);
+	pTrNode->AddTran(GROUND_TO_AERIAL | SPEED_Y_POSITIVE);			pTrNode->AddExclude(KEY_A_OR_D);
+	PushTranNode(animation\\player\\PlayerFalling.anim);
+	pTrNode->AddTran(SPEED_Y_TURN);									pTrNode->AddExclude(KEY_A_OR_D);
 
-	pNode = FindNode(animation\\player\\PlayerRunToIdle.anim);
-	PushTranNode(animation\\player\\PlayerIdle.anim);
-
-	pNode = FindNode(animation\\player\\PlayerIdleUturnR.anim); pNode->bDirChangeAnim = true; pNode->bNoMove = true;
-	PushTranNode(animation\\player\\PlayerIdle.anim);
-
-	pNode = FindNode(animation\\player\\PlayerRunUturnR.anim); pNode->bDirChangeAnim = true;
+	pNode = FindNode(animation\\player\\PlayerRun.anim); pNode->AddPreferences(NEED_DIR_CHANGE);
 	PushTranNode(animation\\player\\PlayerRun.anim);
+	pTrNode->AddTran(GROUND | KEY_A_OR_D | ANIM_FINISHED);
+	PushTranNode(animation\\player\\PlayerRunToIdle.anim);
+	pTrNode->AddTran(GROUND);
+	PushTranNode(animation\\player\\PlayerRunUturnR.anim);
+	pTrNode->AddTran(GROUND | KEY_A_OR_D | ANIM_DIR_CHANGED);
+	PushTranNode(animation\\player\\PlayerJumpStart.anim);
+	pTrNode->AddTran(GROUND_TO_AERIAL | SPEED_Y_POSITIVE);			pTrNode->AddExclude(KEY_A_OR_D);
+	PushTranNode(animation\\player\\PlayerFalling.anim);
+	pTrNode->AddTran(SPEED_Y_TURN);								pTrNode->AddExclude(KEY_A_OR_D);
+
+	pNode = FindNode(animation\\player\\PlayerRunToIdle.anim); pNode->AddPreferences(NO_MOVE);
+	PushTranNode(animation\\player\\PlayerIdle.anim);
+
+	pNode = FindNode(animation\\player\\PlayerIdleUturnR.anim);	pNode->AddPreferences(DIR_CHANGE_ANIM | NO_MOVE);
+	PushTranNode(animation\\player\\PlayerIdle.anim);
+
+	pNode = FindNode(animation\\player\\PlayerRunUturnR.anim); pNode->AddPreferences(DIR_CHANGE_ANIM | NO_MOVE);
+	PushTranNode(animation\\player\\PlayerRun.anim);
+
+	// ============================== Jump ==============================
+	pNode = FindNode(animation\\player\\PlayerJumpStart.anim);
+	PushTranNode(animation\\player\\PlayerFalling.anim);
+	pTrNode->AddTran(SPEED_Y_TURN);									pTrNode->AddExclude(KEY_A_OR_D | ANIM_FINISHED);
+
+	pNode = FindNode(animation\\player\\PlayerFalling.anim);
+	PushTranNode(animation\\player\\PlayerFalling.anim);
+	pTrNode->AddTran(ANIM_FINISHED);								pTrNode->AddExclude(KEY_A_OR_D );
+	PushTranNode(animation\\player\\PlayerLanding.anim);
+	pTrNode->AddTran(GROUND | AERIAL_TO_GROUND);					pTrNode->AddExclude(KEY_A_OR_D);
+
+	pNode = FindNode(animation\\player\\PlayerLanding.anim); pNode->AddPreferences(NO_MOVE);
+	PushTranNode(animation\\player\\PlayerIdle.anim);
+	
+	// ============================== Attack ==============================
+	pNode = FindNode(animation\\player\\PlayerJumpStart.anim);
+	PushTranNode(animation\\player\\PlayerFalling.anim);
+
+
+	//pNode = FindNode(animation\\player\\PlayerIdleToRun.anim);
+	//PushTranNode(animation\\player\\PlayerRun.anim);
+
+	//pNode = FindNode(animation\\player\\PlayerIdleToRun.anim);
+	//PushTranNode(animation\\player\\PlayerRun.anim);
+
+	//pNode = FindNode(animation\\player\\PlayerIdleToRun.anim);
+	//PushTranNode(animation\\player\\PlayerRun.anim);
+
+	//pNode = FindNode(animation\\player\\PlayerIdleToRun.anim);
+	//PushTranNode(animation\\player\\PlayerRun.anim);
+
+	//pNode = FindNode(animation\\player\\PlayerIdleToRun.anim);
+	//PushTranNode(animation\\player\\PlayerRun.anim);
+
 }
 
 void CAnimController::DelAnimConMap()
