@@ -28,12 +28,25 @@ CAnimController::~CAnimController()
 
 void CAnimController::begin()
 {
-	if (GetOwner()->GetScript<CUnitScript>())
+	m_ObjType = OBJ_PLAYER;
+	m_pCurAnimNode = mapAnimNode.find(L"animation\\player\\PlayerIdle.anim")->second;
+	Animator2D()->Play(m_pCurAnimNode->pAnimKey);
+
+
+	const vector<CGameObject*>& vecChildObj = GetOwner()->GetChildObject();
+	for (size_t i = 0; i < vecChildObj.size(); ++i)
 	{
-		m_ObjType = OBJ_PLAYER;
-		m_pCurAnimNode = mapAnimNode.find(L"animation\\player\\PlayerIdle.anim")->second;
-		Animator2D()->Play(m_pCurAnimNode->pAnimKey);
+		if (vecChildObj[i]->GetLayerIdx() == (int)LAYER_NAME::PLAYER_HIT)
+		{
+			m_pHitObj = vecChildObj[i];
+		}
+		else if (vecChildObj[i]->GetLayerIdx() == (int)LAYER_NAME::PLAYER_ATTACK)
+		{
+			m_pAttObj = vecChildObj[i];
+		}
 	}
+
+
 }
 
 void CAnimController::tick()
@@ -46,6 +59,8 @@ void CAnimController::tick()
 	SetCurDir();
 	SetCondBit();
 	SetGravity();
+	SetAttackCollider();
+	SetInvincible();
 	SetComboProgress();
 	PosChangeProgress();
 	
@@ -161,6 +176,48 @@ void CAnimController::SetGravity()
 	}
 }
 
+void CAnimController::SetAttackCollider()
+{
+	// 애니메이션이 오프셋을 가짐
+	if (CalBit(m_pCurAnimNode->iPreferences, HAS_COLLIDER, BIT_INCLUDE))
+	{
+		Ptr<CAnimation2D> pAnim = Animator2D()->GetCurAnim();
+		int idx = pAnim->GetCurIdx();
+		const vector<tAnim2DFrm>& vecFrm = pAnim->GetFrmVecRef();
+
+		bool bColOn = vecFrm[idx].bColiiderOn;
+
+		// 오프셋임
+		Vec2 vColOffset = vecFrm[idx].iColliderPos;
+		Vec2 vColScale = vecFrm[idx].iColliderScale;
+
+		if (bColOn)
+		{
+			m_pAttObj->Collider2D()->SetOffsetPos(vColOffset * (float)m_eCurAnimDir);
+			m_pAttObj->Collider2D()->SetScale(vColScale);
+		}
+		else
+		{
+			m_pAttObj->Collider2D()->SetOffsetPos( EXPELL * (int)LAYER_NAME::PLAYER_ATTACK);
+			m_pAttObj->Collider2D()->SetScale(Vec2(0, 0));
+		}
+	}
+}
+
+void CAnimController::SetInvincible()
+{
+	const vector<CGameObject*>& vecChildObj = GetOwner()->GetChildObject();
+
+	if (CalBit(m_pCurAnimNode->iPreferences, INVINCIBLE, BIT_INCLUDE))
+	{
+		m_pHitObj->Collider2D()->SetOffsetPos( EXPELL * (int)LAYER_NAME::PLAYER_HIT);
+	}
+	else
+	{
+		m_pHitObj->Collider2D()->SetOffsetPos(Vec2::Zero);
+	}
+}
+
 void CAnimController::PosChangeProgress()
 {
 	Vec2 vPosChange = m_pCurAnimNode->pAnim->GetPosChange();
@@ -260,7 +317,12 @@ void CAnimController::NodeProgress()
 	// Combo Progress
 	if (CalBit(m_pCurAnimNode->iPreferences, HAS_RESERVE, BIT_INCLUDE))
 	{
-		m_pReserveNode = m_pCurAnimNode->pReserveAnim; // 다음 콤보 애니메이션 저장
+		static	bool IsAerial;
+		if (CalBit(m_pCurAnimNode->iCond, GROUND, BIT_INCLUDE))
+			IsAerial = false;
+		else
+			IsAerial = true;
+		m_pReserveNode = m_pCurAnimNode->arrReserveAnim[IsAerial]; // 다음 콤보 애니메이션 저장
 		m_pTmpSaveNode = m_pCurAnimNode;
 		fMemorizeAcc = 0.f;
 	}
@@ -368,7 +430,11 @@ void CAnimController::SetCurDir()
 	}
 }
 
-void tAnimNode::SetReserve(const wstring& _pAnimPath)
+// 0번 -> Ground Reserve Anim  | 1번 -> Aerial Reserve Anim
+void tAnimNode::SetReserve(const wstring& _pAnimPath, bool _bGroundAnim)
 {
-	pReserveAnim = CAnimController::mapAnimNode.find(_pAnimPath)->second;
+	if(_bGroundAnim)
+		arrReserveAnim[0] = CAnimController::mapAnimNode.find(_pAnimPath)->second;
+	else
+		arrReserveAnim[1] = CAnimController::mapAnimNode.find(_pAnimPath)->second;
 }

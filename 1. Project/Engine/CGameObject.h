@@ -82,6 +82,7 @@ public:
 
     bool IsDead() { return m_bDead; }
     bool IsGrave() { return m_bGrave; }
+    void SetGrave(bool _b) { m_bGrave = _b; }
     void Destroy();
 
     CLONE(CGameObject);

@@ -881,9 +881,11 @@ void AnimTool::FrameImageWindow()
 
 			m_ChangeFrm[idx].iColliderScale = Vec2(fabsf(vRectStartPos.x - vRectEndPos.x), fabsf(vRectStartPos.y - vRectEndPos.y));
 			
-			Vec2 vPivot = vCursorPos + Vec2(m_ChangeFrm[idx].vFullSize * AtlasSize / 2.f) + m_ChangeFrm[idx].vOffset * AtlasSize;
+			// 중앙 기준
+			Vec2 vPivot = vCursorPos + Vec2(m_ChangeFrm[idx].vFullSize * AtlasSize / 2.f)/* + m_ChangeFrm[idx].vOffset * AtlasSize*/;
 			Vec2 vColliderPos = vRectStartPos + Vec2((vRectEndPos - vRectStartPos) / 2.f);
-			m_ChangeFrm[idx].iColliderPos = vColliderPos - vPivot;
+			m_ChangeFrm[idx].iColliderPos.x = vColliderPos.x - vPivot.x;
+			m_ChangeFrm[idx].iColliderPos.y = -(vColliderPos.y - vPivot.y);
 		}
 		else
 		{

@@ -37,6 +37,17 @@ enum class SAMPLER_TYPE
 	END,
 };
 
+enum class LAYER_NAME
+{
+	DEFAULT,
+	BLOCK,
+	MOVE,
+	PLAYER_HIT,
+	PLAYER_ATTACK,
+	ENEMEY_HIT,
+	ENEMY_ATTACK,
+};
+
 enum class CB_TYPE
 {
 	TRANSFORM,	 // b0

@@ -82,6 +82,7 @@ private:
 
     Vec2 GetClickedIdx(Vec2 _vCursorPos);
 
+    // 마우스 스크린 포즈로 끝 점 두개 반환
     std::pair<Vec2, Vec2> AddRectOnImage(Vec2 _cursorPos, Vec2 _FrameSize);
 
 

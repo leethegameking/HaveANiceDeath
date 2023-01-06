@@ -25,6 +25,7 @@ private:
 public:
     Ptr<CTexture> GetAtlas() { return m_AtlasTex; }
     vector<tAnim2DFrm>* GetFrmVec() { return &m_vecFrm; }
+    const vector<tAnim2DFrm>& GetFrmVecRef() { return m_vecFrm; }
 
     const Ptr<CAnimation2D>& GetMasterAnim() { return m_pMasterAnim; }
     Vec2 GetPosChange() { return m_vPosChange; }
@@ -38,6 +39,7 @@ public:
         }
         return sum;
     }
+    int GetCurIdx() { return m_iCurIdx; }
 
 public:
     void finaltick();
