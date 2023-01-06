@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <Engine/CScript.h>
 
-#define EXPELL Vec2(-1000000.f, -1000000.f)
+#define EXPEL Vec2(-1000000.f, -1000000.f)
 
 enum ANIM_CONDITION
 {
@@ -18,7 +18,6 @@ enum ANIM_CONDITION
     MOUSE_LEFT          = 0x00000400,
     SPEED_Y_NEGATIVE    = 0x00000800,
     KEY_SHIFT           = 0x00001000,
-    
 };
 
 enum PLAYER_COMBO
@@ -137,7 +136,7 @@ private:
 private:
 
 public:
-    void begin() override;
+    virtual void begin() override;
     virtual void tick();
 
 public:
@@ -150,23 +149,23 @@ public:
     static  map<wstring, tAnimNode*> mapAnimNode;
 
 public:
-    tAnimNode* GetCurAnimNode() { return m_pCurAnimNode; }
+    virtual tAnimNode* GetCurAnimNode() { return m_pCurAnimNode; }
 
-    ANIM_DIR GetCurAnimDir() { return m_eCurAnimDir; }
-    void SetAnimDir(ANIM_DIR _eDir) { m_eCurAnimDir = _eDir; }
+    virtual ANIM_DIR GetCurAnimDir() { return m_eCurAnimDir; }
+    virtual void SetAnimDir(ANIM_DIR _eDir) { m_eCurAnimDir = _eDir; }
 
-private:
+protected:
     // m_pPrevAnimNode = m_pCurAnimNode;
-    void PlayNextNode();
-    void SetCurDir();
-    void SetCondBit();
-    void SetGravity();
-    void SetAttackCollider();
-    void SetInvincible();
-    void SetComboProgress();
-    void PosChangeProgress();
-    void NodeProgress();
-    void SetDir();
+    virtual void PlayNextNode();
+    virtual void SetCurDir();
+    virtual void SetCondBit();
+    virtual void SetGravity();
+    virtual void SetAttackCollider();
+    virtual void SetInvincible(); // 피격 분기 추가
+    virtual void SetComboProgress();
+    virtual void PosChangeProgress();
+    virtual void NodeProgress();
+    virtual void SetDir();
     
 
 public:
@@ -180,9 +179,6 @@ public:
     CLONE(CAnimController)
 public:
     CAnimController();
+    CAnimController(int _ScriptType);
     ~CAnimController();
-
-private:
-
 };
-

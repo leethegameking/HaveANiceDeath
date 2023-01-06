@@ -799,6 +799,10 @@ void AnimTool::SettingWindow()
 			if (ImGui::BeginPopupModal("Frame Edit"))
 			{
 				ImGui::Text("Frame Edit Complete!!!");
+				if (KEY_TAP(KEY::ENTER))
+				{
+					ImGui::CloseCurrentPopup();
+				}
 				if (CommonUI::ButtonCenteredOnLine("Close", 0.5f))
 				{
 					ImGui::CloseCurrentPopup();

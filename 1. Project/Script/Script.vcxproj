@@ -170,10 +170,12 @@ call CodeGen.exe</Command>
     <ClInclude Include="CAnimController.h" />
     <ClInclude Include="CBlockScript.h" />
     <ClInclude Include="CControllerScript.h" />
+    <ClInclude Include="CEnemyController.h" />
     <ClInclude Include="CGameCameraScript.h" />
     <ClInclude Include="CPlayerScript.h" />
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="CUnitScript.h" />
+    <ClInclude Include="CWorkman.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="CTestScript.h" />
@@ -183,10 +185,12 @@ call CodeGen.exe</Command>
     <ClCompile Include="CAnimController.cpp" />
     <ClCompile Include="CBlockScript.cpp" />
     <ClCompile Include="CControllerScript.cpp" />
+    <ClCompile Include="CEnemyController.cpp" />
     <ClCompile Include="CGameCameraScript.cpp" />
     <ClCompile Include="CPlayerScript.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="CUnitScript.cpp" />
+    <ClCompile Include="CWorkman.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

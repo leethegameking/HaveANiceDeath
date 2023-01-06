@@ -98,11 +98,11 @@ void CBlockScript::UpCollision(CCollider2D* _other)
 	CUnitScript* pUnitScript = _other->GetOwner()->GetScript<CUnitScript>();
 	if (m_bPlatform)
 	{
-		pUnitScript->AddStateBits(UNIT_GROUND_PLATFORM);
+		pUnitScript->AddUnitState(UNIT_GROUND_PLATFORM);
 	}
 	else
 	{
-		pUnitScript->AddStateBits(UNIT_GROUND);
+		pUnitScript->AddUnitState(UNIT_GROUND);
 	}
 }
 

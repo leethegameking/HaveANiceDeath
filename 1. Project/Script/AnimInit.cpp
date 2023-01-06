@@ -47,7 +47,7 @@ void CAnimController::CreatePlayerAnimCon()
 	PushTranNode(animation\\player\\PlayerIdleUturnR.anim);
 	pTrNode->AddTran(GROUND | KEY_A_OR_D | ANIM_DIR_CHANGED);
 	PushTranNode(animation\\player\\PlayerJumpStart.anim);
-	pTrNode->AddTran(GROUND_TO_AERIAL | SPEED_Y_POSITIVE);			pTrNode->AddExclude(KEY_A_OR_D);
+	pTrNode->AddInclude(SPEED_Y_POSITIVE);
 	PushTranNode(animation\\player\\PlayerFalling.anim);
 	pTrNode->AddTran(SPEED_Y_NEGATIVE);									pTrNode->AddExclude(KEY_A_OR_D);
 	PushTranNode(animation\\player\\PlayerCombo1.anim);
@@ -126,20 +126,20 @@ void CAnimController::CreatePlayerAnimCon()
 	pTrNode->AddTran(ANIM_FINISHED | COMBO_PROGRESS);		pTrNode->AddExclude(KEY_A_OR_D | MOUSE_LEFT); pNode->SetReserve(pTrNode->pAnimKey, AERIALANIM);
 	PushTranNode(animation\\player\\PlayerFightToIdle2.anim); pTrNode->AddInclude(ANIM_FINISHED);
 
-	pNode = FindNode(animation\\player\\PlayerCombo2.anim);  pNode->AddPreferences(DIR_CHANGE_END | HAS_RESERVE | NO_MOVE | COMBO_ANIM);
+	pNode = FindNode(animation\\player\\PlayerCombo2.anim);  pNode->AddPreferences(DIR_CHANGE_END | HAS_RESERVE | NO_MOVE | COMBO_ANIM | HAS_COLLIDER);
 	PushTranNode(animation\\player\\PlayerCombo3.anim);
 	pTrNode->AddTran(ANIM_FINISHED | GROUND | COMBO_PROGRESS);		pTrNode->AddExclude(KEY_A_OR_D | MOUSE_LEFT); pNode->SetReserve(pTrNode->pAnimKey);
 	PushTranNode(animation\\player\\PlayerFightToIdle.anim); pTrNode->AddInclude(ANIM_FINISHED);
 
-	pNode = FindNode(animation\\player\\PlayerCombo3.anim);  pNode->AddPreferences(DIR_CHANGE_END | HAS_RESERVE | NO_MOVE | COMBO_ANIM);
+	pNode = FindNode(animation\\player\\PlayerCombo3.anim);  pNode->AddPreferences(DIR_CHANGE_END | HAS_RESERVE | NO_MOVE | COMBO_ANIM | HAS_COLLIDER);
 	PushTranNode(animation\\player\\PlayerCombo4.anim);
 	pTrNode->AddTran(ANIM_FINISHED | GROUND | COMBO_PROGRESS);		pTrNode->AddExclude(KEY_A_OR_D | MOUSE_LEFT); pNode->SetReserve(pTrNode->pAnimKey);
 	PushTranNode(animation\\player\\PlayerFightToIdle.anim); pTrNode->AddInclude(ANIM_FINISHED);
 
-	pNode = FindNode(animation\\player\\PlayerCombo4.anim);  pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE | COMBO_ANIM);
+	pNode = FindNode(animation\\player\\PlayerCombo4.anim);  pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE | COMBO_ANIM | HAS_COLLIDER);
 	PushTranNode(animation\\player\\PlayerCombo4_2.anim); pTrNode->AddInclude(ANIM_FINISHED);
 
-	pNode = FindNode(animation\\player\\PlayerCombo4_2.anim);  pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE | COMBO_ANIM);
+	pNode = FindNode(animation\\player\\PlayerCombo4_2.anim);  pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE | COMBO_ANIM | HAS_COLLIDER);
 	PushTranNode(animation\\player\\PlayerIdle.anim); pTrNode->AddInclude(ANIM_FINISHED);
 
 	// ============================== JumpAttack ==============================

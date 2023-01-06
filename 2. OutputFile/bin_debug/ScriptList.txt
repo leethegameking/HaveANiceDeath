@@ -1,7 +1,9 @@
 CAnimController
 CBlockScript
 CControllerScript
+CEnemyController
 CGameCameraScript
 CPlayerScript
 CTestScript
 CUnitScript
+CWorkman

@@ -1,18 +1,10 @@
 ﻿#include "pch.h"
 #include "CPlayerScript.h"
 
-wstring PlayerKey[PLAYER_ANIM_END] =
-{
-	L"PlayerIdle",
-	L"PlayerIdleToRun",
-	L"PlayerRun",
-	L"PlayerRunToIdle",
-	L"PlayerIdleUturn",
-	L"PlayerRunUturn",
-};
+
 
 CPlayerScript::CPlayerScript()
-	: CScript(PLAYERSCRIPT)
+	: CUnitScript(PLAYERSCRIPT)
 {
 }
 

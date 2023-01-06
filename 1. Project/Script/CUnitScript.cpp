@@ -3,9 +3,11 @@
 
 CUnitScript::CUnitScript()
 	: CScript((int)SCRIPT_TYPE::UNITSCRIPT)
-	, m_fHP(100.f)
-	, m_fMP(100.f)
-	, m_iStateBits(0)
+{
+}
+
+CUnitScript::CUnitScript(int _ScriptType)
+	: CScript(_ScriptType)
 {
 }
 
@@ -17,8 +19,7 @@ CUnitScript::~CUnitScript()
 
 void CUnitScript::tick()
 {
-	int a = 0;
-	a += 1;
+
 }
 
 

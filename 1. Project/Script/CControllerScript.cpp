@@ -50,11 +50,11 @@ void CControllerScript::tick()
 			if (Rigidbody2D()->IsGround())
 			{
 				CUnitScript* pUnitScript = GetOwner()->GetScript<CUnitScript>();
-				if (pUnitScript && CalBit(pUnitScript->GetStateBits(), UNIT_GROUND_PLATFORM, BIT_LEAST_ONE))
+				if (pUnitScript && CalBit(pUnitScript->GetUnitState(), UNIT_GROUND_PLATFORM, BIT_LEAST_ONE))
 				{
 					Rigidbody2D()->SetGround(false);
 
-					pUnitScript->RemoveStateBits(UNIT_GROUND_PLATFORM | UNIT_GROUND);
+					pUnitScript->RemoveUnitState(UNIT_GROUND_PLATFORM | UNIT_GROUND);
 				}
 			}
 		}

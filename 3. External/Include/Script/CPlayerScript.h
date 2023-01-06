@@ -1,24 +1,13 @@
 ﻿#pragma once
 #include <Engine/CScript.h>
+#include "CUnitScript.h"
 
 class CAnimation2D;
 
-enum PLAYER_ANIM
-{
-    PlayerIdle              = 0x00000001,
-    PlayerIdleToRun         = 0x00000002,
-    PlayerRun               = 0x00000004,
-    PlayerRunToIdle         = 0x00000008,
-    PlayerIdleUturn         = 0x00000010,
-    PlayerRunUturn          = 0x00000020,
-    PLAYER_ANIM_END,
-};
-
-extern wstring PlayerKey[PLAYER_ANIM_END];
 
 
 class CPlayerScript :
-    public CScript
+    public CUnitScript
 {
 private:
 

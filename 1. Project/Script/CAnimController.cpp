@@ -22,6 +22,25 @@ CAnimController::CAnimController()
 {
 }
 
+CAnimController::CAnimController(int _ScriptType)
+	: CScript(_ScriptType)
+	, m_ObjType(OBJ_PLAYER)
+	, m_eCurAnimDir(ANIM_DIR::ANIM_RIGHT)
+	, m_bPrevGround(false)
+	, m_fSpeed(0.f)
+	, m_fPrevSpeed(0.f)
+	, m_iCombo(COMBO_NONE)
+	, m_iPrevCombo(COMBO_NONE)
+	, m_bCombo(false)
+	, m_bComboProgress(false)
+	, m_pReserveNode(nullptr)
+	, m_pTmpSaveNode(nullptr)
+	, m_pNextNode(nullptr)
+	, m_bDirChanging(false)
+	, m_eNextDir(ANIM_DIR::END)
+{
+}
+
 CAnimController::~CAnimController()
 {
 }
@@ -45,8 +64,6 @@ void CAnimController::begin()
 			m_pAttObj = vecChildObj[i];
 		}
 	}
-
-
 }
 
 void CAnimController::tick()
@@ -193,14 +210,17 @@ void CAnimController::SetAttackCollider()
 
 		if (bColOn)
 		{
-			m_pAttObj->Collider2D()->SetOffsetPos(vColOffset * (float)m_eCurAnimDir);
+			m_pAttObj->Collider2D()->SetOffsetPos(Vec2(vColOffset.x * (float)m_eCurAnimDir, vColOffset.y));
 			m_pAttObj->Collider2D()->SetScale(vColScale);
 		}
 		else
 		{
-			m_pAttObj->Collider2D()->SetOffsetPos( EXPELL * (int)LAYER_NAME::PLAYER_ATTACK);
-			m_pAttObj->Collider2D()->SetScale(Vec2(0, 0));
+			m_pAttObj->Collider2D()->SetOffsetPos(EXPEL * (int)LAYER_NAME::PLAYER_ATTACK);
 		}
+	}
+	else
+	{
+		m_pAttObj->Collider2D()->SetOffsetPos(EXPEL * (int)LAYER_NAME::PLAYER_ATTACK);
 	}
 }
 
@@ -210,12 +230,14 @@ void CAnimController::SetInvincible()
 
 	if (CalBit(m_pCurAnimNode->iPreferences, INVINCIBLE, BIT_INCLUDE))
 	{
-		m_pHitObj->Collider2D()->SetOffsetPos( EXPELL * (int)LAYER_NAME::PLAYER_HIT);
+		m_pHitObj->Collider2D()->SetOffsetPos( EXPEL * (int)LAYER_NAME::PLAYER_HIT);
 	}
 	else
 	{
 		m_pHitObj->Collider2D()->SetOffsetPos(Vec2::Zero);
 	}
+
+	// 피격시 몇초간 무적.
 }
 
 void CAnimController::PosChangeProgress()
@@ -288,6 +310,10 @@ void CAnimController::NodeProgress()
 	static float fDashCool = 1.f;
 	static float fDashAcc = 0.f;
 	static bool bDashUsed = false;
+
+	// 피격시 
+
+	// ------------------------------------------------------------------------------------------------------------------
 
 	// Dash 사용 체크
 	if (bDashUsed)

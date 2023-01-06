@@ -1,29 +1,30 @@
-#pragma once
+﻿#pragma once
 #include <Engine/CScript.h>
 
 enum UNIT_STATE
 {
-    UNIT_AERIAL             = 0x0001,
-    UNIT_GROUND             = 0x0002,
-    UNIT_GROUND_PLATFORM    = 0x0004,
+    UNIT_GROUND_PLATFORM    = 0x00000001,
+    UNIT_GROUND             = 0x00000002,
+};
+
+struct tUnitInfo
+{
+    float   m_fHP;
+    float   m_fMP;
+    float   m_fAtt;
+    UINT    m_iStateBits;
 };
 
 class CUnitScript :
     public CScript
 {
-    float   m_fHP;
-    float   m_fMP;
-
-    UINT    m_iStateBits;
+protected:
+    tUnitInfo m_UnitInfo;
 
 public:
-    int GetStateBits() { return m_iStateBits; }
-    void AddStateBits(UINT _eState) 
-    { 
-        m_iStateBits |= _eState;
-        int a = 0;
-    }
-    void RemoveStateBits(UINT _eState) { m_iStateBits &= ~_eState; }
+    UINT GetUnitState() { return m_UnitInfo.m_iStateBits; }
+    void AddUnitState(UINT _StateBits) { AddBit(m_UnitInfo.m_iStateBits, _StateBits); }
+    void RemoveUnitState(UINT _StateBits){ RemoveBit(m_UnitInfo.m_iStateBits, _StateBits); }
 
 public:
     virtual void tick() override;
@@ -39,6 +40,7 @@ public:
     CLONE(CUnitScript)
 public:
     CUnitScript();
+    CUnitScript(int _ScriptType);
     ~CUnitScript();
 };
 

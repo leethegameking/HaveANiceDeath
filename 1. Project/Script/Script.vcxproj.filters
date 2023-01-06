@@ -31,6 +31,12 @@
     <ClInclude Include="CGameCameraScript.h">
       <Filter>Script\GameCamera</Filter>
     </ClInclude>
+    <ClInclude Include="CEnemyController.h">
+      <Filter>Script\Unit\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="CWorkman.h">
+      <Filter>Script\Unit\Enemy\Workman</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Script.cpp">
@@ -66,6 +72,12 @@
     <ClCompile Include="AnimInit.cpp">
       <Filter>Script\AnimController\AnimInit</Filter>
     </ClCompile>
+    <ClCompile Include="CEnemyController.cpp">
+      <Filter>Script\Unit\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="CWorkman.cpp">
+      <Filter>Script\Unit\Enemy\Workman</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -97,6 +109,9 @@
     </Filter>
     <Filter Include="Script\AnimController\AnimInit">
       <UniqueIdentifier>{65d3f10a-9571-4a88-887d-df04315ac287}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Unit\Enemy\Workman">
+      <UniqueIdentifier>{64de4e59-8201-4dda-ad77-d6f92bd1c54e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
