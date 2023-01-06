@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "CCameraScript.h"
 
 class CCamera;
@@ -13,6 +13,8 @@ private:
     float           m_fThickness;
     float           m_fGridInterval;
 
+    bool            m_bDraw;
+
 
 public:
     virtual void begin() override;
@@ -24,6 +26,9 @@ public:
     void SetGridColor(Vec4 _vColor) { m_vColor = _vColor; }
     void SetThickness(float _fThickness) { m_fThickness = _fThickness; }
     void SetGridInterval(float _fGirdInterval) { m_fGridInterval = _fGirdInterval; }
+
+    bool GetDraw() { return m_bDraw; }
+    void SetDraw(bool _b) { m_bDraw = _b; }
 
     CLONE(CGrid2DScript);
 public:

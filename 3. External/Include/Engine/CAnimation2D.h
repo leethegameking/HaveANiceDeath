@@ -29,7 +29,15 @@ public:
     const Ptr<CAnimation2D>& GetMasterAnim() { return m_pMasterAnim; }
     Vec2 GetPosChange() { return m_vPosChange; }
     void SetPosChange(Vec2 _PosChange) { m_vPosChange = _PosChange; }
-
+    float GetSumDuration()
+    {
+        float sum = 0.f;
+        for (size_t i = 0; i < m_vecFrm.size(); ++i)
+        {
+            sum += m_vecFrm[i].fDuration;
+        }
+        return sum;
+    }
 
 public:
     void finaltick();

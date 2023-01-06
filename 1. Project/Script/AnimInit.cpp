@@ -15,9 +15,10 @@ void CAnimController::AnimConInit()
 #define PushTranNode(AnimPath) 	pTrNode = new tTransitionNode(L#AnimPath); \
 								assert(pTrNode->pAnim.Get()); \
 								pNode->vecNextAnim.push_back(pTrNode)
+
 void CAnimController::CreatePlayerAnimCon()
 {
-	
+
 	tAnimNode* pPlayerNode = nullptr;
 	map<wstring, Ptr<CRes>> mapAnim = CResMgr::GetInst()->GetResource(RES_TYPE::ANIMATION2D);
 
@@ -31,9 +32,11 @@ void CAnimController::CreatePlayerAnimCon()
 		mapAnimNode.insert({ pPlayerNode->pAnimKey, pPlayerNode });
 	}
 
-
 	tAnimNode* pNode = nullptr;
 	tTransitionNode* pTrNode = nullptr;
+	// ============================== Dash ==============================
+	pNode = FindNode(animation\\player\\PlayerDash.anim); pNode->AddPreferences( DIR_CHANGE_END | DASH_ANIM | NO_MOVE | IGNORE_GRAVITY);
+	PushTranNode(animation\\player\\PlayerIdle.anim); pTrNode->AddInclude(ANIM_FINISHED);
 
 	// ============================== Ground ==============================
 	pNode = FindNode(animation\\player\\PlayerIdle.anim); pNode->AddPreferences(NEED_DIR_CHANGE | REPEAT);
@@ -41,96 +44,96 @@ void CAnimController::CreatePlayerAnimCon()
 	pTrNode->AddTran(GROUND | KEY_A_OR_D);
 	PushTranNode(animation\\player\\PlayerIdleUturnR.anim);
 	pTrNode->AddTran(GROUND | KEY_A_OR_D | ANIM_DIR_CHANGED);
-	//PushTranNode(animation\\player\\PlayerJumpStart.anim);
-	//pTrNode->AddTran(GROUND_TO_AERIAL | SPEED_Y_POSITIVE );			pTrNode->AddExclude(KEY_A_OR_D);
-	//PushTranNode(animation\\player\\PlayerFalling.anim);
-	//pTrNode->AddTran(SPEED_Y_TURN);									pTrNode->AddExclude(KEY_A_OR_D);
-	//PushTranNode(animation\\player\\PlayerCombo1.anim);
-	//pTrNode->AddTran(GROUND | MOUSE_LEFT);
+	PushTranNode(animation\\player\\PlayerJumpStart.anim);
+	pTrNode->AddTran(GROUND_TO_AERIAL | SPEED_Y_POSITIVE);			pTrNode->AddExclude(KEY_A_OR_D);
+	PushTranNode(animation\\player\\PlayerFalling.anim);
+	pTrNode->AddTran(SPEED_Y_NEGATIVE);									pTrNode->AddExclude(KEY_A_OR_D);
+	PushTranNode(animation\\player\\PlayerCombo1.anim);
+	pTrNode->AddInclude(GROUND | MOUSE_LEFT);
 
 	pNode = FindNode(animation\\player\\PlayerIdleToRun.anim); 	pNode->AddPreferences(NEED_DIR_CHANGE);
 	PushTranNode(animation\\player\\PlayerRun.anim);
 	pTrNode->AddTran(GROUND | KEY_A_OR_D | ANIM_FINISHED);
 	PushTranNode(animation\\player\\PlayerRunToIdle.anim);
-	pTrNode->AddTran(GROUND);
+	pTrNode->AddTran(GROUND);									pTrNode->AddExclude(ANIM_FINISHED);
 	PushTranNode(animation\\player\\PlayerRunUturnR.anim);
 	pTrNode->AddTran(GROUND | KEY_A_OR_D | ANIM_DIR_CHANGED);
 	PushTranNode(animation\\player\\PlayerJumpStart.anim);
 	pTrNode->AddTran(GROUND_TO_AERIAL | SPEED_Y_POSITIVE);			pTrNode->AddExclude(KEY_A_OR_D);
 	PushTranNode(animation\\player\\PlayerFalling.anim);
-	pTrNode->AddTran(SPEED_Y_TURN);									pTrNode->AddExclude(KEY_A_OR_D);
+	pTrNode->AddTran(SPEED_Y_NEGATIVE);									pTrNode->AddExclude(KEY_A_OR_D | ANIM_FINISHED);
+	PushTranNode(animation\\player\\PlayerCombo1.anim);
+	pTrNode->AddInclude(GROUND | MOUSE_LEFT);
 
-	pNode = FindNode(animation\\player\\PlayerRun.anim); pNode->AddPreferences(NEED_DIR_CHANGE);
-	PushTranNode(animation\\player\\PlayerRun.anim);
-	pTrNode->AddTran(GROUND | KEY_A_OR_D | ANIM_FINISHED);
+	pNode = FindNode(animation\\player\\PlayerRun.anim); pNode->AddPreferences(NEED_DIR_CHANGE | REPEAT);
 	PushTranNode(animation\\player\\PlayerRunUturnR.anim);
 	pTrNode->AddTran(GROUND | KEY_A_OR_D | ANIM_DIR_CHANGED);		pTrNode->AddExclude(ANIM_FINISHED);
 	PushTranNode(animation\\player\\PlayerJumpStart.anim);
-	pTrNode->AddTran(GROUND_TO_AERIAL | SPEED_Y_POSITIVE);			pTrNode->AddExclude(KEY_A_OR_D);
+	pTrNode->AddTran(GROUND_TO_AERIAL | SPEED_Y_POSITIVE);			pTrNode->AddExclude(KEY_A_OR_D | ANIM_FINISHED);
 	PushTranNode(animation\\player\\PlayerFalling.anim);
-	pTrNode->AddTran(SPEED_Y_TURN);									pTrNode->AddExclude(KEY_A_OR_D);
+	pTrNode->AddTran(SPEED_Y_NEGATIVE);									pTrNode->AddExclude(KEY_A_OR_D | ANIM_FINISHED);
 	PushTranNode(animation\\player\\PlayerRunToIdle.anim);
 	pTrNode->AddTran(GROUND);										pTrNode->AddExclude(ANIM_FINISHED);
+	PushTranNode(animation\\player\\PlayerCombo1.anim);
+	pTrNode->AddInclude(GROUND | MOUSE_LEFT);
 
-	pNode = FindNode(animation\\player\\PlayerRunToIdle.anim); pNode->AddPreferences(NO_MOVE);
+	pNode = FindNode(animation\\player\\PlayerRunToIdle.anim); /*pNode->AddPreferences(NO_MOVE);*/
 	PushTranNode(animation\\player\\PlayerIdle.anim); pTrNode->AddInclude(ANIM_FINISHED);
+	PushTranNode(animation\\player\\PlayerCombo1.anim);
+	pTrNode->AddInclude(GROUND | MOUSE_LEFT);
 
-	pNode = FindNode(animation\\player\\PlayerIdleUturnR.anim);	pNode->AddPreferences(DIR_CHANGE_ANIM | NO_MOVE);
+	pNode = FindNode(animation\\player\\PlayerIdleUturnR.anim);	pNode->AddPreferences(DIR_CHANGE_ANIM /*| NO_MOVE*/);
 	PushTranNode(animation\\player\\PlayerIdle.anim); pTrNode->AddInclude(ANIM_FINISHED);
+	PushTranNode(animation\\player\\PlayerCombo1.anim);
+	pTrNode->AddInclude(GROUND | MOUSE_LEFT);
 
-	pNode = FindNode(animation\\player\\PlayerRunUturnR.anim); pNode->AddPreferences(DIR_CHANGE_ANIM | NO_MOVE);
+	pNode = FindNode(animation\\player\\PlayerRunUturnR.anim); pNode->AddPreferences(DIR_CHANGE_ANIM /*| NO_MOVE*/);
 	PushTranNode(animation\\player\\PlayerRun.anim); pTrNode->AddInclude(ANIM_FINISHED);
+	PushTranNode(animation\\player\\PlayerCombo1.anim);
+	pTrNode->AddInclude(GROUND | MOUSE_LEFT);
 
-	//// ============================== Jump ==============================
-	//pNode = FindNode(animation\\player\\PlayerJumpStart.anim);
-	//PushTranNode(animation\\player\\PlayerFalling.anim);
-	//pTrNode->AddTran(SPEED_Y_TURN);									pTrNode->AddExclude(KEY_A_OR_D | ANIM_FINISHED);
+	// ============================== Jump ==============================
+	pNode = FindNode(animation\\player\\PlayerJumpStart.anim);
+	PushTranNode(animation\\player\\PlayerFalling.anim);
+	pTrNode->AddTran(SPEED_Y_NEGATIVE);									pTrNode->AddExclude(KEY_A_OR_D | ANIM_FINISHED);
 
-	//pNode = FindNode(animation\\player\\PlayerFalling.anim);
-	//PushTranNode(animation\\player\\PlayerFalling.anim);
-	//pTrNode->AddTran(ANIM_FINISHED);								pTrNode->AddExclude(KEY_A_OR_D );
-	//PushTranNode(animation\\player\\PlayerLanding.anim);
-	//pTrNode->AddTran(GROUND);										pTrNode->AddExclude(KEY_A_OR_D | ANIM_FINISHED);
+	pNode = FindNode(animation\\player\\PlayerFalling.anim);
+	PushTranNode(animation\\player\\PlayerFalling.anim);
+	pTrNode->AddTran(ANIM_FINISHED);								pTrNode->AddExclude(KEY_A_OR_D);
+	PushTranNode(animation\\player\\PlayerLanding.anim);
+	pTrNode->AddTran(GROUND);										pTrNode->AddExclude(KEY_A_OR_D | ANIM_FINISHED);
 
-	//pNode = FindNode(animation\\player\\PlayerLanding.anim); pNode->AddPreferences(NO_MOVE);
-	//PushTranNode(animation\\player\\PlayerIdle.anim);
-	//
-	//// ============================== Attack ==============================
-	//pNode = FindNode(animation\\player\\PlayerFightToIdle.anim);
-	//PushTranNode(animation\\player\\PlayerIdle.anim);
+	pNode = FindNode(animation\\player\\PlayerLanding.anim); pNode->AddPreferences(NO_MOVE);
+	PushTranNode(animation\\player\\PlayerIdle.anim); pTrNode->AddInclude(ANIM_FINISHED);
 
-	//pNode = FindNode(animation\\player\\PlayerCombo1.anim);  pNode->AddPreferences(COMBO_ANIM | HAS_RESERVE);	
-	//PushTranNode(animation\\player\\PlayerCombo2.anim);
-	//pTrNode->AddTran(ANIM_FINISHED | GROUND | COMBO_PROGRESS);		pTrNode->AddExclude(KEY_A_OR_D | MOUSE_LEFT); pNode->SetReserve(pTrNode->pAnimKey);
-	//PushTranNode(animation\\player\\PlayerIdle.anim);
+	// ============================== Attack ==============================
+	pNode = FindNode(animation\\player\\PlayerFightToIdle.anim); pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE);
+	PushTranNode(animation\\player\\PlayerIdle.anim); pTrNode->AddInclude(ANIM_FINISHED);
 
-	//pNode = FindNode(animation\\player\\PlayerCombo2.anim);  pNode->AddPreferences(COMBO_ANIM | HAS_RESERVE);
-	//PushTranNode(animation\\player\\PlayerCombo3.anim);
-	//pTrNode->AddTran(ANIM_FINISHED | GROUND | COMBO_PROGRESS);		pTrNode->AddExclude(KEY_A_OR_D | MOUSE_LEFT); pNode->SetReserve(pTrNode->pAnimKey);
-	//PushTranNode(animation\\player\\PlayerFightToIdle.anim);
+	pNode = FindNode(animation\\player\\PlayerFightToIdle2.anim); pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE);
+	PushTranNode(animation\\player\\PlayerIdle.anim); pTrNode->AddInclude(ANIM_FINISHED);
 
-	//pNode = FindNode(animation\\player\\PlayerCombo3.anim);  pNode->AddPreferences(COMBO_ANIM | HAS_RESERVE);
-	//PushTranNode(animation\\player\\PlayerCombo4.anim);
-	//pTrNode->AddTran(ANIM_FINISHED | GROUND | COMBO_PROGRESS);		pTrNode->AddExclude(KEY_A_OR_D | MOUSE_LEFT); pNode->SetReserve(pTrNode->pAnimKey);
-	//PushTranNode(animation\\player\\PlayerFightToIdle.anim);
+	pNode = FindNode(animation\\player\\PlayerCombo1.anim);  pNode->AddPreferences(DIR_CHANGE_END | HAS_RESERVE | NO_MOVE | COMBO_ANIM);
+	PushTranNode(animation\\player\\PlayerCombo2.anim);
+	pTrNode->AddTran(ANIM_FINISHED | GROUND | COMBO_PROGRESS);		pTrNode->AddExclude(KEY_A_OR_D | MOUSE_LEFT); pNode->SetReserve(pTrNode->pAnimKey);
+	PushTranNode(animation\\player\\PlayerFightToIdle2.anim); pTrNode->AddInclude(ANIM_FINISHED);
 
-	//pNode = FindNode(animation\\player\\PlayerCombo4.anim);  pNode->AddPreferences(COMBO_ANIM);
-	//PushTranNode(animation\\player\\PlayerIdle.anim);
+	pNode = FindNode(animation\\player\\PlayerCombo2.anim);  pNode->AddPreferences(DIR_CHANGE_END | HAS_RESERVE | NO_MOVE | COMBO_ANIM);
+	PushTranNode(animation\\player\\PlayerCombo3.anim);
+	pTrNode->AddTran(ANIM_FINISHED | GROUND | COMBO_PROGRESS);		pTrNode->AddExclude(KEY_A_OR_D | MOUSE_LEFT); pNode->SetReserve(pTrNode->pAnimKey);
+	PushTranNode(animation\\player\\PlayerFightToIdle.anim); pTrNode->AddInclude(ANIM_FINISHED);
 
-	//pNode = FindNode(animation\\player\\PlayerIdleToRun.anim);
-	//PushTranNode(animation\\player\\PlayerRun.anim);
+	pNode = FindNode(animation\\player\\PlayerCombo3.anim);  pNode->AddPreferences(DIR_CHANGE_END | HAS_RESERVE | NO_MOVE | COMBO_ANIM);
+	PushTranNode(animation\\player\\PlayerCombo4.anim);
+	pTrNode->AddTran(ANIM_FINISHED | GROUND | COMBO_PROGRESS);		pTrNode->AddExclude(KEY_A_OR_D | MOUSE_LEFT); pNode->SetReserve(pTrNode->pAnimKey);
+	PushTranNode(animation\\player\\PlayerFightToIdle.anim); pTrNode->AddInclude(ANIM_FINISHED);
 
-	//pNode = FindNode(animation\\player\\PlayerIdleToRun.anim);
-	//PushTranNode(animation\\player\\PlayerRun.anim);
+	pNode = FindNode(animation\\player\\PlayerCombo4.anim);  pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE | COMBO_ANIM);
+	PushTranNode(animation\\player\\PlayerCombo4_2.anim); pTrNode->AddInclude(ANIM_FINISHED);
 
-	//pNode = FindNode(animation\\player\\PlayerIdleToRun.anim);
-	//PushTranNode(animation\\player\\PlayerRun.anim);
+	pNode = FindNode(animation\\player\\PlayerCombo4_2.anim);  pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE | COMBO_ANIM);
+	PushTranNode(animation\\player\\PlayerIdle.anim); pTrNode->AddInclude(ANIM_FINISHED);
 
-	//pNode = FindNode(animation\\player\\PlayerIdleToRun.anim);
-	//PushTranNode(animation\\player\\PlayerRun.anim);
-
-	//pNode = FindNode(animation\\player\\PlayerIdleToRun.anim);
-	//PushTranNode(animation\\player\\PlayerRun.anim);
 
 }
 

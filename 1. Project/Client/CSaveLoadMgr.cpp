@@ -200,6 +200,14 @@ CLevel* CSaveLoadMgr::LoadLevel(wstring _strRelativePath)
 
 
     m_bFirstLoad = false;
+
+    map<wstring, Ptr<CRes>> mapAnim = CResMgr::GetInst()->GetResource(RES_TYPE::ANIMATION2D);
+    map<wstring, Ptr<CRes>>::iterator iter = mapAnim.begin();
+    for (iter; iter != mapAnim.end(); ++iter)
+    {
+        dynamic_cast<CAnimation2D*>(iter->second.Get())->Reallocate();
+    }
+
     return pLevel;
 }
 

@@ -742,13 +742,17 @@ void AnimTool::SettingWindow()
 				ImGui::Text("FullSize    "); ImGui::SameLine(); ImGui::InputFloat2("##Fullsize", vFullsize);
 				ImGui::Text("Offset      "); ImGui::SameLine(); ImGui::InputFloat2("##Offset", vOffset);
 				ImGui::Text("PosChange   "); ImGui::SameLine(); ImGui::InputFloat2("##PosChange", vPosChange);
-
+				static bool OffsetAllChange = false;
+				ImGui::Checkbox("Offset Change", &OffsetAllChange);
 
 				for (size_t i = 0; i < m_ChangeFrm.size(); ++i)
 				{
 					m_ChangeFrm[i].fDuration = 1.f / fFPS;
 					m_ChangeFrm[i].vFullSize = vFullsize / vAtlasSize;
-					m_ChangeFrm[i].vOffset = vOffset / vAtlasSize;
+					if (OffsetAllChange)
+					{
+						m_ChangeFrm[i].vOffset = vOffset / vAtlasSize;
+					}
 					if (m_pCurAnim.Get())
 					{
 						m_pCurAnim.Get()->SetPosChange(vPosChange);

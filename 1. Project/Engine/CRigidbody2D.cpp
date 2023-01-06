@@ -31,7 +31,6 @@ void CRigidbody2D::tick()
 
 void CRigidbody2D::finaltick()
 {
-
 	// f = ma;
 	float fGravityForce = 0.f;
 	Vec2 vFinalForce = Vec2::Zero;

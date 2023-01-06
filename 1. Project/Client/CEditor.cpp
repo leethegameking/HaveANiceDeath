@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CEditor.h"
 
 #include "imgui.h"
@@ -16,6 +16,7 @@
 #include "CEditorCam.h"
 
 CEditor::CEditor()
+	: m_bDebugDrawRender(true)
 {
 
 }
@@ -30,7 +31,7 @@ void CEditor::init()
 {
 	CreateDebugDrawObject();
 
-	// Editor ¿ëµµ Grid Object Ãß°¡
+	// Editor ìš©ë„ Grid Object ì¶”ê°€
 	CGameObjectEx* pGridObj = new CGameObjectEx;
 	pGridObj->SetName(L"Grid Object");
 
@@ -65,13 +66,19 @@ void CEditor::init()
 
 void CEditor::progress()
 {
+	if (KEY_PRESSED(KEY::LCTRL) && KEY_TAP(KEY::N_9))
+	{
+		m_bDebugDrawRender = !m_bDebugDrawRender;
+	}
+
 	if (LEVEL_STATE::PLAY != CLevelMgr::GetInst()->GetCurLevel()->GetState())
 	{
 		tick();
 		render();
 	}
 
-	render_debug();
+	if(m_bDebugDrawRender)
+		render_debug();
 }
 
 void CEditor::tick()
@@ -100,7 +107,7 @@ void CEditor::render()
 void CEditor::render_debug()
 {
 	// DebugDrawRender
-	// ÀÏÁ¤ ½Ã°£µ¿¾È ·»´õ¸µ µÇ´Â Shape 
+	// ì¼ì • ì‹œê°„ë™ì•ˆ ë Œë”ë§ ë˜ëŠ” Shape 
 	list<tDebugShapeInfo>::iterator iter = m_DebugDrawList.begin();
 	for (; iter != m_DebugDrawList.end(); )
 	{
@@ -116,7 +123,7 @@ void CEditor::render_debug()
 		}
 	}
 
-	// »õ·Î Ãß°¡µÈ DebugShape È®ÀÎ
+	// ìƒˆë¡œ ì¶”ê°€ëœ DebugShape í™•ì¸
 	vector<tDebugShapeInfo>& vecInfo = CRenderMgr::GetInst()->GetDebutgDrawInfo();
 
 	for (size_t i = 0; i < vecInfo.size(); ++i)

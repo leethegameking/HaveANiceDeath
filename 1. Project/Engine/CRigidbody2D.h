@@ -75,6 +75,9 @@ public:
     bool IsGround() { return m_bGround; }
     void SetGround(bool _b) { m_bGround = _b; }
 
+    bool GetIgnGravity() { return m_bIgnoreGravity; }
+    void SetIgnGravity(bool _b) { m_bIgnoreGravity = _b; }
+
     short GetDir() { return m_sDir; }
 
     void SetPrevPos(Vec3 _PrevPos) { m_vPrevPos = _PrevPos; }

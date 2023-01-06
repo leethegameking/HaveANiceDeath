@@ -6,7 +6,7 @@
 CAnimController::CAnimController()
 	: CScript(int(SCRIPT_TYPE::ANIMCONTROLLER))
 	, m_ObjType(OBJ_PLAYER)
-	, m_eAnimDir(ANIM_DIR::ANIM_RIGHT)
+	, m_eCurAnimDir(ANIM_DIR::ANIM_RIGHT)
 	, m_bPrevGround(false)
 	, m_fSpeed(0.f)
 	,m_fPrevSpeed(0.f)
@@ -18,6 +18,7 @@ CAnimController::CAnimController()
 	, m_pTmpSaveNode(nullptr)
 	, m_pNextNode(nullptr)
 	, m_bDirChanging(false)
+	, m_eNextDir(ANIM_DIR::END)
 {
 }
 
@@ -30,27 +31,25 @@ void CAnimController::begin()
 	if (GetOwner()->GetScript<CUnitScript>())
 	{
 		m_ObjType = OBJ_PLAYER;
-		m_pAnimNode = mapAnimNode.find(L"animation\\player\\PlayerIdle.anim")->second;
-		Animator2D()->Play(m_pAnimNode->pAnimKey);
+		m_pCurAnimNode = mapAnimNode.find(L"animation\\player\\PlayerIdle.anim")->second;
+		Animator2D()->Play(m_pCurAnimNode->pAnimKey);
 	}
 }
 
 void CAnimController::tick()
 {
-	m_pPrevAnimNode = m_pAnimNode;
+	m_pPrevAnimNode = m_pCurAnimNode;
 	if (m_pNextNode != nullptr)
 	{
 		PlayNextNode();
 	}
-	// GetCombo();
-	// 애니메이션 도중 다음 콤보 진행 할 건지
-	// SetComboProgress();
+	SetCurDir();
 	SetCondBit();
-
-	// 콤보 지연
-	// ComboDelay();
-
-	// 기본적인 애니메이션 선택 절차
+	SetGravity();
+	SetComboProgress();
+	PosChangeProgress();
+	
+	// 기본적인 애니메이션 선택 절차 + 콤보 지연
 	NodeProgress();
 
 	// 방향 전환 처리
@@ -59,14 +58,14 @@ void CAnimController::tick()
 
 void CAnimController::SetCondBit()
 {
-	m_pAnimNode->iCond = 0;
+	m_pCurAnimNode->iCond = 0;
 
 	// GROUND
 	m_bPrevGround = m_bGround;
 	if (Rigidbody2D()->IsGround())
 	{
 		m_bGround = true;
-		AddBit(m_pAnimNode->iCond, GROUND);
+		AddBit(m_pCurAnimNode->iCond, GROUND);
 	}
 	else
 	{
@@ -75,11 +74,11 @@ void CAnimController::SetCondBit()
 
 	// ANIM_FINISHED
 	if (Animator2D()->GetCurAnim()->IsFinish())
-		AddBit(m_pAnimNode->iCond, ANIM_FINISHED);
+		AddBit(m_pCurAnimNode->iCond, ANIM_FINISHED);
 
 	// KEY_A_OR_D
 	if( KEY_PRESSED(KEY::A) || KEY_PRESSED(KEY::D) )
-		AddBit(m_pAnimNode->iCond, KEY_A_OR_D);
+		AddBit(m_pCurAnimNode->iCond, KEY_A_OR_D);
 
 
 	// ANIM_DIR_CHANGED for Uturn
@@ -88,21 +87,21 @@ void CAnimController::SetCondBit()
 	{
 		if (KEY_PRESSED(KEY::A))
 		{
-			if (m_eAnimDir == ANIM_DIR::ANIM_RIGHT)
+			if (m_eCurAnimDir == ANIM_DIR::ANIM_RIGHT)
 			{
-				if (CalBit(m_pAnimNode->iPreferences, NEED_DIR_CHANGE, BIT_INCLUDE))
+				if (CalBit(m_pCurAnimNode->iPreferences, NEED_DIR_CHANGE, BIT_INCLUDE))
 				{
-					AddBit(m_pAnimNode->iCond, ANIM_DIR_CHANGED);
+					AddBit(m_pCurAnimNode->iCond, ANIM_DIR_CHANGED);
 				}
 			}
 		}
 		else if (KEY_PRESSED(KEY::D))
 		{
-			if (m_eAnimDir == ANIM_DIR::ANIM_LEFT)
+			if (m_eCurAnimDir == ANIM_DIR::ANIM_LEFT)
 			{
-				if (CalBit(m_pAnimNode->iPreferences, NEED_DIR_CHANGE, BIT_INCLUDE))
+				if (CalBit(m_pCurAnimNode->iPreferences, NEED_DIR_CHANGE, BIT_INCLUDE))
 				{
-					AddBit(m_pAnimNode->iCond, ANIM_DIR_CHANGED);
+					AddBit(m_pCurAnimNode->iCond, ANIM_DIR_CHANGED);
 				}
 			}
 		}
@@ -112,9 +111,9 @@ void CAnimController::SetCondBit()
 	if (m_bPrevGround != m_bGround)
 	{
  		if(m_bGround == true)
-			AddBit(m_pAnimNode->iCond, AERIAL_TO_GROUND);
+			AddBit(m_pCurAnimNode->iCond, AERIAL_TO_GROUND);
 		else
-			AddBit(m_pAnimNode->iCond, GROUND_TO_AERIAL);
+			AddBit(m_pCurAnimNode->iCond, GROUND_TO_AERIAL);
 	}
 
 	// SPEED_Y_POSITIVE
@@ -122,38 +121,72 @@ void CAnimController::SetCondBit()
 	m_fSpeed = Rigidbody2D()->GetSpeed().y;
 	if (Rigidbody2D()->GetSpeed().y > 0.f)
 	{
-		AddBit(m_pAnimNode->iCond, SPEED_Y_POSITIVE);
+		AddBit(m_pCurAnimNode->iCond, SPEED_Y_POSITIVE);
+	}
+	// SPEED_Y_NEGATIVE
+	else if (Rigidbody2D()->GetSpeed().y < 0.f)
+	{
+		AddBit(m_pCurAnimNode->iCond, SPEED_Y_NEGATIVE);
 	}
 
-	// SPEED_Y_TURN
-	if (m_fPrevSpeed >= 0.f && m_fSpeed < 0.f )
-		AddBit(m_pAnimNode->iCond, SPEED_Y_TURN);
+	//// SPEED_Y_TURN
+	//if (m_fPrevSpeed >= 0.f && m_fSpeed < 0.f)
+	//	AddBit(m_pCurAnimNode->iCond, SPEED_Y_TURN);
 	
 	// MOUSE_LEFT
 	if (KEY_TAP(KEY::LBTN))
 	{
-		AddBit(m_pAnimNode->iCond, MOUSE_LEFT);
+		AddBit(m_pCurAnimNode->iCond, MOUSE_LEFT);
 
 	}
 
 	// Combo
-	//if (m_bBitCombo)
-	//	AddBit(m_pAnimNode->iCond, COMBO_PROGRESS);
+	if (m_bComboProgress)
+		AddBit(m_pCurAnimNode->iCond, COMBO_PROGRESS);
+
+	// KEY_SHIFT
+	if(KEY_TAP(KEY::LSHIFT))
+		AddBit(m_pCurAnimNode->iCond, KEY_SHIFT);
+}
+
+void CAnimController::SetGravity()
+{
+	if (CalBit(m_pCurAnimNode->iPreferences, IGNORE_GRAVITY, BIT_INCLUDE))
+	{
+		Rigidbody2D()->SetIgnGravity(true);
+	}
+	else
+	{
+		Rigidbody2D()->SetIgnGravity(false);
+	}
+}
+
+void CAnimController::PosChangeProgress()
+{
+	Vec2 vPosChange = m_pCurAnimNode->pAnim->GetPosChange();
+	float vSumDuration = m_pCurAnimNode->pAnim->GetSumDuration();
+
+	Vec2 vCurFramePosChange = vPosChange * DT / vSumDuration;
+	Vec3 vPos =  Transform()->GetRelativePos();
+	vPos.x += vCurFramePosChange.x * (float)m_eCurAnimDir;
+	vPos.y += vCurFramePosChange.y;
+	Transform()->SetRelativePos(vPos);
 }
 
 
 
 void CAnimController::SetComboProgress()
 {
-	if (KEY_TAP(KEY::LBTN) && CalBit(m_pAnimNode->iPreferences, COMBO_ANIM, BIT_INCLUDE))
+	if (KEY_TAP(KEY::LBTN) && CalBit(m_pCurAnimNode->iPreferences, COMBO_ANIM, BIT_INCLUDE))
 	{
 		m_bComboProgress = true;
 	}
+	else if(m_bComboProgress && m_pPrevAnimNode != m_pCurAnimNode)
+	{
+		m_bComboProgress = false;
+	}
 }
 
-void CAnimController::SetReserveNode()
-{
-}
 
 void CAnimController::BeginOverlap(CCollider2D* _other)
 {
@@ -180,132 +213,159 @@ void CAnimController::LoadFromFile(FILE* _pFile)
 void CAnimController::PlayNextNode()
 {
 	Animator2D()->Play(m_pNextNode->pAnimKey, CalBit(m_pNextNode->iPreferences, REPEAT ,BIT_INCLUDE));
-	m_pAnimNode = m_pNextNode;
+	m_pCurAnimNode = m_pNextNode;
 	m_pNextNode = nullptr;
-}
-
-void CAnimController::ComboDelay()
-{
-	// reserve node 1초동안 기억
-	static float fMemorizeTime = 1.f;
-	static float fMemorizeAcc = 0.f;
-
-	// 콤보 지연
-	if (CalBit(m_pAnimNode->iPreferences, HAS_RESERVE, BIT_INCLUDE))
-	{
-		m_pReserveNode = m_pAnimNode->pReserveAnim; // 다음 콤보 애니메이션 저장
-		m_pTmpSaveNode = m_pAnimNode;
-		fMemorizeAcc = 0.f;
-	}
-
-	fMemorizeAcc += DT;
-	if (fMemorizeAcc > fMemorizeTime || m_bPrevGround != m_bGround)
-		m_pReserveNode = nullptr;
-
-	if (m_pReserveNode != nullptr)
-	{
-		if (!KEY_PRESSED(KEY::W) && !KEY_PRESSED(KEY::S) && KEY_TAP(KEY::LBTN) && m_pTmpSaveNode != m_pAnimNode)
-		{
-			Animator2D()->Play(m_pReserveNode->pAnimKey);
-			m_pAnimNode = m_pReserveNode;
-			m_pReserveNode = nullptr;
-			SetCondBit();
-			m_pPrevAnimNode = m_pAnimNode;
-		}
-	}
 }
 
 void CAnimController::NodeProgress()
 {
-	for (size_t i = 0; i < m_pAnimNode->vecNextAnim.size(); ++i)
+	// 콤보 지연
+	static float fMemorizeTime = 1.f;
+	static float fMemorizeAcc = 0.f;
+
+	// 1초 동안 기억
+	fMemorizeAcc += DT;
+	if (fMemorizeAcc > fMemorizeTime || m_bPrevGround != m_bGround || m_bComboProgress)
+		m_pReserveNode = nullptr;
+
+	static float fDashCool = 1.f;
+	static float fDashAcc = 0.f;
+	static bool bDashUsed = false;
+
+	// Dash 사용 체크
+	if (bDashUsed)
+	{
+		fDashAcc += DT;
+		if (fDashCool <= fDashAcc)
+		{
+			fDashAcc = 0.f;
+			bDashUsed = false;
+		}
+	}
+
+	// ------------------------------------------------------------------------------------------------------------------
+
+	if (!bDashUsed)
+	{
+		if (CalBit(m_pCurAnimNode->iCond, KEY_SHIFT, BIT_INCLUDE))
+		{
+			m_pNextNode = mapAnimNode.find(L"animation\\player\\PlayerDash.anim")->second;
+			bDashUsed = true;
+			return;
+		}
+	}
+
+	// ------------------------------------------------------------------------------------------------------------------
+
+	// Combo Progress
+	if (CalBit(m_pCurAnimNode->iPreferences, HAS_RESERVE, BIT_INCLUDE))
+	{
+		m_pReserveNode = m_pCurAnimNode->pReserveAnim; // 다음 콤보 애니메이션 저장
+		m_pTmpSaveNode = m_pCurAnimNode;
+		fMemorizeAcc = 0.f;
+	}
+
+	if (m_pReserveNode != nullptr)
+	{
+		if (!KEY_PRESSED(KEY::W) && !KEY_PRESSED(KEY::S) && KEY_TAP(KEY::LBTN) && m_pTmpSaveNode != m_pCurAnimNode)
+		{
+			m_pNextNode = mapAnimNode.find(m_pReserveNode->pAnimKey)->second;
+			m_pReserveNode = nullptr;
+			m_pTmpSaveNode = nullptr;
+			return;
+		}
+	}
+
+	//----------------------------------------------------------------------------------------------------------------------
+	
+	// Transition 비트 비교
+	for (size_t i = 0; i < m_pCurAnimNode->vecNextAnim.size(); ++i)
 	{
 		static UINT iCurCond;
-		iCurCond = m_pAnimNode->iCond;
+		iCurCond = m_pCurAnimNode->iCond;
 
 		// Exclude Bit 빼주기
-		RemoveBit(iCurCond, m_pAnimNode->vecNextAnim[i]->iExcludeCond);
+		RemoveBit(iCurCond, m_pCurAnimNode->vecNextAnim[i]->iExcludeCond);
 
-		if (CalBit(iCurCond, m_pAnimNode->vecNextAnim[i]->iTranCond, BIT_EQUAL))
+		if (CalBit(iCurCond, m_pCurAnimNode->vecNextAnim[i]->iTranCond, BIT_EQUAL))
 		{
-			m_pNextNode = mapAnimNode.find(m_pAnimNode->vecNextAnim[i]->pAnimKey)->second;
+			m_pNextNode = mapAnimNode.find(m_pCurAnimNode->vecNextAnim[i]->pAnimKey)->second;
 			break;
 		}
-
-
-		// ComboAnimation 전환
-		//if (CalBit(iCurCond, ANIM_FINISHED, BIT_INCLUDE) && m_bComboProgress && CalBit(m_pAnimNode->iPreferences, COMBO_ANIM, BIT_INCLUDE))
-		//{
-		//	Animator2D()->Play(m_pAnimNode->vecNextAnim[i]->pAnimKey, false);
-		//	m_pAnimNode = mapAnimNode.find(m_pAnimNode->vecNextAnim[i]->pAnimKey)->second;
-		//	m_pReserveNode = nullptr;
-		//	m_bComboProgress = false;
-		//	break;
-
-		//}
-		//// 기본 애니메이션 전환
-		//else if (CalBit(iCurCond, m_pAnimNode->vecNextAnim[i]->iTranCond, BIT_EQUAL))
-		//{
-		//	Animator2D()->Play(m_pAnimNode->vecNextAnim[i]->pAnimKey, false);
-		//	m_pAnimNode = mapAnimNode.find(m_pAnimNode->vecNextAnim[i]->pAnimKey)->second;
-		//	break;
-		//}
-		//// 아무것도 들어 있지 않은 경우 -> 다음 애니메이션으로 기본 전환. (Run to Idle.)
-		//else if (m_pAnimNode->vecNextAnim[i]->iTranCond == 0)
-		//{
-		//	if (CalBit(iCurCond, ANIM_FINISHED, BIT_INCLUDE))
-		//	{
-		//		Animator2D()->Play(m_pAnimNode->vecNextAnim[i]->pAnimKey, false);
-		//		m_pAnimNode = mapAnimNode.find(m_pAnimNode->vecNextAnim[i]->pAnimKey)->second;
-		//		break;
-		//	}
-		//}
 	}
 }
 
 void CAnimController::SetDir()
 {
+	// Uturn 방향전환
+	if (CalBit(m_pCurAnimNode->iPreferences, DIR_CHANGE_ANIM, BIT_INCLUDE))
+	{
+		if (Animator2D()->FindAnimation(m_pCurAnimNode->pAnimKey)->IsFinish())
+		{
+			m_bDirChanging = true;
+		}
+	}
+	// 저장된 애니메이션이 끝날 때
+	else if (CalBit(m_pCurAnimNode->iPreferences, DIR_CHANGE_END, BIT_INCLUDE))
+	{
+		if (KEY_PRESSED(KEY::A))
+		{
+			m_eNextDir = ANIM_DIR::ANIM_LEFT;
+		}
+		else if (KEY_PRESSED(KEY::D))
+		{
+			m_eNextDir = ANIM_DIR::ANIM_RIGHT;
+		}
+	}
+	// 공중 방향전환
+	else if (!CalBit(m_pCurAnimNode->iCond, GROUND, BIT_INCLUDE))
+	{
+		if (KEY_PRESSED(KEY::A))
+		{
+			m_eCurAnimDir = ANIM_DIR::ANIM_LEFT;
+			Transform()->SetRelativeRotation(Vec3(0.f, XM_PI, 0.f));
+		}
+		else if (KEY_PRESSED(KEY::D))
+		{
+			m_eCurAnimDir = ANIM_DIR::ANIM_RIGHT;
+			Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
+		}
+	}
 
+
+}
+
+void CAnimController::SetCurDir()
+{
 	// 한 프레임 나중에 방향 전환 Uturn
 	if (m_bDirChanging)
 	{
-		if (m_eAnimDir == ANIM_DIR::ANIM_LEFT)
+		if (m_eCurAnimDir == ANIM_DIR::ANIM_LEFT)
 		{
-			m_eAnimDir = ANIM_DIR::ANIM_RIGHT;
+			m_eCurAnimDir = ANIM_DIR::ANIM_RIGHT;
 			Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
 		}
 		else
 		{
-			m_eAnimDir = ANIM_DIR::ANIM_LEFT;
+			m_eCurAnimDir = ANIM_DIR::ANIM_LEFT;
 			Transform()->SetRelativeRotation(Vec3(0.f, XM_PI, 0.f));
 		}
 		m_bDirChanging = false;
 	}
 
-	// Uturn 방향전환
-	if (CalBit(m_pAnimNode->iPreferences, DIR_CHANGE_ANIM, BIT_INCLUDE))
+	if (m_pPrevAnimNode != m_pCurAnimNode && m_eNextDir != ANIM_DIR::END)
 	{
-		if (Animator2D()->FindAnimation(m_pAnimNode->pAnimKey)->IsFinish())
+		m_eCurAnimDir = m_eNextDir;
+		if (m_eCurAnimDir == ANIM_DIR::ANIM_LEFT)
 		{
-			m_bDirChanging = true;
-		}
-	}
-	// 공중 or Combo시 방향전환
-	else if (!CalBit(m_pAnimNode->iCond, GROUND, BIT_INCLUDE) ||
-		(CalBit(m_pAnimNode->iCond, ANIM_FINISHED, BIT_INCLUDE) && CalBit(m_pAnimNode->iPreferences, COMBO_ANIM, BIT_INCLUDE)))
-	{
-		if (KEY_PRESSED(KEY::A))
-		{
-			m_eAnimDir = ANIM_DIR::ANIM_LEFT;
 			Transform()->SetRelativeRotation(Vec3(0.f, XM_PI, 0.f));
 		}
-		else if (KEY_PRESSED(KEY::D))
+		else
 		{
-			m_eAnimDir = ANIM_DIR::ANIM_RIGHT;
 			Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
 		}
+		m_eNextDir = ANIM_DIR::END;
 	}
-
-
 }
 
 void tAnimNode::SetReserve(const wstring& _pAnimPath)

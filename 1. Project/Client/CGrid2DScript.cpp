@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "CGrid2DScript.h"
 
 #include <Engine\CDevice.h>
@@ -12,6 +12,7 @@
 CGrid2DScript::CGrid2DScript()
 	: CScript(-1)
 	, m_pMainCam(nullptr)
+	, m_bDraw(true)
 {
 }
 
@@ -25,6 +26,12 @@ void CGrid2DScript::begin()
 
 void CGrid2DScript::tick()
 {
+	if (KEY_PRESSED(KEY::LCTRL) && KEY_TAP(KEY::N_0))
+	{
+		m_bDraw = !m_bDraw;
+	}
+
+
 	m_pMainCam = CRenderMgr::GetInst()->GetMainCam();
 
 	if (m_pMainCam)
@@ -35,7 +42,10 @@ void CGrid2DScript::tick()
 		}
 		else
 		{
-			MeshRender()->Activate();
+			if(m_bDraw)
+				MeshRender()->Activate();
+			else
+				MeshRender()->Deactivate();
 
 
 			Vec3 vCamWorldPos = m_pMainCam->Transform()->GetRelativePos();
@@ -50,4 +60,5 @@ void CGrid2DScript::tick()
 			MeshRender()->GetCurMaterial()->SetScalarParam(VEC4_1, &m_vColor);
 		}
 	}
+
 }

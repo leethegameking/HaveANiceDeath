@@ -11,9 +11,11 @@ enum ANIM_CONDITION
     GROUND_TO_AERIAL    = 0x00000020,
     AERIAL_TO_GROUND    = 0x00000040,
     SPEED_Y_POSITIVE    = 0x00000080, 
-    SPEED_Y_TURN        = 0x00000100,
+    SPEED_Y_TURN        = 0x00000100, // Bit 안들어오게 해놓음
     COMBO_PROGRESS      = 0x00000200,
     MOUSE_LEFT          = 0x00000400,
+    SPEED_Y_NEGATIVE    = 0x00000800,
+    KEY_SHIFT           = 0x00001000,
 };
 
 enum PLAYER_COMBO
@@ -27,18 +29,22 @@ enum PLAYER_COMBO
 
 enum ANIM_PREFERENCES
 {
-    NEED_DIR_CHANGE     = 0x00000001,
-    DIR_CHANGE_ANIM     = 0x00000002,
+    NEED_DIR_CHANGE     = 0x00000001, // 다음 애니메이션 Uturn이 있는 애니메이션
+    DIR_CHANGE_ANIM     = 0x00000002, // Uturn 애니메이션
     NO_MOVE             = 0x00000004,
-    COMBO_ANIM          = 0x00000008,
+    DIR_CHANGE_END      = 0x00000008, // 애니메이션 진행 중에 받은 방향을 다음 애니메이션 시작에 바꿔줌.
     HAS_RESERVE         = 0x00000010,
     REPEAT              = 0x00000020,
+    COMBO_ANIM          = 0x00000040,
+    DASH_ANIM           = 0x00000080,
+    IGNORE_GRAVITY      = 0x00000100,
 };
 
 enum class ANIM_DIR
 {
     ANIM_LEFT = -1,
     ANIM_RIGHT = 1,
+    END,
 };
 
 enum OBJ_TYPE
@@ -100,22 +106,22 @@ class CAnimController :
 private:
     int             m_ObjType;
 
-    tAnimNode*      m_pAnimNode;
+    tAnimNode*      m_pCurAnimNode;
     tAnimNode*      m_pPrevAnimNode;
     tAnimNode*      m_pReserveNode;
     tAnimNode*      m_pTmpSaveNode;
     tAnimNode*      m_pNextNode;
 
-    ANIM_DIR        m_eAnimDir;
+    ANIM_DIR        m_eCurAnimDir;
     UINT            m_iCombo;
     UINT            m_iPrevCombo;
     bool            m_bCombo;
-    bool            m_bBitCombo;
     bool            m_bComboProgress;
 
     bool            m_bGround;
     bool            m_bPrevGround;
     bool            m_bDirChanging;
+    ANIM_DIR        m_eNextDir;
 
     float           m_fSpeed;
     float           m_fPrevSpeed;
@@ -135,21 +141,22 @@ public:
     static  map<wstring, tAnimNode*> mapAnimNode;
 
 public:
-    tAnimNode* GetCurAnimNode() { return m_pAnimNode; }
+    tAnimNode* GetCurAnimNode() { return m_pCurAnimNode; }
 
-    ANIM_DIR GetAnimDir() { return m_eAnimDir; }
-    void SetAnimDir(ANIM_DIR _eDir) { m_eAnimDir = _eDir; }
+    ANIM_DIR GetCurAnimDir() { return m_eCurAnimDir; }
+    void SetAnimDir(ANIM_DIR _eDir) { m_eCurAnimDir = _eDir; }
 
 private:
-    void SetCondBit();
-    void SetComboProgress();
-    void SetReserveNode();
+    // m_pPrevAnimNode = m_pCurAnimNode;
     void PlayNextNode();
-    void ComboDelay(); // 콤보 모션 지연
+    void SetCurDir();
+    void SetCondBit();
+    void SetGravity();
+    void SetComboProgress();
+    void PosChangeProgress();
     void NodeProgress();
     void SetDir();
-
-
+    
 
 public:
     virtual void BeginOverlap(CCollider2D* _other) override;
