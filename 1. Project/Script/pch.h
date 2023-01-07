@@ -11,6 +11,8 @@
 #include "framework.h"
 
 #include <Engine/global.h>
+
+#include "define.h"
 #include "CScriptMgr.h"
 
 #endif //PCH_H

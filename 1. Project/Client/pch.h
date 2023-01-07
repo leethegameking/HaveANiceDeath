@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "framework.h"
 
@@ -10,6 +10,7 @@
 
 #include "define.h"
 
+#include <Script/define.h>
 
 #ifdef _DEBUG
 #pragma comment(lib, "Engine\\Engine_debug.lib")

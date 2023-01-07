@@ -6,9 +6,13 @@
 CPlayerScript::CPlayerScript()
 	: CUnitScript(PLAYERSCRIPT)
 {
+	m_UnitInfo.m_eName = UNIT_NAME::PLAYER;
 }
 
-
+CPlayerScript::CPlayerScript(const CPlayerScript& _origin)
+	: CUnitScript(_origin)
+{
+}
 
 CPlayerScript::~CPlayerScript()
 {

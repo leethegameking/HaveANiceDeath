@@ -37,6 +37,11 @@
     <ClInclude Include="CWorkman.h">
       <Filter>Script\Unit\Enemy\Workman</Filter>
     </ClInclude>
+    <ClInclude Include="CHitScript.h" />
+    <ClInclude Include="CAttScript.h" />
+    <ClInclude Include="define.h">
+      <Filter>Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Script.cpp">
@@ -78,6 +83,8 @@
     <ClCompile Include="CWorkman.cpp">
       <Filter>Script\Unit\Enemy\Workman</Filter>
     </ClCompile>
+    <ClCompile Include="CHitScript.cpp" />
+    <ClCompile Include="CAttScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -112,6 +119,12 @@
     </Filter>
     <Filter Include="Script\Unit\Enemy\Workman">
       <UniqueIdentifier>{64de4e59-8201-4dda-ad77-d6f92bd1c54e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Hit &amp; Attack">
+      <UniqueIdentifier>{a5e6902b-f5a6-4cf7-8d82-303b7162b9ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header">
+      <UniqueIdentifier>{8174bc7f-d80c-4c5f-a02b-a5a416deaffe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

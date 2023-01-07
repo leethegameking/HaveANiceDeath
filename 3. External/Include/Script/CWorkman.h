@@ -24,6 +24,7 @@ public:
     CLONE(CWorkman);
 public:
     CWorkman();
+    CWorkman(const CWorkman& _origin);
     ~CWorkman();
 };
 

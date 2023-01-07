@@ -2,7 +2,7 @@
 #include "CBlockScript.h"
 
 #include "CScriptMgr.h"
-#include "CUnitScript.h"
+#include "CPlayerScript.h"
 
 #include <Engine/CGameObject.h>
 
@@ -95,14 +95,15 @@ void CBlockScript::UpCollision(CCollider2D* _other)
 	m_pColObj->Rigidbody2D()->SetGround(true);
 	m_pColObj->Transform()->SetRelativePos(Vec3(m_vObjColPos.x, m_vObjColScale.y / 2.f + m_vBlockColPos.y + m_vBlockColScale.y / 2.f, 0.f));
 
-	CUnitScript* pUnitScript = _other->GetOwner()->GetScript<CUnitScript>();
-	if (m_bPlatform)
+
+	CPlayerScript* pPlayerScript = _other->GetOwner()->GetScript<CPlayerScript>();
+	if (m_bPlatform && pPlayerScript)
 	{
-		pUnitScript->AddUnitState(UNIT_GROUND_PLATFORM);
+		pPlayerScript->AddUnitState(UNIT_GROUND_PLATFORM);
 	}
 	else
 	{
-		pUnitScript->AddUnitState(UNIT_GROUND);
+		pPlayerScript->AddUnitState(UNIT_GROUND);
 	}
 }
 

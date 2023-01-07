@@ -27,6 +27,7 @@ private:
     bool m_bPlatform;
 
 public:
+
     void tick() override;
 
 private:

@@ -10,14 +10,6 @@ void CAnimController::AnimConInit()
 	CreatePlayerAnimCon();
 }
 
-
-#define FindNode(AnimPath) mapAnimNode.find(L#AnimPath)->second
-#define PushTranNode(AnimPath) 	pTrNode = new tTransitionNode(L#AnimPath); \
-								assert(pTrNode->pAnim.Get()); \
-								pNode->vecNextAnim.push_back(pTrNode)
-#define AERIALANIM false
-
-
 void CAnimController::CreatePlayerAnimCon()
 {
 
@@ -31,13 +23,15 @@ void CAnimController::CreatePlayerAnimCon()
 		pPlayerNode = new tAnimNode;
 		pPlayerNode->pAnim = (CAnimation2D*)iter->second.Get();
 		pPlayerNode->pAnimKey = pPlayerNode->pAnim->GetKey();
+		pPlayerNode->eUnitName = UNIT_NAME::PLAYER;
 		mapAnimNode.insert({ pPlayerNode->pAnimKey, pPlayerNode });
+
 	}
 
 	tAnimNode* pNode = nullptr;
 	tTransitionNode* pTrNode = nullptr;
 	// ============================== Dash ==============================
-	pNode = FindNode(animation\\player\\PlayerDash.anim); pNode->AddPreferences( DIR_CHANGE_END | DASH_ANIM | NO_MOVE | IGNORE_GRAVITY | INVINCIBLE );
+	pNode = FindNode(animation\\player\\PlayerDash.anim); pNode->AddPreferences( DIR_CHANGE_END | ANY_STATE | NO_MOVE | IGNORE_GRAVITY | INVINCIBLE );
 	PushTranNode(animation\\player\\PlayerIdle.anim); pTrNode->AddInclude(ANIM_FINISHED);
 	
 	// ============================== Ground ==============================

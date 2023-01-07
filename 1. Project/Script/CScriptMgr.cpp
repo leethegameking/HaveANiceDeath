@@ -2,10 +2,12 @@
 #include "CScriptMgr.h"
 
 #include "CAnimController.h"
+#include "CAttScript.h"
 #include "CBlockScript.h"
 #include "CControllerScript.h"
 #include "CEnemyController.h"
 #include "CGameCameraScript.h"
+#include "CHitScript.h"
 #include "CPlayerScript.h"
 #include "CTestScript.h"
 #include "CUnitScript.h"
@@ -14,10 +16,12 @@
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
 	_vec.push_back(L"CAnimController");
+	_vec.push_back(L"CAttScript");
 	_vec.push_back(L"CBlockScript");
 	_vec.push_back(L"CControllerScript");
 	_vec.push_back(L"CEnemyController");
 	_vec.push_back(L"CGameCameraScript");
+	_vec.push_back(L"CHitScript");
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CTestScript");
 	_vec.push_back(L"CUnitScript");
@@ -28,6 +32,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 {
 	if (L"CAnimController" == _strScriptName)
 		return new CAnimController;
+	if (L"CAttScript" == _strScriptName)
+		return new CAttScript;
 	if (L"CBlockScript" == _strScriptName)
 		return new CBlockScript;
 	if (L"CControllerScript" == _strScriptName)
@@ -36,6 +42,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CEnemyController;
 	if (L"CGameCameraScript" == _strScriptName)
 		return new CGameCameraScript;
+	if (L"CHitScript" == _strScriptName)
+		return new CHitScript;
 	if (L"CPlayerScript" == _strScriptName)
 		return new CPlayerScript;
 	if (L"CTestScript" == _strScriptName)
@@ -54,6 +62,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::ANIMCONTROLLER:
 		return new CAnimController;
 		break;
+	case (UINT)SCRIPT_TYPE::ATTSCRIPT:
+		return new CAttScript;
+		break;
 	case (UINT)SCRIPT_TYPE::BLOCKSCRIPT:
 		return new CBlockScript;
 		break;
@@ -65,6 +76,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::GAMECAMERASCRIPT:
 		return new CGameCameraScript;
+		break;
+	case (UINT)SCRIPT_TYPE::HITSCRIPT:
+		return new CHitScript;
 		break;
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT:
 		return new CPlayerScript;
@@ -90,6 +104,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CAnimController";
 		break;
 
+	case SCRIPT_TYPE::ATTSCRIPT:
+		return L"CAttScript";
+		break;
+
 	case SCRIPT_TYPE::BLOCKSCRIPT:
 		return L"CBlockScript";
 		break;
@@ -104,6 +122,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::GAMECAMERASCRIPT:
 		return L"CGameCameraScript";
+		break;
+
+	case SCRIPT_TYPE::HITSCRIPT:
+		return L"CHitScript";
 		break;
 
 	case SCRIPT_TYPE::PLAYERSCRIPT:

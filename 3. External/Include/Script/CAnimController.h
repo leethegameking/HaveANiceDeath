@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <Engine/CScript.h>
 
-#define EXPEL Vec2(-1000000.f, -1000000.f)
+
 
 enum ANIM_CONDITION
 {
@@ -38,7 +38,7 @@ enum ANIM_PREFERENCES
     HAS_RESERVE         = 0x00000010, // 애니메이션이 다음 콤보를 저장하고 있음
     REPEAT              = 0x00000020, // 반복
     COMBO_ANIM          = 0x00000040, // 애니메이션 진행 중 마우스 클릭시 다음 콤보를 바로 진행
-    DASH_ANIM           = 0x00000080, // 언제든지 진행 가능.
+    ANY_STATE           = 0x00000080, // 언제든지 진행 가능.
     IGNORE_GRAVITY      = 0x00000100, // RigidBody의 Gravity 무효화
     HAS_COLLIDER        = 0x00000200, // Collider를 애니메이션 정보에 따라 키고 끔.
     INVINCIBLE          = 0x00000400, // 무적판정
@@ -90,6 +90,7 @@ struct tAnimNode
     vector<tTransitionNode*>    vecNextAnim;
 
     tAnimNode*                  arrReserveAnim[2];
+    UNIT_NAME                   eUnitName;
 
     tAnimNode()
         : iPreferences(0)
@@ -133,6 +134,8 @@ private:
 
     float           m_fSpeed;
     float           m_fPrevSpeed;
+
+    vector<tAnimNode*> m_vecAnyStateNode;
 private:
 
 public:
@@ -167,6 +170,8 @@ protected:
     virtual void NodeProgress();
     virtual void SetDir();
     
+protected:
+    void SetAnyStateVec(UNIT_NAME _eName);
 
 public:
     virtual void BeginOverlap(CCollider2D* _other) override;

@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "CEntity.h"
 
+
 class CComponent;
 class CTransform;
 class CRenderComponent;
@@ -107,3 +108,6 @@ inline T* CGameObject::GetScript()
 
     return nullptr;
 }
+
+
+

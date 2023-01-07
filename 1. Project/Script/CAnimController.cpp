@@ -64,6 +64,10 @@ void CAnimController::begin()
 			m_pAttObj = vecChildObj[i];
 		}
 	}
+
+	CUnitScript* pUnitScr = GetOwner()->GetScript<CUnitScript>();
+	
+	SetAnyStateVec(pUnitScr->GetUnitInfo().m_eName);
 }
 
 void CAnimController::tick()
@@ -328,6 +332,11 @@ void CAnimController::NodeProgress()
 
 	// ------------------------------------------------------------------------------------------------------------------
 
+	for (size_t i = 0; i < m_vecAnyStateNode.size(); ++i)
+	{
+
+	}
+
 	if (!bDashUsed)
 	{
 		if (CalBit(m_pCurAnimNode->iCond, KEY_SHIFT, BIT_INCLUDE))
@@ -423,6 +432,8 @@ void CAnimController::SetDir()
 
 }
 
+
+
 void CAnimController::SetCurDir()
 {
 	// 한 프레임 나중에 방향 전환 Uturn
@@ -453,6 +464,22 @@ void CAnimController::SetCurDir()
 			Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
 		}
 		m_eNextDir = ANIM_DIR::END;
+	}
+}
+
+void CAnimController::SetAnyStateVec(UNIT_NAME _eName)
+{
+	map<wstring, tAnimNode*>::iterator iter = mapAnimNode.begin();
+
+	if (UNIT_NAME::PLAYER == _eName)
+	{
+		for (; iter != mapAnimNode.end(); ++iter)
+		{
+			if(CalBit(iter->second->iPreferences, ANY_STATE, BIT_INCLUDE))
+			{
+				m_vecAnyStateNode.push_back(iter->second);
+			}
+		}
 	}
 }
 

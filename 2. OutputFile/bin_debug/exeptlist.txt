@@ -1,3 +1,4 @@
 CScriptMgr.h
 CScriptMgr.cpp
 AnimInit.cpp
+define.h
