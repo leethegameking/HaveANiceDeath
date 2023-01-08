@@ -20,28 +20,31 @@ CWorkman::~CWorkman()
 void CWorkman::begin()
 {
 	CEnemyScript::begin();
-	m_ePattern = WORK_MAN_WAITING;
+	m_ePattern = E_WAITING;
 }
 
 void CWorkman::tick()
 {
 	CEnemyScript::tick();
-	if (m_bAppear == false)
-	{
-		
-	}
+
+	DetectCheck();
+	AppearCheck();
 
 	switch (m_ePattern)
 	{
-	case WORK_MAN_WAITING:	
+	case E_WAITING: 
 		break;
-	case WORK_MAN_PATROL:
+	case E_APPEAR:
 		break;
-	case WORK_MAN_DELAY:
+	case E_IDLE:
 		break;
-	case WORK_MAN_CHASE:
+	case E_UTURN:
 		break;
-	case WORK_MAN_ATTACK:
+	case E_DETECT:
+		break;
+	case E_RUN:
+		break;
+	case E_ATTACK:
 		break;
 	}
 }

@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include <Engine/CScript.h>
 
+class CAnimController;
+
 enum UNIT_STATE
 {
     UNIT_GROUND_PLATFORM    = 0x00000001,
@@ -37,6 +39,7 @@ class CUnitScript :
 protected:
     tUnitInfo m_CurUnitInfo;
     tUnitInfo m_PrevUnitInfo;
+    CAnimController* m_pAnimCon;
 
 public:
     tUnitInfo& GetUnitInfo() { return m_CurUnitInfo; }

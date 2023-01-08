@@ -1,6 +1,8 @@
 ﻿#include "pch.h"
 #include "CUnitScript.h"
 
+#include "CAnimController.h"
+
 CUnitScript::CUnitScript()
 	: CScript((int)SCRIPT_TYPE::UNITSCRIPT)
 	, m_CurUnitInfo{}
@@ -32,6 +34,7 @@ CUnitScript::~CUnitScript()
 void CUnitScript::begin()
 {
 	m_PrevUnitInfo = m_CurUnitInfo;
+	m_pAnimCon = GetOwner()->GetScript<CAnimController>();
 }
 
 void CUnitScript::tick()

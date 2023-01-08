@@ -27,7 +27,12 @@ public:
     virtual void Overlap(CCollider2D* _pOther) override;
     virtual void EndOverlap(CCollider2D* _pOther) override;
 
-private:
+public:
+    UINT GetPattern() { return m_ePattern; }
+
+public:
+    void AppearCheck();
+    void DetectCheck();
 
 
 public:

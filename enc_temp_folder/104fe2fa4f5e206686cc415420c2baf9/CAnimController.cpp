@@ -46,6 +46,9 @@ CAnimController::~CAnimController()
 
 void CAnimController::begin()
 {
+	//m_pCurAnimNode = mapAnimNode.find(L"animation\\player\\PlayerIdle.anim")->second;
+	//Animator2D()->Play(m_pCurAnimNode->pAnimKey);
+
 	const vector<CGameObject*>& vecChildObj = GetOwner()->GetChildObject();
 	for (size_t i = 0; i < vecChildObj.size(); ++i)
 	{
@@ -60,6 +63,9 @@ void CAnimController::begin()
 	}
 
 	m_pUnitScr = GetOwner()->GetScript<CUnitScript>();
+
+	// AnyStateNode 초기화
+	m_pAnyStateNode = mapAnimNode.find(L"PlayerAnyNode")->second;
 }
 
 void CAnimController::tick()

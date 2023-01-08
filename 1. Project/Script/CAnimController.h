@@ -119,7 +119,7 @@ protected:
     
     CUnitScript*    m_pUnitScr;
 
-    int             m_ObjType;
+
 
     tAnimNode*      m_pCurAnimNode;
     tAnimNode*      m_pPrevAnimNode;
@@ -164,10 +164,13 @@ public:
     static  map<wstring, tAnimNode*> mapAnimNode;
 
 public:
-    virtual tAnimNode* GetCurAnimNode() { return m_pCurAnimNode; }
+    tAnimNode* GetCurAnimNode() { return m_pCurAnimNode; }
+    void SetCurAnimNode(tAnimNode* _pNode) { m_pCurAnimNode = _pNode; }
 
     virtual ANIM_DIR GetCurAnimDir() { return m_eCurAnimDir; }
     virtual void SetAnimDir(ANIM_DIR _eDir) { m_eCurAnimDir = _eDir; }
+
+    void SetAnyStateNode(tAnimNode* _pNode) { m_pAnyStateNode = _pNode; }
 
 protected:
     // m_pPrevAnimNode = m_pCurAnimNode;
@@ -185,6 +188,9 @@ protected:
 private:
     virtual void Timer();
     void CalDashTime();
+
+public:
+
 
 public:
     virtual void BeginOverlap(CCollider2D* _other) override;

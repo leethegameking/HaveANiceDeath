@@ -12,3 +12,14 @@ enum class UNIT_NAME
     WORKMAN,
     END,
 };
+
+enum E_ANIM_CONDITION
+{
+    E_WAITING,
+    E_APPEAR,
+    E_IDLE,
+    E_UTURN,
+    E_DETECT,
+    E_RUN,
+    E_ATTACK,
+};

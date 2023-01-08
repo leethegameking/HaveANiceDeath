@@ -48,6 +48,30 @@ void CEnemyScript::EndOverlap(CCollider2D* _pOther)
 {
 }
 
+void CEnemyScript::AppearCheck()
+{
+	//if (m_bAppear == false)
+	//{
+	//	if (m_pPlayerObj->Transform()->GetRelativePos() < m_AppearRadius)
+	//	{
+	//		m_bAppear = true;
+	//		m_ePattern = E_APPEAR;
+	//	}
+	//}
+}
+
+void CEnemyScript::DetectCheck()
+{
+	//if (m_bAppear == true && m_bDetect == false)
+	//{
+	//	if (m_pPlayerObj->Transform()->GetRelativePos() < m_DetectRadius)
+	//	{
+	//		m_bDetect = true;
+	//		m_ePattern = E_DETECT;
+	//	}
+	//}
+}
+
 void CEnemyScript::SaveToFile(FILE* _pFile)
 {
 }
