@@ -1,6 +1,8 @@
 ﻿#include "pch.h"
 #include "CWorkman.h"
 
+#include "CAnimController.h"
+
 CWorkman::CWorkman()
 	: CEnemyScript((int)SCRIPT_TYPE::WORKMAN)
 {
@@ -21,6 +23,15 @@ void CWorkman::begin()
 {
 	CEnemyScript::begin();
 	m_ePattern = E_WAITING;
+
+	// 시작 애니메이션 노드 초기화
+	tAnimNode* pStartNode = CAnimController::mapAnimNode.find(L"animation\\workman\\EWorkmanWaiting.anim")->second;
+	m_pAnimCon->SetCurAnimNode(pStartNode);
+	Animator2D()->Play(pStartNode->pAnimKey);
+
+	// AnyStateNode 초기화
+	//tAnimNode* pAnyStateNode = CAnimController::mapAnimNode.find(L"PlayerAnyNode")->second;
+	//m_pAnimCon->SetAnyStateNode(pAnyStateNode);
 }
 
 void CWorkman::tick()

@@ -3,10 +3,6 @@
 
 void CEnemyController::begin()
 {
-	// 각 ObjScript에서 해주게 변경.
-	m_pCurAnimNode = mapAnimNode.find(L"animation\\player\\EWorkmanWaiting.anim")->second;
-	Animator2D()->Play(m_pCurAnimNode->pAnimKey);
-
 	const vector<CGameObject*>& vecChildObj = GetOwner()->GetChildObject();
 	for (size_t i = 0; i < vecChildObj.size(); ++i)
 	{
@@ -31,10 +27,66 @@ void CEnemyController::tick()
 		PlayNextNode();
 	}
 
+	SetCondBit();
+	// SetAttackCollider();
+	SetGravity();
+	SetCurDir();
+	PosChangeProgress();
+
+	NodeProgress();
+	SetDir();
+
+}
+
+void CEnemyController::SetCondBit()
+{
+}
+
+void CEnemyController::NodeProgress()
+{
+	// AnyStaeNode 분기
+	if (m_pAnyStateNode)
+	{
+		for (size_t i = 0; i < m_pAnyStateNode->vecNextAnim.size(); ++i)
+		{
+			static UINT iCurAnyCond;
+			iCurAnyCond = m_pCurAnimNode->iCond;
+
+			// Exclude Bit 빼주기
+			RemoveBit(iCurAnyCond, m_pAnyStateNode->vecNextAnim[i]->iExcludeCond);
+
+			if (CalBit(iCurAnyCond, m_pAnyStateNode->vecNextAnim[i]->iTranCond, BIT_EQUAL))
+			{
+				m_pNextNode = mapAnimNode.find(m_pAnyStateNode->vecNextAnim[i]->pAnimKey)->second;
+				return;
+			}
+		}
+	}
+
+	// Transition 비트 비교
+	for (size_t i = 0; i < m_pCurAnimNode->vecNextAnim.size(); ++i)
+	{
+		static UINT iCurCond;
+		iCurCond = m_pCurAnimNode->iCond;
+
+		// Exclude Bit 빼주기
+		RemoveBit(iCurCond, m_pCurAnimNode->vecNextAnim[i]->iExcludeCond);
+
+		if (CalBit(iCurCond, m_pCurAnimNode->vecNextAnim[i]->iTranCond, BIT_EQUAL))
+		{
+			m_pNextNode = mapAnimNode.find(m_pCurAnimNode->vecNextAnim[i]->pAnimKey)->second;
+			return;
+		}
+	}
 }
 
 CEnemyController::CEnemyController()
 	: CAnimController(SCRIPT_TYPE::ENEMYCONTROLLER)
+{
+}
+
+CEnemyController::CEnemyController(const CEnemyController& _origin)
+	: CAnimController(_origin)
 {
 }
 

@@ -8,9 +8,11 @@ map<wstring, tAnimNode*> CAnimController::mapAnimNode;
 void CAnimController::AnimConInit()
 {
 	CreateMapAnimNode();
+
 	AddPlayerAnyNode();
 	CreatePlayerAnimCon();
 
+	CreateWorkmanAnimCon();
 }
 
 void CAnimController::CreateMapAnimNode()
@@ -188,8 +190,8 @@ void CAnimController::CreateWorkmanAnimCon()
 	tTransitionNode* pTrNode = nullptr;
 
 	// Move
-	pNode = FindNode(animation\\workman\\EWorkmanWaiting.anim);
-	PushTranNode(animation\\workman\\EWorkmanAppear.anim);
+	pNode = FindNode(animation\\workman\\EWorkmanWaiting.anim); pNode->AddPreferences(REPEAT);
+	/*PushTranNode(animation\\workman\\EWorkmanAppear.anim);*/
 }
 
 void CAnimController::DelAnimConMap()

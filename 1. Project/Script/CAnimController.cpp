@@ -217,6 +217,7 @@ void CAnimController::SetGravity()
 
 void CAnimController::SetAttackCollider()
 {
+	int iIdx = m_pAttObj->GetLayerIdx();
 	// 애니메이션이 오프셋을 가짐
 	if (CalBit(m_pCurAnimNode->iPreferences, HAS_COLLIDER, BIT_INCLUDE))
 	{
@@ -230,6 +231,8 @@ void CAnimController::SetAttackCollider()
 		Vec2 vColOffset = vecFrm[idx].iColliderPos;
 		Vec2 vColScale = vecFrm[idx].iColliderScale;
 
+	 	
+
 		if (bColOn)
 		{
 			m_pAttObj->Collider2D()->SetOffsetPos(Vec2(vColOffset.x * (float)m_eCurAnimDir, vColOffset.y));
@@ -237,22 +240,23 @@ void CAnimController::SetAttackCollider()
 		}
 		else
 		{
-			m_pAttObj->Collider2D()->SetOffsetPos(EXPEL * (int)LAYER_NAME::PLAYER_ATTACK);
+			m_pAttObj->Collider2D()->SetOffsetPos(EXPEL * iIdx);
 		}
 	}
 	else
 	{
-		m_pAttObj->Collider2D()->SetOffsetPos(EXPEL * (int)LAYER_NAME::PLAYER_ATTACK);
+		m_pAttObj->Collider2D()->SetOffsetPos(EXPEL * iIdx);
 	}
 }
 
 void CAnimController::SetInvincible()
 {
 	const vector<CGameObject*>& vecChildObj = GetOwner()->GetChildObject();
+	int iIdx =  m_pHitObj->GetLayerIdx();
 
 	if (CalBit(m_pCurAnimNode->iPreferences, INVINCIBLE, BIT_INCLUDE))
 	{
-		m_pHitObj->Collider2D()->SetOffsetPos( EXPEL * (int)LAYER_NAME::PLAYER_HIT);
+		m_pHitObj->Collider2D()->SetOffsetPos( EXPEL * iIdx );
 	}
 	else
 	{
@@ -341,6 +345,7 @@ void CAnimController::NodeProgress()
 
 	// ------------------------------------------------------------------------------------------------------------------
 
+	// AnyState Node 분기
 	for (size_t i = 0; i < m_pAnyStateNode->vecNextAnim.size(); ++i)
 	{
 		static UINT iCurAnyCond;

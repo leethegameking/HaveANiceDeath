@@ -170,6 +170,8 @@ public:
     virtual ANIM_DIR GetCurAnimDir() { return m_eCurAnimDir; }
     virtual void SetAnimDir(ANIM_DIR _eDir) { m_eCurAnimDir = _eDir; }
 
+    void SetAnyStateNode(tAnimNode* _pNode) { m_pAnyStateNode = _pNode; }
+
 protected:
     // m_pPrevAnimNode = m_pCurAnimNode;
     virtual void PlayNextNode();

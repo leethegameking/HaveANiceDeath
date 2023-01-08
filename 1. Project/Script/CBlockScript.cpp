@@ -96,7 +96,7 @@ void CBlockScript::UpCollision(CCollider2D* _other)
 	m_pColObj->Transform()->SetRelativePos(Vec3(m_vObjColPos.x, m_vObjColScale.y / 2.f + m_vBlockColPos.y + m_vBlockColScale.y / 2.f, 0.f));
 
 
-	CPlayerScript* pPlayerScript = _other->GetOwner()->GetScript<CPlayerScript>();
+	CUnitScript* pPlayerScript = _other->GetOwner()->GetScript<CUnitScript>();
 	if (m_bPlatform && pPlayerScript)
 	{
 		pPlayerScript->AddUnitState(UNIT_GROUND_PLATFORM);

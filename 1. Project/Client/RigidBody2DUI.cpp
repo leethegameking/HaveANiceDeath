@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "RigidBody2DUI.h"
 
 #include <Engine/CGameObject.h>
@@ -20,6 +20,8 @@ void RigidBody2DUI::update()
 void RigidBody2DUI::render_update()
 {
 	ComponentUI::render_update();
+	if (!GetTarget())
+		return;
 
 	CRigidbody2D* pRB = GetTarget()->Rigidbody2D();
 
@@ -35,8 +37,6 @@ void RigidBody2DUI::render_update()
 	
 	ImGui::Text("Dir             "); ImGui::SameLine(); ImGui::InputScalar("##Speed", ImGuiDataType_S8, &(pRB->m_sDir));
 	ImGui::Text("PrevPos         "); ImGui::SameLine(); ImGui::InputFloat3("##PrevPos", pRB->m_vPrevPos);
-
-
 }
 
 

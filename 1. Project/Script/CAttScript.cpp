@@ -20,7 +20,7 @@ CAttScript::~CAttScript()
 void CAttScript::begin()
 {
 	// 부모에서 받아와야함.
-	m_pUnit = GetOwner()->GetParent()->GetScript<CPlayerScript>(); assert(m_pUnit);
+	m_pUnit = GetOwner()->GetParent()->GetScript<CUnitScript>(); assert(m_pUnit);
 	/*m_pAnimCon = GetOwner()->GetScript<CAnimController>(); assert(m_pAnimCon);*/
 }
 
@@ -42,7 +42,7 @@ void CAttScript::LoadFromFile(FILE* _pFile)
 void CAttScript::BeginOverlap(CCollider2D* _other)
 {
 	float pAtt = m_pUnit->GetUnitInfo().m_fAtt;
-	CUnitScript* pTargetUnit = _other->GetOwner()->GetScript<CUnitScript>();
+	CUnitScript* pTargetUnit = _other->GetOwner()->GetParent()->GetScript<CUnitScript>();
 	float& pTargetHP = pTargetUnit->GetUnitInfo().m_fHP;
 	float  pTargetDef = pTargetUnit->GetUnitInfo().m_fDef;
 	pTargetHP -= pAtt * m_fCoefficient - pTargetDef;
