@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <Engine/CScript.h>
 
-
+class CUnitScript;
 
 enum ANIM_CONDITION
 {
@@ -18,6 +18,9 @@ enum ANIM_CONDITION
     MOUSE_LEFT          = 0x00000400,
     SPEED_Y_NEGATIVE    = 0x00000800,
     KEY_SHIFT           = 0x00001000,
+    CAN_DASH            = 0x00002000,
+    HP_DOWN             = 0x00004000,
+    HP_ZERO             = 0x00008000,
 };
 
 enum PLAYER_COMBO
@@ -75,8 +78,9 @@ struct tTransitionNode
 
     void AddExclude(UINT _Exclude) { AddBit(iExcludeCond, _Exclude); }
     // 해당 비트만 포함된다면
-    void AddInclude(UINT _Include) { AddBit(iTranCond, _Include); AddBit(iExcludeCond, ~_Include); }
+    void AddInclude(UINT _Include, UINT _IncludeZero = 0) { AddBit(iTranCond, _Include); AddBit(iExcludeCond, ~(_Include | _IncludeZero)); }
     void AddTran(UINT _Tran) { AddBit(iTranCond, _Tran); }
+    
 };
 
 struct tAnimNode
@@ -109,9 +113,11 @@ struct tAnimNode
 class CAnimController :
     public CScript
 {
-private:
-    CGameObject* m_pHitObj;
-    CGameObject* m_pAttObj;
+protected:
+    CGameObject*    m_pHitObj;
+    CGameObject*    m_pAttObj;
+    
+    CUnitScript*    m_pUnitScr;
 
     int             m_ObjType;
 
@@ -120,6 +126,7 @@ private:
     tAnimNode*      m_pReserveNode;
     tAnimNode*      m_pTmpSaveNode;
     tAnimNode*      m_pNextNode;
+    tAnimNode*      m_pAnyStateNode;
 
     ANIM_DIR        m_eCurAnimDir;
     UINT            m_iCombo;
@@ -135,6 +142,8 @@ private:
     float           m_fSpeed;
     float           m_fPrevSpeed;
 
+    bool            m_bCanDash;
+
     vector<tAnimNode*> m_vecAnyStateNode;
 private:
 
@@ -147,7 +156,10 @@ public:
 
     static void DelAnimConMap();
 private:
+    static void CreateMapAnimNode();
     static void CreatePlayerAnimCon();
+    static void AddPlayerAnyNode();
+    static void CreateWorkmanAnimCon();
 public:
     static  map<wstring, tAnimNode*> mapAnimNode;
 
@@ -169,9 +181,10 @@ protected:
     virtual void PosChangeProgress();
     virtual void NodeProgress();
     virtual void SetDir();
-    
-protected:
-    void SetAnyStateVec(UNIT_NAME _eName);
+
+private:
+    virtual void Timer();
+    void CalDashTime();
 
 public:
     virtual void BeginOverlap(CCollider2D* _other) override;

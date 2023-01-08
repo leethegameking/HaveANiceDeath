@@ -2,13 +2,13 @@
 #include "CWorkman.h"
 
 CWorkman::CWorkman()
-	:CUnitScript((int)SCRIPT_TYPE::WORKMAN)
+	: CEnemyScript((int)SCRIPT_TYPE::WORKMAN)
 {
-	m_UnitInfo.m_eName = UNIT_NAME::WORKMAN;
+	m_CurUnitInfo.m_eName = UNIT_NAME::WORKMAN;
 }
 
 CWorkman::CWorkman(const CWorkman& _origin)
-	: CUnitScript(_origin)
+	: CEnemyScript(_origin)
 {
 }
 
@@ -19,10 +19,31 @@ CWorkman::~CWorkman()
 
 void CWorkman::begin()
 {
+	CEnemyScript::begin();
+	m_ePattern = WORK_MAN_WAITING;
 }
 
 void CWorkman::tick()
 {
+	CEnemyScript::tick();
+	if (m_bAppear == false)
+	{
+		
+	}
+
+	switch (m_ePattern)
+	{
+	case WORK_MAN_WAITING:	
+		break;
+	case WORK_MAN_PATROL:
+		break;
+	case WORK_MAN_DELAY:
+		break;
+	case WORK_MAN_CHASE:
+		break;
+	case WORK_MAN_ATTACK:
+		break;
+	}
 }
 
 void CWorkman::BeginOverlap(CCollider2D* _pOther)

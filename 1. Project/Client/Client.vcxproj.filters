@@ -328,6 +328,9 @@
     <ClInclude Include="RigidBody2DUI.h">
       <Filter>03. UI\01. Inspector\ComponentUI\RigidBody2DUI</Filter>
     </ClInclude>
+    <ClInclude Include="CMouseTextScript.h">
+      <Filter>01. Editor\EditorScript</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -508,6 +511,9 @@
     </ClCompile>
     <ClCompile Include="RigidBody2DUI.cpp">
       <Filter>03. UI\01. Inspector\ComponentUI\RigidBody2DUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CMouseTextScript.cpp">
+      <Filter>01. Editor\EditorScript</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

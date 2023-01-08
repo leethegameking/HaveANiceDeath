@@ -1,4 +1,16 @@
 ﻿#pragma once
+
+enum E_ANIM_CONDITION
+{
+    E_WAITING,
+    E_APPEAR,
+    E_IDLE,
+    E_UTURN,
+    E_DETECT,
+    E_RUN,
+    E_ATTACK,
+};
+
 #include "CAnimController.h"
 class CEnemyController :
     public CAnimController

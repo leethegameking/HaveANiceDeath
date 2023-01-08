@@ -7,6 +7,7 @@
 #include <Engine\Ctransform.h>
 #include <Engine\CMeshRender.h>
 #include "CGrid2DScript.h"
+#include "CMouseTextScript.h"
 #include <Engine\CCamera.h>
 #include <Engine/CLevelMgr.h>
 #include <Engine/CLevel.h>
@@ -59,9 +60,15 @@ void CEditor::init()
 	pEditorCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAHPICS);
 	pEditorCam->Camera()->SetFar(100000.f);
 	pEditorCam->Camera()->SetLayerAllVisible();
-	pEditorCam->Camera()->SetLayerInvisible(31);
+	pEditorCam->Camera()->SetLayerInvisible(15);
 	m_vecEditorObj.push_back(pEditorCam);
 	CRenderMgr::GetInst()->RegisterEditorCamera(pEditorCam->Camera());
+
+	CGameObjectEx* pMouseText = new CGameObjectEx;
+	pMouseText->AddComponent(new CTransform);
+	pMouseText->AddComponent(new CMouseTextScript);
+
+	m_vecEditorObj.push_back(pMouseText);
 }
 
 void CEditor::progress()

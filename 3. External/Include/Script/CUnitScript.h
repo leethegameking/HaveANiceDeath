@@ -5,6 +5,8 @@ enum UNIT_STATE
 {
     UNIT_GROUND_PLATFORM    = 0x00000001,
     UNIT_GROUND             = 0x00000002,
+    UNIT_HP_DOWN            = 0x00000004,
+    UNIT_HP_ZERO            = 0x00000008
 };
 
 
@@ -33,13 +35,15 @@ class CUnitScript :
     public CScript
 {
 protected:
-    tUnitInfo m_UnitInfo;
+    tUnitInfo m_CurUnitInfo;
+    tUnitInfo m_PrevUnitInfo;
 
 public:
-    tUnitInfo& GetUnitInfo() { return m_UnitInfo; }
-    UINT GetUnitState() { return m_UnitInfo.m_iStateBits; }
-    void AddUnitState(UINT _StateBits) { AddBit(m_UnitInfo.m_iStateBits, _StateBits); }
-    void RemoveUnitState(UINT _StateBits){ RemoveBit(m_UnitInfo.m_iStateBits, _StateBits); }
+    tUnitInfo& GetUnitInfo() { return m_CurUnitInfo; }
+    UINT GetUnitState() { return m_CurUnitInfo.m_iStateBits; }
+    void SetUnitState(UINT _Statebit) { m_CurUnitInfo.m_iStateBits = _Statebit; }
+    void RemoveUnitState(UINT _Statebit) { m_CurUnitInfo.m_iStateBits &= ~_Statebit; }
+    void AddUnitState(UINT _StateBits) { AddBit(m_CurUnitInfo.m_iStateBits, _StateBits); }
 
 public:
     virtual void begin() override;

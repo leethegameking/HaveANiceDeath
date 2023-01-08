@@ -2,3 +2,5 @@ CScriptMgr.h
 CScriptMgr.cpp
 AnimInit.cpp
 define.h
+CPlayerMgr.h
+CPlayerMgr.cpp

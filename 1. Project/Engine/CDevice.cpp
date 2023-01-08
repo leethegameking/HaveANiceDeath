@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CDevice.h"
 
 #include "CResMgr.h"
@@ -53,21 +53,21 @@ int CDevice::init(HWND _hWnd, Vec2 _vResolution)
 	DEVICE->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &iQuality);
 
 
-	// ½ºÆÃ¼ÀÎ ¸¸µé±â
+	// ìŠ¤ì™šì²´ì¸ ë§Œë“¤ê¸°
 	if (FAILED(CreateSwapchain()))
 	{
-		MessageBox(nullptr, L"½ºÆÃ¼ÀÎ »ı¼º ½ÇÆĞ", L"Device ÃÊ±âÈ­ ½ÇÆĞ", MB_OK);
+		MessageBox(nullptr, L"ìŠ¤ì™šì²´ì¸ ìƒì„± ì‹¤íŒ¨", L"Device ì´ˆê¸°í™” ì‹¤íŒ¨", MB_OK);
 		return E_FAIL;
 	}
 
-	// RenderTarget, DepthStencilTarget ¸¸µé±â
+	// RenderTarget, DepthStencilTarget ë§Œë“¤ê¸°
 	if (FAILED(CreateTarget()))
 	{
-		MessageBox(nullptr, L"Å¸°Ù »ı¼º ½ÇÆĞ", L"Device ÃÊ±âÈ­ ½ÇÆĞ", MB_OK);
+		MessageBox(nullptr, L"íƒ€ê²Ÿ ìƒì„± ì‹¤íŒ¨", L"Device ì´ˆê¸°í™” ì‹¤íŒ¨", MB_OK);
 		return E_FAIL;
 	}
 
-	// Ãâ·Â¿ë ·»´õ Å¸°Ù ¹× ±íÀÌ Å¸°Ù ÁöÁ¤
+	// ì¶œë ¥ìš© ë Œë” íƒ€ê²Ÿ ë° ê¹Šì´ íƒ€ê²Ÿ ì§€ì •
 	m_pDeviceContext->OMSetRenderTargets(1, m_pRenderTargetTex->GetRTV().GetAddressOf(), m_pDepthStencilTex->GetDSV().Get());
 
 
@@ -82,40 +82,40 @@ int CDevice::init(HWND _hWnd, Vec2 _vResolution)
 	m_pDeviceContext->RSSetViewports(1, &m_tViewPort);
 
 
-	// »ùÇÃ·¯ »ı¼º ¹× ¹ÙÀÎµù
+	// ìƒ˜í”ŒëŸ¬ ìƒì„± ë° ë°”ì¸ë”©
 	if (FAILED(CreateSampler()))
 	{
-		MessageBox(nullptr, L"»ùÇÃ·¯ »ı¼º ½ÇÆĞ", L"Device ÃÊ±âÈ­ ½ÇÆĞ", MB_OK);
+		MessageBox(nullptr, L"ìƒ˜í”ŒëŸ¬ ìƒì„± ì‹¤íŒ¨", L"Device ì´ˆê¸°í™” ì‹¤íŒ¨", MB_OK);
 		return E_FAIL;
 	}
 
 
-	// »ó¼ö¹öÆÛ »ı¼º
+	// ìƒìˆ˜ë²„í¼ ìƒì„±
 	if (FAILED(CreateConstBuffer()))
 	{
-		MessageBox(nullptr, L"»ó¼ö¹öÆÛ »ı¼º ½ÇÆĞ", L"Device ÃÊ±âÈ­ ½ÇÆĞ", MB_OK);
+		MessageBox(nullptr, L"ìƒìˆ˜ë²„í¼ ìƒì„± ì‹¤íŒ¨", L"Device ì´ˆê¸°í™” ì‹¤íŒ¨", MB_OK);
 		return E_FAIL;
 	}
 
-	// ·¹½ºÅÍ¶óÀÌÀú ½ºÅ×ÀÌÆ® »ı¼º
+	// ë ˆìŠ¤í„°ë¼ì´ì € ìŠ¤í…Œì´íŠ¸ ìƒì„±
 	if (FAILED(CreateRasterizerState()))
 	{
-		MessageBox(nullptr, L"·¹½ºÅÍ¶óÀÌÀú ½ºÅ×ÀÌÆ® »ı¼º ½ÇÆĞ", L"Device ÃÊ±âÈ­ ½ÇÆĞ", MB_OK);
+		MessageBox(nullptr, L"ë ˆìŠ¤í„°ë¼ì´ì € ìŠ¤í…Œì´íŠ¸ ìƒì„± ì‹¤íŒ¨", L"Device ì´ˆê¸°í™” ì‹¤íŒ¨", MB_OK);
 		return E_FAIL;
 	}
 
-	// DepthStencil ½ºÅ×ÀÌÆ® »ı¼º
+	// DepthStencil ìŠ¤í…Œì´íŠ¸ ìƒì„±
 	if (FAILED(CreateDepthStencilState()))
 	{
-		MessageBox(nullptr, L"‰X½º ½ºÅÙ½Ç ½ºÅ×ÀÌÆ® »ı¼º ½ÇÆĞ", L"Device ÃÊ±âÈ­ ½ÇÆĞ", MB_OK);
+		MessageBox(nullptr, L"ëŠìŠ¤ ìŠ¤í…ì‹¤ ìŠ¤í…Œì´íŠ¸ ìƒì„± ì‹¤íŒ¨", L"Device ì´ˆê¸°í™” ì‹¤íŒ¨", MB_OK);
 		return E_FAIL;
 	}
 
 
-	// ºí·»µå ½ºÅ×ÀÌÆ® »ı¼º
+	// ë¸”ë Œë“œ ìŠ¤í…Œì´íŠ¸ ìƒì„±
 	if (FAILED(CreateBlendState()))
 	{
-		MessageBox(nullptr, L"ºí·»µå ½ºÅ×ÀÌÆ® »ı¼º ½ÇÆĞ", L"Device ÃÊ±âÈ­ ½ÇÆĞ", MB_OK);
+		MessageBox(nullptr, L"ë¸”ë Œë“œ ìŠ¤í…Œì´íŠ¸ ìƒì„± ì‹¤íŒ¨", L"Device ì´ˆê¸°í™” ì‹¤íŒ¨", MB_OK);
 		return E_FAIL;
 	}
 
@@ -127,10 +127,10 @@ int CDevice::CreateSwapchain()
 {
 	DXGI_SWAP_CHAIN_DESC desc = {};
 
-	desc.OutputWindow = m_hWnd;	// Front Buffer ¸¦ Ãâ·Â½ÃÅ³ À©µµ¿ì ÇÚµé
-	desc.Windowed = true;		// À©µµ¿ì, ÀüÃ¼È­¸é ¸ğµå
+	desc.OutputWindow = m_hWnd;	// Front Buffer ë¥¼ ì¶œë ¥ì‹œí‚¬ ìœˆë„ìš° í•¸ë“¤
+	desc.Windowed = true;		// ìœˆë„ìš°, ì „ì²´í™”ë©´ ëª¨ë“œ
 	desc.BufferCount = 1;
-	desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; // ÀÌÀü ÇÁ·¹ÀÓ Àå¸éÀ» À¯ÁöÇÏÁö ¾Ê´Â´Ù.
+	desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; // ì´ì „ í”„ë ˆì„ ì¥ë©´ì„ ìœ ì§€í•˜ì§€ ì•ŠëŠ”ë‹¤.
 
 	desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	desc.BufferDesc.Width = (UINT)m_vRenderResolution.x;
@@ -175,15 +175,15 @@ int CDevice::CreateSwapchain()
 int CDevice::CreateTarget()
 {
 	HRESULT hr = S_OK;
-	// RenderTargetTexture ¸¦ ½ºÆÃ¼ÀÎÀ¸·ÎºÎÅÍ ÂüÁ¶ÇÏ±â
+	// RenderTargetTexture ë¥¼ ìŠ¤ì™šì²´ì¸ìœ¼ë¡œë¶€í„° ì°¸ì¡°í•˜ê¸°
 	ComPtr<ID3D11Texture2D> tex2D;
 	hr = m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)tex2D.GetAddressOf());
 
-	// RenderTargetTexture µî·Ï
+	// RenderTargetTexture ë“±ë¡
 	m_pRenderTargetTex = CResMgr::GetInst()->CreateTexture(L"RenderTargetTex", tex2D);
 	m_pRenderTargetTex->SetName(L"RTTex");
 
-	// DepthStencilTexture »ı¼º
+	// DepthStencilTexture ìƒì„±
 	m_pDepthStencilTex = CResMgr::GetInst()->CreateTexture(L"DepthStencilTex"
 				, (UINT)m_vRenderResolution.x, (UINT)m_vRenderResolution.y
 				, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_DEPTH_STENCIL);
@@ -196,7 +196,7 @@ int CDevice::CreateSampler()
 {
 	HRESULT hr = S_OK;
 
-	// »ùÇÃ·¯ ½ºÅ×ÀÌÆ® »ı¼º
+	// ìƒ˜í”ŒëŸ¬ ìŠ¤í…Œì´íŠ¸ ìƒì„±
 	D3D11_SAMPLER_DESC desc = {};
 
 	desc.AddressU = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
@@ -211,7 +211,7 @@ int CDevice::CreateSampler()
 	hr = DEVICE->CreateSamplerState(&desc, m_arrSampler[(UINT)SAMPLER_TYPE::POINT].GetAddressOf());
 
 
-	// »ùÇÃ·¯ ¹ÙÀÎµù
+	// ìƒ˜í”ŒëŸ¬ ë°”ì¸ë”©
 	CONTEXT->VSSetSamplers((UINT)SAMPLER_TYPE::ANISOTROPIC, 1, m_arrSampler[(UINT)SAMPLER_TYPE::ANISOTROPIC].GetAddressOf());
 	CONTEXT->HSSetSamplers((UINT)SAMPLER_TYPE::ANISOTROPIC, 1, m_arrSampler[(UINT)SAMPLER_TYPE::ANISOTROPIC].GetAddressOf());
 	CONTEXT->DSSetSamplers((UINT)SAMPLER_TYPE::ANISOTROPIC, 1, m_arrSampler[(UINT)SAMPLER_TYPE::ANISOTROPIC].GetAddressOf());
@@ -320,7 +320,7 @@ int CDevice::CreateBlendState()
 {
 	HRESULT hr = S_OK;
 
-	// Default ºí·»µù
+	// Default ë¸”ë Œë”©
 	m_arrBS[(UINT)BS_TYPE::DEFAULT] = nullptr;
 
 

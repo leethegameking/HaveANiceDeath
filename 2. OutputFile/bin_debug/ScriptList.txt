@@ -3,6 +3,7 @@ CAttScript
 CBlockScript
 CControllerScript
 CEnemyController
+CEnemyScript
 CGameCameraScript
 CHitScript
 CPlayerScript

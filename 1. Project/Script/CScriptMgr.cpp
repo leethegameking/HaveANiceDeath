@@ -6,6 +6,7 @@
 #include "CBlockScript.h"
 #include "CControllerScript.h"
 #include "CEnemyController.h"
+#include "CEnemyScript.h"
 #include "CGameCameraScript.h"
 #include "CHitScript.h"
 #include "CPlayerScript.h"
@@ -20,6 +21,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CBlockScript");
 	_vec.push_back(L"CControllerScript");
 	_vec.push_back(L"CEnemyController");
+	_vec.push_back(L"CEnemyScript");
 	_vec.push_back(L"CGameCameraScript");
 	_vec.push_back(L"CHitScript");
 	_vec.push_back(L"CPlayerScript");
@@ -40,6 +42,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CControllerScript;
 	if (L"CEnemyController" == _strScriptName)
 		return new CEnemyController;
+	if (L"CEnemyScript" == _strScriptName)
+		return new CEnemyScript;
 	if (L"CGameCameraScript" == _strScriptName)
 		return new CGameCameraScript;
 	if (L"CHitScript" == _strScriptName)
@@ -73,6 +77,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::ENEMYCONTROLLER:
 		return new CEnemyController;
+		break;
+	case (UINT)SCRIPT_TYPE::ENEMYSCRIPT:
+		return new CEnemyScript;
 		break;
 	case (UINT)SCRIPT_TYPE::GAMECAMERASCRIPT:
 		return new CGameCameraScript;
@@ -118,6 +125,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::ENEMYCONTROLLER:
 		return L"CEnemyController";
+		break;
+
+	case SCRIPT_TYPE::ENEMYSCRIPT:
+		return L"CEnemyScript";
 		break;
 
 	case SCRIPT_TYPE::GAMECAMERASCRIPT:

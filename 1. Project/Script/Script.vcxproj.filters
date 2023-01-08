@@ -37,10 +37,20 @@
     <ClInclude Include="CWorkman.h">
       <Filter>Script\Unit\Enemy\Workman</Filter>
     </ClInclude>
-    <ClInclude Include="CHitScript.h" />
-    <ClInclude Include="CAttScript.h" />
     <ClInclude Include="define.h">
       <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CEnemyScript.h">
+      <Filter>Script\Unit\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="CAttScript.h">
+      <Filter>Script\Hit &amp; Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="CHitScript.h">
+      <Filter>Script\Hit &amp; Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerMgr.h">
+      <Filter>PlayerMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -83,8 +93,18 @@
     <ClCompile Include="CWorkman.cpp">
       <Filter>Script\Unit\Enemy\Workman</Filter>
     </ClCompile>
-    <ClCompile Include="CHitScript.cpp" />
-    <ClCompile Include="CAttScript.cpp" />
+    <ClCompile Include="CEnemyScript.cpp">
+      <Filter>Script\Unit\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="CAttScript.cpp">
+      <Filter>Script\Hit &amp; Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="CHitScript.cpp">
+      <Filter>Script\Hit &amp; Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerMgr.cpp">
+      <Filter>PlayerMgr</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -92,9 +112,6 @@
     </Filter>
     <Filter Include="Script">
       <UniqueIdentifier>{d93064c6-3984-44a5-bf91-b2f0342f4d1e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ScriptMgr">
-      <UniqueIdentifier>{a4cd9dab-2e89-4297-b684-5e7d5c008792}</UniqueIdentifier>
     </Filter>
     <Filter Include="Script\Unit">
       <UniqueIdentifier>{df8df9d0-f36b-413e-bc20-3ac43daa9528}</UniqueIdentifier>
@@ -125,6 +142,12 @@
     </Filter>
     <Filter Include="Header">
       <UniqueIdentifier>{8174bc7f-d80c-4c5f-a02b-a5a416deaffe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScriptMgr">
+      <UniqueIdentifier>{a4cd9dab-2e89-4297-b684-5e7d5c008792}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayerMgr">
+      <UniqueIdentifier>{e030d0fc-8496-451e-9fe3-c70826c27820}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

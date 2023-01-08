@@ -38,6 +38,7 @@ CAnimController::CAnimController(int _ScriptType)
 	, m_pNextNode(nullptr)
 	, m_bDirChanging(false)
 	, m_eNextDir(ANIM_DIR::END)
+	, m_bCanDash(true)
 {
 }
 
@@ -65,9 +66,10 @@ void CAnimController::begin()
 		}
 	}
 
-	CUnitScript* pUnitScr = GetOwner()->GetScript<CUnitScript>();
-	
-	SetAnyStateVec(pUnitScr->GetUnitInfo().m_eName);
+	m_pUnitScr = GetOwner()->GetScript<CUnitScript>();
+
+	// AnyStateNode 초기화
+	m_pAnyStateNode = mapAnimNode.find(L"PlayerAnyNode")->second;
 }
 
 void CAnimController::tick()
@@ -77,12 +79,12 @@ void CAnimController::tick()
 	{
 		PlayNextNode();
 	}
+	Timer();
 	SetCurDir();
 	SetCondBit();
 	SetGravity();
 	SetAttackCollider();
 	SetInvincible();
-	SetComboProgress();
 	PosChangeProgress();
 	
 	// 기본적인 애니메이션 선택 절차 + 콤보 지연
@@ -173,16 +175,42 @@ void CAnimController::SetCondBit()
 	if (KEY_TAP(KEY::LBTN))
 	{
 		AddBit(m_pCurAnimNode->iCond, MOUSE_LEFT);
-
 	}
+
+	SetComboProgress();
 
 	// Combo
 	if (m_bComboProgress)
 		AddBit(m_pCurAnimNode->iCond, COMBO_PROGRESS);
 
+	if(m_bCanDash)
+		AddBit(m_pCurAnimNode->iCond, CAN_DASH);
+
 	// KEY_SHIFT
-	if(KEY_TAP(KEY::LSHIFT))
+	if (KEY_TAP(KEY::LSHIFT))
+	{
 		AddBit(m_pCurAnimNode->iCond, KEY_SHIFT);
+		if (m_bCanDash)
+		{
+			m_bCanDash = false;
+		}
+	}
+
+	// HP_DOWN
+	if (CalBit(m_pUnitScr->GetUnitState(), UNIT_HP_DOWN, BIT_INCLUDE))
+	{
+		m_pUnitScr->RemoveUnitState(UNIT_HP_DOWN);
+		AddBit(m_pCurAnimNode->iCond, HP_DOWN);
+	}
+
+	// HPZERO
+	if (CalBit(m_pUnitScr->GetUnitState(), UNIT_HP_ZERO, BIT_INCLUDE))
+	{
+		m_pUnitScr->RemoveUnitState(UNIT_HP_ZERO);
+		AddBit(m_pCurAnimNode->iCond, HP_ZERO);
+	}
+
+
 }
 
 void CAnimController::SetGravity()
@@ -300,6 +328,11 @@ void CAnimController::PlayNextNode()
 	m_pNextNode = nullptr;
 }
 
+void CAnimController::Timer()
+{
+	CalDashTime();
+}
+
 void CAnimController::NodeProgress()
 {
 	// 콤보 지연
@@ -311,38 +344,24 @@ void CAnimController::NodeProgress()
 	if (fMemorizeAcc > fMemorizeTime || m_bPrevGround != m_bGround || m_bComboProgress)
 		m_pReserveNode = nullptr;
 
-	static float fDashCool = 1.f;
-	static float fDashAcc = 0.f;
-	static bool bDashUsed = false;
+
 
 	// 피격시 
 
-	// ------------------------------------------------------------------------------------------------------------------
-
-	// Dash 사용 체크
-	if (bDashUsed)
-	{
-		fDashAcc += DT;
-		if (fDashCool <= fDashAcc)
-		{
-			fDashAcc = 0.f;
-			bDashUsed = false;
-		}
-	}
 
 	// ------------------------------------------------------------------------------------------------------------------
 
-	for (size_t i = 0; i < m_vecAnyStateNode.size(); ++i)
+	for (size_t i = 0; i < m_pAnyStateNode->vecNextAnim.size(); ++i)
 	{
+		static UINT iCurAnyCond;
+		iCurAnyCond = m_pCurAnimNode->iCond;
 
-	}
+		// Exclude Bit 빼주기
+		RemoveBit(iCurAnyCond, m_pAnyStateNode->vecNextAnim[i]->iExcludeCond);
 
-	if (!bDashUsed)
-	{
-		if (CalBit(m_pCurAnimNode->iCond, KEY_SHIFT, BIT_INCLUDE))
+		if (CalBit(iCurAnyCond, m_pAnyStateNode->vecNextAnim[i]->iTranCond, BIT_EQUAL))
 		{
-			m_pNextNode = mapAnimNode.find(L"animation\\player\\PlayerDash.anim")->second;
-			bDashUsed = true;
+			m_pNextNode = mapAnimNode.find(m_pAnyStateNode->vecNextAnim[i]->pAnimKey)->second;
 			return;
 		}
 	}
@@ -387,7 +406,7 @@ void CAnimController::NodeProgress()
 		if (CalBit(iCurCond, m_pCurAnimNode->vecNextAnim[i]->iTranCond, BIT_EQUAL))
 		{
 			m_pNextNode = mapAnimNode.find(m_pCurAnimNode->vecNextAnim[i]->pAnimKey)->second;
-			break;
+			return;
 		}
 	}
 }
@@ -467,18 +486,18 @@ void CAnimController::SetCurDir()
 	}
 }
 
-void CAnimController::SetAnyStateVec(UNIT_NAME _eName)
+void CAnimController::CalDashTime()
 {
-	map<wstring, tAnimNode*>::iterator iter = mapAnimNode.begin();
+	static float fDashCool = 1.f;
+	static float fDashAcc = 0.f;
 
-	if (UNIT_NAME::PLAYER == _eName)
+	if (!m_bCanDash)
 	{
-		for (; iter != mapAnimNode.end(); ++iter)
+		fDashAcc += DT;
+		if (fDashCool <= fDashAcc)
 		{
-			if(CalBit(iter->second->iPreferences, ANY_STATE, BIT_INCLUDE))
-			{
-				m_vecAnyStateNode.push_back(iter->second);
-			}
+			fDashAcc = 0.f;
+			m_bCanDash = true;
 		}
 	}
 }

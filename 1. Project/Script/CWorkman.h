@@ -1,7 +1,17 @@
 ﻿#pragma once
-#include "CUnitScript.h"
+#include "CEnemyScript.h"
+
+enum WORKMAN_PATTERN
+{
+    WORK_MAN_WAITING,
+    WORK_MAN_PATROL,
+    WORK_MAN_DELAY,
+    WORK_MAN_CHASE,
+    WORK_MAN_ATTACK
+};
+
 class CWorkman :
-    public CUnitScript
+    public CEnemyScript
 {
 private:
 

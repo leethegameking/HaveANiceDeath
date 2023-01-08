@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "UI.h"
 
 #include "ComponentUI.h"
@@ -20,7 +20,7 @@ UI::~UI()
 	Safe_Del_Vec(m_vecChildUI);
 }
 
-// Imgui¿¡¼­ »ı¼ºµÈ Ã¢µéÁß¿¡ focusµÈ °ÍÀÌ ¾øµµ·Ï ÇÑ´Ù.
+// Imguiì—ì„œ ìƒì„±ëœ ì°½ë“¤ì¤‘ì— focusëœ ê²ƒì´ ì—†ë„ë¡ í•œë‹¤.
 void UI::ResetFocus()
 {
 	ImGui::SetWindowFocus(nullptr); 
@@ -38,12 +38,12 @@ void UI::render()
 {
 	if (m_bOpen)
 	{
-		// ºÎ¸ğ UI
+		// ë¶€ëª¨ UI
 		if (m_ParentUI == nullptr)
 		{
 			if (m_bModal)
 			{
-				// UI »ı¼ºµÇ´Â À§Ä¡ ¼³Á¤( È­¸é Áß¾Ó )
+				// UI ìƒì„±ë˜ëŠ” ìœ„ì¹˜ ì„¤ì •( í™”ë©´ ì¤‘ì•™ )
 				//ImVec2 vCenter = ImGui::GetMainViewport()->GetCenter();
 				//ImGui::SetNextWindowPos(vCenter, ImGuiCond_::ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 				//ImGui::SetNextWindowSize(m_vSize, ImGuiCond_::ImGuiCond_Appearing);
@@ -53,7 +53,7 @@ void UI::render()
 				ImGui::SetNextWindowPos(vMousePos, ImGuiCond_::ImGuiCond_Once);
 				ImGui::SetNextWindowSize(m_vSize, ImGuiCond_::ImGuiCond_Appearing);
 
-				// Modal Popup UI ¶ç¿ì±â
+				// Modal Popup UI ë„ìš°ê¸°
 				ImGui::OpenPopup(m_strName.c_str());
 				if (ImGui::BeginPopupModal(m_strName.c_str(), &m_bOpen))
 				{
@@ -87,7 +87,7 @@ void UI::render()
 			}
 		}
 
-		// ÀÚ½Ä UI¶ó¸é
+		// ìì‹ UIë¼ë©´
 		else
 		{
 			int flag = 0;
@@ -112,8 +112,6 @@ void UI::render()
 			Close();
 		}
 	}
-
-	
 }
 
 void UI::AddChild(UI* _ChildUI)

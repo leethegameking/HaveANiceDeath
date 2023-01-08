@@ -1,12 +1,12 @@
 ﻿#include "pch.h"
 #include "CPlayerScript.h"
-
+#include "CPlayerMgr.h"
 
 
 CPlayerScript::CPlayerScript()
 	: CUnitScript(PLAYERSCRIPT)
 {
-	m_UnitInfo.m_eName = UNIT_NAME::PLAYER;
+	m_CurUnitInfo.m_eName = UNIT_NAME::PLAYER;
 }
 
 CPlayerScript::CPlayerScript(const CPlayerScript& _origin)
@@ -21,11 +21,13 @@ CPlayerScript::~CPlayerScript()
 
 void CPlayerScript::begin()
 {
-
+	CUnitScript::begin();
+	CPlayerMgr::GetInst()->SetPlayerObj(GetOwner());
 }
 
 void CPlayerScript::tick()
 {
+	CUnitScript::tick();
 }
 
 

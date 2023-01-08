@@ -169,6 +169,7 @@
     <ClInclude Include="CGrid2DScript.h" />
     <ClInclude Include="CImGuiMgr.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="CMouseTextScript.h" />
     <ClInclude Include="Collider2DUI.h" />
     <ClInclude Include="ComboBox.h" />
     <ClInclude Include="CommonUI.h" />
@@ -228,6 +229,7 @@
     <ClCompile Include="CGameObjectEx.cpp" />
     <ClCompile Include="CGrid2DScript.cpp" />
     <ClCompile Include="CImGuiMgr.cpp" />
+    <ClCompile Include="CMouseTextScript.cpp" />
     <ClCompile Include="Collider2DUI.cpp" />
     <ClCompile Include="ComboBox.cpp" />
     <ClCompile Include="CommonUI.cpp" />

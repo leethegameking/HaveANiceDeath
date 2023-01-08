@@ -1,7 +1,7 @@
-#pragma once
+﻿#pragma once
 
 Vec2 GetClickedIdx(Vec2 _vImgSize, Vec2 _vCursorPos, Vec2 _vImageScale);
-
+Vec2 GetMouseWorldPos();
 
 
 

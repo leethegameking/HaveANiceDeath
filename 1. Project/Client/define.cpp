@@ -2,6 +2,10 @@
 
 #include "define.h"
 
+#include <Engine/GlobalComponent.h>
+#include <Engine/CRenderMgr.h>
+#include <Engine/CDevice.h>
+
 Vec2 GetClickedIdx(Vec2 _vImgSize, Vec2 _vCursorPos, Vec2 _vImageScale)
 {
 	ImGuiIO& io = ImGui::GetIO();
@@ -20,4 +24,23 @@ Vec2 GetClickedIdx(Vec2 _vImgSize, Vec2 _vCursorPos, Vec2 _vImageScale)
 	TexIdx.y = floorf(TexIdx.y);
 
 	return TexIdx;
+}
+
+Vec2 GetMouseWorldPos()
+{
+	CCamera* pMainCamera = CRenderMgr::GetInst()->GetMainCam();
+	Vec3 vCamPos = pMainCamera->Transform()->GetRelativePos();
+	float vCamScale = pMainCamera->GetOrthographicScale();
+
+	Vec2 vResol = CDevice::GetInst()->GetRenderResolution();
+
+	Vec2 vMouseDirectXPos = CKeyMgr::GetInst()->GetMouseDirectXPos();
+
+	const Matrix viewMat = pMainCamera->Camera()->GetViewMat();
+
+	Vec2 vMouseWorldPos;
+	vMouseWorldPos.x = vCamPos.x + vMouseDirectXPos.x / vCamScale;
+	vMouseWorldPos.y = vCamPos.y + vMouseDirectXPos.y / vCamScale;
+
+	return vMouseWorldPos;
 }
