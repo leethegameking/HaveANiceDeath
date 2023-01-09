@@ -10,14 +10,22 @@ CEnemyScript::CEnemyScript()
 
 CEnemyScript::CEnemyScript(int _iScriptType)
 	: CUnitScript(_iScriptType)
-	, m_ePattern(0)
+	, m_eCurPattern(0)
+	, m_ePrevPattern(-1)
+	, m_fAppearRadius(200.f)
+	, m_fDetectRadius(100.f)
+	, m_fAttackRadius(50.f)
 {
 
 }
 
 CEnemyScript::CEnemyScript(const CEnemyScript& _origin)
 	: CUnitScript(_origin)
-	, m_ePattern(0)
+	, m_eCurPattern(0)
+	, m_ePrevPattern(-1)
+	, m_fAppearRadius(200.f)
+	, m_fDetectRadius(100.f)
+	, m_fAttackRadius(50.f)
 {
 }
 
@@ -28,7 +36,23 @@ CEnemyScript::~CEnemyScript()
 void CEnemyScript::begin()
 {
 	CUnitScript::begin();
+	// 
 	m_pPlayerObj = CPlayerMgr::GetInst()->GetPlayerObj();
+
+	// Collider 가져옴
+	const vector<CGameObject*>& vecChildObj = GetOwner()->GetChildObject();
+	for (size_t i = 0; i < vecChildObj.size(); ++i)
+	{
+		if (vecChildObj[i]->GetLayerIdx() == (int)LAYER_NAME::ENEMY_HIT)
+		{
+			m_pHitObj = vecChildObj[i];
+		}
+		else if (vecChildObj[i]->GetLayerIdx() == (int)LAYER_NAME::ENEMY_ATTACK)
+		{
+			m_pAttObj = vecChildObj[i];
+		}
+	}
+
 }
 
 void CEnemyScript::tick()
@@ -46,30 +70,6 @@ void CEnemyScript::Overlap(CCollider2D* _pOther)
 
 void CEnemyScript::EndOverlap(CCollider2D* _pOther)
 {
-}
-
-void CEnemyScript::AppearCheck()
-{
-	//if (m_bAppear == false)
-	//{
-	//	if (m_pPlayerObj->Transform()->GetRelativePos() < m_AppearRadius)
-	//	{
-	//		m_bAppear = true;
-	//		m_ePattern = E_APPEAR;
-	//	}
-	//}
-}
-
-void CEnemyScript::DetectCheck()
-{
-	//if (m_bAppear == true && m_bDetect == false)
-	//{
-	//	if (m_pPlayerObj->Transform()->GetRelativePos() < m_DetectRadius)
-	//	{
-	//		m_bDetect = true;
-	//		m_ePattern = E_DETECT;
-	//	}
-	//}
 }
 
 void CEnemyScript::SaveToFile(FILE* _pFile)

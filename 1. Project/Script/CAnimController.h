@@ -3,63 +3,6 @@
 
 class CUnitScript;
 
-enum ANIM_CONDITION
-{
-    GROUND              = 0x00000001,
-    KEY_A_OR_D          = 0x00000002,
-    ANIM_DIR_CHANGED    = 0x00000004,
-    ANIM_FINISHED       = 0x00000008,
-    KEY_SPACE           = 0x00000010,
-    GROUND_TO_AERIAL    = 0x00000020,
-    AERIAL_TO_GROUND    = 0x00000040,
-    SPEED_Y_POSITIVE    = 0x00000080, 
-    SPEED_Y_TURN        = 0x00000100, // Bit 안들어오게 해놓음
-    COMBO_PROGRESS      = 0x00000200,
-    MOUSE_LEFT          = 0x00000400,
-    SPEED_Y_NEGATIVE    = 0x00000800,
-    KEY_SHIFT           = 0x00001000,
-    CAN_DASH            = 0x00002000,
-    HP_DOWN             = 0x00004000,
-    HP_ZERO             = 0x00008000,
-};
-
-enum PLAYER_COMBO
-{
-    COMBO_NONE,
-    COMBO1,
-    COMBO2, // FightToIdle
-    COMBO3, // FightToIdle
-    COMBO4,
-};
-
-enum ANIM_PREFERENCES
-{
-    NEED_DIR_CHANGE     = 0x00000001, // 다음 애니메이션 Uturn이 있는 애니메이션
-    DIR_CHANGE_ANIM     = 0x00000002, // Uturn 애니메이션
-    NO_MOVE             = 0x00000004, // 애니메이션 진행동안 움직일 수 없음
-    DIR_CHANGE_END      = 0x00000008, // 애니메이션 진행 중에 받은 방향을 다음 애니메이션 시작에 바꿔줌.
-    HAS_RESERVE         = 0x00000010, // 애니메이션이 다음 콤보를 저장하고 있음
-    REPEAT              = 0x00000020, // 반복
-    COMBO_ANIM          = 0x00000040, // 애니메이션 진행 중 마우스 클릭시 다음 콤보를 바로 진행
-    ANY_STATE           = 0x00000080, // 언제든지 진행 가능.
-    IGNORE_GRAVITY      = 0x00000100, // RigidBody의 Gravity 무효화
-    HAS_COLLIDER        = 0x00000200, // Collider를 애니메이션 정보에 따라 키고 끔.
-    INVINCIBLE          = 0x00000400, // 무적판정
-};
-
-enum class ANIM_DIR
-{
-    ANIM_LEFT = -1,
-    ANIM_RIGHT = 1,
-    END,
-};
-
-enum OBJ_TYPE
-{
-    OBJ_PLAYER,
-    OBJ_ENEMY,
-};
-
 struct tTransitionNode
 {
     Ptr<CAnimation2D>           pAnim;
@@ -96,16 +39,21 @@ struct tAnimNode
     tAnimNode*                  arrReserveAnim[2];
     UNIT_NAME                   eUnitName;
 
+    UINT                        ePattern;
+
     tAnimNode()
         : iPreferences(0)
         , iCond(0)
+        , ePattern(0)
         , arrReserveAnim{}
     {
 
     }
 
     void AddPreferences(UINT _Preferences) { AddBit(iPreferences, _Preferences); }
+    void SetPattern(UINT _Pattern) { ePattern = _Pattern; }
     void SetReserve(const wstring& _pAnimPath, bool _bGroundAnim = true);
+    void SetCond(UINT _Cond) { iCond = _Cond; }
 };
 
 
@@ -118,8 +66,6 @@ protected:
     CGameObject*    m_pAttObj;
     
     CUnitScript*    m_pUnitScr;
-
-
 
     tAnimNode*      m_pCurAnimNode;
     tAnimNode*      m_pPrevAnimNode;
@@ -159,7 +105,7 @@ private:
     static void CreateMapAnimNode();
     static void CreatePlayerAnimCon();
     static void AddPlayerAnyNode();
-    static void CreateWorkmanAnimCon();
+
 public:
     static  map<wstring, tAnimNode*> mapAnimNode;
 
@@ -205,4 +151,6 @@ public:
     CAnimController();
     CAnimController(int _ScriptType);
     ~CAnimController();
+
+    friend class CWorkman;
 };

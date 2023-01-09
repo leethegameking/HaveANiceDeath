@@ -85,6 +85,7 @@ void CEventMgr::tick()
 					for (size_t i = 0; i < vecChild.size(); ++i)
 					{
 						queue.push_back(vecChild[i]);
+						m_vecGarbage.push_back(vecChild[i]);
 					}
 
 					pObj->m_bDead = true;

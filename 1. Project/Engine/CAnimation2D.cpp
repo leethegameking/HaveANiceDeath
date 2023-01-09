@@ -47,8 +47,6 @@ CAnimation2D::~CAnimation2D()
 
 void CAnimation2D::finaltick()
 {
-
-
 	if (m_bFinish)
 		return;
 

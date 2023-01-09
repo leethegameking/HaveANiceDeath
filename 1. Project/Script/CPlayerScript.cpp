@@ -23,6 +23,7 @@ CPlayerScript::~CPlayerScript()
 void CPlayerScript::begin()
 {
 	CUnitScript::begin();
+	m_pAnimCon = GetOwner()->GetScript<CAnimController>();
 	CPlayerMgr::GetInst()->SetPlayerObj(GetOwner());
 
 	// 시작 애니메이션 노드 초기화

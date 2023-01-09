@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CTransform.h"
 
 #include "CDevice.h"
@@ -28,7 +28,7 @@ void CTransform::tick()
 void CTransform::finaltick()
 {
 	// m_vRelativePos, m_vRelativeScale, m_vRelativeRotation
-	// ¤¤=> ¿ùµåÇà·ÄÀ» ¸¸µé¾î ³¿
+	// ã„´=> ì›”ë“œí–‰ë ¬ì„ ë§Œë“¤ì–´ ëƒ„
 	m_matWorld = XMMatrixIdentity();
 
 	Matrix matScale = XMMatrixScaling(m_vRelativeScale.x, m_vRelativeScale.y, m_vRelativeScale.z);
@@ -39,20 +39,20 @@ void CTransform::finaltick()
 	matRot *= XMMatrixRotationY(m_vRelativeRotation.y);
 	matRot *= XMMatrixRotationZ(m_vRelativeRotation.z);
 
-	// È¸ÀüÇà·ÄÀ» ÀÌ¿ëÇØ¼­ ÇöÀç ¹°Ã¼ÀÇ ¿ì, »ó, Àü ¹æÇâÀ» ±¸ÇØ³õ´Â´Ù.
+	// íšŒì „í–‰ë ¬ì„ ì´ìš©í•´ì„œ í˜„ìž¬ ë¬¼ì²´ì˜ ìš°, ìƒ, ì „ ë°©í–¥ì„ êµ¬í•´ë†“ëŠ”ë‹¤.
 	m_vRelativeDir[(UINT)DIR::RIGHT] = m_vWorldDir[(UINT)DIR::RIGHT] = XMVector3TransformNormal(Vec3(1.f, 0.f, 0.f), matRot);
 	m_vRelativeDir[(UINT)DIR::UP]	 = m_vWorldDir[(UINT)DIR::UP]	 = XMVector3TransformNormal(Vec3(0.f, 1.f, 0.f), matRot);
 	m_vRelativeDir[(UINT)DIR::FRONT] = m_vWorldDir[(UINT)DIR::FRONT] = XMVector3TransformNormal(Vec3(0.f, 0.f, 1.f), matRot);
 
 	m_matWorld = matScale * matRot * matTrans;
 
-	// ºÎ¸ð ¿ÀºêÁ§Æ®°¡ ÀÖ´Ù¸é
+	// ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ê°€ ìžˆë‹¤ë©´
 	if (GetOwner()->GetParent())
 	{
-		// ºÎ¸ð ¿ÀºêÁ§Æ®ÀÇ Å©±â¸¦ ¹«½ÃÇÏ±â·Î ÇÑ °æ¿ì
+		// ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ì˜ í¬ê¸°ë¥¼ ë¬´ì‹œí•˜ê¸°ë¡œ í•œ ê²½ìš°
 		if (m_bIgnParentScale)
 		{
-			// À§ÂÊÀ¸·Î ¸ðµç ºÎ¸ðÀÇ Å©±â°ªÀ» ´©ÀûÇØ¼­ ¿ªÇà·ÄÀ» ¸¸µé¾î µÐ´Ù.
+			// ìœ„ìª½ìœ¼ë¡œ ëª¨ë“  ë¶€ëª¨ì˜ í¬ê¸°ê°’ì„ ëˆ„ì í•´ì„œ ì—­í–‰ë ¬ì„ ë§Œë“¤ì–´ ë‘”ë‹¤.
 			CGameObject* pParent = GetOwner()->GetParent();
 			Vec3 vParentScale = Vec3(1.f, 1.f, 1.f);
 
@@ -60,15 +60,15 @@ void CTransform::finaltick()
 			{
 				vParentScale *= pParent->Transform()->GetRelativeScale();
 
-				// ºÎ¸ð ¿ÀºêÁ§Æ®µµ ±× À§·Î Å©±â¸¦ ¹«½ÃÇÏ±â·Î ÇÑ °æ¿ì Å©±â¸¦ ´õÀÌ»ó ´©ÀûÇÒ ÇÊ¿ä°¡ ¾ø´Ù.
+				// ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ë„ ê·¸ ìœ„ë¡œ í¬ê¸°ë¥¼ ë¬´ì‹œí•˜ê¸°ë¡œ í•œ ê²½ìš° í¬ê¸°ë¥¼ ë”ì´ìƒ ëˆ„ì í•  í•„ìš”ê°€ ì—†ë‹¤.
 				if (pParent->Transform()->m_bIgnParentScale)
 					pParent = nullptr;
 				else			
 					pParent = pParent->GetParent();
 			}
 
-			// ºÎ¸ð Çà·ÄÀÇ Å©±âºÎºÐÀ» ¿ªÇà·ÄÀ» ±¸ÇØ¼­ »ó¼â½ÃÅ²´Ù.
-			// ¿ªÇà·Ä ¿¹¿ÜÃ³¸®
+			// ë¶€ëª¨ í–‰ë ¬ì˜ í¬ê¸°ë¶€ë¶„ì„ ì—­í–‰ë ¬ì„ êµ¬í•´ì„œ ìƒì‡„ì‹œí‚¨ë‹¤.
+			// ì—­í–‰ë ¬ ì˜ˆì™¸ì²˜ë¦¬
 			if (0.f == vParentScale.x)
 				vParentScale.x = 1.f;
 			if (0.f == vParentScale.y)
@@ -79,7 +79,7 @@ void CTransform::finaltick()
 			Matrix matParentScaleInv = XMMatrixScaling(vParentScale.x, vParentScale.y, vParentScale.z);
 			matParentScaleInv = XMMatrixInverse(nullptr, matParentScaleInv);
 
-			// ±¸ÇÑ ¿ªÇà·ÄÀ» ¹Ì¸® °öÇØµÎ°í ºÎ¸ðÀÇ ¿ùµåÇà·ÄÀ» °öÇÑ´Ù.
+			// êµ¬í•œ ì—­í–‰ë ¬ì„ ë¯¸ë¦¬ ê³±í•´ë‘ê³  ë¶€ëª¨ì˜ ì›”ë“œí–‰ë ¬ì„ ê³±í•œë‹¤.
 			m_matWorld = m_matWorld * matParentScaleInv * GetOwner()->GetParent()->Transform()->GetWorldMat();			
 		}
 		else
@@ -87,12 +87,12 @@ void CTransform::finaltick()
 			m_matWorld *= GetOwner()->GetParent()->Transform()->GetWorldMat();
 		}	
 
-		// WorldDir ±¸ÇÏ±â
+		// WorldDir êµ¬í•˜ê¸°
 		m_vWorldDir[(UINT)DIR::RIGHT] = XMVector3TransformNormal(Vec3(1.f, 0.f, 0.f), m_matWorld);
 		m_vWorldDir[(UINT)DIR::UP]	  = XMVector3TransformNormal(Vec3(0.f, 1.f, 0.f), m_matWorld);
 		m_vWorldDir[(UINT)DIR::FRONT] = XMVector3TransformNormal(Vec3(0.f, 0.f, 1.f), m_matWorld);
 
-		// È¸Àü, Å©±â º¯È¯ÀÌ ÀÌ·ç¾îÁ³±â ¶§¹®¿¡ º¯°æµÈ Å©±â¸¦ ÃÊ±âÈ­ ÇÏ±â À§ÇØ Normalize ÇØÁØ´Ù.¤¤¤¤
+		// íšŒì „, í¬ê¸° ë³€í™˜ì´ ì´ë£¨ì–´ì¡Œê¸° ë•Œë¬¸ì— ë³€ê²½ëœ í¬ê¸°ë¥¼ ì´ˆê¸°í™” í•˜ê¸° ìœ„í•´ Normalize í•´ì¤€ë‹¤.ã„´ã„´
 		m_vWorldDir[(UINT)DIR::RIGHT].Normalize();
 		m_vWorldDir[(UINT)DIR::UP].Normalize();
 		m_vWorldDir[(UINT)DIR::FRONT].Normalize();
@@ -133,9 +133,14 @@ void CTransform::LoadFromFile(FILE* _File)
 }
 
 
+void CTransform::SetRelativePosWorld(Vec3 _vPos)
+{
+
+}
+
 Vec3 CTransform::GetWorldScale()
 {
-	// À§ÂÊÀ¸·Î ¸ðµç ºÎ¸ðÀÇ Å©±â°ªÀ» ´©ÀûÇØ¼­ ¿ªÇà·ÄÀ» ¸¸µé¾î µÐ´Ù.	
+	// ìœ„ìª½ìœ¼ë¡œ ëª¨ë“  ë¶€ëª¨ì˜ í¬ê¸°ê°’ì„ ëˆ„ì í•´ì„œ ì—­í–‰ë ¬ì„ ë§Œë“¤ì–´ ë‘”ë‹¤.	
 	Vec3 vWorldScale = m_vRelativeScale;
 
 	if (m_bIgnParentScale)
@@ -146,7 +151,7 @@ Vec3 CTransform::GetWorldScale()
 	{		
 		vWorldScale *= pParent->Transform()->GetRelativeScale();
 
-		// ºÎ¸ð ¿ÀºêÁ§Æ®µµ ±× À§·Î Å©±â¸¦ ¹«½ÃÇÏ±â·Î ÇÑ °æ¿ì Å©±â¸¦ ´õÀÌ»ó ´©ÀûÇÒ ÇÊ¿ä°¡ ¾ø´Ù.
+		// ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ë„ ê·¸ ìœ„ë¡œ í¬ê¸°ë¥¼ ë¬´ì‹œí•˜ê¸°ë¡œ í•œ ê²½ìš° í¬ê¸°ë¥¼ ë”ì´ìƒ ëˆ„ì í•  í•„ìš”ê°€ ì—†ë‹¤.
 		if (pParent->Transform()->m_bIgnParentScale)
 			pParent = nullptr;
 		else

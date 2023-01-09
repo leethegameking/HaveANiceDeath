@@ -11,8 +11,17 @@ void CAnimController::AnimConInit()
 
 	AddPlayerAnyNode();
 	CreatePlayerAnimCon();
+}
 
-	CreateWorkmanAnimCon();
+void CAnimController::DelAnimConMap()
+{
+	map<wstring, tAnimNode*>::iterator iter = mapAnimNode.begin();
+	for (; iter != mapAnimNode.end(); ++iter)
+	{
+		Safe_Del_Vec(iter->second->vecNextAnim);
+	}
+
+	Safe_Del_Map(mapAnimNode);
 }
 
 void CAnimController::CreateMapAnimNode()
@@ -182,26 +191,5 @@ void CAnimController::AddPlayerAnyNode()
 
 	PushTranNode(animation\\player\\PlayerDisappear.anim);
 	pTrNode->AddInclude(HP_ZERO);
-}
-
-void CAnimController::CreateWorkmanAnimCon()
-{
-	tAnimNode* pNode = nullptr;
-	tTransitionNode* pTrNode = nullptr;
-
-	// Move
-	pNode = FindNode(animation\\workman\\EWorkmanWaiting.anim); pNode->AddPreferences(REPEAT);
-	/*PushTranNode(animation\\workman\\EWorkmanAppear.anim);*/
-}
-
-void CAnimController::DelAnimConMap()
-{
-	map<wstring, tAnimNode*>::iterator iter = mapAnimNode.begin();
-	for (; iter != mapAnimNode.end(); ++iter)
-	{
-		vector<tTransitionNode*>& vecTrNode = iter->second->vecNextAnim;
-		Safe_Del_Vec(vecTrNode);
-	}
-	Safe_Del_Map<wstring, tAnimNode*>(mapAnimNode);
 }
 

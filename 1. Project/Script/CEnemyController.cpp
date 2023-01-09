@@ -1,6 +1,23 @@
 ﻿#include "pch.h"
 #include "CEnemyController.h"
 
+#include "CEnemyScript.h"
+#include <Engine/CGameObject.h>
+
+CEnemyController::CEnemyController()
+	: CAnimController(SCRIPT_TYPE::ENEMYCONTROLLER)
+{
+}
+
+CEnemyController::CEnemyController(const CEnemyController& _origin)
+	: CAnimController(_origin)
+{
+}
+
+CEnemyController::~CEnemyController()
+{
+}
+
 void CEnemyController::begin()
 {
 	const vector<CGameObject*>& vecChildObj = GetOwner()->GetChildObject();
@@ -21,25 +38,24 @@ void CEnemyController::begin()
 
 void CEnemyController::tick()
 {
-	m_pPrevAnimNode = m_pCurAnimNode;
-	if (m_pNextNode != nullptr)
-	{
-		PlayNextNode();
-	}
-
-	SetCondBit();
-	// SetAttackCollider();
-	SetGravity();
-	SetCurDir();
-	PosChangeProgress();
-
 	NodeProgress();
-	SetDir();
+	SetPattern();
+}
 
+void CEnemyController::SetPattern()
+{
+	CEnemyScript* pEnemyScr = (CEnemyScript*)m_pUnitScr;
+	pEnemyScr->SetPattern(m_pCurAnimNode->ePattern);
 }
 
 void CEnemyController::SetCondBit()
 {
+	// ANIM_FINISHED
+	RemoveBit(m_pCurAnimNode->iCond, E_ANIM_FINISHED);
+	if (Animator2D()->GetCurAnim()->IsFinish())
+	{
+		AddBit(m_pCurAnimNode->iCond, E_ANIM_FINISHED);
+	}
 }
 
 void CEnemyController::NodeProgress()
@@ -57,7 +73,9 @@ void CEnemyController::NodeProgress()
 
 			if (CalBit(iCurAnyCond, m_pAnyStateNode->vecNextAnim[i]->iTranCond, BIT_EQUAL))
 			{
-				m_pNextNode = mapAnimNode.find(m_pAnyStateNode->vecNextAnim[i]->pAnimKey)->second;
+				tAnimNode* pNextNode = mapAnimNode.find(m_pAnyStateNode->vecNextAnim[i]->pAnimKey)->second;
+				Animator2D()->Play(m_pAnyStateNode->vecNextAnim[i]->pAnimKey, CalBit(pNextNode->iPreferences, REPEAT, BIT_INCLUDE));
+				m_pCurAnimNode = pNextNode;
 				return;
 			}
 		}
@@ -74,22 +92,11 @@ void CEnemyController::NodeProgress()
 
 		if (CalBit(iCurCond, m_pCurAnimNode->vecNextAnim[i]->iTranCond, BIT_EQUAL))
 		{
-			m_pNextNode = mapAnimNode.find(m_pCurAnimNode->vecNextAnim[i]->pAnimKey)->second;
+			tAnimNode* pNextNode = mapAnimNode.find(m_pCurAnimNode->vecNextAnim[i]->pAnimKey)->second;
+			Animator2D()->Play(m_pCurAnimNode->vecNextAnim[i]->pAnimKey, CalBit(pNextNode->iPreferences, REPEAT, BIT_INCLUDE));
+			m_pCurAnimNode = pNextNode;
 			return;
 		}
 	}
 }
 
-CEnemyController::CEnemyController()
-	: CAnimController(SCRIPT_TYPE::ENEMYCONTROLLER)
-{
-}
-
-CEnemyController::CEnemyController(const CEnemyController& _origin)
-	: CAnimController(_origin)
-{
-}
-
-CEnemyController::~CEnemyController()
-{
-}

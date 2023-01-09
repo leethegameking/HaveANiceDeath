@@ -15,6 +15,9 @@ bool CalBit(UINT _originBit, UINT _cmpBits, BIT_FUNC_OPT _opt);
 void AddBit(UINT& _src, UINT _add);
 void RemoveBit(UINT& _src, UINT _remove);
 
+float DistanceF(Vec2 _left, Vec2 _right);
+float DistanceF(Vec3 _left, Vec3 _right);
+
 
 class CGameObject;
 

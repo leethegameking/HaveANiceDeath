@@ -3,22 +3,16 @@
 
 class CAnimController;
 
-enum UNIT_STATE
-{
-    UNIT_GROUND_PLATFORM    = 0x00000001,
-    UNIT_GROUND             = 0x00000002,
-    UNIT_HP_DOWN            = 0x00000004,
-    UNIT_HP_ZERO            = 0x00000008
-};
-
-
-
 struct tUnitInfo
 {
     float   m_fHP;
     float   m_fMP;
     float   m_fAtt;
     float   m_fDef;
+
+    float   m_fSpeed;
+    ANIM_DIR m_eDir;
+
     UINT    m_iStateBits;
     UNIT_NAME   m_eName;
 
@@ -27,6 +21,8 @@ struct tUnitInfo
         , m_fMP(50.f)
         , m_fAtt(3.f)
         , m_fDef(1.f)
+        , m_fSpeed(10.f)
+        , m_eDir(ANIM_DIR::ANIM_RIGHT)
         , m_iStateBits(0)
         , m_eName(UNIT_NAME::END)
     {

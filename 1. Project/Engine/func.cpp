@@ -66,6 +66,16 @@ void RemoveBit(UINT& _src, UINT _remove)
 	_src &= ~_remove;
 }
 
+float DistanceF(Vec2 _left, Vec2 _right)
+{
+	return sqrtf(powf(_left.x - _right.x, 2.f) + powf(_left.y - _right.y, 2.f));
+}
+
+float DistanceF(Vec3 _left, Vec3 _right)
+{
+	return sqrtf(powf(_left.x - _right.x, 2.f) + powf(_left.y - _right.y, 2.f));
+}
+
 bool InCamera(CGameObject* _obj, Vec2 _cameraExtenseion)
 {
 	CCamera* mainCam = CRenderMgr::GetInst()->GetMainCam();
@@ -252,8 +262,10 @@ void Instantiate(CGameObject* _pNewObj, Vec3 _vWorldPos, int _iLayerIdx)
 	tEvent evn = {};
 	evn.eType = EVENT_TYPE::CREATE_OBJECT;
 	evn.wParam = (DWORD_PTR)_pNewObj;
-	evn.lParam = (DWORD_PTR)_iLayerIdx;
-
+	if (_iLayerIdx == 0)
+	{
+		evn.lParam = _pNewObj->GetLayerIdx();
+	}
 	CEventMgr::GetInst()->AddEvent(evn);
 }
 

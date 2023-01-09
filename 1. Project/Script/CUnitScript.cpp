@@ -29,12 +29,9 @@ CUnitScript::~CUnitScript()
 {
 }
 
-
-
 void CUnitScript::begin()
 {
 	m_PrevUnitInfo = m_CurUnitInfo;
-	m_pAnimCon = GetOwner()->GetScript<CAnimController>();
 }
 
 void CUnitScript::tick()

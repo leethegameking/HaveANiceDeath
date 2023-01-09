@@ -31,9 +31,6 @@
     <ClInclude Include="CGameCameraScript.h">
       <Filter>Script\GameCamera</Filter>
     </ClInclude>
-    <ClInclude Include="CEnemyController.h">
-      <Filter>Script\Unit\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="CWorkman.h">
       <Filter>Script\Unit\Enemy\Workman</Filter>
     </ClInclude>
@@ -52,6 +49,7 @@
     <ClInclude Include="CPlayerMgr.h">
       <Filter>PlayerMgr</Filter>
     </ClInclude>
+    <ClInclude Include="CEnemyController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Script.cpp">
@@ -87,9 +85,6 @@
     <ClCompile Include="AnimInit.cpp">
       <Filter>Script\AnimController\AnimInit</Filter>
     </ClCompile>
-    <ClCompile Include="CEnemyController.cpp">
-      <Filter>Script\Unit\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="CWorkman.cpp">
       <Filter>Script\Unit\Enemy\Workman</Filter>
     </ClCompile>
@@ -105,6 +100,7 @@
     <ClCompile Include="CPlayerMgr.cpp">
       <Filter>PlayerMgr</Filter>
     </ClCompile>
+    <ClCompile Include="CEnemyController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">

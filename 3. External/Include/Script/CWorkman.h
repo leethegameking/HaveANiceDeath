@@ -1,11 +1,14 @@
 ﻿#pragma once
 #include "CEnemyScript.h"
 
+
+
 class CWorkman :
     public CEnemyScript
 {
 private:
-
+    bool m_bUturn;
+    bool m_bStateEnter;
 
 public:
     virtual void begin() override;
@@ -16,7 +19,18 @@ public:
     virtual void EndOverlap(CCollider2D* _pOther) override;
 
 private:
+    void WaitState();
+    void AppearSatae();
+    void IdleState();
+    void UturnState();
+    void DetectState();
+    void RunState();
+    void AttackState();
 
+private:
+    void SetDir(ANIM_DIR _eDir);
+    bool CurAnimFinish();
+    ANIM_DIR GetDirToPlayer();
 
 public:
     virtual void SaveToFile(FILE* _pFile) override;

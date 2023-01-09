@@ -7,15 +7,19 @@ class CEnemyScript :
     public CUnitScript
 {
 protected:
-    UINT    m_ePattern;
+    UINT    m_ePrevPattern;
+    UINT    m_eCurPattern;
 
     CGameObject* m_pPlayerObj;
 
-    Vec2    m_AppearRadius;
-    Vec2    m_DetectRadius;
+    CGameObject* m_pHitObj;
+    CGameObject* m_pAttObj;
 
-    bool    m_bAppear;
-    bool    m_bDetect;
+    float    m_fAppearRadius;
+    float    m_fDetectRadius;
+    float    m_fAttackRadius;
+
+
 
     
 
@@ -28,12 +32,12 @@ public:
     virtual void EndOverlap(CCollider2D* _pOther) override;
 
 public:
-    UINT GetPattern() { return m_ePattern; }
+    UINT GetPattern() { return m_eCurPattern; }
+    void SetPattern(UINT _iPattern) { m_eCurPattern = _iPattern; }
 
-public:
-    void AppearCheck();
-    void DetectCheck();
-
+    float GetAppearRadius() { return m_fAppearRadius; }
+    float GetDetectRadius() { return m_fDetectRadius; }
+    CGameObject* GetPlayerObj() { return m_pPlayerObj; }
 
 public:
     virtual void SaveToFile(FILE* _pFile) override;

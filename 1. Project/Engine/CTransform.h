@@ -17,6 +17,8 @@ private:
 	bool		m_bIgnParentScale;
 
 public:
+	void SetRelativePosWorld(Vec3 _vPos);
+
 	void SetRelativePos(Vec3 _vPos) { m_vRelativePos = _vPos; }
 	void SetRelativeScale(Vec3 _vScale) { m_vRelativeScale = _vScale; }
 	void SetRelativeRotation(Vec3 _vRotation) { m_vRelativeRotation = _vRotation; }
