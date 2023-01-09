@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "TreeUI.h"
 
 
@@ -40,7 +40,7 @@ void TreeNode::render_update()
 		strName = "\t" + strName;
 	strName += "##" + to_string(m_ID);
 
-	// Node Open °ª Ã³À½ ResetÇÑ ÈÄ, ÇÑ ¹ø¸¸ ÇÒ´ç
+	// Node Open ê°’ ì²˜ìŒ Resetí•œ í›„, í•œ ë²ˆë§Œ í• ë‹¹
 	if (m_bNodeOpen && m_bNodeOpenFlag)
 	{
 		ImGui::SetNextItemOpen(true);
@@ -50,25 +50,25 @@ void TreeNode::render_update()
 
 	if (ImGui::TreeNodeEx(strName.c_str(), iFlag))
 	{
-		// ResetÈÄ Node Open °ª ÇÒ´çÀ» À§ÇÑ Ã³¸®.
+		// Resetí›„ Node Open ê°’ í• ë‹¹ì„ ìœ„í•œ ì²˜ë¦¬.
 		m_bNodeOpenFlag = false;
 		m_bNodeOpen = true;
 
-		// ¾ÆÀÌÅÛ Å¬¸¯ Ã¼Å©
+		// ì•„ì´í…œ í´ë¦­ ì²´í¬
 		if (ImGui::IsItemHovered(0) && ImGui::IsMouseReleased(0) && !m_bFrame)
 		{
 			m_TreeUI->SetSelectedNode(this);
 		}
 
-		// ¾ÆÀÌÅÛ µå·¡±× Ã¼Å©
-		if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+		// ì•„ì´í…œ ë“œë˜ê·¸ ì²´í¬
+		if (ImGui::BeginDragDropSource())
 		{
 			m_TreeUI->SetBeginDragNode(this);
 
-			// ImGui°¡ UI -> UI·Î Á¤º¸¸¦ Àü´ŞÇÏ´Â ¹æ½Ä : ÀÌ¸§, void* Å¸ÀÔ µ¥ÀÌÅÍ, Å©±â
+			// ImGuiê°€ UI -> UIë¡œ ì •ë³´ë¥¼ ì „ë‹¬í•˜ëŠ” ë°©ì‹ : ì´ë¦„, void* íƒ€ì… ë°ì´í„°, í¬ê¸°
 			ImGui::SetDragDropPayload(m_TreeUI->GetName().c_str(), (void*)this, sizeof(TreeNode));
 
-			// drag & drop item name ÆÄ½Ì Ãß°¡
+			// drag & drop item name íŒŒì‹± ì¶”ê°€
 			string strSubName;
 			for (size_t i = 0; strName.length(); ++i)
 			{
@@ -84,7 +84,7 @@ void TreeNode::render_update()
 			ImGui::EndDragDropSource();
 		}
 
-		// µå¶ø Ã¼Å©
+		// ë“œë ì²´í¬
 		if (ImGui::BeginDragDropTarget())
 		{
 			m_TreeUI->SetDropTargetNode(this);
@@ -93,14 +93,14 @@ void TreeNode::render_update()
 		}
 
 		
-		// ¿ìÅ¬¸¯ ÀÌº¥Æ®
+		// ìš°í´ë¦­ ì´ë²¤íŠ¸
 		if ( ImGui::IsMouseClicked(ImGuiMouseButton_Right) && ImGui::IsItemHovered(0))
 		{
 			m_TreeUI->SetRightClickNode(this);
 			m_TreeUI->SetNotEmptySpace();
 		}
 
-		// ´õºíÅ¬¸¯ Ã¼Å©
+		// ë”ë¸”í´ë¦­ ì²´í¬
 		if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left) && ImGui::IsItemHovered(0) && !m_bFrame)
 		{
 			m_TreeUI->SetDBClickedNode(this);
@@ -204,7 +204,7 @@ void TreeUI::render_update()
 		}
 	}
 
-	// ¸¶¿ì½º ¿ŞÂÊ ¸±¸®Áî Ã¼Å©
+	// ë§ˆìš°ìŠ¤ ì™¼ìª½ ë¦´ë¦¬ì¦ˆ ì²´í¬
 	if (ImGui::IsMouseReleased(0))
 	{
 		m_BeginDragNode = nullptr;

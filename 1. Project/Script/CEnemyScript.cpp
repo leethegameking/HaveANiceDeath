@@ -10,23 +10,26 @@ CEnemyScript::CEnemyScript()
 
 CEnemyScript::CEnemyScript(int _iScriptType)
 	: CUnitScript(_iScriptType)
+	, m_pProjectile(nullptr)
 	, m_eCurPattern(0)
 	, m_ePrevPattern(-1)
 	, m_fAppearRadius(200.f)
 	, m_fDetectRadius(100.f)
 	, m_fAttackRadius(50.f)
 {
-
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "Projectile", &m_pProjectile);
 }
 
 CEnemyScript::CEnemyScript(const CEnemyScript& _origin)
 	: CUnitScript(_origin)
+	, m_pProjectile(nullptr)
 	, m_eCurPattern(0)
 	, m_ePrevPattern(-1)
 	, m_fAppearRadius(200.f)
 	, m_fDetectRadius(100.f)
 	, m_fAttackRadius(50.f)
 {
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "Projectile", &m_pProjectile);
 }
 
 CEnemyScript::~CEnemyScript()
@@ -52,7 +55,6 @@ void CEnemyScript::begin()
 			m_pAttObj = vecChildObj[i];
 		}
 	}
-
 }
 
 void CEnemyScript::tick()
@@ -74,10 +76,25 @@ void CEnemyScript::EndOverlap(CCollider2D* _pOther)
 
 void CEnemyScript::SaveToFile(FILE* _pFile)
 {
+	CUnitScript::SaveToFile(_pFile);
+
+	bool bProjectile = false;
+	if (m_pProjectile.Get())
+		bProjectile = true;
+
+	fwrite(&bProjectile, sizeof(bool), 1, _pFile);
+	if (bProjectile)
+		SaveResourceRef<CPrefab>(m_pProjectile, _pFile);
 }
 
 void CEnemyScript::LoadFromFile(FILE* _pFile)
 {
+	CUnitScript::LoadFromFile(_pFile);
+
+	bool bProjectile = false;
+	fread(&bProjectile, sizeof(bool), 1, _pFile);
+	if (bProjectile)
+		LoadResourceRef<CPrefab>(m_pProjectile, _pFile);
 }
 
 

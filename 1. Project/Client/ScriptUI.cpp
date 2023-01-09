@@ -72,6 +72,9 @@ void ScriptUI::render_scriptparam()
         case SCRIPT_PARAM::MATRERIAL:
             break;
         case SCRIPT_PARAM::PREFAB:
+		{             
+		    ParamUI::Param_Prefab(vecParam[i].strParamName, *(Ptr<CPrefab>*)((vecParam[i].pParam)));
+        }
             break;
         case SCRIPT_PARAM::SOUND:
             break;

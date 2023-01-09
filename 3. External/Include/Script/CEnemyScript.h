@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "CUnitScript.h"
 
+class CPrefab;
 class CGameObject;
 
 class CEnemyScript :
@@ -19,9 +20,7 @@ protected:
     float    m_fDetectRadius;
     float    m_fAttackRadius;
 
-
-
-    
+    Ptr<CPrefab> m_pProjectile;
 
 public:
     virtual void begin() override;

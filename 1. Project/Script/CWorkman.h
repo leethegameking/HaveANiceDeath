@@ -25,7 +25,9 @@ private:
     void UturnState();
     void DetectState();
     void RunState();
+    void AttackReadyState();
     void AttackState();
+
 
 private:
     void SetDir(ANIM_DIR _eDir);

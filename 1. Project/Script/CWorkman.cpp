@@ -58,6 +58,9 @@ void CWorkman::tick()
 	case PATTERN_RUN:
 		RunState();
 		break;
+	case PATTERN_ATTACK_READY:
+		AttackReadyState();
+		break;
 	case PATTERN_ATTACK:
 		AttackState();
 		break;
@@ -202,6 +205,20 @@ void CWorkman::RunState()
 
 	if (DistanceF(vPos, vPlayerPos) <= m_fAttackRadius)
 	{
+		m_eCurPattern = PATTERN_ATTACK_READY;
+	}
+}
+
+void CWorkman::AttackReadyState()
+{
+	if (m_bStateEnter)
+	{
+		Animator2D()->Play(L"animation\\workman\\EWorkmanAttackReady.anim", false);
+		m_bStateEnter = false;
+	}
+
+	if (CurAnimFinish())
+	{
 		m_eCurPattern = PATTERN_ATTACK;
 	}
 }
@@ -210,9 +227,12 @@ void CWorkman::AttackState()
 {
 	if (m_bStateEnter)
 	{
-		Animator2D()->Play(L"animation\\workman\\EWorkmanAttack.anim");
+		Animator2D()->Play(L"animation\\workman\\EWorkmanAttackReady.anim", false);
 		m_bStateEnter = false;
 	}
+
+ 	Vec3 vPos = Transform()->GetRelativePos();
+	Instantiate(m_pProjectile->Instantiate(), vPos, (int)LAYER_NAME::ENEMY_ATTACK);
 
 	if (CurAnimFinish())
 	{
@@ -253,12 +273,12 @@ ANIM_DIR CWorkman::GetDirToPlayer()
 
 void CWorkman::SaveToFile(FILE* _pFile)
 {
-	CScript::SaveToFile(_pFile);
+	CEnemyScript::SaveToFile(_pFile);
 }
 
 void CWorkman::LoadFromFile(FILE* _pFile)
 {
-	CScript::LoadFromFile(_pFile);
+	CEnemyScript::LoadFromFile(_pFile);
 }
 
 

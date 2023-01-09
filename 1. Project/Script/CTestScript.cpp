@@ -33,14 +33,6 @@ void CTestScript::tick()
 		Transform()->SetRelativePos(vPos);
 	}
 
-	// save prefab test
-	if (KEY_TAP(KEY::P))
-	{
-		if(testPrefab.Get())
-			testPrefab->Save(L"prefab\\testPrefab");
-	}
-
-	// 
 	if (KEY_TAP(KEY::U))
 	{
 		tEvent evn = {};

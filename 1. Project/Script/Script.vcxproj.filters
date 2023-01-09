@@ -50,6 +50,7 @@
       <Filter>PlayerMgr</Filter>
     </ClInclude>
     <ClInclude Include="CEnemyController.h" />
+    <ClInclude Include="CProjectileScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Script.cpp">
@@ -101,6 +102,7 @@
       <Filter>PlayerMgr</Filter>
     </ClCompile>
     <ClCompile Include="CEnemyController.cpp" />
+    <ClCompile Include="CProjectileScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">

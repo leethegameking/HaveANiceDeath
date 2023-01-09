@@ -56,6 +56,40 @@ void ParamUI::Param_Mat(const string& _ParamName, Matrix* _pInOut)
 {
 }
 
+void ParamUI::Param_Prefab(const string& _ParamName, Ptr<CPrefab>& _Pref)
+{
+	ImGui::Text(_ParamName.c_str());
+	ImGui::SameLine();
+
+	char buf[128];
+	if (_Pref == nullptr)
+	{
+		sprintf_s(buf, "NONE");
+	}
+	else
+	{
+		sprintf_s(buf, WstrToStr(_Pref->GetName()).c_str());
+	}
+
+	ImGui::InputText("##PrefabInput", buf, 128);
+
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("##ContentTree"))
+		{
+			// void* 값 typecast
+			TreeNode* pNode = (TreeNode*)payload->Data;
+			CRes* pRes = (CRes*)pNode->GetData();
+
+			if (RES_TYPE::PREFAB == pRes->GetResType())
+			{
+				_Pref = (CPrefab*)pRes;
+			}
+		}
+		ImGui::EndDragDropTarget();
+	}
+}
+
 bool ParamUI::Param_Tex(const string& _ParamName, Ptr<CTexture>& _Tex, UI* _Inst, FUNC_1 _Func)
 {
 	ImGui::Text(_ParamName.c_str());
