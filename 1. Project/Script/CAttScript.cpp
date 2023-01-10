@@ -89,7 +89,8 @@ void CAttScript::EndOverlap(CCollider2D* _other)
 void CAttScript::FirstTick()
 {
 	// 부모에서 받아와야함.
-	m_pUnitScr = GetOwner()->GetParent()->GetScript<CUnitScript>();
-	m_pProjScr = GetOwner()->GetParent()->GetScript<CProjectileScript>();
+	if(GetOwner()->GetParent())
+		m_pUnitScr = GetOwner()->GetParent()->GetScript<CUnitScript>();
+	m_pProjScr = GetOwner()->GetScript<CProjectileScript>();
 	m_bFirstTick = false;
 }

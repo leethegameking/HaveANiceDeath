@@ -4,19 +4,20 @@ class CProjectileScript :
     public CScript
 {
 private:
-    CGameObject* m_pAttObj;
-
     wstring m_strAnimKey;
     bool    m_bFirstTick;
-
+    Vec2    m_vDir;
+    float   m_fAccLifeTime;
+    
     bool    m_bDestroyAnimFinsh;
     bool    m_bRepeat;
     float   m_fSpeed;
     bool    m_bRot;
     float   m_fMaxLifeTime;
     float   m_fAtt;
-    float   m_fAccLifeTime;
-    Vec2    m_vDir;
+    bool    m_bAnimHasCol;
+    
+
     
 
 public:

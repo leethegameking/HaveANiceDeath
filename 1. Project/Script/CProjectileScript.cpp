@@ -14,12 +14,15 @@ CProjectileScript::CProjectileScript()
 	, m_bFirstTick(true)
 	, m_bDestroyAnimFinsh(false)
 	, m_bRepeat(true)
+	, m_bAnimHasCol(true)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Speed        ", &m_fSpeed);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Att          ", &m_fAtt);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Max Life     ", &m_fMaxLifeTime);
+	AddScriptParam(SCRIPT_PARAM::BOOL,  "Rot          ", &m_bRot);
 	AddScriptParam(SCRIPT_PARAM::BOOL,  "AnimRepeat   ", &m_bRepeat);
 	AddScriptParam(SCRIPT_PARAM::BOOL,  "End-of-Anim  ", &m_bDestroyAnimFinsh);
+	AddScriptParam(SCRIPT_PARAM::BOOL,  "AnimHasCol   ", &m_bAnimHasCol);
 
 }
 
@@ -30,16 +33,19 @@ CProjectileScript::CProjectileScript(const CProjectileScript& _origin)
 	, m_fAccLifeTime(0.f)
 	, m_fAtt(_origin.m_fAtt)
 	, m_vDir(Vec2::Zero)
-	, m_bRot(false)
+	, m_bRot(_origin.m_bRot)
 	, m_bFirstTick(true)
 	, m_bDestroyAnimFinsh(_origin.m_bDestroyAnimFinsh)
 	, m_bRepeat(_origin.m_bRepeat)
+	, m_bAnimHasCol(_origin.m_bAnimHasCol)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Speed        ", &m_fSpeed);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Att          ", &m_fAtt);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Max Life     ", &m_fMaxLifeTime);
-	AddScriptParam(SCRIPT_PARAM::BOOL, "AnimRepeat   ", &m_bRepeat);
-	AddScriptParam(SCRIPT_PARAM::BOOL, "End-of-Anim  ", &m_bDestroyAnimFinsh);
+	AddScriptParam(SCRIPT_PARAM::BOOL,  "Rot          ", &m_bRot);
+	AddScriptParam(SCRIPT_PARAM::BOOL,  "AnimRepeat   ", &m_bRepeat);
+	AddScriptParam(SCRIPT_PARAM::BOOL,  "End-of-Anim  ", &m_bDestroyAnimFinsh);
+	AddScriptParam(SCRIPT_PARAM::BOOL, "AnimHasCol   ", &m_bAnimHasCol);
 }
 
 CProjectileScript::~CProjectileScript()
@@ -83,19 +89,23 @@ void CProjectileScript::tick()
 	vPos.y += m_vDir.y * m_fSpeed * DT; 
 	Transform()->SetRelativePos(vPos);
 
+
 	// AttCol 크기 오프셋 설정
-	Ptr<CAnimation2D> pAnim = Animator2D()->GetCurAnim();
-	int iIdx = pAnim->GetCurIdx();
-	const vector<tAnim2DFrm>& vecFrm = pAnim->GetFrmVecRef();
-	if (vecFrm[iIdx].bColiiderOn)
+	if (m_bAnimHasCol)
 	{
-		// offset
-		m_pAttObj->Collider2D()->SetOffsetPos(vecFrm[iIdx].iColliderPos);
-		m_pAttObj->Collider2D()->SetScale(vecFrm[iIdx].iColliderScale);
-	}
-	else
-	{
-		m_pAttObj->Collider2D()->SetOffsetPos(EXPEL * m_pAttObj->GetLayerIdx());
+		Ptr<CAnimation2D> pAnim = Animator2D()->GetCurAnim();
+		int iIdx = pAnim->GetCurIdx();
+		const vector<tAnim2DFrm>& vecFrm = pAnim->GetFrmVecRef();
+		if (vecFrm[iIdx].bColiiderOn)
+		{
+			// offset
+			Collider2D()->SetOffsetPos(vecFrm[iIdx].iColliderPos);
+			Collider2D()->SetScale(vecFrm[iIdx].iColliderScale);
+		}
+		else
+		{
+			Collider2D()->SetOffsetPos(EXPEL * GetOwner()->GetLayerIdx());
+		}
 	}
 }
 
@@ -114,11 +124,25 @@ void CProjectileScript::EndOverlap(CCollider2D* _pOther)
 void CProjectileScript::SaveToFile(FILE* _pFile)
 {
 	CScript::SaveToFile(_pFile);
+	fwrite(&m_bDestroyAnimFinsh, sizeof(bool), 1, _pFile);
+	fwrite(&m_bRepeat, sizeof(bool), 1, _pFile);
+	fwrite(&m_fSpeed, sizeof(float), 1, _pFile);
+	fwrite(&m_bRot, sizeof(bool), 1, _pFile);
+	fwrite(&m_fMaxLifeTime, sizeof(float), 1, _pFile);
+	fwrite(&m_fAtt, sizeof(float), 1, _pFile);
+	fwrite(&m_bAnimHasCol, sizeof(bool), 1, _pFile);
 }
 
 void CProjectileScript::LoadFromFile(FILE* _pFile)
 {
 	CScript::LoadFromFile(_pFile);
+	fread(&m_bDestroyAnimFinsh, sizeof(bool), 1, _pFile);
+	fread(&m_bRepeat, sizeof(bool), 1, _pFile);
+	fread(&m_fSpeed, sizeof(float), 1, _pFile);
+	fread(&m_bRot, sizeof(bool), 1, _pFile);
+	fread(&m_fMaxLifeTime, sizeof(float), 1, _pFile);
+	fread(&m_fAtt, sizeof(float), 1, _pFile);
+	fread(&m_bAnimHasCol, sizeof(bool), 1, _pFile);
 }
 
 void CProjectileScript::FirstTick()
@@ -126,9 +150,19 @@ void CProjectileScript::FirstTick()
 	if (m_bRot)
 	{
 		m_vDir.Normalize();
-		float fTheta = acosf(m_vDir.Dot(Vec2(0.f, 0.f)));
+		float fTheta = acosf(m_vDir.Dot(Vec2(1.f, 0.f)));
 
 		Transform()->SetRelativeRotation(0.f, 0.f, fTheta);
+		if (m_vDir.y > 0.f)
+		{
+			Transform()->SetRelativeRotation(0.f, 0.f, fTheta);
+			Collider2D()->SetRotationZ(fTheta);
+		}
+		else
+		{
+			Transform()->SetRelativeRotation(0.f, 0.f, -fTheta);
+			Collider2D()->SetRotationZ(fTheta);
+		}
 	}
 	else
 	{
@@ -141,15 +175,6 @@ void CProjectileScript::FirstTick()
 		{
 			m_vDir = Vec2(1.f, 0.f);
 			Transform()->SetRelativeRotation(0.f, 0.f, 0.f);
-		}
-	}
-
-	const vector<CGameObject*>& vecChildObj = GetOwner()->GetChildObject();
-	for (size_t i = 0; i < vecChildObj.size(); ++i)
-	{
-		if (vecChildObj[i]->GetLayerIdx() == (int)LAYER_NAME::ENEMY_ATTACK)
-		{
-			m_pAttObj = vecChildObj[i];
 		}
 	}
 

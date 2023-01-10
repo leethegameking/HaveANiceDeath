@@ -262,10 +262,13 @@ void Instantiate(CGameObject* _pNewObj, Vec3 _vWorldPos, int _iLayerIdx)
 	tEvent evn = {};
 	evn.eType = EVENT_TYPE::CREATE_OBJECT;
 	evn.wParam = (DWORD_PTR)_pNewObj;
-	if (_iLayerIdx == 0)
-	{
-		evn.lParam = _pNewObj->GetLayerIdx();
-	}
+	evn.lParam = _iLayerIdx;
+	//if (_iLayerIdx == 0)
+	//{
+	//	evn.lParam = _pNewObj->GetLayerIdx();
+	//}
+	//else
+
 	CEventMgr::GetInst()->AddEvent(evn);
 }
 
