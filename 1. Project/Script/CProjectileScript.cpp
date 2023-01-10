@@ -8,11 +8,15 @@ CProjectileScript::CProjectileScript()
 	, m_fSpeed(10.f)
 	, m_fMaxLifeTime(3.f)
 	, m_fAccLifeTime(0.f)
+	, m_fAtt(3.f)
 	, m_vDir(Vec2::Zero)
 	, m_bRot(false)
 	, m_bFirstTick(true)
+	, m_bDestroyAnimFinsh(false)
+	, m_bRepeat(true)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Speed    ", &m_fSpeed);
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "Att      ", &m_fAtt);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Max Life ", &m_fMaxLifeTime);
 	AddScriptParam(SCRIPT_PARAM::BOOL,  "Rot      ", &m_bRot);
 }
@@ -33,10 +37,20 @@ void CProjectileScript::tick()
 		FirstTick();
 
 	// 사라짐
-	m_fAccLifeTime += DT;
-	if (m_fMaxLifeTime <= m_fAccLifeTime)
+	if (m_bDestroyAnimFinsh)
 	{
-		GetOwner()->Destroy();
+		if (Animator2D()->GetCurAnim()->IsFinish())
+		{
+			GetOwner()->Destroy();
+		}
+	}
+	else
+	{
+		m_fAccLifeTime += DT;
+		if (m_fMaxLifeTime <= m_fAccLifeTime)
+		{
+			GetOwner()->Destroy();
+		}
 	}
 
 	// 이동
@@ -97,12 +111,14 @@ void CProjectileScript::FirstTick()
 		if (m_vDir.x <= 0.f)
 		{
 			m_vDir = Vec2(-1.f, 0.f);
+			Transform()->SetRelativeRotation(0.f, XM_PI, 0.f);
 		}
 		else
 		{
 			m_vDir = Vec2(1.f, 0.f);
+			Transform()->SetRelativeRotation(0.f, 0.f, 0.f);
 		}
-		Transform()->SetRelativeRotation(0.f, 0.f, m_vDir.x);
+		
 	}
 
 	const vector<CGameObject*>& vecChildObj = GetOwner()->GetChildObject();
@@ -113,6 +129,9 @@ void CProjectileScript::FirstTick()
 			m_pAttObj = vecChildObj[i];
 		}
 	}
+
+	if(Animator2D())
+		Animator2D()->Play(m_strAnimKey, m_bRepeat);
 
 	m_bFirstTick = false;
 }

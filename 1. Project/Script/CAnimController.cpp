@@ -59,6 +59,8 @@ void CAnimController::begin()
 		}
 	}
 
+	m_pAttObj->Collider2D()->SetOffsetPos(EXPEL * m_pAttObj->GetLayerIdx());
+
 	m_pUnitScr = GetOwner()->GetScript<CUnitScript>();
 }
 
@@ -199,8 +201,6 @@ void CAnimController::SetCondBit()
 		m_pUnitScr->RemoveUnitState(UNIT_HP_ZERO);
 		AddBit(m_pCurAnimNode->iCond, HP_ZERO);
 	}
-
-
 }
 
 void CAnimController::SetGravity()
@@ -256,14 +256,45 @@ void CAnimController::SetInvincible()
 
 	if (CalBit(m_pCurAnimNode->iPreferences, INVINCIBLE, BIT_INCLUDE))
 	{
-		m_pHitObj->Collider2D()->SetOffsetPos( EXPEL * iIdx );
-	}
-	else
-	{
-		m_pHitObj->Collider2D()->SetOffsetPos(Vec2::Zero);
+		// 애니메이션이 끝나지 않았다면.
+		if (!CalBit(m_pCurAnimNode->iCond, ANIM_FINISHED, BIT_INCLUDE))
+		{
+			m_pHitObj->Collider2D()->SetOffsetPos(EXPEL * iIdx);
+		}
+		else
+		{
+			m_pHitObj->Collider2D()->SetOffsetPos(Vec2::Zero);
+		}
 	}
 
 	// 피격시 몇초간 무적.
+
+	static bool InvincibleStart = false;
+	if (CalBit(m_pCurAnimNode->iPreferences, INVINCIBLE_START, BIT_INCLUDE))
+	{
+		if (InvincibleStart == false)
+		{
+			InvincibleStart = true;
+			m_pHitObj->Collider2D()->SetOffsetPos(EXPEL * iIdx);
+		}
+	}
+
+	static float fInvinclbieMaxtime = 2.f;
+	static float fInvincibleAccTime = 0.f;
+
+	if (InvincibleStart)
+	{
+		if (fInvinclbieMaxtime <= fInvincibleAccTime)
+		{
+			m_pHitObj->Collider2D()->SetOffsetPos(Vec2::Zero);
+			fInvincibleAccTime = 0.f;
+			InvincibleStart = false;
+		}
+		else
+		{
+			fInvincibleAccTime += DT;
+		}
+	}
 }
 
 void CAnimController::PosChangeProgress()
@@ -337,10 +368,6 @@ void CAnimController::NodeProgress()
 	fMemorizeAcc += DT;
 	if (fMemorizeAcc > fMemorizeTime || m_bPrevGround != m_bGround || m_bComboProgress)
 		m_pReserveNode = nullptr;
-
-
-
-	// 피격시 
 
 
 	// ------------------------------------------------------------------------------------------------------------------

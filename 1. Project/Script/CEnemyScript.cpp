@@ -16,6 +16,8 @@ CEnemyScript::CEnemyScript(int _iScriptType)
 	, m_fAppearRadius(200.f)
 	, m_fDetectRadius(100.f)
 	, m_fAttackRadius(50.f)
+	, m_fFaintGauge(10.f)
+	, m_fFaintTime(3.f)
 {
 	AddScriptParam(SCRIPT_PARAM::PREFAB, "Projectile", &m_pProjectile);
 }
@@ -28,6 +30,8 @@ CEnemyScript::CEnemyScript(const CEnemyScript& _origin)
 	, m_fAppearRadius(200.f)
 	, m_fDetectRadius(100.f)
 	, m_fAttackRadius(50.f)
+	, m_fFaintGauge(10.f)
+	, m_fFaintTime(3.f)
 {
 	AddScriptParam(SCRIPT_PARAM::PREFAB, "Projectile", &m_pProjectile);
 }
@@ -53,6 +57,7 @@ void CEnemyScript::begin()
 		else if (vecChildObj[i]->GetLayerIdx() == (int)LAYER_NAME::ENEMY_ATTACK)
 		{
 			m_pAttObj = vecChildObj[i];
+			m_pAttObj->Collider2D()->SetOffsetPos(EXPEL * (int)LAYER_NAME::ENEMY_ATTACK);
 		}
 	}
 }
@@ -64,10 +69,26 @@ void CEnemyScript::tick()
 
 void CEnemyScript::BeginOverlap(CCollider2D* _pOther)
 {
+
 }
 
 void CEnemyScript::Overlap(CCollider2D* _pOther)
 {
+	// Player일때만
+	if (!_pOther->GetOwner()->GetScript<CUnitScript>())
+		return;
+
+	static float fSpeed = 100.f;
+
+	// Player
+	Vec3 vPlayerPos = _pOther->Transform()->GetRelativePos();
+	if (vPlayerPos.x < Transform()->GetRelativePos().x)
+		vPlayerPos.x -= fSpeed * DT;
+	else
+		vPlayerPos.x += fSpeed * DT;
+	_pOther->Transform()->SetRelativePos(vPlayerPos);
+	_pOther->Transform()->finaltick();
+	_pOther->Collider2D()->finaltick();
 }
 
 void CEnemyScript::EndOverlap(CCollider2D* _pOther)

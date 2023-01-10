@@ -36,6 +36,7 @@ protected:
     tUnitInfo m_CurUnitInfo;
     tUnitInfo m_PrevUnitInfo;
     CAnimController* m_pAnimCon;
+    tKnockBack       m_tKnockBack;
 
 public:
     tUnitInfo& GetUnitInfo() { return m_CurUnitInfo; }
@@ -43,6 +44,9 @@ public:
     void SetUnitState(UINT _Statebit) { m_CurUnitInfo.m_iStateBits = _Statebit; }
     void RemoveUnitState(UINT _Statebit) { m_CurUnitInfo.m_iStateBits &= ~_Statebit; }
     void AddUnitState(UINT _StateBits) { AddBit(m_CurUnitInfo.m_iStateBits, _StateBits); }
+
+private:
+    void KnockBackProgress();
 
 public:
     virtual void begin() override;
@@ -60,6 +64,7 @@ public:
 public:
     CUnitScript();
     CUnitScript(int _ScriptType);
+    CUnitScript(const CUnitScript& _origin);
     ~CUnitScript();
 };
 

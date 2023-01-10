@@ -6,9 +6,15 @@ class CProjectileScript :
 private:
     CGameObject* m_pAttObj;
 
+    wstring m_strAnimKey;
+    bool    m_bDestroyAnimFinsh;
+    bool    m_bRepeat;
+
     float   m_fSpeed;
     bool    m_bRot;
     float   m_fMaxLifeTime;
+
+    float   m_fAtt;
 
     float   m_fAccLifeTime;
     Vec2    m_vDir;
@@ -16,6 +22,12 @@ private:
 
 public:
     void SetDir(Vec2 _vDir) { m_vDir = _vDir; }
+    void SetAtt(float _fAtt) { m_fAtt = _fAtt; }
+    void SetAnimationKey(wstring _key) { m_strAnimKey = _key; }
+    void SetRepeat(bool _b) { m_bRepeat = _b; }
+    void SetAnimOnce() { m_bRepeat = false; m_bDestroyAnimFinsh = true; }
+
+    float GetAtt() { return m_fAtt; }
 
 private:
     void FirstTick();

@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CEngine.h"
 
 #include "CPathMgr.h"
@@ -35,15 +35,15 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 	m_vResolution.x = (float)_iWidth;
 	m_vResolution.y = (float)_iHeight;
 
-	// ºñÆ®¸Ê ÇØ»óµµ¸¦ ¼³Á¤ÇÏ±â À§ÇÑ ½ÇÁ¦ À©µµ¿ì Å©±â °è»ê
+	// ë¹„íŠ¸ë§µ í•´ìƒë„ë¥¼ ì„¤ì •í•˜ê¸° ìœ„í•œ ì‹¤ì œ ìœˆë„ìš° í¬ê¸° ê³„ì‚°
 	RECT rt = { 0, 0, (LONG)_iWidth , (LONG)_iHeight };
 	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
 
-	// À©µµ¿ì Å©±â º¯°æ ¹× Show ¼³Á¤
+	// ìœˆë„ìš° í¬ê¸° ë³€ê²½ ë° Show ì„¤ì •
 	SetWindowPos(m_hMainWnd, nullptr, 0, 0, rt.right - rt.left, rt.bottom - rt.top, 0);
 	ShowWindow(m_hMainWnd, true);
 
-	// Manager ÃÊ±âÈ­
+	// Manager ì´ˆê¸°í™”
 	if (FAILED(CDevice::GetInst()->init(m_hMainWnd, m_vResolution)))
 	{
 		return E_FAIL;
@@ -71,7 +71,7 @@ void CEngine::progress()
 
 void CEngine::tick()
 {
-	// Manager ¾÷µ¥ÀÌÆ®
+	// Manager ì—…ë°ì´íŠ¸
 	// CResMgr::GetInst()->tick();
 	CSound::g_pFMOD->update();
 	CTimeMgr::GetInst()->tick();
@@ -82,7 +82,7 @@ void CEngine::tick()
 
 	for (int i = 0; i < MAX_LAYER; ++i)
 	{
-		const vector<CGameObject*>& vecObj =CLevelMgr::GetInst()->GetCurLevel()->GetLayer(i)->GetObjects();
+		const vector<CGameObject*>& vecObj = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(i)->GetObjects();
 		for (size_t j = 0; j < vecObj.size(); ++j)
 		{
 			if (vecObj[j]->GetComponent(COMPONENT_TYPE::COLLIDER2D))

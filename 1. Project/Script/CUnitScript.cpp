@@ -6,6 +6,7 @@
 CUnitScript::CUnitScript()
 	: CScript((int)SCRIPT_TYPE::UNITSCRIPT)
 	, m_CurUnitInfo{}
+	, m_pAnimCon(nullptr)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "HP    ", &m_CurUnitInfo.m_fHP);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "MP    ", &m_CurUnitInfo.m_fMP);
@@ -17,6 +18,7 @@ CUnitScript::CUnitScript()
 CUnitScript::CUnitScript(int _ScriptType)
 	: CScript(_ScriptType)
 	, m_CurUnitInfo{}
+	, m_pAnimCon(nullptr)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "HP    ", &m_CurUnitInfo.m_fHP);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "MP    ", &m_CurUnitInfo.m_fMP);
@@ -25,9 +27,19 @@ CUnitScript::CUnitScript(int _ScriptType)
 	AddScriptParam(SCRIPT_PARAM::INT, "State ", &m_CurUnitInfo.m_iStateBits);
 }
 
+CUnitScript::CUnitScript(const CUnitScript& _origin)
+	: CScript(_origin)
+	, m_CurUnitInfo(_origin.m_CurUnitInfo)
+	, m_PrevUnitInfo{}
+	, m_pAnimCon(nullptr)
+{
+}
+
 CUnitScript::~CUnitScript()
 {
 }
+
+
 
 void CUnitScript::begin()
 {
@@ -46,6 +58,12 @@ void CUnitScript::tick()
 		m_CurUnitInfo.m_fHP = -1.f;
 	}
 	m_PrevUnitInfo = m_CurUnitInfo;
+
+	// 넉백 처리.
+	if (m_tKnockBack.bOn)
+	{
+		KnockBackProgress();
+	}
 }
 
 
@@ -70,4 +88,19 @@ void CUnitScript::SaveToFile(FILE* _pFile)
 void CUnitScript::LoadFromFile(FILE* _pFile)
 {
 	CScript::LoadFromFile(_pFile);
+}
+
+void CUnitScript::KnockBackProgress()
+{
+	static float fAccTime = 0.f;
+	if (m_tKnockBack.fDurationTime <= fAccTime)
+	{
+		m_tKnockBack.bOn = false;
+		fAccTime = 0.f;
+	}
+	else
+	{
+		fAccTime += DT;
+		Transform()->AddRelativePos(Vec3(m_tKnockBack.fDist * DT * (int)m_tKnockBack.eKnockBackDir, 0.f, 0.f));
+	}
 }

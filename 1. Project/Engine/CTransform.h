@@ -28,6 +28,7 @@ public:
 	void SetRelativeRotation(float _x, float _y, float _z) { m_vRelativeRotation = Vec3(_x, _y, _z); }
 
 	Vec3 GetRelativePos() { return	m_vRelativePos; }
+	Vec2 GetRelativePosXY() { return Vec2(m_vRelativePos.x, m_vRelativePos.y); }
 	Vec3 GetWorldPos() { return m_matWorld.Translation(); }
 
 	Vec3 GetRelativeScale() { return m_vRelativeScale; }

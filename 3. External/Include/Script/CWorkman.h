@@ -27,6 +27,10 @@ private:
     void RunState();
     void AttackReadyState();
     void AttackState();
+    void HitStartState();
+    void HitLoopState();
+    void HitEndState();
+    void DelayState(); // 공격 후 쫓아가며 
 
 
 private:

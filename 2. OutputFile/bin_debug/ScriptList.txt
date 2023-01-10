@@ -2,10 +2,12 @@ CAnimController
 CAttScript
 CBlockScript
 CControllerScript
+CEnemyAttScript
 CEnemyController
 CEnemyScript
 CGameCameraScript
 CHitScript
+CPlayerAttScript
 CPlayerScript
 CProjectileScript
 CTestScript

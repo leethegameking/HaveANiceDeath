@@ -29,6 +29,7 @@ void CBlockScript::BeginOverlap(CCollider2D* _other)
 	if (m_pColObj->Rigidbody2D())
 	{
 		// 방향 구해줌 ( 나중에 SetMemberData로 넣어줄 예정 )
+		m_pColObj->Rigidbody2D()->CalcDir();
 		m_sObjDir = m_pColObj->Rigidbody2D()->GetDir();
 
 		// Vec3 test=  m_pColObj->Rigidbody2D()->GetPrevPos();
@@ -41,12 +42,14 @@ void CBlockScript::BeginOverlap(CCollider2D* _other)
  			DownCollision();
 		}
 
+		float test1 =  m_vBlockColPos.x + m_vBlockColScale.x / 2.f;
+		float test2 = m_pColObj->Rigidbody2D()->GetPrevPos().x - m_vObjColScale.x / 2.f;
 		if (m_sObjDir & RB_LEFT && m_vBlockColPos.x + m_vBlockColScale.x / 2.f < m_pColObj->Rigidbody2D()->GetPrevPos().x - m_vObjColScale.x / 2.f)
 		{
 			RightCollision();
 		}
  		else if (m_sObjDir & RB_RIGHT && m_vBlockColPos.x - m_vBlockColScale.x / 2.f > m_pColObj->Rigidbody2D()->GetPrevPos().x + m_vObjColScale.x / 2.f)
-		{
+		{ 
 			LeftCollision();
 		}
 	}
@@ -58,6 +61,9 @@ void CBlockScript::Overlap(CCollider2D* _other)
 
 	if (m_pColObj->Rigidbody2D())
 	{
+		m_pColObj->Rigidbody2D()->CalcDir();
+		m_sObjDir = m_pColObj->Rigidbody2D()->GetDir();
+
 		if (m_sObjDir & RB_LEFT && m_vBlockColPos.x + m_vBlockColScale.x / 2.f < m_pColObj->Rigidbody2D()->GetPrevPos().x - m_vObjColScale.x / 2.f)
 		{
 			RightCollision();
@@ -115,13 +121,13 @@ void CBlockScript::DownCollision()
 
 void CBlockScript::SetMemberData(CCollider2D* _other)
 {
-	m_pColObj = _other->GetOwner();
-
 	m_vBlockPos = Transform()->GetRelativePos();
 	m_vBlockScale = Transform()->GetRelativeScale();
 
 	m_vBlockColPos = Collider2D()->GetFinalPos();
 	m_vBlockColScale = Collider2D()->GetFinalScale();
+
+	m_pColObj = _other->GetOwner();
 	
 	m_vObjPos = m_pColObj->Transform()->GetRelativePos();
 	m_vObjScale = m_pColObj->Transform()->GetRelativeScale();

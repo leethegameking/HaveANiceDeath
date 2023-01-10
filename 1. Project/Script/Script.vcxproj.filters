@@ -10,23 +10,17 @@
     <ClInclude Include="CScriptMgr.h">
       <Filter>ScriptMgr</Filter>
     </ClInclude>
-    <ClInclude Include="CTestScript.h">
-      <Filter>Script</Filter>
-    </ClInclude>
     <ClInclude Include="CBlockScript.h">
       <Filter>Script\Block</Filter>
     </ClInclude>
     <ClInclude Include="CUnitScript.h">
       <Filter>Script\Unit</Filter>
     </ClInclude>
-    <ClInclude Include="CControllerScript.h">
-      <Filter>Script\Unit\Player</Filter>
-    </ClInclude>
     <ClInclude Include="CPlayerScript.h">
       <Filter>Script\Unit\Player</Filter>
     </ClInclude>
     <ClInclude Include="CAnimController.h">
-      <Filter>Script\AnimController</Filter>
+      <Filter>Script\Unit\Player\AnimController</Filter>
     </ClInclude>
     <ClInclude Include="CGameCameraScript.h">
       <Filter>Script\GameCamera</Filter>
@@ -40,17 +34,33 @@
     <ClInclude Include="CEnemyScript.h">
       <Filter>Script\Unit\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="CAttScript.h">
-      <Filter>Script\Hit &amp; Attack</Filter>
-    </ClInclude>
-    <ClInclude Include="CHitScript.h">
-      <Filter>Script\Hit &amp; Attack</Filter>
-    </ClInclude>
     <ClInclude Include="CPlayerMgr.h">
       <Filter>PlayerMgr</Filter>
     </ClInclude>
-    <ClInclude Include="CEnemyController.h" />
-    <ClInclude Include="CProjectileScript.h" />
+    <ClInclude Include="CProjectileScript.h">
+      <Filter>Script\Unit\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="CAttScript.h">
+      <Filter>Script\Hit &amp; Attack\Att</Filter>
+    </ClInclude>
+    <ClInclude Include="CHitScript.h">
+      <Filter>Script\Hit &amp; Attack\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="CEnemyController.h">
+      <Filter>Dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="CTestScript.h">
+      <Filter>Dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerAttScript.h">
+      <Filter>Script\Hit &amp; Attack\Att\PlayerAtt</Filter>
+    </ClInclude>
+    <ClInclude Include="CEnemyAttScript.h">
+      <Filter>Script\Hit &amp; Attack\Att\EnemyAtt</Filter>
+    </ClInclude>
+    <ClInclude Include="CControllerScript.h">
+      <Filter>Script\Unit\Player\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Script.cpp">
@@ -68,23 +78,17 @@
     <ClCompile Include="CUnitScript.cpp">
       <Filter>Script\Unit</Filter>
     </ClCompile>
-    <ClCompile Include="CControllerScript.cpp">
-      <Filter>Script\Unit\Player</Filter>
-    </ClCompile>
     <ClCompile Include="CPlayerScript.cpp">
       <Filter>Script\Unit\Player</Filter>
     </ClCompile>
     <ClCompile Include="CAnimController.cpp">
-      <Filter>Script\AnimController</Filter>
-    </ClCompile>
-    <ClCompile Include="CTestScript.cpp">
-      <Filter>Script</Filter>
+      <Filter>Script\Unit\Player\AnimController</Filter>
     </ClCompile>
     <ClCompile Include="CGameCameraScript.cpp">
       <Filter>Script\GameCamera</Filter>
     </ClCompile>
     <ClCompile Include="AnimInit.cpp">
-      <Filter>Script\AnimController\AnimInit</Filter>
+      <Filter>Script\Unit\Player\AnimController\AnimInit</Filter>
     </ClCompile>
     <ClCompile Include="CWorkman.cpp">
       <Filter>Script\Unit\Enemy\Workman</Filter>
@@ -92,17 +96,33 @@
     <ClCompile Include="CEnemyScript.cpp">
       <Filter>Script\Unit\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="CAttScript.cpp">
-      <Filter>Script\Hit &amp; Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="CHitScript.cpp">
-      <Filter>Script\Hit &amp; Attack</Filter>
-    </ClCompile>
     <ClCompile Include="CPlayerMgr.cpp">
       <Filter>PlayerMgr</Filter>
     </ClCompile>
-    <ClCompile Include="CEnemyController.cpp" />
-    <ClCompile Include="CProjectileScript.cpp" />
+    <ClCompile Include="CProjectileScript.cpp">
+      <Filter>Script\Unit\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="CAttScript.cpp">
+      <Filter>Script\Hit &amp; Attack\Att</Filter>
+    </ClCompile>
+    <ClCompile Include="CHitScript.cpp">
+      <Filter>Script\Hit &amp; Attack\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="CEnemyController.cpp">
+      <Filter>Dummy</Filter>
+    </ClCompile>
+    <ClCompile Include="CTestScript.cpp">
+      <Filter>Dummy</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerAttScript.cpp">
+      <Filter>Script\Hit &amp; Attack\Att\PlayerAtt</Filter>
+    </ClCompile>
+    <ClCompile Include="CEnemyAttScript.cpp">
+      <Filter>Script\Hit &amp; Attack\Att\EnemyAtt</Filter>
+    </ClCompile>
+    <ClCompile Include="CControllerScript.cpp">
+      <Filter>Script\Unit\Player\Controller</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -123,14 +143,8 @@
     <Filter Include="Script\Unit\Enemy">
       <UniqueIdentifier>{41ae44eb-f60c-40f8-80ec-ee86c75cf94b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\AnimController">
-      <UniqueIdentifier>{46107ef1-4525-41c7-8200-ec761fd9a2c3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Script\GameCamera">
       <UniqueIdentifier>{143f7020-91e5-49bf-955b-1a1c0f95e6ec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script\AnimController\AnimInit">
-      <UniqueIdentifier>{65d3f10a-9571-4a88-887d-df04315ac287}</UniqueIdentifier>
     </Filter>
     <Filter Include="Script\Unit\Enemy\Workman">
       <UniqueIdentifier>{64de4e59-8201-4dda-ad77-d6f92bd1c54e}</UniqueIdentifier>
@@ -146,6 +160,33 @@
     </Filter>
     <Filter Include="PlayerMgr">
       <UniqueIdentifier>{e030d0fc-8496-451e-9fe3-c70826c27820}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Unit\Projectile">
+      <UniqueIdentifier>{c707e6d2-7734-4a2d-8c64-a609a4bbc180}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Unit\Player\AnimController">
+      <UniqueIdentifier>{46107ef1-4525-41c7-8200-ec761fd9a2c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Unit\Player\AnimController\AnimInit">
+      <UniqueIdentifier>{65d3f10a-9571-4a88-887d-df04315ac287}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Hit &amp; Attack\Att">
+      <UniqueIdentifier>{b26c7df4-ddda-4205-a61b-eedd002899fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Hit &amp; Attack\Hit">
+      <UniqueIdentifier>{28f4a119-d330-4065-ae9e-f910be6f2fbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Hit &amp; Attack\Att\EnemyAtt">
+      <UniqueIdentifier>{bbf7f0e2-c5e5-4682-a593-d78d56adec1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Hit &amp; Attack\Att\PlayerAtt">
+      <UniqueIdentifier>{7be9fe6b-8038-4271-9e2a-0d8484a9f56a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dummy">
+      <UniqueIdentifier>{aad6a12f-cc7d-4166-a3c3-0e666a9da13e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Unit\Player\Controller">
+      <UniqueIdentifier>{71f77b3f-c50b-4eba-9def-948cfdd861aa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

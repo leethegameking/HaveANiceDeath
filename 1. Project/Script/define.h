@@ -27,14 +27,15 @@ enum ANIM_PREFERENCES
     ANY_STATE = 0x00000080, // 언제든지 진행 가능.
     IGNORE_GRAVITY = 0x00000100, // RigidBody의 Gravity 무효화
     HAS_COLLIDER = 0x00000200, // Collider를 애니메이션 정보에 따라 키고 끔.
-    INVINCIBLE = 0x00000400, // 무적판정
+    INVINCIBLE = 0x00000400, // 애니메이션 동안 무적판정
+    INVINCIBLE_START = 0x00000800,
 };
 
 enum class ANIM_DIR
 {
     ANIM_LEFT = -1,
     ANIM_RIGHT = 1,
-    END,
+    END = 0,
 };
 
 enum OBJ_TYPE
@@ -80,18 +81,35 @@ enum UNIT_STATE
 
 enum E_PATTERN
 {
-    PATTERN_WAITING,
-    PATTERN_APPEAR,
-    PATTERN_IDLE,
-    PATTERN_UTURN,
-    PATTERN_DETECT,
-    PATTERN_RUN,
-    PATTERN_ATTACK_READY,
-    PATTERN_ATTACK,
-    PATTERN_DELAY,
+    PATTERN_WAITING         = 0x00000001,
+    PATTERN_APPEAR          = 0x00000002,
+    PATTERN_IDLE            = 0x00000004,
+    PATTERN_UTURN           = 0x00000008,
+    PATTERN_DETECT          = 0x00000010,
+    PATTERN_RUN             = 0x00000020,
+    PATTERN_ATTACK_READY    = 0x00000040,
+    PATTERN_ATTACK          = 0x00000080,
+    PATTERN_DELAY           = 0x00000100,
+    PATTERN_HIT_START       = 0x00000200,
+    PATTERN_HIT_LOOP        = 0x00000400,
+    PATTERN_HIT_END         = 0x00000800,
 };
 
+struct tKnockBack
+{
+    bool                bOn;
+    float               fDist;
+    float               fDurationTime;
+    ANIM_DIR            eKnockBackDir;
 
+    tKnockBack()
+        : bOn(false)
+        , fDist(0.f)
+        , fDurationTime(0.f)
+        , eKnockBackDir(ANIM_DIR::END)
+    {
+    }
+};
 
 
 //===========================DUMMY==============================

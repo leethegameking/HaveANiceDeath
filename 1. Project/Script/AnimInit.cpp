@@ -172,7 +172,9 @@ void CAnimController::CreatePlayerAnimCon()
 	pTrNode->AddInclude(ANIM_FINISHED);
 
 	// ============================== Hit ==============================
-	pNode = FindNode(animation\\player\\PlayerHit.anim);  pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE | COMBO_ANIM);
+	pNode = FindNode(animation\\player\\PlayerHit.anim);  pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE | COMBO_ANIM | INVINCIBLE_START);
+	PushTranNode(animation\\player\\PlayerIdle.anim);
+	pTrNode->AddInclude(ANIM_FINISHED);
 
 	pNode = FindNode(animation\\player\\PlayerDisappear.anim);  pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE | COMBO_ANIM);
 }

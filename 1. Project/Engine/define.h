@@ -46,6 +46,7 @@ enum class LAYER_NAME
 	PLAYER_ATTACK,
 	ENEMY_HIT,
 	ENEMY_ATTACK,
+	ENEMY_MOVE,
 };
 
 enum class CB_TYPE

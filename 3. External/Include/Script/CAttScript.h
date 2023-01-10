@@ -3,17 +3,28 @@
 
 class CUnitScript;
 class CAnimController;
+class CProjectileScript;
+
+
 
 class CAttScript :
     public CScript
 {
 private:
-    CUnitScript*        m_pUnit;
+    CUnitScript*        m_pUnitScr;
+    CProjectileScript*  m_pProjScr;
+
     CAnimController*    m_pAnimCon;
     float               m_fCoefficient;
 
+
+    bool                m_bFirstTick;
+
 private:
     void SetCoefficient() {}; // 애니메이션에 따른 공격 계수를 구해줌. 
+
+private:
+    void FirstTick();
 
 public:
     virtual void begin() override;
@@ -30,6 +41,7 @@ public:
     CLONE(CAttScript)
 public:
     CAttScript();
+    CAttScript(int _iScriptType);
     ~CAttScript();
 };
 

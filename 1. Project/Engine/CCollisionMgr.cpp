@@ -25,6 +25,9 @@ void CCollisionMgr::tick()
 
 	for (int iRow = 0; iRow < MAX_LAYER; ++iRow)
 	{
+		// Block 연산
+		if (iRow == (int)LAYER_NAME::BLOCK)
+			continue;
 		for (int iCol = iRow; iCol < MAX_LAYER; ++iCol)
 		{
 			if (m_matrix[iRow] & (1 << iCol))
@@ -33,6 +36,17 @@ void CCollisionMgr::tick()
 			}
 		}
 	}
+
+	// Block 부분 마지막에 실행
+	int iRow = (int)LAYER_NAME::BLOCK;
+	for (int iCol = iRow; iCol < MAX_LAYER; ++iCol)
+	{
+		if (m_matrix[iRow] & (1 << iCol))
+		{
+			CollisionBtwLayer(pCurLevel, iRow, iCol);
+		}
+	}
+
 }
 
 

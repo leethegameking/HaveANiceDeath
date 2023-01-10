@@ -5,10 +5,12 @@
 #include "CAttScript.h"
 #include "CBlockScript.h"
 #include "CControllerScript.h"
+#include "CEnemyAttScript.h"
 #include "CEnemyController.h"
 #include "CEnemyScript.h"
 #include "CGameCameraScript.h"
 #include "CHitScript.h"
+#include "CPlayerAttScript.h"
 #include "CPlayerScript.h"
 #include "CProjectileScript.h"
 #include "CTestScript.h"
@@ -21,10 +23,12 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CAttScript");
 	_vec.push_back(L"CBlockScript");
 	_vec.push_back(L"CControllerScript");
+	_vec.push_back(L"CEnemyAttScript");
 	_vec.push_back(L"CEnemyController");
 	_vec.push_back(L"CEnemyScript");
 	_vec.push_back(L"CGameCameraScript");
 	_vec.push_back(L"CHitScript");
+	_vec.push_back(L"CPlayerAttScript");
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CProjectileScript");
 	_vec.push_back(L"CTestScript");
@@ -42,6 +46,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CBlockScript;
 	if (L"CControllerScript" == _strScriptName)
 		return new CControllerScript;
+	if (L"CEnemyAttScript" == _strScriptName)
+		return new CEnemyAttScript;
 	if (L"CEnemyController" == _strScriptName)
 		return new CEnemyController;
 	if (L"CEnemyScript" == _strScriptName)
@@ -50,6 +56,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CGameCameraScript;
 	if (L"CHitScript" == _strScriptName)
 		return new CHitScript;
+	if (L"CPlayerAttScript" == _strScriptName)
+		return new CPlayerAttScript;
 	if (L"CPlayerScript" == _strScriptName)
 		return new CPlayerScript;
 	if (L"CProjectileScript" == _strScriptName)
@@ -79,6 +87,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::CONTROLLERSCRIPT:
 		return new CControllerScript;
 		break;
+	case (UINT)SCRIPT_TYPE::ENEMYATTSCRIPT:
+		return new CEnemyAttScript;
+		break;
 	case (UINT)SCRIPT_TYPE::ENEMYCONTROLLER:
 		return new CEnemyController;
 		break;
@@ -90,6 +101,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::HITSCRIPT:
 		return new CHitScript;
+		break;
+	case (UINT)SCRIPT_TYPE::PLAYERATTSCRIPT:
+		return new CPlayerAttScript;
 		break;
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT:
 		return new CPlayerScript;
@@ -130,6 +144,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CControllerScript";
 		break;
 
+	case SCRIPT_TYPE::ENEMYATTSCRIPT:
+		return L"CEnemyAttScript";
+		break;
+
 	case SCRIPT_TYPE::ENEMYCONTROLLER:
 		return L"CEnemyController";
 		break;
@@ -144,6 +162,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::HITSCRIPT:
 		return L"CHitScript";
+		break;
+
+	case SCRIPT_TYPE::PLAYERATTSCRIPT:
+		return L"CPlayerAttScript";
 		break;
 
 	case SCRIPT_TYPE::PLAYERSCRIPT:
