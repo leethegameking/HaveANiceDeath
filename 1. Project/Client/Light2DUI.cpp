@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "Light2DUI.h"
 
 #include <Engine/CLight2D.h>
@@ -18,6 +18,12 @@ Light2DUI::~Light2DUI()
 
 void Light2DUI::update()
 {
+
+	ComponentUI::update();
+}
+
+void Light2DUI::render_update()
+{
 	if (GetTarget())
 	{
 		tLightInfo tInfo = GetTarget()->Light2D()->GetLightInfo();
@@ -31,11 +37,7 @@ void Light2DUI::update()
 		m_fAngle = tInfo.fAngle;
 	}
 
-	ComponentUI::update();
-}
 
-void Light2DUI::render_update()
-{
 	ComponentUI::render_update();
 	if (!IsOpen())
 		return;

@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "Animator2DUI.h"
 
 #include <Engine/CResMgr.h>
@@ -49,17 +49,17 @@ void Animator2DUI::init()
 
 void Animator2DUI::update()
 {
+	ComponentUI::update();
+}
+
+void Animator2DUI::render_update()
+{
 	if (GetTarget())
 	{
 		m_pCurAnim = GetTarget()->Animator2D()->GetCurAnim();
 		m_bRepeat = GetTarget()->Animator2D()->IsRepeat();
 	}
 
-	ComponentUI::update();
-}
-
-void Animator2DUI::render_update()
-{
 	ComponentUI::render_update();
 	if (!IsOpen())
 		return;
@@ -121,7 +121,7 @@ void Animator2DUI::AddAnimation(DWORD_PTR _multiSelectIdx)
 	vector<bool>* multiSelectIdx = (vector<bool>*)_multiSelectIdx;
 
 
-	// ¸Ê°ú º¤ÅÍ¸¦ µ¹¸é¼­ °°Àº ½ÃÁ¡ÀÌ true¸é ¸Ê¿¡ ÀÖ´Â ¾Ö´Ï¸ŞÀÌ¼ÇÀ» ³Ö¾îÁÜ.
+	// ë§µê³¼ ë²¡í„°ë¥¼ ëŒë©´ì„œ ê°™ì€ ì‹œì ì´ trueë©´ ë§µì— ìˆëŠ” ì• ë‹ˆë©”ì´ì…˜ì„ ë„£ì–´ì¤Œ.
 	const map<wstring, Ptr<CRes>>& mapAnim = CResMgr::GetInst()->GetResource(RES_TYPE::ANIMATION2D);
 	map<wstring, Ptr<CRes>>::const_iterator iter = mapAnim.begin();
 

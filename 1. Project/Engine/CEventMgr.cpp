@@ -57,6 +57,11 @@ void CEventMgr::tick()
 			CGameObject* pNewObj = (CGameObject*)m_vecEvent[i].wParam;
 			int iLayerIdx = (int)m_vecEvent[i].lParam;
 
+			if (iLayerIdx == 0)
+			{
+				iLayerIdx = pNewObj->GetLayerIdx();
+			}
+
 			CLevel* pLevel = CLevelMgr::GetInst()->GetCurLevel();
 			pLevel->AddGameObject(pNewObj, iLayerIdx);			
 		}

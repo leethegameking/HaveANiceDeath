@@ -58,6 +58,8 @@ public:
     CComponent* GetComponent(COMPONENT_TYPE _eComType) { return m_arrCom[(UINT)_eComType]; }
     void AddChild(CGameObject* _pChild);
 
+
+
     template<typename T>
     T* GetScript();
 
@@ -78,6 +80,7 @@ public:
     const vector<CGameObject*>& GetChildObject() const { return m_vecChild; }
     const vector<CScript*>& GetScripts()const { return m_vecScripts; }
 
+    // Inspector에서만 Prefab용으로 사용!!! 나머지는 EventMgr에서 처리.
     void SetLayerIdx(int _idx) { m_iLayerIdx = _idx; }
     int GetLayerIdx() { return m_iLayerIdx; }
 

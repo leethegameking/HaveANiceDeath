@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "MeshRenderUI.h"
 
 #include <Engine/CResMgr.h>
@@ -23,6 +23,13 @@ MeshRenderUI::~MeshRenderUI()
 
 void MeshRenderUI::update()
 {
+
+
+	ComponentUI::update();
+}
+
+void MeshRenderUI::render_update()
+{
 	if (GetTarget())
 	{
 		m_Mesh = GetTarget()->MeshRender()->GetMesh();
@@ -37,12 +44,7 @@ void MeshRenderUI::update()
 		}
 	}
 
-	ComponentUI::update();
-}
-
-void MeshRenderUI::render_update()
-{
-	// ÄÄÆ÷³ÍÆ® Å¸ÀÔ ÅØ½ºÆ® ¹öÆ°
+	// ì»´í¬ë„ŒíŠ¸ íƒ€ì… í…ìŠ¤íŠ¸ ë²„íŠ¼
 	ComponentUI::render_update();
 	if (!IsOpen())
 		return;
@@ -71,21 +73,21 @@ void MeshRenderUI::render_update()
 		ListUI* pListUI = dynamic_cast<ListUI*>(CImGuiMgr::GetInst()->FindUI("ListUIModal"));
 		assert(pListUI);
 
-		// ¸Ş½¬ ¸ñ·ÏÀ» ¹Ş¾Æ¿Í¼­ ListUI¿¡ Àü´Ş
+		// ë©”ì‰¬ ëª©ë¡ì„ ë°›ì•„ì™€ì„œ ListUIì— ì „ë‹¬
 		const map<wstring, Ptr<CRes>>& mapRes = CResMgr::GetInst()->GetResource(RES_TYPE::MESH);
 		static vector<wstring> vecRes;
 		vecRes.clear();
 
-		// ¸Ê¿¡¼­ ÀÌ¸§¸¸ »Ì¾Æ¼­ º¤ÅÍ¿¡ Àü´ŞÇØÁÜ.
+		// ë§µì—ì„œ ì´ë¦„ë§Œ ë½‘ì•„ì„œ ë²¡í„°ì— ì „ë‹¬í•´ì¤Œ.
 		map<wstring, Ptr<CRes>>::const_iterator iter = mapRes.begin();
 		for (; iter != mapRes.end(); ++iter)
 		{
 			vecRes.push_back(iter->first);
 		}
-		// ÀÌ¸§ ItemList·Î º¹»ç
+		// ì´ë¦„ ItemListë¡œ ë³µì‚¬
 		pListUI->init(WstrToStrVec(vecRes));
 
-		// ItemÀÌ DoubleClickµÇ¾úÀ»¶§ ÀÌ °´Ã¼ÀÇ SetMeshÇÔ¼ö¸¦ È£ÃâÇÑ´Ù. 
+		// Itemì´ DoubleClickë˜ì—ˆì„ë•Œ ì´ ê°ì²´ì˜ SetMeshí•¨ìˆ˜ë¥¼ í˜¸ì¶œí•œë‹¤. 
 		pListUI->AddDynamicDBClicked(this, (FUNC_1)&MeshRenderUI::SetMesh);
 
 		pListUI->Open();
@@ -130,7 +132,7 @@ void MeshRenderUI::render_update()
 		ParamUI::ShowShaderParam(m_Mtrl.Get());
 	}
 
-	// Dynamic Texture °­Á¦ ¼³Á¤
+	// Dynamic Texture ê°•ì œ ì„¤ì •
 	/*ImGui::Text("Mtrl Tex ");
 	ImGui::SameLine();
 
@@ -153,21 +155,21 @@ void MeshRenderUI::MtrlBtn()
 		ListUI* pListUI = dynamic_cast<ListUI*>(CImGuiMgr::GetInst()->FindUI("ListUIModal"));
 		assert(pListUI);
 
-		// ÀçÁú ¸ñ·ÏÀ» ¹Ş¾Æ¿Í¼­ ListUI¿¡ Àü´Ş
+		// ì¬ì§ˆ ëª©ë¡ì„ ë°›ì•„ì™€ì„œ ListUIì— ì „ë‹¬
 		const map<wstring, Ptr<CRes>>& mapRes = CResMgr::GetInst()->GetResource(RES_TYPE::MATERIAL);
 		static vector<wstring> vecRes;
 		vecRes.clear();
 
-		// ¸Ê¿¡¼­ ÀÌ¸§¸¸ »Ì¾Æ¼­ º¤ÅÍ¿¡ Àü´ŞÇØÁÜ.
+		// ë§µì—ì„œ ì´ë¦„ë§Œ ë½‘ì•„ì„œ ë²¡í„°ì— ì „ë‹¬í•´ì¤Œ.
 		map<wstring, Ptr<CRes>>::const_iterator iter = mapRes.begin();
 		for (; iter != mapRes.end(); ++iter)
 		{
 			vecRes.push_back(iter->first);
 		}
-		// ÀÌ¸§ ItemList·Î º¹»ç
+		// ì´ë¦„ ItemListë¡œ ë³µì‚¬
 		pListUI->SetItemList(vecRes);
 
-		// ItemÀÌ DoubleClickµÇ¾úÀ»¶§ ÀÌ °´Ã¼ÀÇ SetMeshÇÔ¼ö¸¦ È£ÃâÇÑ´Ù. 
+		// Itemì´ DoubleClickë˜ì—ˆì„ë•Œ ì´ ê°ì²´ì˜ SetMeshí•¨ìˆ˜ë¥¼ í˜¸ì¶œí•œë‹¤. 
 		pListUI->AddDynamicDBClicked(this, (FUNC_1)&MeshRenderUI::SetMaterial);
 
 		pListUI->Open();
@@ -181,21 +183,21 @@ void MeshRenderUI::TextureBtn()
 		ListUI* pListUI = dynamic_cast<ListUI*>(CImGuiMgr::GetInst()->FindUI("ListUIModal"));
 		assert(pListUI);
 
-		// ÀçÁú ¸ñ·ÏÀ» ¹Ş¾Æ¿Í¼­ ListUI¿¡ Àü´Ş
+		// ì¬ì§ˆ ëª©ë¡ì„ ë°›ì•„ì™€ì„œ ListUIì— ì „ë‹¬
 		const map<wstring, Ptr<CRes>>& mapRes = CResMgr::GetInst()->GetResource(RES_TYPE::TEXTURE);
 		static vector<wstring> vecRes;
 		vecRes.clear();
 
-		// ¸Ê¿¡¼­ ÀÌ¸§¸¸ »Ì¾Æ¼­ º¤ÅÍ¿¡ Àü´ŞÇØÁÜ.
+		// ë§µì—ì„œ ì´ë¦„ë§Œ ë½‘ì•„ì„œ ë²¡í„°ì— ì „ë‹¬í•´ì¤Œ.
 		map<wstring, Ptr<CRes>>::const_iterator iter = mapRes.begin();
 		for (; iter != mapRes.end(); ++iter)
 		{
 			vecRes.push_back(iter->first);
 		}
-		// ÀÌ¸§ ItemList·Î º¹»ç
+		// ì´ë¦„ ItemListë¡œ ë³µì‚¬
 		pListUI->SetItemList(vecRes);
 
-		// ItemÀÌ DoubleClickµÇ¾úÀ»¶§ ÀÌ °´Ã¼ÀÇ SetMeshÇÔ¼ö¸¦ È£ÃâÇÑ´Ù. 
+		// Itemì´ DoubleClickë˜ì—ˆì„ë•Œ ì´ ê°ì²´ì˜ SetMeshí•¨ìˆ˜ë¥¼ í˜¸ì¶œí•œë‹¤. 
 		pListUI->AddDynamicDBClicked(this, (FUNC_1)&MeshRenderUI::SetDynMaterialTex);
 
 		pListUI->Open();

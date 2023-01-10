@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "CameraUI.h"
 #include "ListUI.h"
 
@@ -55,6 +55,13 @@ void CameraUI::init()
 
 void CameraUI::update()
 {
+
+	// UI::update();
+	ComponentUI::update();
+}
+
+void CameraUI::render_update()
+{
 	if (GetTarget())
 	{
 		m_eProjType = GetTarget()->Camera()->GetProjType();
@@ -64,12 +71,7 @@ void CameraUI::update()
 		m_iCamIdx = GetTarget()->Camera()->GetCamIdx();
 	}
 
-	// UI::update();
-	ComponentUI::update();
-}
 
-void CameraUI::render_update()
-{
 	ComponentUI::render_update();
 	if (!IsOpen())
 		return;

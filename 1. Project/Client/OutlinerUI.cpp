@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "OutlinerUI.h"
 
 #include <Engine/CLevelMgr.h>
@@ -75,14 +75,14 @@ void OutlinerUI::ResetLevel()
 	if(xRootNode)
 		pRootNode->m_bNodeOpen = m_vecNodeOpenBool[0];
 
-	// Æ®¸®¿¡ ¿ÀºêÁ§Æ® ºÎ¸ğ - ÀÚ½Ä ±¸Á¶·Î ¸ğµÎ µî·Ï
+	// íŠ¸ë¦¬ì— ì˜¤ë¸Œì íŠ¸ ë¶€ëª¨ - ìì‹ êµ¬ì¡°ë¡œ ëª¨ë‘ ë“±ë¡
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
 		const vector<CGameObject*>& vecObject = pCurLevel->GetLayer(i)->GetParentObjects();
 
 		for (size_t j = 0; j < vecObject.size(); ++j)
 		{
-			// Àç±ÍÀû È£Ãâ
+			// ì¬ê·€ì  í˜¸ì¶œ
 			AddGameObjectToTree(m_LevelTree, pRootNode, vecObject[j]);
 		}
 	}
@@ -107,6 +107,7 @@ void OutlinerUI::SetObjectToInspector(DWORD_PTR _obj)
 	CGameObject* pObject = (CGameObject*)pSelectedNode->GetData();
 
 	InspectorUI* Inspector = (InspectorUI*)CImGuiMgr::GetInst()->FindUI("Inspector");
+	Inspector->SetTargetRes(nullptr);
 	Inspector->SetTargetObj(pObject);
 }
 

@@ -17,9 +17,8 @@ private:
     float   m_fAtt;
     bool    m_bAnimHasCol;
     
-
+    bool    m_bPenetrate;
     
-
 public:
     void SetDir(Vec2 _vDir) { m_vDir = _vDir; }
     void SetAtt(float _fAtt) { m_fAtt = _fAtt; }

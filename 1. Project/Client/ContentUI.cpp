@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "ContentUI.h"
 
 #include "TreeUI.h"
@@ -39,7 +39,7 @@ ContentUI::~ContentUI()
 
 void ContentUI::update()
 {
-	// º¯°æÁ¡ÀÌ ÀÖÀ» ¶§¸¸ Æ®¸®±¸Á¶¸¦ resetÇÑ´Ù
+	// ë³€ê²½ì ì´ ìˆì„ ë•Œë§Œ íŠ¸ë¦¬êµ¬ì¡°ë¥¼ resetí•œë‹¤
 	if (CEventMgr::GetInst()->IsResChanged())
 	{
 		ResetContent();
@@ -55,7 +55,7 @@ void ContentUI::render_update()
 
 void ContentUI::ResetContent()
 {
-	// Frame ºÎºĞ open°ª ±â¾ï 
+	// Frame ë¶€ë¶„ openê°’ ê¸°ì–µ 
 	TreeNode* xRootNode = m_ContentTree->GetRootNode();
 	if (xRootNode)
 	{
@@ -70,20 +70,20 @@ void ContentUI::ResetContent()
 	m_ContentTree->Clear();
 
 	// Res Load
-	// ´õ¹Ì Ãß°¡
+	// ë”ë¯¸ ì¶”ê°€
 	TreeNode* pRootNode = m_ContentTree->AddItem(nullptr, "", "Content", 0);
 
 	
 	for (UINT i = 0; i < (UINT)RES_TYPE::END; ++i)
 	{
-		// RES_TYPE¿¡ ÇØ´çÇÏ´Â ¹®ÀÚ¿­À» ºÎ¸ğ·Î Ãß°¡
+		// RES_TYPEì— í•´ë‹¹í•˜ëŠ” ë¬¸ìì—´ì„ ë¶€ëª¨ë¡œ ì¶”ê°€
 		TreeNode* pResNode = m_ContentTree->AddItem(pRootNode, "", ToString((RES_TYPE)i), 0, true);
 		if (xRootNode)
 		{
 			pResNode->m_bNodeOpen = m_vecNodeOpenBool[i];
 		}
 
-		// °¢ RES_TYPEÀÇ ÇÏÀ§ ResµéÀ» ÀÚ½ÄÀ¸·Î Ãß°¡ (data°¡ ÀÖÀ½.)
+		// ê° RES_TYPEì˜ í•˜ìœ„ Resë“¤ì„ ìì‹ìœ¼ë¡œ ì¶”ê°€ (dataê°€ ìˆìŒ.)
 		const map<wstring, Ptr<CRes>>& mapRes = CResMgr::GetInst()->GetResource(RES_TYPE(i));
 		map<wstring, Ptr<CRes>>::const_iterator iter = mapRes.begin();
 		for (; iter != mapRes.end(); ++iter)
@@ -117,10 +117,10 @@ void ContentUI::ReloadContent()
 	{
 		RES_TYPE resType = GetResTypeByExt(m_vecContentName[i]);
 
-		// ¸®¼Ò½º Å¸ÀÔ¿¡ ÇØ´çÇÏ´Â ¸®¼Ò½º¸¦ °æ·Î·ÎºÎÅÍ ·Îµù
+		// ë¦¬ì†ŒìŠ¤ íƒ€ì…ì— í•´ë‹¹í•˜ëŠ” ë¦¬ì†ŒìŠ¤ë¥¼ ê²½ë¡œë¡œë¶€í„° ë¡œë”©
 		if (RES_TYPE::END == resType)
 		{
-			// ·¹º§ ÀÏ °æ¿ì (tmpsave.lv ÆÄÀÏÀº Á¦¿Ü) 
+			// ë ˆë²¨ ì¼ ê²½ìš° (tmpsave.lv íŒŒì¼ì€ ì œì™¸) 
 			
 			if (m_vecContentName[i].rfind(L".lv") != -1 && m_vecContentName[i].rfind(L"tmpsave.lv") == -1)
 			{
@@ -160,7 +160,7 @@ void ContentUI::ReloadContent()
 
 		}
 
-		// ÀÌ¸§ÀÌ ¾øÀ» °æ¿ì.
+		// ì´ë¦„ì´ ì—†ì„ ê²½ìš°.
 		if (tmpRes->GetName() == L"")
 		{
 			wstring strKey = tmpRes->GetKey();
@@ -172,7 +172,7 @@ void ContentUI::ReloadContent()
 		}
 	}
 	
-	// ·ÎµùµÈ ¸®¼Ò½º°¡ ½ÇÁ¦ ÆÄÀÏ·Î Á¸ÀçÇÏ´ÂÁö È®ÀÎ
+	// ë¡œë”©ëœ ë¦¬ì†ŒìŠ¤ê°€ ì‹¤ì œ íŒŒì¼ë¡œ ì¡´ì¬í•˜ëŠ”ì§€ í™•ì¸
 	for (UINT i = 0; i < (UINT)RES_TYPE::END; ++i)
 	{
 		const map<wstring, Ptr<CRes>>& mapRes = CResMgr::GetInst()->GetResource(RES_TYPE(i));
@@ -180,7 +180,7 @@ void ContentUI::ReloadContent()
 		map<wstring, Ptr<CRes>>::const_iterator iter = mapRes.begin();
 		for (iter; iter != mapRes.end(); ++iter)
 		{
-			// ¿£Áø ¸®¼Ò½º¸é È®ÀÎÇÏÁö ¾ÊÀ½.
+			// ì—”ì§„ ë¦¬ì†ŒìŠ¤ë©´ í™•ì¸í•˜ì§€ ì•ŠìŒ.
 			if (iter->second->IsEngineRes())
 			{
 				continue;
@@ -207,11 +207,11 @@ void ContentUI::ReloadContent()
 					evn.lParam = (DWORD_PTR)(iter->second.Get());
 
 					CEventMgr::GetInst()->AddEvent(evn);
-					MessageBox(nullptr, L"¿øº» ¸®¼Ò½º »èÁ¦µÊ", L"¸®¼Ò½º º¯°æ È®ÀÎ", MB_OK);
+					MessageBox(nullptr, L"ì›ë³¸ ë¦¬ì†ŒìŠ¤ ì‚­ì œë¨", L"ë¦¬ì†ŒìŠ¤ ë³€ê²½ í™•ì¸", MB_OK);
 				}
 				else
 				{
-					MessageBox(nullptr, L"»ç¿ëÁßÀÎ ¸®¼Ò½º", L"¸®¼Ò½º º¯°æ È®ÀÎ", MB_OK);
+					MessageBox(nullptr, L"ì‚¬ìš©ì¤‘ì¸ ë¦¬ì†ŒìŠ¤", L"ë¦¬ì†ŒìŠ¤ ë³€ê²½ í™•ì¸", MB_OK);
 				}
 			}
 		}
@@ -223,8 +223,16 @@ void ContentUI::SetResourceToInspector(DWORD_PTR _res)
 	TreeNode* pNode = (TreeNode*)_res;
 	Ptr<CRes> pRes = (CRes*)pNode->GetData();
 
+
 	InspectorUI* pInspectorUI = (InspectorUI*)CImGuiMgr::GetInst()->FindUI("Inspector");
+	pInspectorUI->SetTargetObj(nullptr);
 	pInspectorUI->SetTargetRes(pRes);
+
+	if (pRes->GetResType() == RES_TYPE::PREFAB)
+	{
+		Ptr<CPrefab> pref = (CPrefab*)pRes.Get();
+		pInspectorUI->SetTargetObj(pref->GetProtoObj());
+	}
 }
 
 void ContentUI::LoadLevel(DWORD_PTR _levelPath)
@@ -250,13 +258,13 @@ void ContentUI::FindContentFileName(const wstring& _strFolderPath)
 
 	WIN32_FIND_DATA data = {};
 
-	// Å½»ö¿ë ÇÚµé ¸¸µé¾îÁÜ
+	// íƒìƒ‰ìš© í•¸ë“¤ ë§Œë“¤ì–´ì¤Œ
 	hFindHandle = FindFirstFile(strFolderPath.c_str(), &data);
 
 	if (INVALID_HANDLE_VALUE == hFindHandle)
 		return;
 
-	// ¸ğµç ÆÄÀÏÀ» È®ÀÏ ÇÒ ¶§ ±îÁö Àç±ÍÀûÀ¸·Î ¹İº¹
+	// ëª¨ë“  íŒŒì¼ì„ í™•ì¼ í•  ë•Œ ê¹Œì§€ ì¬ê·€ì ìœ¼ë¡œ ë°˜ë³µ
 	while (FindNextFile(hFindHandle, &data))
 	{
 		if (FILE_ATTRIBUTE_DIRECTORY == data.dwFileAttributes && wcscmp(data.cFileName, L".."))

@@ -203,6 +203,7 @@
     <ClInclude Include="ParticleSystemUI.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PopupMenu.h" />
+    <ClInclude Include="PrefabUI.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResUI.h" />
     <ClInclude Include="ComputeShaderUI.h" />
@@ -267,6 +268,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PopupMenu.cpp" />
+    <ClCompile Include="PrefabUI.cpp" />
     <ClCompile Include="ResUI.cpp" />
     <ClCompile Include="ComputeShaderUI.cpp" />
     <ClCompile Include="RigidBody2DUI.cpp" />

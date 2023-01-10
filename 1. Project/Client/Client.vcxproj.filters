@@ -152,6 +152,9 @@
     <Filter Include="03. UI\01. Inspector\ComponentUI\RigidBody2DUI">
       <UniqueIdentifier>{d6edf2b8-b94d-4bd2-a047-b0c800903f07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. UI\01. Inspector\ResUI\PrefabUI">
+      <UniqueIdentifier>{5af4c3e1-1299-4090-af16-401196d704c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -330,6 +333,9 @@
     </ClInclude>
     <ClInclude Include="CMouseTextScript.h">
       <Filter>01. Editor\EditorScript</Filter>
+    </ClInclude>
+    <ClInclude Include="PrefabUI.h">
+      <Filter>03. UI\01. Inspector\ResUI\PrefabUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -514,6 +520,9 @@
     </ClCompile>
     <ClCompile Include="CMouseTextScript.cpp">
       <Filter>01. Editor\EditorScript</Filter>
+    </ClCompile>
+    <ClCompile Include="PrefabUI.cpp">
+      <Filter>03. UI\01. Inspector\ResUI\PrefabUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

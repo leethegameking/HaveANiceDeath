@@ -23,6 +23,20 @@ TransformUI::~TransformUI()
 
 void TransformUI::update()
 {
+
+
+	// UI::update();
+	ComponentUI::update();
+}
+
+void TransformUI::render_update()
+{
+
+	// 타입 텍스트 버튼
+	ComponentUI::render_update();
+	if (GetTarget() == nullptr)
+		return;
+
 	if (GetTarget())
 	{
 		m_vPos = GetTarget()->Transform()->GetRelativePos();
@@ -31,17 +45,6 @@ void TransformUI::update()
 
 		m_bIgnScale = GetTarget()->Transform()->IsIgnoreParentScale();
 	}
-
-	// UI::update();
-	ComponentUI::update();
-}
-
-void TransformUI::render_update()
-{
-	// 타입 텍스트 버튼
-	ComponentUI::render_update();
-	if (GetTarget() == nullptr)
-		return;
 
 	// 움직일지 아닐지
 	ImGui::Text("Move"); ImGui::SameLine(); ImGui::Checkbox("##Position", &m_bMove);

@@ -131,6 +131,7 @@ void CProjectileScript::SaveToFile(FILE* _pFile)
 	fwrite(&m_fMaxLifeTime, sizeof(float), 1, _pFile);
 	fwrite(&m_fAtt, sizeof(float), 1, _pFile);
 	fwrite(&m_bAnimHasCol, sizeof(bool), 1, _pFile);
+	fwrite(&m_bPenetrate, sizeof(bool), 1, _pFile);
 }
 
 void CProjectileScript::LoadFromFile(FILE* _pFile)
@@ -143,6 +144,7 @@ void CProjectileScript::LoadFromFile(FILE* _pFile)
 	fread(&m_fMaxLifeTime, sizeof(float), 1, _pFile);
 	fread(&m_fAtt, sizeof(float), 1, _pFile);
 	fread(&m_bAnimHasCol, sizeof(bool), 1, _pFile);
+	fread(&m_bPenetrate, sizeof(bool), 1, _pFile);
 }
 
 void CProjectileScript::FirstTick()

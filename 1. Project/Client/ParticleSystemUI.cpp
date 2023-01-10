@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "ParticleSystemUI.h"
 
 #include "ListUI.h"
@@ -51,6 +51,13 @@ void ParticleSystemUI::SetTexture(DWORD_PTR _texKey)
 
 void ParticleSystemUI::update()
 {
+
+
+	ComponentUI::update();
+}
+
+void ParticleSystemUI::render_update()
+{
 	if (GetTarget())
 	{
 		m_iMaxCount = GetTarget()->ParticleSystem()->GetMaxCount();
@@ -67,8 +74,8 @@ void ParticleSystemUI::update()
 
 		m_fSpawnRange = GetTarget()->ParticleSystem()->GetSpawnRange();
 
-		m_Frequency = GetTarget()->ParticleSystem()->GetFrequency();    
-		m_fAccTime = GetTarget()->ParticleSystem()->GetAccTime();     
+		m_Frequency = GetTarget()->ParticleSystem()->GetFrequency();
+		m_fAccTime = GetTarget()->ParticleSystem()->GetAccTime();
 
 		m_WorldSpawn = GetTarget()->ParticleSystem()->GetWorldSpawn();
 
@@ -80,11 +87,6 @@ void ParticleSystemUI::update()
 		m_CSKey = WstrToStr(CSKey);
 	}
 
-	ComponentUI::update();
-}
-
-void ParticleSystemUI::render_update()
-{
 	ComponentUI::render_update();
 	if (!IsOpen())
 		return;
@@ -106,21 +108,21 @@ void ParticleSystemUI::render_update()
 		ListUI* pListUI = dynamic_cast<ListUI*>(CImGuiMgr::GetInst()->FindUI("ListUI"));
 		assert(pListUI);
 
-		// ¸Ş½¬ ¸ñ·ÏÀ» ¹Ş¾Æ¿Í¼­ ListUI¿¡ Àü´Ş
+		// ë©”ì‰¬ ëª©ë¡ì„ ë°›ì•„ì™€ì„œ ListUIì— ì „ë‹¬
 		const map<wstring, Ptr<CRes>>& mapRes = CResMgr::GetInst()->GetResource(RES_TYPE::TEXTURE);
 		static vector<wstring> vecRes;
 		vecRes.clear();
 
-		// ¸Ê¿¡¼­ ÀÌ¸§¸¸ »Ì¾Æ¼­ º¤ÅÍ¿¡ Àü´ŞÇØÁÜ.
+		// ë§µì—ì„œ ì´ë¦„ë§Œ ë½‘ì•„ì„œ ë²¡í„°ì— ì „ë‹¬í•´ì¤Œ.
 		map<wstring, Ptr<CRes>>::const_iterator iter = mapRes.begin();
 		for (; iter != mapRes.end(); ++iter)
 		{
 			vecRes.push_back(iter->first);
 		}
-		// ÀÌ¸§ ItemList·Î º¹»ç
+		// ì´ë¦„ ItemListë¡œ ë³µì‚¬
 		pListUI->SetItemList(vecRes);
 
-		// ItemÀÌ DoubleClickµÇ¾úÀ»¶§ ÀÌ °´Ã¼ÀÇ SetMeshÇÔ¼ö¸¦ È£ÃâÇÑ´Ù. 
+		// Itemì´ DoubleClickë˜ì—ˆì„ë•Œ ì´ ê°ì²´ì˜ SetMeshí•¨ìˆ˜ë¥¼ í˜¸ì¶œí•œë‹¤. 
 		pListUI->AddDynamicDBClicked(this, (FUNC_1)&ParticleSystemUI::SetTexture);
 
 		pListUI->Open();

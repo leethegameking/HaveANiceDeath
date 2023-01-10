@@ -19,6 +19,7 @@
 #include "ComputeShaderUI.h"
 #include "GraphicsShaderUI.h"
 #include "TextureUI.h"
+#include "PrefabUI.h"
 
 #include "Animation2DUI.h"
 #include "ComboBox.h"
@@ -110,6 +111,10 @@ InspectorUI::InspectorUI()
 	m_arrResUI[(UINT)RES_TYPE::SOUND] = new SoundUI;
 	m_arrResUI[(UINT)RES_TYPE::SOUND]->Close();
 	AddChild(m_arrResUI[(UINT)RES_TYPE::SOUND]);
+
+	m_arrResUI[(UINT)RES_TYPE::PREFAB] = new PrefabUI;
+	m_arrResUI[(UINT)RES_TYPE::PREFAB]->Close();
+	AddChild(m_arrResUI[(UINT)RES_TYPE::PREFAB]);
 
 	//==================================================================================
 
@@ -233,7 +238,7 @@ void InspectorUI::last_render()
 
 void InspectorUI::SetTargetObj(CGameObject* _Target)
 {
-	if(_Target)
+	if(_Target && m_TargetRes.Get() && !(m_TargetRes->GetResType() == RES_TYPE::PREFAB))
 		SetTargetRes(nullptr);
 
 	m_TargetObj = _Target;
@@ -417,11 +422,18 @@ void InspectorUI::AddScript(DWORD_PTR _idx)
 
 void InspectorUI::SetLayer(DWORD_PTR _idx)
 {
-	tEvent evn = {};
-	evn.eType = EVENT_TYPE::CHANGE_LAYER;
-	evn.wParam = (DWORD_PTR)m_TargetObj;
-	evn.lParam = _idx;
-	CEventMgr::GetInst()->AddEvent(evn);
+	if (m_TargetRes->GetResType() == RES_TYPE::PREFAB)
+	{
+		m_TargetObj->SetLayerIdx((int)_idx);
+	}
+	else
+	{
+		tEvent evn = {};
+		evn.eType = EVENT_TYPE::CHANGE_LAYER;
+		evn.wParam = (DWORD_PTR)m_TargetObj;
+		evn.lParam = _idx;
+		CEventMgr::GetInst()->AddEvent(evn);
+	}
 }
 
 

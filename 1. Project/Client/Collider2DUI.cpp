@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "Collider2DUI.h"
 
 #include <Engine/CCollider2D.h>
@@ -15,6 +15,12 @@ Collider2DUI::~Collider2DUI()
 
 void Collider2DUI::update()
 {
+
+	ComponentUI::update();
+}
+
+void Collider2DUI::render_update()
+{
 	if (GetTarget())
 	{
 		m_vOffsetPos = GetTarget()->Collider2D()->GetOffsetPos();
@@ -30,11 +36,7 @@ void Collider2DUI::update()
 		m_iOverlapCount = GetTarget()->Collider2D()->GetOverlapCount();
 	}
 
-	ComponentUI::update();
-}
 
-void Collider2DUI::render_update()
-{
 	ComponentUI::render_update();
 	if (!IsOpen())
 		return;
@@ -57,7 +59,7 @@ void Collider2DUI::render_update()
 	ImGui::Checkbox("Collision", &IsCollisionColor);
 	
 
-	// »ïÇ×¿¬»êÀÚ¸¦ ½á¼­ ·¹ÆÛ·±½º°¡ ¾î¶² °ÍÀ» ÂüÁ¶ÇÒÁö °áÁ¤.
+	// ì‚¼í•­ì—°ì‚°ìë¥¼ ì¨ì„œ ë ˆí¼ëŸ°ìŠ¤ê°€ ì–´ë–¤ ê²ƒì„ ì°¸ì¡°í• ì§€ ê²°ì •.
 	Vec4& color = (IsCollisionColor) ? m_vCollisionColor : m_vIdleColor;
 
 	float w = (ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.y) * 0.40f;

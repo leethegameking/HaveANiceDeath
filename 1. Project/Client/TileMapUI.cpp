@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "TileMapUI.h"
 
 #include "ListUI.h"
@@ -70,18 +70,20 @@ void TileMapUI::init()
 
 void TileMapUI::update()
 {
+
+}
+
+void TileMapUI::render_update()
+{
 	if (GetTarget())
 	{
 		m_AtlasTex = GetTarget()->TileMap()->GetTileAtlas();
 		m_vTileCount = GetTarget()->TileMap()->GetTileCount();
 		m_vSlice = GetTarget()->TileMap()->GetSlice();
-		m_Mesh = GetTarget()->TileMap ()->GetMesh();
+		m_Mesh = GetTarget()->TileMap()->GetMesh();
 		m_Mtrl = GetTarget()->TileMap()->GetCurMaterial();
 	}
-}
 
-void TileMapUI::render_update()
-{
 	ComponentUI::render_update();
 	if (!IsOpen())
 		return;
