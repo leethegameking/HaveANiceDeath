@@ -42,12 +42,18 @@ void CPlayerAttScript::BeginOverlap(CCollider2D* _other)
 	CAttScript::BeginOverlap(_other);
 	CEnemyScript* pTargetUnit = _other->GetOwner()->GetParent()->GetScript<CEnemyScript>();
 	pTargetUnit->FillFaintGauge(3.f);
+
+
 	if (CalBit(pTargetUnit->GetPattern(), PATTERN_HIT_START | PATTERN_HIT_LOOP | PATTERN_HIT_END, BIT_LEAST_ONE))
 	{
 		static tKnockBack tKB;
 		tKB.bOn = true;
-		tKB.eKnockBackDir = m_pUnitScr->GetUnitInfo().m_eDir;
+
 		tKB.fDist = GetOwner()->GetParent()->Animator2D()->GetCurAnim()->GetPosChange().x;
+		if (pTargetUnit->Transform()->GetRelativePos().x - GetOwner()->GetParent()->Transform()->GetRelativePos().x > 0.f)
+			tKB.eKnockBackDir = ANIM_DIR::ANIM_RIGHT;
+		else
+			tKB.eKnockBackDir = ANIM_DIR::ANIM_LEFT;
 		tKB.fDurationTime = 0.5f;
 		pTargetUnit->SetKnockBack(tKB);
 	}

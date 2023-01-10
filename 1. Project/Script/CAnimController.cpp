@@ -506,6 +506,9 @@ void CAnimController::SetCurDir()
 		}
 		m_eNextDir = ANIM_DIR::END;
 	}
+
+	// UnitScript에도 알려줌.
+	m_pUnitScr->GetUnitInfo().m_eDir = m_eCurAnimDir;
 }
 
 void CAnimController::CalDashTime()

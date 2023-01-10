@@ -78,7 +78,7 @@ void CEnemyScript::Overlap(CCollider2D* _pOther)
 	if (!_pOther->GetOwner()->GetScript<CUnitScript>())
 		return;
 
-	static float fSpeed = 100.f;
+	static float fSpeed = 350.f;
 
 	// Player
 	Vec3 vPlayerPos = _pOther->Transform()->GetRelativePos();
