@@ -17,11 +17,11 @@ struct tUnitInfo
     UNIT_NAME   m_eName;
 
     tUnitInfo()
-        : m_fHP(100.f)
+        : m_fHP(30.f)
         , m_fMP(50.f)
         , m_fAtt(3.f)
         , m_fDef(1.f)
-        , m_fSpeed(10.f)
+        , m_fSpeed(100.f)
         , m_eDir(ANIM_DIR::ANIM_RIGHT)
         , m_iStateBits(0)
         , m_eName(UNIT_NAME::END)
@@ -37,6 +37,8 @@ protected:
     tUnitInfo m_PrevUnitInfo;
     CAnimController* m_pAnimCon;
     tKnockBack       m_tKnockBack;
+    
+    CGameObject* m_bGroundObj;
 
 public:
     tUnitInfo& GetUnitInfo() { return m_CurUnitInfo; }
@@ -44,6 +46,9 @@ public:
     void SetUnitState(UINT _Statebit) { m_CurUnitInfo.m_iStateBits = _Statebit; }
     void RemoveUnitState(UINT _Statebit) { m_CurUnitInfo.m_iStateBits &= ~_Statebit; }
     void AddUnitState(UINT _StateBits) { AddBit(m_CurUnitInfo.m_iStateBits, _StateBits); }
+
+    void SetGroundObj(CGameObject* _pObj) { m_bGroundObj = _pObj; }
+    CGameObject* GetGroundObj() { return m_bGroundObj; }
 
     void SetKnockBack(tKnockBack _tKnockback) { m_tKnockBack = _tKnockback; }
 

@@ -77,8 +77,12 @@ void CBlockScript::Overlap(CCollider2D* _other)
 
 void CBlockScript::EndOverlap(CCollider2D* _other)
 {
-	if (m_bGroundBlock)
+	SetMemberData(_other);
+
+	CUnitScript* pUnitScr = m_pColObj->GetScript<CUnitScript>();
+	if (pUnitScr->GetGroundObj() == this->GetOwner())
 	{
+		pUnitScr->SetGroundObj(nullptr);
 		CGameObject* pColObj = _other->GetOwner();
 		pColObj->Rigidbody2D()->SetGround(false);
 		m_bGroundBlock = false;
@@ -97,7 +101,8 @@ void CBlockScript::RightCollision()
 
 void CBlockScript::UpCollision(CCollider2D* _other)
 {
-	m_bGroundBlock = true;
+	CUnitScript* pUnitScr = m_pColObj->GetScript<CUnitScript>();
+	pUnitScr->SetGroundObj((this->GetOwner()));
 	m_pColObj->Rigidbody2D()->SetGround(true);
 	m_pColObj->Transform()->SetRelativePos(Vec3(m_vObjColPos.x, m_vObjColScale.y / 2.f + m_vBlockColPos.y + m_vBlockColScale.y / 2.f, 0.f));
 

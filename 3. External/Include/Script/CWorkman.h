@@ -6,10 +6,6 @@
 class CWorkman :
     public CEnemyScript
 {
-private:
-    bool m_bUturn;
-    bool m_bStateEnter;
-
 public:
     virtual void begin() override;
     virtual void tick() override;
@@ -19,24 +15,23 @@ public:
     virtual void EndOverlap(CCollider2D* _pOther) override;
 
 private:
-    void WaitState();
-    void AppearSatae();
-    void IdleState();
-    void UturnState();
-    void DetectState();
-    void RunState();
-    void AttackReadyState();
-    void AttackState();
-    void HitStartState();
-    void HitLoopState();
-    void HitEndState();
-    void DelayState(); // 공격 후 쫓아가며 
+    virtual void WaitState();
+    virtual void AppearSatae();
+    virtual void IdleState();
+    virtual void UturnState();
+    virtual void DetectState();
+    virtual void RunState();
+    virtual void AttackReadyState();
+    virtual void AttackState();
+    virtual void HitStartState();
+    virtual void HitLoopState();
+    virtual void HitEndState();
+    virtual void DelayState(); // 공격 후 쫓아가며 
+    virtual void DeathState();
 
 
 private:
-    void SetDir(ANIM_DIR _eDir);
     bool CurAnimFinish();
-    ANIM_DIR GetDirToPlayer();
 
 public:
     virtual void SaveToFile(FILE* _pFile) override;

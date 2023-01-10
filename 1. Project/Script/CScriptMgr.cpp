@@ -16,6 +16,7 @@
 #include "CTestScript.h"
 #include "CUnitScript.h"
 #include "CWorkman.h"
+#include "CWorkwoman.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
@@ -34,6 +35,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CTestScript");
 	_vec.push_back(L"CUnitScript");
 	_vec.push_back(L"CWorkman");
+	_vec.push_back(L"CWorkwoman");
 }
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
@@ -68,6 +70,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CUnitScript;
 	if (L"CWorkman" == _strScriptName)
 		return new CWorkman;
+	if (L"CWorkwoman" == _strScriptName)
+		return new CWorkwoman;
 	return nullptr;
 }
 
@@ -119,6 +123,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::WORKMAN:
 		return new CWorkman;
+		break;
+	case (UINT)SCRIPT_TYPE::WORKWOMAN:
+		return new CWorkwoman;
 		break;
 	}
 	return nullptr;
@@ -186,6 +193,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::WORKMAN:
 		return L"CWorkman";
+		break;
+
+	case SCRIPT_TYPE::WORKWOMAN:
+		return L"CWorkwoman";
 		break;
 
 	}

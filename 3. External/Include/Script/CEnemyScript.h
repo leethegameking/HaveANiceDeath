@@ -25,6 +25,31 @@ protected:
 
     Ptr<CPrefab> m_pProjectile;
 
+protected:
+    bool m_bUturn;
+    bool m_bStateEnter;
+    bool m_bDeath;
+
+protected:
+    virtual void WaitState() {};
+    virtual void AppearSatae() {};
+    virtual void IdleState() {};
+    virtual void UturnState(){};
+    virtual void DetectState(){};
+    virtual void RunState(){};
+    virtual void AttackReadyState(){};
+    virtual void AttackState(){};
+    virtual void HitStartState(){};
+    virtual void HitLoopState(){};
+    virtual void HitEndState(){};
+    virtual void DelayState() {}; // 공격 후 쫓아가며
+    virtual void DeathState() {};
+
+protected:
+    ANIM_DIR GetAnimDirToPlayer();
+    Vec2 GetDirToPlayer();
+    void SetDir(ANIM_DIR _eDir);
+
 public:
     virtual void begin() override;
     virtual void tick() override;

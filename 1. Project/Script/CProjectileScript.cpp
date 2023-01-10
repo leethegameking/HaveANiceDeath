@@ -15,10 +15,31 @@ CProjectileScript::CProjectileScript()
 	, m_bDestroyAnimFinsh(false)
 	, m_bRepeat(true)
 {
-	AddScriptParam(SCRIPT_PARAM::FLOAT, "Speed    ", &m_fSpeed);
-	AddScriptParam(SCRIPT_PARAM::FLOAT, "Att      ", &m_fAtt);
-	AddScriptParam(SCRIPT_PARAM::FLOAT, "Max Life ", &m_fMaxLifeTime);
-	AddScriptParam(SCRIPT_PARAM::BOOL,  "Rot      ", &m_bRot);
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "Speed        ", &m_fSpeed);
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "Att          ", &m_fAtt);
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "Max Life     ", &m_fMaxLifeTime);
+	AddScriptParam(SCRIPT_PARAM::BOOL,  "AnimRepeat   ", &m_bRepeat);
+	AddScriptParam(SCRIPT_PARAM::BOOL,  "End-of-Anim  ", &m_bDestroyAnimFinsh);
+
+}
+
+CProjectileScript::CProjectileScript(const CProjectileScript& _origin)
+	: CScript((int)SCRIPT_TYPE::PROJECTILESCRIPT)
+	, m_fSpeed(_origin.m_fSpeed)
+	, m_fMaxLifeTime(_origin.m_fMaxLifeTime)
+	, m_fAccLifeTime(0.f)
+	, m_fAtt(_origin.m_fAtt)
+	, m_vDir(Vec2::Zero)
+	, m_bRot(false)
+	, m_bFirstTick(true)
+	, m_bDestroyAnimFinsh(_origin.m_bDestroyAnimFinsh)
+	, m_bRepeat(_origin.m_bRepeat)
+{
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "Speed        ", &m_fSpeed);
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "Att          ", &m_fAtt);
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "Max Life     ", &m_fMaxLifeTime);
+	AddScriptParam(SCRIPT_PARAM::BOOL, "AnimRepeat   ", &m_bRepeat);
+	AddScriptParam(SCRIPT_PARAM::BOOL, "End-of-Anim  ", &m_bDestroyAnimFinsh);
 }
 
 CProjectileScript::~CProjectileScript()
@@ -46,17 +67,20 @@ void CProjectileScript::tick()
 	}
 	else
 	{
-		m_fAccLifeTime += DT;
 		if (m_fMaxLifeTime <= m_fAccLifeTime)
 		{
 			GetOwner()->Destroy();
+		}
+		else
+		{
+			m_fAccLifeTime += DT;
 		}
 	}
 
 	// 이동
 	Vec3 vPos = Transform()->GetRelativePos();
 	vPos.x += m_vDir.x * m_fSpeed * DT;
-	vPos.y += m_vDir.y * m_fSpeed * DT;
+	vPos.y += m_vDir.y * m_fSpeed * DT; 
 	Transform()->SetRelativePos(vPos);
 
 	// AttCol 크기 오프셋 설정
@@ -118,7 +142,6 @@ void CProjectileScript::FirstTick()
 			m_vDir = Vec2(1.f, 0.f);
 			Transform()->SetRelativeRotation(0.f, 0.f, 0.f);
 		}
-		
 	}
 
 	const vector<CGameObject*>& vecChildObj = GetOwner()->GetChildObject();

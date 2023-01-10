@@ -7,14 +7,12 @@
 
 CWorkman::CWorkman()
 	: CEnemyScript((int)SCRIPT_TYPE::WORKMAN)
-	, m_bUturn(false)
 {
 	m_CurUnitInfo.m_eName = UNIT_NAME::WORKMAN;
 }
 
 CWorkman::CWorkman(const CWorkman& _origin)
 	: CEnemyScript(_origin)
-	, m_bUturn(false)
 {
 }
 
@@ -32,20 +30,6 @@ void CWorkman::begin()
 void CWorkman::tick()
 {
 	CEnemyScript::tick();
-
-	if (m_eCurPattern != m_ePrevPattern)
-	{
-		m_bStateEnter = true;
-		m_ePrevPattern = m_eCurPattern;
-	}
-
-	// Faint가 0이고 HIT 관련 State가 아닐 경우.
-	if (m_fFaintGauge < 0.f && !CalBit(m_eCurPattern, PATTERN_HIT_START | PATTERN_HIT_LOOP | PATTERN_HIT_END, BIT_LEAST_ONE))
-	{
-		m_bStateEnter = true;
-		m_ePrevPattern = m_eCurPattern;
-		m_eCurPattern = PATTERN_HIT_START;
-	}
 
 	switch (m_eCurPattern)
 	{
@@ -85,6 +69,8 @@ void CWorkman::tick()
 	case PATTERN_HIT_END:
 		HitEndState();
 		break;
+	case PATTERN_DEATH:
+		DeathState();
 	}
 }
 
@@ -200,7 +186,7 @@ void CWorkman::DetectState()
 		m_bStateEnter = false;
 
 		// 플레이어 보는 방향으로 설정
-		ANIM_DIR eDir = GetDirToPlayer();
+		ANIM_DIR eDir = GetAnimDirToPlayer();
 		SetDir(eDir);
 	}
 
@@ -219,7 +205,7 @@ void CWorkman::RunState()
 		m_bStateEnter = false;
 	}
 
-	SetDir(GetDirToPlayer());
+	SetDir(GetAnimDirToPlayer());
 	Rigidbody2D()->SetForceSpeedX(m_CurUnitInfo.m_fSpeed * (float)m_CurUnitInfo.m_eDir * 2.f);
 
 	Vec3 vPos = Transform()->GetRelativePos();
@@ -336,7 +322,7 @@ void CWorkman::DelayState()
 	Vec3 vPlayerPos = m_pPlayerObj->Transform()->GetRelativePos();
 	if (DistanceF(vPos, vPlayerPos) > m_fAttackRadius)
 	{
-		SetDir(GetDirToPlayer());
+		SetDir(GetAnimDirToPlayer());
 		Rigidbody2D()->SetForceSpeedX(m_CurUnitInfo.m_fSpeed * (float)m_CurUnitInfo.m_eDir * 2.f);
 	}
 
@@ -351,14 +337,21 @@ void CWorkman::DelayState()
 	}
 }
 
-void CWorkman::SetDir(ANIM_DIR _eDir)
+void CWorkman::DeathState()
 {
-	m_CurUnitInfo.m_eDir = _eDir;
-	if(_eDir == ANIM_DIR::ANIM_LEFT)
-		Transform()->SetRelativeRotation(0.f, XM_PI, 0.f);
-	else
-		Transform()->SetRelativeRotation(0.f, 0.f, 0.f);
+	if (m_bStateEnter)
+	{
+		Animator2D()->Play(L"animation\\workman\\EWorkmanDeath.anim", false);
+		m_bStateEnter = false;
+	}
+
+	if (CurAnimFinish())
+	{
+		Destroy(); // 자신을 지워줌.
+	}
 }
+
+
 
 bool CWorkman::CurAnimFinish()
 {
@@ -368,19 +361,7 @@ bool CWorkman::CurAnimFinish()
 		return false;
 }
 
-ANIM_DIR CWorkman::GetDirToPlayer()
-{
-	Vec3 vPos = Transform()->GetRelativePos();
-	Vec3 vPlayerPos = m_pPlayerObj->Transform()->GetRelativePos();
-	float fDir = vPlayerPos.x - vPos.x;
-	ANIM_DIR eDir;
-	if (fDir <= 0.f)
-		eDir = ANIM_DIR::ANIM_LEFT;
-	else
-		eDir = ANIM_DIR::ANIM_RIGHT;
 
-	return eDir;
-}
 
 void CWorkman::SaveToFile(FILE* _pFile)
 {

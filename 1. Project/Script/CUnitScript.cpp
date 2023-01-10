@@ -5,20 +5,14 @@
 
 CUnitScript::CUnitScript()
 	: CScript((int)SCRIPT_TYPE::UNITSCRIPT)
-	, m_CurUnitInfo{}
-	, m_pAnimCon(nullptr)
 {
-	AddScriptParam(SCRIPT_PARAM::FLOAT, "HP    ", &m_CurUnitInfo.m_fHP);
-	AddScriptParam(SCRIPT_PARAM::FLOAT, "MP    ", &m_CurUnitInfo.m_fMP);
-	AddScriptParam(SCRIPT_PARAM::FLOAT, "Att   ", &m_CurUnitInfo.m_fAtt);
-	AddScriptParam(SCRIPT_PARAM::FLOAT, "Def   ", &m_CurUnitInfo.m_fDef);
-	AddScriptParam(SCRIPT_PARAM::INT,	"State ", &m_CurUnitInfo.m_iStateBits);
 }
 
 CUnitScript::CUnitScript(int _ScriptType)
 	: CScript(_ScriptType)
 	, m_CurUnitInfo{}
 	, m_pAnimCon(nullptr)
+	, m_bGroundObj(nullptr)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "HP    ", &m_CurUnitInfo.m_fHP);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "MP    ", &m_CurUnitInfo.m_fMP);
@@ -32,6 +26,7 @@ CUnitScript::CUnitScript(const CUnitScript& _origin)
 	, m_CurUnitInfo(_origin.m_CurUnitInfo)
 	, m_PrevUnitInfo{}
 	, m_pAnimCon(nullptr)
+	, m_bGroundObj(nullptr)
 {
 }
 

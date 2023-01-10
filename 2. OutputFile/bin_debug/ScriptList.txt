@@ -13,3 +13,4 @@ CProjectileScript
 CTestScript
 CUnitScript
 CWorkman
+CWorkwoman

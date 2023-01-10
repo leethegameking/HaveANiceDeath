@@ -93,6 +93,7 @@ enum E_PATTERN
     PATTERN_HIT_START       = 0x00000200,
     PATTERN_HIT_LOOP        = 0x00000400,
     PATTERN_HIT_END         = 0x00000800,
+    PATTERN_DEATH           = 0x00001000,
 };
 
 struct tKnockBack

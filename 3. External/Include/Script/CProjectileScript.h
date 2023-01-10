@@ -7,18 +7,17 @@ private:
     CGameObject* m_pAttObj;
 
     wstring m_strAnimKey;
+    bool    m_bFirstTick;
+
     bool    m_bDestroyAnimFinsh;
     bool    m_bRepeat;
-
     float   m_fSpeed;
     bool    m_bRot;
     float   m_fMaxLifeTime;
-
     float   m_fAtt;
-
     float   m_fAccLifeTime;
     Vec2    m_vDir;
-    bool    m_bFirstTick;
+    
 
 public:
     void SetDir(Vec2 _vDir) { m_vDir = _vDir; }
@@ -47,6 +46,7 @@ public:
     CLONE(CProjectileScript);
 public:
     CProjectileScript();
+    CProjectileScript(const CProjectileScript& _origin);
     ~CProjectileScript();
 };
 

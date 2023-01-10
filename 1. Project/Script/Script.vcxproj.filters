@@ -61,6 +61,9 @@
     <ClInclude Include="CControllerScript.h">
       <Filter>Script\Unit\Player\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="CWorkwoman.h">
+      <Filter>Script\Unit\Enemy\Workwoman</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Script.cpp">
@@ -122,6 +125,9 @@
     </ClCompile>
     <ClCompile Include="CControllerScript.cpp">
       <Filter>Script\Unit\Player\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="CWorkwoman.cpp">
+      <Filter>Script\Unit\Enemy\Workwoman</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +193,9 @@
     </Filter>
     <Filter Include="Script\Unit\Player\Controller">
       <UniqueIdentifier>{71f77b3f-c50b-4eba-9def-948cfdd861aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Unit\Enemy\Workwoman">
+      <UniqueIdentifier>{09e3a839-142a-4ba9-a1ab-f04217694236}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
