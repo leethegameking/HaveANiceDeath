@@ -10,7 +10,7 @@ class CProjectileScript;
 class CAttScript :
     public CScript
 {
-private:
+protected:
     CUnitScript*        m_pUnitScr;
     CProjectileScript*  m_pProjScr;
 

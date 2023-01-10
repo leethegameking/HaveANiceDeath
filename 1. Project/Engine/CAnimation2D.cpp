@@ -136,6 +136,7 @@ void CAnimation2D::Reallocate()
 		m_vecChildAnim[i]->SetName(GetName());
 		m_vecChildAnim[i]->m_vecFrm.assign(m_vecFrm.begin(), m_vecFrm.end());
 		m_vecChildAnim[i]->m_iCurIdx = 0;
+		m_vecChildAnim[i]->SetPosChange(m_vPosChange);
 	}
 }
 

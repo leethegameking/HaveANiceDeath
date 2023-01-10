@@ -101,6 +101,6 @@ void CUnitScript::KnockBackProgress()
 	else
 	{
 		fAccTime += DT;
-		Transform()->AddRelativePos(Vec3(m_tKnockBack.fDist * DT * (int)m_tKnockBack.eKnockBackDir, 0.f, 0.f));
+		Transform()->AddRelativePos(Vec3(m_tKnockBack.fDist * DT / m_tKnockBack.fDurationTime *(int)m_tKnockBack.eKnockBackDir, 0.f, 0.f));
 	}
 }

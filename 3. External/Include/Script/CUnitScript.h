@@ -45,6 +45,8 @@ public:
     void RemoveUnitState(UINT _Statebit) { m_CurUnitInfo.m_iStateBits &= ~_Statebit; }
     void AddUnitState(UINT _StateBits) { AddBit(m_CurUnitInfo.m_iStateBits, _StateBits); }
 
+    void SetKnockBack(tKnockBack _tKnockback) { m_tKnockBack = _tKnockback; }
+
 private:
     void KnockBackProgress();
 
