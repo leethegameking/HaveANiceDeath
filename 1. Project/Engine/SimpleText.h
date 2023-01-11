@@ -28,7 +28,8 @@ public:
 
 
 public:
-
+	// 나중에 Text크기도 조정할 수 있게 변경.
+	void Draw(wstring _text, Vec2 _WorldPos, Vec2 _Width_Height = { 2000.f, 200.f }, D2D1_COLOR_F _color = { 1.f, 1.f, 1.f, 1.f });
 	void TestDraw();
 
 public:

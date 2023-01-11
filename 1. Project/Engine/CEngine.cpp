@@ -69,7 +69,7 @@ void CEngine::progress()
 	tick();
 
 	render();
-	SimpleText::GetInst()->TestDraw();
+	SimpleText::GetInst()->Draw(L"Have A Nice Death!", Vec2(-300.f, 300.f));
 }
 
 void CEngine::tick()

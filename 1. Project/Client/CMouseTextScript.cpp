@@ -2,6 +2,8 @@
 #include "CMouseTextScript.h"
 
 #include <Engine/CDevice.h>
+#include <Engine/SimpleText.h>
+#include <Engine/CKeyMgr.h>
 
 CMouseTextScript::CMouseTextScript()
 	: CScript(-1)
@@ -24,7 +26,9 @@ void CMouseTextScript::tick()
 
 	if (m_bVisible)
 	{
-		
+	 	Vec2 vMouseWorldPos = CKeyMgr::GetInst()->GetMouseWorldPos();
+		wstring strMousePos = StrToWstr(to_string((int)vMouseWorldPos.x)) + L"/" + StrToWstr(to_string((int)vMouseWorldPos.y));
+		SimpleText::GetInst()->Draw(strMousePos, vMouseWorldPos);
 	}
 }
 
