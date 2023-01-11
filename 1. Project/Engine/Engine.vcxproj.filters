@@ -306,6 +306,9 @@
     <ClInclude Include="CSound.h">
       <Filter>Engine\07. Resource\Sound</Filter>
     </ClInclude>
+    <ClInclude Include="SimpleText.h">
+      <Filter>Module</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -448,6 +451,9 @@
     </ClCompile>
     <ClCompile Include="MyShader.cpp">
       <Filter>Engine\03. Manager\05. ResMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleText.cpp">
+      <Filter>Module</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

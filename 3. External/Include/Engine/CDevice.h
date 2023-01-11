@@ -57,6 +57,9 @@ public:
 	Vec2 GetRenderResolution() { return m_vRenderResolution; }
 
 public:
+	ComPtr<IDXGISwapChain> GetSwapChain() { return m_pSwapChain; }
+
+public:
 	bool IsWindowFocused();
 
 public:

@@ -16,6 +16,7 @@
 #include "CGameObject.h"
 #include "CCollider2D.h"
 #include "CTransform.h"
+#include "SimpleText.h"
 
 
 CEngine::CEngine()
@@ -49,6 +50,7 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 		return E_FAIL;
 	}
 
+	SimpleText::GetInst()->init();
 	CPathMgr::GetInst()->init();
 	CKeyMgr::GetInst()->init();
 	CTimeMgr::GetInst()->init();
@@ -67,6 +69,7 @@ void CEngine::progress()
 	tick();
 
 	render();
+	SimpleText::GetInst()->TestDraw();
 }
 
 void CEngine::tick()

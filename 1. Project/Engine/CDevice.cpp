@@ -37,7 +37,7 @@ int CDevice::init(HWND _hWnd, Vec2 _vResolution)
 	m_vRenderResolution = _vResolution;
 	g_global.vRenderResolution = m_vRenderResolution;
 
-	UINT iDeviceFlag = D3D11_CREATE_DEVICE_DEBUG;
+	UINT iDeviceFlag = D3D11_CREATE_DEVICE_DEBUG | D3D11_CREATE_DEVICE_BGRA_SUPPORT;
 	D3D_FEATURE_LEVEL FeatureLevel = (D3D_FEATURE_LEVEL)0;
 
 
