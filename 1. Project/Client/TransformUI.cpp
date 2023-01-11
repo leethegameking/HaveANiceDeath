@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "TransformUI.h"
 
 #include <Engine/CTransform.h>
@@ -32,7 +32,7 @@ void TransformUI::update()
 void TransformUI::render_update()
 {
 
-	// Å¸ÀÔ ÅØ½ºÆ® ¹öÆ°
+	// íƒ€ìž… í…ìŠ¤íŠ¸ ë²„íŠ¼
 	ComponentUI::render_update();
 	if (GetTarget() == nullptr)
 		return;
@@ -46,19 +46,24 @@ void TransformUI::render_update()
 		m_bIgnScale = GetTarget()->Transform()->IsIgnoreParentScale();
 	}
 
-	// ¿òÁ÷ÀÏÁö ¾Æ´ÒÁö
+	// ì›€ì§ì¼ì§€ ì•„ë‹ì§€
 	ImGui::Text("Move"); ImGui::SameLine(); ImGui::Checkbox("##Position", &m_bMove);
 
-	// °ª Ç¥½Ã
+	// ê°’ í‘œì‹œ
 	ImGui::Text("Position"); ImGui::SameLine(); ImGui::InputFloat3("##Position", m_vPos);
 	ImGui::Text("Scale   "); ImGui::SameLine(); ImGui::InputFloat3("##Scale", m_vScale);
 
 	m_vRot.ToDegree();
 	ImGui::Text("Rotation"); ImGui::SameLine(); ImGui::InputFloat3("##Rotation", m_vRot);
+	ImGui::Text("World - Position"); ImGui::SameLine(); ImGui::InputFloat3("##PositionWorld", GetTarget()->Transform()->GetWorldPos());
+	ImGui::Text("World - Scale   "); ImGui::SameLine(); ImGui::InputFloat3("##ScaleWorld", GetTarget()->Transform()->GetWorldScale());
+
+	m_vRot.ToDegree();
+	ImGui::Text("World - Rotation"); ImGui::SameLine(); ImGui::InputFloat3("##RotationWorld", GetTarget()->Transform()->GetWorldRotation());
 
 	ImGui::Text("Ignore Parent Scale"); ImGui::SameLine(); ImGui::Checkbox("##IgnParentScaele", &m_bIgnScale);
 
-	// ¿¡µðÅÍ °ªÀ¸·Î Transfrom°ªÀ» º¯°æ
+	// ì—ë””í„° ê°’ìœ¼ë¡œ Transfromê°’ì„ ë³€ê²½
 	if (GetTarget())
 	{
 		GetTarget()->Transform()->SetRelativePos(m_vPos);
@@ -87,15 +92,15 @@ void TransformUI::render_update()
 
 
 	// Tile Pressed
-	if (KEY_PRESSED(KEY::LBTN) && m_bMove &&
+	if (KEY_PRESSED(KEY::LBTN) && m_bMove/*&&
 		vWorldPos.x + vWorldScale.x / 2.f > (vMouseDirectXPos.x * vCamScale + vCamPos.x)  &&
 		vWorldPos.x - vWorldScale.x / 2.f < (vMouseDirectXPos.x * vCamScale + vCamPos.x)  &&
 		vWorldPos.y + vWorldScale.y / 2.f > (vMouseDirectXPos.y * vCamScale + vCamPos.y)  &&
-		vWorldPos.y - vWorldScale.y / 2.f < (vMouseDirectXPos.y * vCamScale + vCamPos.y)  )
+		vWorldPos.y - vWorldScale.y / 2.f < (vMouseDirectXPos.y * vCamScale + vCamPos.y)*/  )
 	{
 		Vec2 vMouseDir = CKeyMgr::GetInst()->GetMouseDir();
 		Vec3 vTargetPos = GetTarget()->Transform()->GetRelativePos();
-		GetTarget()->Transform()->SetRelativePos(Vec3(vTargetPos.x + vMouseDir.x * vCamScale, vTargetPos.y + vMouseDir.y * vCamScale, vTargetPos.z ));
+		GetTarget()->Transform()->AddWorldPos(Vec3(vMouseDir.x * vCamScale, vMouseDir.y * vCamScale, vTargetPos.z ));
 	}
 }
 

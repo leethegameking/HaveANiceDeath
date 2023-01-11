@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 class CTimeMgr
 	: public CSingleton<CTimeMgr>
@@ -10,6 +10,7 @@ private:
 
 	float			m_fAccTime;
 	float			m_fDeltaTime;
+	float			m_fEditorDeltaTime;
 
 public:
 	void init();
@@ -18,6 +19,7 @@ public:
 
 public:
 	float GetDeltaTime() { return m_fDeltaTime; }
+	float GetEditorDeltaTime() { return m_fEditorDeltaTime; }
 
 public:
 	CTimeMgr();

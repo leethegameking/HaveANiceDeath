@@ -25,6 +25,8 @@ public:
 
     vector<ScriptUI*> m_vecScriptUI;
 
+    bool            m_bSelectObjDebugDraw;
+
 public:
     void SetTargetObj(CGameObject* _Target);
     void SetTargetRes(Ptr<CRes> _Res);

@@ -254,20 +254,27 @@ bool IsValid(CGameObject*& _pObj)
 #include "CGameObject.h"
 #include "CTransform.h"
 #include "CEventMgr.h"
+#include "CLevelMgr.h"
+#include "CLevel.h"
 
 void Instantiate(CGameObject* _pNewObj, Vec3 _vWorldPos, int _iLayerIdx)
 {
-	_pNewObj->Transform()->SetRelativePos(_vWorldPos);
+	
 
 	tEvent evn = {};
 	evn.eType = EVENT_TYPE::CREATE_OBJECT;
 	evn.wParam = (DWORD_PTR)_pNewObj;
 	evn.lParam = _iLayerIdx;
-	//if (_iLayerIdx == 0)
-	//{
-	//	evn.lParam = _pNewObj->GetLayerIdx();
-	//}
-	//else
+	LEVEL_STATE eState = CLevelMgr::GetInst()->GetCurLevel()->GetState();
+	if (eState == LEVEL_STATE::STOP || eState == LEVEL_STATE::PAUSE)
+	{
+		CCamera* pMainCam = CRenderMgr::GetInst()->GetMainCam();
+		_pNewObj->Transform()->SetRelativePos(pMainCam->Transform()->GetRelativePos());
+	}
+	else
+	{
+		_pNewObj->Transform()->SetRelativePos(_vWorldPos);
+	}
 
 	CEventMgr::GetInst()->AddEvent(evn);
 }

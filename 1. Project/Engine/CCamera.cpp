@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CCamera.h"
 
 #include "CLevelMgr.h"
@@ -39,20 +39,20 @@ void CCamera::finaltick()
 
 	CalcProjMat();
 
-	// Ä«¸Ş¶ó µî·Ï
+	// ì¹´ë©”ë¼ ë“±ë¡
 	CRenderMgr::GetInst()->RegisterCamera(this);
 }
 
 void CCamera::render()
 {
-	// Çà·Ä ¼¼ÆÃ
+	// í–‰ë ¬ ì„¸íŒ…
 	g_transform.matView = m_matView;
 	g_transform.matProj = m_matProj;
 
-	// Shader Domain ¿¡ µû¸¥ ¹°Ã¼ ºĞ·ù
+	// Shader Domain ì— ë”°ë¥¸ ë¬¼ì²´ ë¶„ë¥˜
 	SortObject();
 
-	// Domain ºĞ·ù¿¡ µû¸¥ ·»´õ¸µ
+	// Domain ë¶„ë¥˜ì— ë”°ë¥¸ ë Œë”ë§
 	render_opaque();
 	render_mask();
 	render_transparent();
@@ -85,13 +85,13 @@ void CCamera::SetLayerInvisible(int _iLayerIdx)
 void CCamera::CalcViewMat()
 {
 	// =============
-	// View Çà·Ä °è»ê
+	// View í–‰ë ¬ ê³„ì‚°
 	// =============
-	// View ÀÌµ¿Çà·Ä ( Ä«¸Ş¶ó¸¦ ¿øÁ¡À¸·Î ÀÌµ¿ÇÏ´Â ¸¸Å­ )
+	// View ì´ë™í–‰ë ¬ ( ì¹´ë©”ë¼ë¥¼ ì›ì ìœ¼ë¡œ ì´ë™í•˜ëŠ” ë§Œí¼ )
 	Vec3 vPos = Transform()->GetRelativePos();
 	Matrix matViewTrans = XMMatrixTranslation(-vPos.x, -vPos.y, -vPos.z);
 
-	// View È¸Àü Çà·Ä ( Ä«¸Ş¶ó°¡ º¸´Â Àü¹æ ¹æÇâÀ» z ÃàÀ» º¸µµ·Ï µ¹¸®´Â ¸¸Å­ )
+	// View íšŒì „ í–‰ë ¬ ( ì¹´ë©”ë¼ê°€ ë³´ëŠ” ì „ë°© ë°©í–¥ì„ z ì¶•ì„ ë³´ë„ë¡ ëŒë¦¬ëŠ” ë§Œí¼ )
 	Vec3 vRight = Transform()->GetRelativeDir(DIR::RIGHT);
 	Vec3 vUp = Transform()->GetRelativeDir(DIR::UP);
 	Vec3 vFront = Transform()->GetRelativeDir(DIR::FRONT);
@@ -107,18 +107,18 @@ void CCamera::CalcViewMat()
 void CCamera::CalcProjMat()
 {
 	// =============
-	// Åõ¿µ Çà·Ä °è»ê
+	// íˆ¬ì˜ í–‰ë ¬ ê³„ì‚°
 	// =============
 	Vec2 vRenderResolution = CDevice::GetInst()->GetRenderResolution();
 
 	if (PERSPECTIVE == m_eProjType)
 	{
-		// ¿ø±ÙÅõ¿µ
+		// ì›ê·¼íˆ¬ì˜
 		m_matProj = XMMatrixPerspectiveFovLH(XM_2PI / 6.f, m_fAspectRatio, 1.f, m_fFar);
 	}
 	else
 	{
-		// Á÷±³Åõ¿µ
+		// ì§êµíˆ¬ì˜
 		m_matProj = XMMatrixOrthographicLH(vRenderResolution.x * m_fScale, vRenderResolution.y * m_fScale, 1.f, m_fFar);
 	}
 }
@@ -135,20 +135,20 @@ void CCamera::SortObject()
 
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
-		// Layer È®ÀÎ
+		// Layer í™•ì¸
 		if (m_iLayerMask & (1 << i))
 		{
-			// ÇØ´ç ·¹ÀÌ¾î¿¡ ¼ÓÇÑ °ÔÀÓ¿ÀºêÁ§Æ®¸¦ °¡Á®¿Â´Ù.
+			// í•´ë‹¹ ë ˆì´ì–´ì— ì†í•œ ê²Œì„ì˜¤ë¸Œì íŠ¸ë¥¼ ê°€ì ¸ì˜¨ë‹¤.
 			CLayer* pLayer = pCurLevel->GetLayer(i);
 
 
-			// ¿ÀºêÁ§Æ®µéÀ» ½¦ÀÌ´õ µµ¸ŞÀÎ¿¡ µû¶ó ºĞ·ùÇÑ´Ù.
+			// ì˜¤ë¸Œì íŠ¸ë“¤ì„ ì‰ì´ë” ë„ë©”ì¸ì— ë”°ë¼ ë¶„ë¥˜í•œë‹¤.
 			const vector<CGameObject*>& vecObj = pLayer->GetObjects();
 
 			for (size_t j = 0; j < vecObj.size(); ++j)
 			{
-				// Ä«¸Ş¶ó ¾È¿¡ µé¾î¿À´Â °Í¸¸ ·»´õ¸µ 
-				if (!InCamera(vecObj[j], Vec2(0.8f, 0.8f)))
+				// ì¹´ë©”ë¼ ì•ˆì— ë“¤ì–´ì˜¤ëŠ” ê²ƒë§Œ ë Œë”ë§ 
+				if (!InCamera(vecObj[j], Vec2(1.2f, 1.2f)))
 					continue;
 
 				CRenderComponent* pRenderCom = vecObj[j]->GetRenderComponent();

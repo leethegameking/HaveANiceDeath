@@ -104,7 +104,7 @@ void UI::render()
 			ImGui::EndChild();
 			
 			float x = ImGui::GetContentRegionAvail().x;
-			m_vSize = Vec2(x, y + 10.f);
+			m_vSize = Vec2(x, y + 50.f);
 		}
 
 		if (m_bOpen == false)

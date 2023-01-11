@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CTimeMgr.h"
 #include "CEngine.h"
 
@@ -22,13 +22,13 @@ CTimeMgr::~CTimeMgr()
 
 void CTimeMgr::init()
 {
-	// ÃÊ´ç Áøµ¿¼ö 1000
+	// ì´ˆë‹¹ ì§„ë™ìˆ˜ 1000
 	// GetTickCount();
 
-	// ÃÊ´ç Áøµ¿¼ö Ãµ¸¸
+	// ì´ˆë‹¹ ì§„ë™ìˆ˜ ì²œë§Œ
 	QueryPerformanceFrequency(&m_llFrequence);
 
-	// ÇöÀç Ä«¿îÆÃ
+	// í˜„ìž¬ ì¹´ìš´íŒ…
 	QueryPerformanceCounter(&m_llPrevCount);
 }
 
@@ -37,12 +37,14 @@ void CTimeMgr::tick()
 	QueryPerformanceCounter(&m_llCurCount);
 
 	m_fDeltaTime = (float)(m_llCurCount.QuadPart - m_llPrevCount.QuadPart) / (float)m_llFrequence.QuadPart;
+	m_fEditorDeltaTime = m_fDeltaTime;
 
 	m_llPrevCount.QuadPart = m_llCurCount.QuadPart;
 
 	LEVEL_STATE eState = CLevelMgr::GetInst()->GetCurLevel()->GetState();
 
 	
+
 	if (eState == LEVEL_STATE::PAUSE || eState == LEVEL_STATE::STOP)
 	{
 		m_fDeltaTime = 0.f;
@@ -51,7 +53,7 @@ void CTimeMgr::tick()
 	{
 		if ((1.f / 60.f) < m_fDeltaTime)
 		{
-			// 60 ÇÁ·¹ÀÓÀ» ÃÊ°úÇÒ °æ¿ì °­Á¦ ¹æ¾î
+			// 60 í”„ë ˆìž„ì„ ì´ˆê³¼í•  ê²½ìš° ê°•ì œ ë°©ì–´
 			m_fDeltaTime = (1.f / 60.f);
 		}
 	}
@@ -65,7 +67,7 @@ void CTimeMgr::render()
 	static int iCount = 0;
 	++iCount;
 
-	// 1 ÃÊ¿¡ ÇÑ¹ø
+	// 1 ì´ˆì— í•œë²ˆ
 	m_fAccTime += m_fDeltaTime;
 	if (1.f < m_fAccTime)
 	{
@@ -79,7 +81,7 @@ void CTimeMgr::render()
 
 		SetWindowText(hWnd, szFloat);
 
-		// ´©Àû½Ã°£, Ä«¿îÆ® ÃÊ±âÈ­
+		// ëˆ„ì ì‹œê°„, ì¹´ìš´íŠ¸ ì´ˆê¸°í™”
 		m_fAccTime = 0.f;
 		iCount = 0;
 	}

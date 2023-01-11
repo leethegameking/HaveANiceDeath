@@ -17,7 +17,9 @@ private:
 	bool		m_bIgnParentScale;
 
 public:
-	void SetRelativePosWorld(Vec3 _vPos);
+	// Relative를 역계산
+	void SetWorldPos(Vec3 _vPos);
+	void AddWorldPos(Vec3 _vPos);
 
 	void SetRelativePos(Vec3 _vPos) { m_vRelativePos = _vPos; }
 	void SetRelativeScale(Vec3 _vScale) { m_vRelativeScale = _vScale; }
@@ -35,6 +37,7 @@ public:
 	Vec3 GetWorldScale();
 
 	Vec3 GetRelativeRotation() { return m_vRelativeRotation; }
+	Vec3 GetWorldRotation();
 	Vec3 GetRelativeDir(DIR _eType) { return m_vRelativeDir[(UINT)_eType]; }
 	Vec3 GetWorldDir(DIR _eType) { return m_vWorldDir[(UINT)_eType]; }
 

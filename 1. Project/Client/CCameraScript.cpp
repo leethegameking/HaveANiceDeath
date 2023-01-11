@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "CCameraScript.h"
 
 #include <Engine/CDevice.h>
@@ -21,8 +21,6 @@ void CCameraScript::begin()
 void CCameraScript::tick()
 {	
 	Move();
-
-	
 }
 
 void CCameraScript::Move()
@@ -45,13 +43,13 @@ void CCameraScript::Move()
 		Vec3 vRight = Transform()->GetRelativeDir(DIR::RIGHT);
 
 		if (KEY_PRESSED(KEY::W))
-			vPos += DT * vFront * fSpeed;
+			vPos += Edit_DT * vFront * fSpeed;
 		if (KEY_PRESSED(KEY::S))
-			vPos += DT * -vFront * fSpeed;
+			vPos += Edit_DT * -vFront * fSpeed;
 		if (KEY_PRESSED(KEY::A))
-			vPos += DT * -vRight * fSpeed;
+			vPos += Edit_DT * -vRight * fSpeed;
 		if (KEY_PRESSED(KEY::D))
-			vPos += DT * vRight * fSpeed;
+			vPos += Edit_DT * vRight * fSpeed;
 
 		Vec2 vMouseDir = CKeyMgr::GetInst()->GetMouseDir();
 
@@ -60,8 +58,8 @@ void CCameraScript::Move()
 		{
 			Vec3 vRot = Transform()->GetRelativeRotation();
 
-			vRot.y += vMouseDir.x * DT * XM_PI;
-			vRot.x -= vMouseDir.y * DT * XM_PI;
+			vRot.y += vMouseDir.x * Edit_DT * XM_PI;
+			vRot.x -= vMouseDir.y * Edit_DT * XM_PI;
 			Transform()->SetRelativeRotation(vRot);
 		}
 
@@ -77,13 +75,13 @@ void CCameraScript::Move()
 			vRot.y = 0.f;
 		
 		if (KEY_PRESSED(KEY::W))
-			vPos.y += DT * fSpeed;
+			vPos.y += Edit_DT * fSpeed;
 		if (KEY_PRESSED(KEY::S))
-			vPos.y -= DT * fSpeed;
+			vPos.y -= Edit_DT * fSpeed;
 		if (KEY_PRESSED(KEY::A))
-			vPos.x -= DT * fSpeed;
+			vPos.x -= Edit_DT * fSpeed;
 		if (KEY_PRESSED(KEY::D))
-			vPos.x += DT * fSpeed;
+			vPos.x += Edit_DT * fSpeed;
 
 		if (vPos != Transform()->GetRelativePos())
 			Transform()->SetRelativePos(vPos);		
@@ -91,13 +89,13 @@ void CCameraScript::Move()
 		if (KEY_PRESSED(KEY::N))
 		{
 			float fScale = Camera()->GetOrthographicScale();
-			fScale += DT;
+			fScale += Edit_DT;
 			Camera()->SetOrthographicScale(fScale);
 		}
 		else if (KEY_PRESSED(KEY::M))
 		{
 			float fScale = Camera()->GetOrthographicScale();
-			fScale -= DT;
+			fScale -= Edit_DT;
 			Camera()->SetOrthographicScale(fScale);
 		}
 	}	

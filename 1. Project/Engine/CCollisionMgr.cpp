@@ -21,6 +21,10 @@ CCollisionMgr::~CCollisionMgr()
 
 void CCollisionMgr::tick()
 {
+	LEVEL_STATE eState = CLevelMgr::GetInst()->GetCurLevel()->GetState();
+	if (eState == LEVEL_STATE::STOP || eState == LEVEL_STATE::PAUSE)
+		return;
+
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 
 	for (int iRow = 0; iRow < MAX_LAYER; ++iRow)

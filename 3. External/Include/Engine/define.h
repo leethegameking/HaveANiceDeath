@@ -5,6 +5,7 @@ typedef Vector3 Vec3;
 typedef Vector4 Vec4;
 
 #define DT CTimeMgr::GetInst()->GetDeltaTime()
+#define Edit_DT CTimeMgr::GetInst()->GetEditorDeltaTime()
 
 #define DEVICE CDevice::GetInst()->GetDevice()
 #define CONTEXT CDevice::GetInst()->GetContext()

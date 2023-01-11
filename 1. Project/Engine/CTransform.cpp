@@ -92,7 +92,7 @@ void CTransform::finaltick()
 		m_vWorldDir[(UINT)DIR::UP]	  = XMVector3TransformNormal(Vec3(0.f, 1.f, 0.f), m_matWorld);
 		m_vWorldDir[(UINT)DIR::FRONT] = XMVector3TransformNormal(Vec3(0.f, 0.f, 1.f), m_matWorld);
 
-		// 회전, 크기 변환이 이루어졌기 때문에 변경된 크기를 초기화 하기 위해 Normalize 해준다.ㄴㄴ
+		// 회전, 크기 변환이 이루어졌기 때문에 변경된 크기를 초기화 하기 위해 Normalize 해준다.
 		m_vWorldDir[(UINT)DIR::RIGHT].Normalize();
 		m_vWorldDir[(UINT)DIR::UP].Normalize();
 		m_vWorldDir[(UINT)DIR::FRONT].Normalize();
@@ -133,9 +133,49 @@ void CTransform::LoadFromFile(FILE* _File)
 }
 
 
-void CTransform::SetRelativePosWorld(Vec3 _vPos)
+void CTransform::SetWorldPos(Vec3 _vPos)
 {
+	CGameObject* pParent = GetOwner()->GetParent();
+	Vec3 vSumScale = Vec3(1.f, 1.f, 1.f);
+	Vec3 vRelativeDist = _vPos;
+	if (!m_bIgnParentScale)
+	{
+		while (pParent)
+		{
+			Vec3 pParentScale = pParent->Transform()->GetRelativeScale();
+			vSumScale *= pParentScale;
 
+			pParent = pParent->GetParent();
+			if (!pParent || pParent->Transform()->IsIgnoreParentScale())
+				pParent = nullptr;
+		}
+
+		pParent = GetOwner()->GetParent();
+		if (pParent)
+		{
+			vRelativeDist = _vPos - pParent->Transform()->GetWorldPos();
+		}
+	}
+	SetRelativePos(vRelativeDist / vSumScale);
+}
+
+void CTransform::AddWorldPos(Vec3 _vPos)
+{
+	CGameObject* pParent = GetOwner()->GetParent();
+	Vec3 vSumScale = Vec3(1.f,1.f,1.f);
+	if (!m_bIgnParentScale)
+	{
+		while (pParent)
+		{
+			Vec3 pParentScale = pParent->Transform()->GetRelativeScale();
+			vSumScale *= pParentScale;
+
+			pParent = pParent->GetParent();
+			if (!pParent || pParent->Transform()->IsIgnoreParentScale())
+				pParent = nullptr;
+		}	
+	}
+	AddRelativePos(_vPos / vSumScale);
 }
 
 Vec3 CTransform::GetWorldScale()
@@ -159,4 +199,17 @@ Vec3 CTransform::GetWorldScale()
 	}
 
 	return vWorldScale;
+}
+
+Vec3 CTransform::GetWorldRotation()
+{
+	Vec3 vWorldRot = m_vRelativeRotation;
+
+	CGameObject* pParent = GetOwner()->GetParent();
+	while (pParent)
+	{
+		vWorldRot *= pParent->Transform()->GetRelativeRotation();
+		pParent = pParent->GetParent();
+	}
+	return vWorldRot;
 }

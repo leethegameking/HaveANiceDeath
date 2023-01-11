@@ -41,6 +41,7 @@ InspectorUI::InspectorUI()
 	: UI("Inspector")
 	, m_TargetObj(nullptr)
 	, m_arrComUI{}
+	, m_bSelectObjDebugDraw(true)
 {
 	m_arrComUI[(UINT)COMPONENT_TYPE::TRANSFORM] = new TransformUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::TRANSFORM]->SetSize(ImVec2(0.f, 150.f));
@@ -195,6 +196,9 @@ void InspectorUI::update()
 			m_ComboLayer->init_not_res(vecLayerName, 0);
 	}
 
+	if (KEY_PRESSED(KEY::LCTRL) && KEY_TAP(KEY::N_7))
+		m_bSelectObjDebugDraw = !m_bSelectObjDebugDraw;
+
 	UI::update();
 }
 
@@ -233,6 +237,16 @@ void InspectorUI::last_render()
 		ImGui::Text("Add Script    ");
 		ImGui::SameLine();
 		m_ScriptComboBox->render_update();
+	}
+
+	// DebugDraw 출력
+	if (m_bSelectObjDebugDraw)
+	{
+		if (!m_TargetRes.Get() && m_TargetObj)
+		{
+			DebugDrawRect(Vec4(1.0f, 0.f, 1.0f, 1.f), m_TargetObj->Transform()->GetWorldPos(), m_TargetObj->Transform()->GetWorldScale() - Vec3(5.f, 5.f, 0.f), m_TargetObj->Transform()->GetWorldRotation());
+			DebugDrawRect(Vec4(1.0f, 0.f, 1.0f, 1.f), m_TargetObj->Transform()->GetWorldPos(), m_TargetObj->Transform()->GetWorldScale() + Vec3(5.f, 5.f, 0.f), m_TargetObj->Transform()->GetWorldRotation());
+		}
 	}
 }
 
