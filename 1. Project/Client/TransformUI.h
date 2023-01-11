@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "ComponentUI.h"
 
 class CGameObject;
@@ -10,6 +10,10 @@ private:
     Vec3 m_vPos;
     Vec3 m_vScale;
     Vec3 m_vRot;
+
+    Vec3 m_vWorldPos;
+    Vec3 m_vWorldScale;
+    Vec3 m_vWorldRot;
 
     bool m_bIgnScale;
     bool m_bMove;

@@ -42,6 +42,9 @@ void TransformUI::render_update()
 		m_vPos = GetTarget()->Transform()->GetRelativePos();
 		m_vScale = GetTarget()->Transform()->GetRelativeScale();
 		m_vRot = GetTarget()->Transform()->GetRelativeRotation();
+		m_vWorldPos = GetTarget()->Transform()->GetWorldPos();
+		m_vWorldRot = GetTarget()->Transform()->GetWorldRotation();
+		m_vWorldScale = GetTarget()->Transform()->GetWorldScale();
 
 		m_bIgnScale = GetTarget()->Transform()->IsIgnoreParentScale();
 	}
@@ -52,14 +55,13 @@ void TransformUI::render_update()
 	// 값 표시
 	ImGui::Text("Position"); ImGui::SameLine(); ImGui::InputFloat3("##Position", m_vPos);
 	ImGui::Text("Scale   "); ImGui::SameLine(); ImGui::InputFloat3("##Scale", m_vScale);
-
 	m_vRot.ToDegree();
 	ImGui::Text("Rotation"); ImGui::SameLine(); ImGui::InputFloat3("##Rotation", m_vRot);
-	ImGui::Text("World - Position"); ImGui::SameLine(); ImGui::InputFloat3("##PositionWorld", GetTarget()->Transform()->GetWorldPos());
-	ImGui::Text("World - Scale   "); ImGui::SameLine(); ImGui::InputFloat3("##ScaleWorld", GetTarget()->Transform()->GetWorldScale());
 
-	m_vRot.ToDegree();
-	ImGui::Text("World - Rotation"); ImGui::SameLine(); ImGui::InputFloat3("##RotationWorld", GetTarget()->Transform()->GetWorldRotation());
+	ImGui::Text("World - Position"); ImGui::SameLine(); ImGui::InputFloat3("##PositionWorld", m_vWorldPos);
+	ImGui::Text("World - Scale   "); ImGui::SameLine(); ImGui::InputFloat3("##ScaleWorld", m_vWorldScale);
+	m_vWorldRot.ToDegree();
+	ImGui::Text("World - Rotation"); ImGui::SameLine(); ImGui::InputFloat3("##RotationWorld", m_vWorldRot);
 
 	ImGui::Text("Ignore Parent Scale"); ImGui::SameLine(); ImGui::Checkbox("##IgnParentScaele", &m_bIgnScale);
 
