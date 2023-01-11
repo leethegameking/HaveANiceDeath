@@ -178,6 +178,44 @@ void CTransform::AddWorldPos(Vec3 _vPos)
 	AddRelativePos(_vPos / vSumScale);
 }
 
+void CTransform::SetWorldScale(Vec3 _vScale)
+{
+	CGameObject* pParent = GetOwner()->GetParent();
+	Vec3 vSumScale = Vec3(1.f, 1.f, 1.f);
+	if (!m_bIgnParentScale)
+	{
+		while (pParent)
+		{
+			Vec3 pParentScale = pParent->Transform()->GetRelativeScale();
+			vSumScale *= pParentScale;
+
+			pParent = pParent->GetParent();
+			if (!pParent || pParent->Transform()->IsIgnoreParentScale())
+				pParent = nullptr;
+		}
+	}
+	SetRelativeScale(_vScale / vSumScale);
+}
+
+void CTransform::AddWorldScale(Vec3 _vAddScale)
+{
+	CGameObject* pParent = GetOwner()->GetParent();
+	Vec3 vSumScale = Vec3(1.f, 1.f, 1.f);
+	if (!m_bIgnParentScale)
+	{
+		while (pParent)
+		{
+			Vec3 pParentScale = pParent->Transform()->GetRelativeScale();
+			vSumScale *= pParentScale;
+
+			pParent = pParent->GetParent();
+			if (!pParent || pParent->Transform()->IsIgnoreParentScale())
+				pParent = nullptr;
+		}
+	}
+	AddRelativeScale(_vAddScale / vSumScale);
+}
+
 Vec3 CTransform::GetWorldScale()
 {
 	// 위쪽으로 모든 부모의 크기값을 누적해서 역행렬을 만들어 둔다.	

@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CKeyMgr.h"
 
 #include "CEngine.h"
@@ -85,6 +85,19 @@ Vec2 CKeyMgr::GetMouseDirectXPos()
 	return MouseWinPos;
 }
 
+#include "CRenderMgr.h"
+#include "CTransform.h"
+#include "CCamera.h"
+Vec2 CKeyMgr::GetMouseWorldPos()
+{
+	CCamera* pMainCam = CRenderMgr::GetInst()->GetMainCam();
+	Vec3 vCamPos = pMainCam->Transform()->GetWorldPos();
+	float vCamScale = pMainCam->GetOrthographicScale();
+	Vec2 vDXMousePos = GetMouseDirectXPos();
+
+	return vCamPos + vDXMousePos * vCamScale;
+}
+
 CKeyMgr::CKeyMgr()
 {
 
@@ -113,10 +126,10 @@ void CKeyMgr::tick()
 	{
 		for (UINT i = 0; i < (UINT)KEY::END; ++i)
 		{
-			// ÇØ´çÅ°°¡ ÇöÀç ´­·ÁÀÖ´Ù.
+			// í•´ë‹¹í‚¤ê°€ í˜„ìž¬ ëˆŒë ¤ìžˆë‹¤.
 			if (GetAsyncKeyState(vkarr[i]) & 0x8000)
 			{
-				// ÀÌÀü ÇÁ·¹ÀÓ¿¡µµ ´­·Á ÀÖ¾ú´Ù.
+				// ì´ì „ í”„ë ˆìž„ì—ë„ ëˆŒë ¤ ìžˆì—ˆë‹¤.
 				if (m_vecKey[i].bPrevPress)
 				{
 					m_vecKey[i].eState = KEY_STATE::PRESS;
@@ -129,16 +142,16 @@ void CKeyMgr::tick()
 				m_vecKey[i].bPrevPress = true;
 			}
 
-			// ÇØ´çÅ°°¡ ÇöÀç ¾È´­·ÁÀÖ´Ù.
+			// í•´ë‹¹í‚¤ê°€ í˜„ìž¬ ì•ˆëˆŒë ¤ìžˆë‹¤.
 			else
 			{
-				// ÀÌÀü ÇÁ·¹ÀÓ¿¡´Â ´­·Á ÀÖ¾ú´Ù.
+				// ì´ì „ í”„ë ˆìž„ì—ëŠ” ëˆŒë ¤ ìžˆì—ˆë‹¤.
 				if (m_vecKey[i].bPrevPress)
 				{
 					m_vecKey[i].eState = KEY_STATE::RELEASE;
 				}
 
-				// ÀÌÀü ÇÁ·¹ÀÓ¿¡µµ ¾È´­·Á ÀÖ¾ú´Ù.
+				// ì´ì „ í”„ë ˆìž„ì—ë„ ì•ˆëˆŒë ¤ ìžˆì—ˆë‹¤.
 				else
 				{
 					m_vecKey[i].eState = KEY_STATE::NONE;
@@ -156,7 +169,7 @@ void CKeyMgr::tick()
 		m_vMousePos.x = (float)ptMouse.x;
 		m_vMousePos.y = (float)ptMouse.y;
 
-		// ÀÌÀü ¸¶¿ì½º À§Ä¡¿Í ÇöÀç ¸¶¿ì½º À§Ä¡¸¦ °è»ê
+		// ì´ì „ ë§ˆìš°ìŠ¤ ìœ„ì¹˜ì™€ í˜„ìž¬ ë§ˆìš°ìŠ¤ ìœ„ì¹˜ë¥¼ ê³„ì‚°
 		m_vMouseDir = Vec2(m_vMousePos.x - m_vPrevMousePos.x, m_vMousePos.y - m_vPrevMousePos.y);
 		m_vMouseDir.y *= -1.f;
 

@@ -18,7 +18,11 @@ private:
 
 public:
 	// Relative를 역계산
+	void SetWorldPos(Vec3 _vPos);
 	void AddWorldPos(Vec3 _vPos);
+
+	void SetWorldScale(Vec3 _vScale);
+	void AddWorldScale(Vec3 _vAddScale);
 
 	void SetRelativePos(Vec3 _vPos) { m_vRelativePos = _vPos; }
 	void SetRelativeScale(Vec3 _vScale) { m_vRelativeScale = _vScale; }
@@ -49,6 +53,7 @@ public:
 
 public:
 	void AddRelativePos(Vec3 _add) { m_vRelativePos += _add; }
+	void AddRelativeScale(Vec3 _add) { m_vRelativeScale += _add; }
 
 public:
 	virtual void tick() override;

@@ -91,16 +91,46 @@ void TransformUI::render_update()
 	Vec3 vWorldPos = GetTarget()->Transform()->GetWorldPos();
 
 
-	// Tile Pressed
-	if (KEY_PRESSED(KEY::LBTN) && m_bMove/*&&
+	/*&&
 		vWorldPos.x + vWorldScale.x / 2.f > (vMouseDirectXPos.x * vCamScale + vCamPos.x)  &&
 		vWorldPos.x - vWorldScale.x / 2.f < (vMouseDirectXPos.x * vCamScale + vCamPos.x)  &&
 		vWorldPos.y + vWorldScale.y / 2.f > (vMouseDirectXPos.y * vCamScale + vCamPos.y)  &&
-		vWorldPos.y - vWorldScale.y / 2.f < (vMouseDirectXPos.y * vCamScale + vCamPos.y)*/  )
+		vWorldPos.y - vWorldScale.y / 2.f < (vMouseDirectXPos.y * vCamScale + vCamPos.y)*/
+	// Tile Pressed
+	if (KEY_PRESSED(KEY::LBTN) && m_bMove && CDevice::GetInst()->IsWindowFocused())
 	{
 		Vec2 vMouseDir = CKeyMgr::GetInst()->GetMouseDir();
+		Vec2 vDXMousePos = CKeyMgr::GetInst()->GetMouseDirectXPos();
 		Vec3 vTargetPos = GetTarget()->Transform()->GetRelativePos();
-		GetTarget()->Transform()->AddWorldPos(Vec3(vMouseDir.x * vCamScale, vMouseDir.y * vCamScale, vTargetPos.z ));
+		Vec3 vTargetWorldPos = GetTarget()->Transform()->GetWorldPos();
+		if (KEY_PRESSED(KEY::LCTRL))
+		{
+			if (CKeyMgr::GetInst()->GetMouseWorldPos().x <= vTargetWorldPos.x)
+			{
+				GetTarget()->Transform()->AddWorldScale(Vec3( -vMouseDir.x * vCamScale, 0.f, 0.f));
+			}
+			else
+			{
+				GetTarget()->Transform()->AddWorldScale(Vec3( vMouseDir.x * vCamScale, 0.f, 0.f));
+			}
+			GetTarget()->Transform()->AddWorldPos(Vec3(vMouseDir.x * vCamScale / 2.f, 0.f, 0.f));
+		}
+		else if (KEY_PRESSED(KEY::LALT))
+		{
+			if (CKeyMgr::GetInst()->GetMouseWorldPos().y <= vTargetWorldPos.y)
+			{
+				GetTarget()->Transform()->AddWorldScale(Vec3(0.f, -vMouseDir.y * vCamScale, 0.f));
+			}
+			else
+			{
+				GetTarget()->Transform()->AddWorldScale(Vec3(0.f, vMouseDir.y * vCamScale, 0.f));
+			}
+			GetTarget()->Transform()->AddWorldPos(Vec3(0.f, vMouseDir.y * vCamScale / 2.f, 0.f));
+		}
+		else
+		{
+			GetTarget()->Transform()->AddWorldPos(Vec3(vMouseDir.x * vCamScale, vMouseDir.y * vCamScale, vTargetPos.z));
+		}
 	}
 }
 
