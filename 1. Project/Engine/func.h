@@ -8,9 +8,10 @@ enum BIT_FUNC_OPT
 	BIT_LEAST_ONE,
 	BIT_EQUAL,
 	BIT_INCLUDE,
+	BIT_EQUAL_SELECTED_BIT,
 };
 
-bool CalBit(UINT _originBit, UINT _cmpBits, BIT_FUNC_OPT _opt);
+bool CalBit(UINT _originBit, UINT _cmpBits, BIT_FUNC_OPT _opt, UINT _CompareBit = 0);
 
 void AddBit(UINT& _src, UINT _add);
 void RemoveBit(UINT& _src, UINT _remove);

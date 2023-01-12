@@ -24,7 +24,7 @@ wstring GetNameFromPath(const wstring& _strPath)
 	return strName;
 }
 
-bool CalBit(UINT _originBit, UINT _cmpBits, BIT_FUNC_OPT _opt)
+bool CalBit(UINT _originBit, UINT _cmpBits, BIT_FUNC_OPT _opt, UINT _CompareBit)
 {
 	switch (_opt)
 	{
@@ -38,7 +38,7 @@ bool CalBit(UINT _originBit, UINT _cmpBits, BIT_FUNC_OPT _opt)
 
 	case BIT_EQUAL:
 	{
-		if (_originBit - _cmpBits == 0)
+		if (_originBit == _cmpBits)
 			return true;
 		return false;
 	}
@@ -52,7 +52,16 @@ bool CalBit(UINT _originBit, UINT _cmpBits, BIT_FUNC_OPT _opt)
 	}
 		break;
 
+	case BIT_EQUAL_SELECTED_BIT:
+	{
+		RemoveBit(_cmpBits, ~_CompareBit);
+		RemoveBit(_originBit, ~_CompareBit);
 
+		if (_originBit == _cmpBits)
+			return true;
+		return false;
+	}
+		break;
 	}
 }
 

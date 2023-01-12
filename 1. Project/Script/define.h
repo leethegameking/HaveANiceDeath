@@ -69,6 +69,8 @@ enum ANIM_CONDITION
     CAN_DASH                = 0x00002000,
     HP_DOWN                 = 0x00004000,
     HP_ZERO                 = 0x00008000,
+    CAN_JUMP_ATTACK         = 0x00010000,
+    KEY_W                   = 0x00020000,
 };
 
 enum UNIT_STATE

@@ -7,6 +7,17 @@
 
 CControllerScript::CControllerScript()
 	: CScript((UINT)SCRIPT_TYPE::CONTROLLERSCRIPT)
+	, m_fAccTime(0.f)
+{
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "SpeedX     ", &m_fSpeedX);
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "Jump Speed ", &m_fJumpSpeed);
+}
+
+CControllerScript::CControllerScript(const CControllerScript& _origin)
+	: CScript(_origin)
+	, m_fSpeedX(_origin.m_fSpeedX)
+	, m_fJumpSpeed(_origin.m_fJumpSpeed)
+	, m_fAccTime(0.f)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "SpeedX     ", &m_fSpeedX);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Jump Speed ", &m_fJumpSpeed);
@@ -44,17 +55,17 @@ void CControllerScript::tick()
 				Rigidbody2D()->SetForceSpeedY(m_fJumpSpeed);
 			}
 		}
-		// 아랫 점프
+		// down jump
 		else
 		{
 			if (Rigidbody2D()->IsGround())
 			{
 				CUnitScript* pUnitScript = GetOwner()->GetScript<CUnitScript>();
-				if (pUnitScript && CalBit(pUnitScript->GetUnitState(), UNIT_GROUND_PLATFORM, BIT_LEAST_ONE))
+				if (pUnitScript && CalBit(UNIT_GROUND_PLATFORM, pUnitScript->GetUnitState(), BIT_EQUAL_SELECTED_BIT, UNIT_GROUND | UNIT_GROUND_PLATFORM))
 				{
 					Rigidbody2D()->SetGround(false);
 
-					pUnitScript->RemoveUnitState(UNIT_GROUND_PLATFORM | UNIT_GROUND);
+					pUnitScript->RemoveUnitState( UNIT_GROUND_PLATFORM );
 				}
 			}
 		}

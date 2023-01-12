@@ -8,24 +8,28 @@
 #define ObjScale g_v3Scale
 
 #define TextureIdx g_int_0
+#define ColorCoeffi g_float_0
 
 // Texture 
 #define CornerInside    0 // g_tex_0
 #define CornerOutside   1 // g_tex_1
 #define CornerOrnements 2 // g_tex_2
 #define BlockBorder     3 // g_tex_3
+#define PlatformShort   4
+#define PlatformMedium  5
+#define PlatformLong    6
+
 
 #define CornerInsideTex      g_tex_0
 #define CornerOutsideTex     g_tex_1
 #define CornerOrnementsTex   g_tex_2
 #define BlockBorderTex       g_tex_3
+#define PlatformShortTex     g_tex_4
+#define PlatformMediumTex    g_tex_5
+#define PlatformLongTex      g_tex_6
 
 
 
-
-
-
-// HLSL 로 VertexShader 작성하기
 struct VTX_IN
 {
     float3 vPos : POSITION;
@@ -72,10 +76,6 @@ float4 PS_Block_Outer(VTX_OUT _in) : SV_Target
             vOutColor = CornerOrnementsTex.Sample(g_sam_0, _in.vUV);
             break;
         
-        case BlockBorder:
-            vOutColor = BlockBorderTex.Sample(g_sam_0, _in.vUV);
-            break;
-        
         default:
             break;
     }
@@ -87,14 +87,14 @@ float4 PS_Block_Outer_Alpha(VTX_OUT _in) : SV_Target
 {
     float4 vOutColor = float4(1.f, 0.f, 1.f, 1.f);
     
-
-    
-    
     //Texture2D sampleTex;
     switch (TextureIdx)
     {
         case CornerInside:
-            vOutColor = CornerInsideTex.Sample(g_sam_0, _in.vUV);
+        {            
+                vOutColor = CornerInsideTex.Sample(g_sam_0, _in.vUV);
+                vOutColor.xyz *= ColorCoeffi;
+            }
             break;
         
         case CornerOutside:
@@ -105,7 +105,6 @@ float4 PS_Block_Outer_Alpha(VTX_OUT _in) : SV_Target
             vOutColor = CornerOrnementsTex.Sample(g_sam_0, _in.vUV);
             break;
         
-        // 크기 줄여줌
         case BlockBorder:
         {
             float2 fBlockScale = float2(500.f, 50.f);
@@ -125,11 +124,22 @@ float4 PS_Block_Outer_Alpha(VTX_OUT _in) : SV_Target
         }
             break;
         
+        case PlatformShort:
+            vOutColor = PlatformShortTex.Sample(g_sam_0, _in.vUV);
+            break;
+        
+        case PlatformMedium:
+            vOutColor = PlatformMediumTex.Sample(g_sam_0, _in.vUV);
+            break;
+        
+        case PlatformLong:
+            vOutColor = PlatformLongTex.Sample(g_sam_0, _in.vUV);
+            break;
+       
         default:
             break;
     }
     
-    // 광원 처리
     tLightColor color = (tLightColor) 0.f;
     
     for (int i = 0; i < g_iLight2DCount; ++i)
@@ -142,8 +152,6 @@ float4 PS_Block_Outer_Alpha(VTX_OUT _in) : SV_Target
    
     return vOutColor;
 }
-
-
 
 #endif
 

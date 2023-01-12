@@ -26,7 +26,7 @@ CEnemyScript::CEnemyScript(int _iScriptType)
 
 CEnemyScript::CEnemyScript(const CEnemyScript& _origin)
 	: CUnitScript(_origin)
-	, m_pProjectile(nullptr)
+	, m_pProjectile(_origin.m_pProjectile)
 	, m_eCurPattern(0)
 	, m_ePrevPattern(-1)
 	, m_fAppearRadius(700.f)
@@ -37,6 +37,7 @@ CEnemyScript::CEnemyScript(const CEnemyScript& _origin)
 	, m_bUturn(false)
 	, m_bDeath(false)
 {
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "Projectile", &m_pProjectile);
 }
 
 CEnemyScript::~CEnemyScript()

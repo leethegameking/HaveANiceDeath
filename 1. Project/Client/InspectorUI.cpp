@@ -436,7 +436,7 @@ void InspectorUI::AddScript(DWORD_PTR _idx)
 
 void InspectorUI::SetLayer(DWORD_PTR _idx)
 {
-	if (m_TargetRes->GetResType() == RES_TYPE::PREFAB)
+	if (m_TargetRes.Get() && m_TargetRes->GetResType() == RES_TYPE::PREFAB)
 	{
 		m_TargetObj->SetLayerIdx((int)_idx);
 	}

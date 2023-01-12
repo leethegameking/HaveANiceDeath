@@ -17,6 +17,7 @@ CAnimController::CAnimController()
 	, m_pTmpSaveNode(nullptr)
 	, m_pNextNode(nullptr)
 	, m_bDirChanging(false)
+	, m_bJumpAttackUsed(false)
 	, m_eNextDir(ANIM_DIR::END)
 {
 }
@@ -36,6 +37,7 @@ CAnimController::CAnimController(int _ScriptType)
 	, m_pNextNode(nullptr)
 	, m_bDirChanging(false)
 	, m_eNextDir(ANIM_DIR::END)
+	, m_bJumpAttackUsed(false)
 	, m_bCanDash(true)
 {
 }
@@ -96,6 +98,7 @@ void CAnimController::SetCondBit()
 	{
 		m_bGround = true;
 		AddBit(m_pCurAnimNode->iCond, GROUND);
+		m_bJumpAttackUsed = false;
 	}
 	else
 	{
@@ -200,6 +203,20 @@ void CAnimController::SetCondBit()
 	{
 		m_pUnitScr->RemoveUnitState(UNIT_HP_ZERO);
 		AddBit(m_pCurAnimNode->iCond, HP_ZERO);
+	}
+
+	// CAN_JUMP_ATTACK
+	if(!m_bJumpAttackUsed)
+		AddBit(m_pCurAnimNode->iCond, CAN_JUMP_ATTACK);
+
+	if (KEY_PRESSED(KEY::W))
+		AddBit(m_pCurAnimNode->iCond, KEY_W);
+
+	if (!m_bJumpAttackUsed && KEY_PRESSED(KEY::W) && KEY_TAP(KEY::LBTN))
+	{
+		Rigidbody2D()->SetGround(false);
+		Rigidbody2D()->ResetSpeedY();
+		m_bJumpAttackUsed = true;
 	}
 }
 

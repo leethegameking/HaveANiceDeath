@@ -12,7 +12,7 @@ CUnitScript::CUnitScript(int _ScriptType)
 	: CScript(_ScriptType)
 	, m_CurUnitInfo{}
 	, m_pAnimCon(nullptr)
-	, m_bGroundObj(nullptr)
+	, m_vecGroundObj{}
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "HP    ", &m_CurUnitInfo.m_fHP);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "MP    ", &m_CurUnitInfo.m_fMP);
@@ -26,8 +26,13 @@ CUnitScript::CUnitScript(const CUnitScript& _origin)
 	, m_CurUnitInfo(_origin.m_CurUnitInfo)
 	, m_PrevUnitInfo{}
 	, m_pAnimCon(nullptr)
-	, m_bGroundObj(nullptr)
+	, m_vecGroundObj{}
 {
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "HP    ", &m_CurUnitInfo.m_fHP);
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "MP    ", &m_CurUnitInfo.m_fMP);
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "Att   ", &m_CurUnitInfo.m_fAtt);
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "Def   ", &m_CurUnitInfo.m_fDef);
+	AddScriptParam(SCRIPT_PARAM::INT, "State ", &m_CurUnitInfo.m_iStateBits);
 }
 
 CUnitScript::~CUnitScript()
@@ -83,6 +88,21 @@ void CUnitScript::SaveToFile(FILE* _pFile)
 void CUnitScript::LoadFromFile(FILE* _pFile)
 {
 	CScript::LoadFromFile(_pFile);
+}
+
+void CUnitScript::PushGroundObj(CGameObject* _pObj)
+{
+	m_vecGroundObj.push_back(_pObj); 
+}
+
+void CUnitScript::SetGroundObj(CGameObject* _pObj, int _idx)
+{
+	m_vecGroundObj[_idx] = _pObj;
+}
+
+vector<CGameObject*>& CUnitScript::GetGroundObjVec()
+{
+	return m_vecGroundObj;
 }
 
 void CUnitScript::KnockBackProgress()

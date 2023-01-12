@@ -155,6 +155,9 @@
     <Filter Include="03. UI\01. Inspector\ResUI\PrefabUI">
       <UniqueIdentifier>{5af4c3e1-1299-4090-af16-401196d704c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05. ObjectFinder">
+      <UniqueIdentifier>{780c5725-3a49-49a6-ba76-3ba515ed3eb7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -336,6 +339,9 @@
     </ClInclude>
     <ClInclude Include="PrefabUI.h">
       <Filter>03. UI\01. Inspector\ResUI\PrefabUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CObjectFinder.h">
+      <Filter>05. ObjectFinder</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -523,6 +529,9 @@
     </ClCompile>
     <ClCompile Include="PrefabUI.cpp">
       <Filter>03. UI\01. Inspector\ResUI\PrefabUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CObjectFinder.cpp">
+      <Filter>05. ObjectFinder</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

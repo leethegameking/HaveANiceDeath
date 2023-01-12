@@ -76,11 +76,15 @@ void CResMgr::CreateBlockOuterShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_BLOCK);
 
 	pShader->AddScalarParam(INT_0, "Texture Selection");
+	pShader->AddScalarParam(FLOAT_0, "Color Coeffi");
 
 	pShader->AddTexParam(TEX_0, " CornerInside   ");
 	pShader->AddTexParam(TEX_1, " CornerOutside  ");
 	pShader->AddTexParam(TEX_2, " CornerOrnements");
 	pShader->AddTexParam(TEX_3, " BlockBorder    ");
+	pShader->AddTexParam(TEX_4, " PlatformShort  ");
+	pShader->AddTexParam(TEX_5, " PlatformMedium ");
+	pShader->AddTexParam(TEX_6, " PlatformLong   ");
 
 	pShader->SetEngineRes();
 	AddRes<CGraphicsShader>(L"BlockOuterShaderAlpha", pShader);

@@ -38,7 +38,7 @@ protected:
     CAnimController* m_pAnimCon;
     tKnockBack       m_tKnockBack;
     
-    CGameObject* m_bGroundObj;
+    vector<CGameObject*> m_vecGroundObj;
 
 public:
     tUnitInfo& GetUnitInfo() { return m_CurUnitInfo; }
@@ -47,8 +47,9 @@ public:
     void RemoveUnitState(UINT _Statebit) { m_CurUnitInfo.m_iStateBits &= ~_Statebit; }
     void AddUnitState(UINT _StateBits) { AddBit(m_CurUnitInfo.m_iStateBits, _StateBits); }
 
-    void SetGroundObj(CGameObject* _pObj) { m_bGroundObj = _pObj; }
-    CGameObject* GetGroundObj() { return m_bGroundObj; }
+    void PushGroundObj(CGameObject* _pObj);             
+    void SetGroundObj(CGameObject* _pObj, int _idx);    
+    vector<CGameObject*>& GetGroundObjVec();            
 
     void SetKnockBack(tKnockBack _tKnockback) { m_tKnockBack = _tKnockback; }
 

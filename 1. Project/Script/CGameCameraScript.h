@@ -4,6 +4,7 @@ class CGameCameraScript :
     public CScript
 {
 private:
+    CGameObject* m_pPlayer;
     float m_fCamSpeed;
 
 public:
@@ -21,6 +22,7 @@ public:
 
 public:
     CGameCameraScript();
+    CGameCameraScript(const CGameCameraScript& _origin);
     ~CGameCameraScript();
 };
 

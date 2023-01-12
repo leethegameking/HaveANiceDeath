@@ -84,8 +84,8 @@ void CEditor::progress()
 		render();
 	}
 
-	if(m_bDebugDrawRender)
-		render_debug();
+
+	render_debug();
 }
 
 void CEditor::tick()
@@ -119,13 +119,14 @@ void CEditor::render_debug()
 	for (; iter != m_DebugDrawList.end(); )
 	{
 		iter->fCurTime += DT;
-		if (iter->fDuration < iter->fCurTime)
+		if (iter->fDuration <= iter->fCurTime)
 		{
 			iter = m_DebugDrawList.erase(iter);
 		}
 		else
 		{
-			DebugDraw(*iter);
+			if (m_bDebugDrawRender)
+				DebugDraw(*iter);
 			++iter;
 		}
 	}
@@ -135,7 +136,8 @@ void CEditor::render_debug()
 
 	for (size_t i = 0; i < vecInfo.size(); ++i)
 	{
-		DebugDraw(vecInfo[i]);
+		if (m_bDebugDrawRender)
+			DebugDraw(vecInfo[i]);
 
 		if (0.f < vecInfo[i].fDuration)
 		{

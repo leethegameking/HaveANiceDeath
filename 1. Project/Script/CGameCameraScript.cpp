@@ -2,11 +2,21 @@
 #include "CGameCameraScript.h"
 
 #include <Engine/CDevice.h>
+#include "CPlayerMgr.h"
 
 // == ÇÑ±¹¾î
 CGameCameraScript::CGameCameraScript()
 	: CScript(GAMECAMERASCRIPT)
 	, m_fCamSpeed(100.f)
+	, m_pPlayer(nullptr)
+{
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "Cam Speed ", &m_fCamSpeed);
+}
+
+CGameCameraScript::CGameCameraScript(const CGameCameraScript& _origin)
+	: CScript(_origin)
+	, m_fCamSpeed(100.f)
+	, m_pPlayer(nullptr)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Cam Speed ", &m_fCamSpeed);
 }
@@ -17,35 +27,47 @@ CGameCameraScript::~CGameCameraScript()
 
 void CGameCameraScript::tick()
 {
-	if (!CDevice::GetInst()->IsWindowFocused())
-		return;
+	if(!m_pPlayer)
+		m_pPlayer = CPlayerMgr::GetInst()->GetPlayerObj();
+	else
+	{
+		Vec3 vPlayerPos = m_pPlayer->Transform()->GetRelativePos();
+		vPlayerPos.y += 150.f;
 
-	Vec3 vCamPos = Transform()->GetRelativePos();
-	float fCamSpeed = m_fCamSpeed;
-
-	if (KEY_PRESSED(KEY::LSHIFT))
-	{
-		fCamSpeed *= 5.f;
-	}
-
-	if (KEY_PRESSED(KEY::W) && KEY_PRESSED(KEY::LCTRL))
-	{
-		vCamPos.y += fCamSpeed * DT;
-	}
-	if (KEY_PRESSED(KEY::S) && KEY_PRESSED(KEY::LCTRL))
-	{
-		vCamPos.y -= fCamSpeed * DT;
-	}
-	if (KEY_PRESSED(KEY::A) && KEY_PRESSED(KEY::LCTRL))
-	{
-		vCamPos.x -= fCamSpeed * DT;
-	}
-	if (KEY_PRESSED(KEY::D) && KEY_PRESSED(KEY::LCTRL))
-	{
-		vCamPos.x += fCamSpeed * DT;
+		Transform()->SetRelativePos(vPlayerPos);
 	}
 
-	Transform()->SetRelativePos(vCamPos);
+	
+
+	//if (!CDevice::GetInst()->IsWindowFocused())
+	//	return;
+
+	//Vec3 vCamPos = Transform()->GetRelativePos();
+	//float fCamSpeed = m_fCamSpeed;
+
+	//if (KEY_PRESSED(KEY::LSHIFT))
+	//{
+	//	fCamSpeed *= 5.f;
+	//}
+
+	//if (KEY_PRESSED(KEY::W) && KEY_PRESSED(KEY::LCTRL))
+	//{
+	//	vCamPos.y += fCamSpeed * DT;
+	//}
+	//if (KEY_PRESSED(KEY::S) && KEY_PRESSED(KEY::LCTRL))
+	//{
+	//	vCamPos.y -= fCamSpeed * DT;
+	//}
+	//if (KEY_PRESSED(KEY::A) && KEY_PRESSED(KEY::LCTRL))
+	//{
+	//	vCamPos.x -= fCamSpeed * DT;
+	//}
+	//if (KEY_PRESSED(KEY::D) && KEY_PRESSED(KEY::LCTRL))
+	//{
+	//	vCamPos.x += fCamSpeed * DT;
+	//}
+
+	//Transform()->SetRelativePos(vCamPos);
 }
 
 void CGameCameraScript::SaveToFile(FILE* _pFile)

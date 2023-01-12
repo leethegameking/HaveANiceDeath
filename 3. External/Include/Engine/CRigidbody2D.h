@@ -77,6 +77,7 @@ public:
 
     bool GetIgnGravity() { return m_bIgnoreGravity; }
     void SetIgnGravity(bool _b) { m_bIgnoreGravity = _b; }
+    void ResetSpeedY() { m_vSpeed.y = 0.f; }
 
     short GetDir() { return m_sDir; }
 

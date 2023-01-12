@@ -10,6 +10,7 @@
 #include "MenuUI.h"
 #include "ScriptUI.h"
 #include "InputTextUI.h"
+#include "CObjectFinder.h"
 
 CImGuiMgr::CImGuiMgr()
 {
@@ -80,6 +81,11 @@ void CImGuiMgr::progress()
     // ID 초기화
     ParamUI::ParamCount = 0;
     // ScriptUI::ID = 0;
+
+
+    // ObjectFinder
+    if(KEY_PRESSED(KEY::Z) && KEY_TAP(KEY::LBTN))
+        CObjectFinder::FindAndSetObject();
 
     // 추가된 부분
     {

@@ -89,6 +89,7 @@ protected:
     float           m_fPrevSpeed;
 
     bool            m_bCanDash;
+    bool            m_bJumpAttackUsed;
 
     vector<tAnimNode*> m_vecAnyStateNode;
 private:

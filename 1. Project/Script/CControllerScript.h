@@ -32,6 +32,7 @@ public:
     CLONE(CControllerScript)
 public:
     CControllerScript();
+    CControllerScript(const CControllerScript& _origin);
     ~CControllerScript();
 };
 

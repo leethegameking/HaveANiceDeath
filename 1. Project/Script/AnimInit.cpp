@@ -160,6 +160,10 @@ void CAnimController::CreatePlayerAnimCon()
 	PushTranNode(animation\\player\\PlayerIdle.anim); 
 	pTrNode->AddInclude(ANIM_FINISHED);
 
+	pNode = FindNode(animation\\player\\PlayerJumpAttack.anim);  pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE | HAS_COLLIDER);
+	PushTranNode(animation\\player\\PlayerIdle.anim);
+	pTrNode->AddInclude(ANIM_FINISHED);
+
 	// ============================== JumpAttack ==============================
 	pNode = FindNode(animation\\player\\PlayerAirCombo1.anim);  pNode->AddPreferences(DIR_CHANGE_END | HAS_RESERVE | NO_MOVE | COMBO_ANIM | HAS_COLLIDER | IGNORE_GRAVITY);
 	PushTranNode(animation\\player\\PlayerCombo1.anim);
@@ -193,5 +197,8 @@ void CAnimController::AddPlayerAnyNode()
 
 	PushTranNode(animation\\player\\PlayerDisappear.anim);
 	pTrNode->AddInclude(HP_ZERO);
+
+	PushTranNode(animation\\player\\PlayerJumpAttack.anim);
+	pTrNode->AddInclude(MOUSE_LEFT | KEY_W | CAN_JUMP_ATTACK);
 }
 

@@ -59,6 +59,7 @@ public:
     virtual CScript* Clone() = 0;
 public:
     CScript(int _iScriptType);
+    CScript(const CScript& _origin);
     ~CScript();
 };
 
