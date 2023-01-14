@@ -225,10 +225,10 @@ void CCamera::render_block()
 {
 	static vector<CGameObject*> vecTransition;
 	static vector<CGameObject*> vecBorder;
-	static vector<CGameObject*> vecFill;
+	static vector<CGameObject*> vecFill_Platform;
 	vecTransition.clear();
 	vecBorder.clear();
-	vecFill.clear();
+	vecFill_Platform.clear();
 
 	for (size_t i = 0; i < m_vecBlock.size(); ++i)
 	{
@@ -239,20 +239,21 @@ void CCamera::render_block()
 		{
 			vecBorder.push_back(m_vecBlock[i]);
 		}
-		else if (bDynamic)
+		else if (bDynamic && tConst.iArr[0] == 0 || tConst.iArr[0] == 1 || tConst.iArr[0] == 2 )
 		{
 			vecTransition.push_back(m_vecBlock[i]);
 		}
 		else
 		{
-			vecFill.push_back(m_vecBlock[i]);
+			vecFill_Platform.push_back(m_vecBlock[i]);
 		}
 	}
 
-	for (size_t i = 0; i < vecFill.size(); ++i)
+	for (size_t i = 0; i < vecFill_Platform.size(); ++i)
 	{
-		vecFill[i]->render();
+		vecFill_Platform[i]->render();
 	}
+
 
 	for (size_t i = 0; i < vecBorder.size(); ++i)
 	{

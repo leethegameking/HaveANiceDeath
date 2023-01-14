@@ -32,9 +32,10 @@ void CGameCameraScript::tick()
 	else
 	{
 		Vec3 vPlayerPos = m_pPlayer->Transform()->GetRelativePos();
-		vPlayerPos.y += 150.f;
-
-		Transform()->SetRelativePos(vPlayerPos);
+		Vec3 vCamPos = Transform()->GetRelativePos();
+		vPlayerPos.y += 50.f;
+		Vec3 vPosDiff = vPlayerPos - vCamPos;
+		Transform()->AddRelativePos(vPosDiff / 10.f * (DT / 0.025f));
 	}
 
 	

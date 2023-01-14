@@ -40,8 +40,7 @@ void InputTextUI::Close()
 
 void InputTextUI::render_update()
 {
-
-	ImGui::Text(strInputType.c_str()); ImGui::SameLine(); ImGui::InputText("##InputText", (char*)strText.data(), 256, ImGuiInputTextFlags_EnterReturnsTrue);
+	ImGui::Text(strInputType.c_str()); ImGui::SameLine(); ImGui::InputText("##InputText", (char*)strText.data(), 512, ImGuiInputTextFlags_EnterReturnsTrue);
 
 	if (CommonUI::ButtonCenteredOnLine("OK"))
 	{

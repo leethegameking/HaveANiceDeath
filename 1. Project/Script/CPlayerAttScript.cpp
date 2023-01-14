@@ -49,12 +49,13 @@ void CPlayerAttScript::BeginOverlap(CCollider2D* _other)
 		static tKnockBack tKB;
 		tKB.bOn = true;
 
-		tKB.fDist = GetOwner()->GetParent()->Animator2D()->GetCurAnim()->GetPosChange().x;
+		/*tKB.fDist = GetOwner()->GetParent()->Animator2D()->GetCurAnim()->GetPosChange().x;*/
+		tKB.fDist = 70.f;
 		if (pTargetUnit->Transform()->GetRelativePos().x - GetOwner()->GetParent()->Transform()->GetRelativePos().x > 0.f)
 			tKB.eKnockBackDir = ANIM_DIR::ANIM_RIGHT;
 		else
 			tKB.eKnockBackDir = ANIM_DIR::ANIM_LEFT;
-		tKB.fDurationTime = 0.5f;
+		tKB.fDurationTime = 0.1f;
 		pTargetUnit->SetKnockBack(tKB);
 	}
 }

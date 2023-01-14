@@ -96,11 +96,28 @@ bool InCamera(CGameObject* _obj, Vec2 _cameraExtenseion)
 	Vec3 vPos =_obj->Transform()->GetWorldPos();
 	Vec3 vScale = _obj->Transform()->GetWorldScale();
 
+	static float fBigScale;
+	if (vScale.x < vScale.y)
+		fBigScale = vScale.y / 2.f;
+	else
+		fBigScale = vScale.x / 2.f;
+
+	//static float fCamDist;
+	//fCamDist = DistanceF(Vec2::Zero, vScreenCoord);
+
+	//if(fCamDist + fObjDist >= DistanceF(vCamPos, vPos))
+
+
+	//if (
+	//	vCamPos.x - vScreenCoord.x * _cameraExtenseion.x / 2.f < vPos.x + vScale.x / 2.f &&
+	//	vCamPos.x + vScreenCoord.x * _cameraExtenseion.x / 2.f > vPos.x - vScale.x / 2.f &&
+	//	vCamPos.y - vScreenCoord.y * _cameraExtenseion.y / 2.f < vPos.y + vScale.y / 2.f &&
+	//	vCamPos.y + vScreenCoord.y * _cameraExtenseion.y / 2.f > vPos.y - vScale.y / 2.f)
 	if (
-		vCamPos.x - vScreenCoord.x * _cameraExtenseion.x / 2.f < vPos.x + vScale.x / 2.f &&
-		vCamPos.x + vScreenCoord.x * _cameraExtenseion.x / 2.f > vPos.x - vScale.x / 2.f &&
-		vCamPos.y - vScreenCoord.y * _cameraExtenseion.y / 2.f < vPos.y + vScale.y / 2.f &&
-		vCamPos.y + vScreenCoord.y * _cameraExtenseion.y / 2.f > vPos.y - vScale.y / 2.f)
+		vCamPos.x - vScreenCoord.x * _cameraExtenseion.x / 2.f < vPos.x + fBigScale &&
+		vCamPos.x + vScreenCoord.x * _cameraExtenseion.x / 2.f > vPos.x - fBigScale &&
+		vCamPos.y - vScreenCoord.y * _cameraExtenseion.y / 2.f < vPos.y + fBigScale &&
+		vCamPos.y + vScreenCoord.y * _cameraExtenseion.y / 2.f > vPos.y - fBigScale)
 	{
 		return true;
 	}

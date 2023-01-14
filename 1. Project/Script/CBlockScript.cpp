@@ -138,7 +138,7 @@ void CBlockScript::UpCollision(CCollider2D* _other)
 	CUnitScript* pUnitScr = m_pColObj->GetScript<CUnitScript>();
 	pUnitScr->PushGroundObj((this->GetOwner()));
 	m_pColObj->Rigidbody2D()->SetGround(true);
-	m_pColObj->Transform()->SetRelativePos(Vec3(m_vObjPos.x, m_vObjColScale.y / 2.f + m_vBlockColPos.y + m_vBlockColScale.y / 2.f, 0.f));
+	m_pColObj->Transform()->SetRelativePos(Vec3(m_vObjPos.x, m_vObjColScale.y / 2.f + m_vBlockColPos.y + m_vBlockColScale.y / 2.f -0.00001f, 0.f));
 	m_bGround = true;
 
 	CUnitScript* pPlayerScript = _other->GetOwner()->GetScript<CUnitScript>();

@@ -215,7 +215,7 @@ void CAnimController::SetCondBit()
 	if (!m_bJumpAttackUsed && KEY_PRESSED(KEY::W) && KEY_TAP(KEY::LBTN))
 	{
 		Rigidbody2D()->SetGround(false);
-		Rigidbody2D()->ResetSpeedY();
+		Rigidbody2D()->ResetSpeedY(); // reset gravity speed
 		m_bJumpAttackUsed = true;
 	}
 }

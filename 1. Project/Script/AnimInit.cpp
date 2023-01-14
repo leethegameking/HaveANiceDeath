@@ -119,7 +119,7 @@ void CAnimController::CreatePlayerAnimCon()
 	PushTranNode(animation\\player\\PlayerAirCombo1.anim);
 	pTrNode->AddInclude(MOUSE_LEFT);
 
-	pNode = FindNode(animation\\player\\PlayerLanding.anim); pNode->AddPreferences(NO_MOVE);
+	pNode = FindNode(animation\\player\\PlayerLanding.anim); /*pNode->AddPreferences(NO_MOVE);*/
 	PushTranNode(animation\\player\\PlayerIdle.anim); 
 	pTrNode->AddInclude(ANIM_FINISHED);
 

@@ -89,8 +89,8 @@ void CImGuiMgr::progress()
 
     // 추가된 부분
     {
-        bool bTrue = true;
-        ImGui::ShowDemoWindow(&bTrue);
+        //bool bTrue = true;
+        //ImGui::ShowDemoWindow(&bTrue);
 
         map<string, UI*>::iterator iter = m_mapUI.begin();
         for (; iter != m_mapUI.end(); ++iter)
