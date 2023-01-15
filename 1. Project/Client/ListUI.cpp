@@ -48,6 +48,7 @@ void ListUI::init(vector<string> _itemList, int _bitInitial)
 {
 	SetItemList(_itemList);
 
+	m_bMultiSelectIdx.clear();
 	for (int i = 0; i < _itemList.size(); ++i)
 	{
 		m_bMultiSelectIdx.push_back((_bitInitial & (1 << i)));

@@ -124,6 +124,11 @@ bool InCamera(CGameObject* _obj, Vec2 _cameraExtenseion)
 	return false;
 }
 
+float GetEllipseY(float _width_half, float _height_half, float _x)
+{
+	return -( _height_half * (sqrtf(1.f - _x * _x / (_width_half * _width_half))));
+}
+
 
 Vec4 MulMatrix(Vec4 _Vec4, const Matrix& _mat)
 {

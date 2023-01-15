@@ -4,16 +4,20 @@
 #include "CAnimController.h"
 #include "CAttScript.h"
 #include "CBlockScript.h"
+#include "CBrad.h"
 #include "CControllerScript.h"
+#include "CCutSceneCameraScript.h"
 #include "CEnemyAttScript.h"
 #include "CEnemyController.h"
 #include "CEnemyScript.h"
 #include "CGameCameraScript.h"
 #include "CHitScript.h"
+#include "CMainCameraScript.h"
 #include "CPlayerAttScript.h"
 #include "CPlayerScript.h"
 #include "CProjectileScript.h"
 #include "CTestScript.h"
+#include "CUICameraScript.h"
 #include "CUnitScript.h"
 #include "CWorkman.h"
 #include "CWorkwoman.h"
@@ -23,16 +27,20 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CAnimController");
 	_vec.push_back(L"CAttScript");
 	_vec.push_back(L"CBlockScript");
+	_vec.push_back(L"CBrad");
 	_vec.push_back(L"CControllerScript");
+	_vec.push_back(L"CCutSceneCameraScript");
 	_vec.push_back(L"CEnemyAttScript");
 	_vec.push_back(L"CEnemyController");
 	_vec.push_back(L"CEnemyScript");
 	_vec.push_back(L"CGameCameraScript");
 	_vec.push_back(L"CHitScript");
+	_vec.push_back(L"CMainCameraScript");
 	_vec.push_back(L"CPlayerAttScript");
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CProjectileScript");
 	_vec.push_back(L"CTestScript");
+	_vec.push_back(L"CUICameraScript");
 	_vec.push_back(L"CUnitScript");
 	_vec.push_back(L"CWorkman");
 	_vec.push_back(L"CWorkwoman");
@@ -46,8 +54,12 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CAttScript;
 	if (L"CBlockScript" == _strScriptName)
 		return new CBlockScript;
+	if (L"CBrad" == _strScriptName)
+		return new CBrad;
 	if (L"CControllerScript" == _strScriptName)
 		return new CControllerScript;
+	if (L"CCutSceneCameraScript" == _strScriptName)
+		return new CCutSceneCameraScript;
 	if (L"CEnemyAttScript" == _strScriptName)
 		return new CEnemyAttScript;
 	if (L"CEnemyController" == _strScriptName)
@@ -58,6 +70,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CGameCameraScript;
 	if (L"CHitScript" == _strScriptName)
 		return new CHitScript;
+	if (L"CMainCameraScript" == _strScriptName)
+		return new CMainCameraScript;
 	if (L"CPlayerAttScript" == _strScriptName)
 		return new CPlayerAttScript;
 	if (L"CPlayerScript" == _strScriptName)
@@ -66,6 +80,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CProjectileScript;
 	if (L"CTestScript" == _strScriptName)
 		return new CTestScript;
+	if (L"CUICameraScript" == _strScriptName)
+		return new CUICameraScript;
 	if (L"CUnitScript" == _strScriptName)
 		return new CUnitScript;
 	if (L"CWorkman" == _strScriptName)
@@ -88,8 +104,14 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::BLOCKSCRIPT:
 		return new CBlockScript;
 		break;
+	case (UINT)SCRIPT_TYPE::BRAD:
+		return new CBrad;
+		break;
 	case (UINT)SCRIPT_TYPE::CONTROLLERSCRIPT:
 		return new CControllerScript;
+		break;
+	case (UINT)SCRIPT_TYPE::CUTSCENECAMERASCRIPT:
+		return new CCutSceneCameraScript;
 		break;
 	case (UINT)SCRIPT_TYPE::ENEMYATTSCRIPT:
 		return new CEnemyAttScript;
@@ -106,6 +128,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::HITSCRIPT:
 		return new CHitScript;
 		break;
+	case (UINT)SCRIPT_TYPE::MAINCAMERASCRIPT:
+		return new CMainCameraScript;
+		break;
 	case (UINT)SCRIPT_TYPE::PLAYERATTSCRIPT:
 		return new CPlayerAttScript;
 		break;
@@ -117,6 +142,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::TESTSCRIPT:
 		return new CTestScript;
+		break;
+	case (UINT)SCRIPT_TYPE::UICAMERASCRIPT:
+		return new CUICameraScript;
 		break;
 	case (UINT)SCRIPT_TYPE::UNITSCRIPT:
 		return new CUnitScript;
@@ -147,8 +175,16 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CBlockScript";
 		break;
 
+	case SCRIPT_TYPE::BRAD:
+		return L"CBrad";
+		break;
+
 	case SCRIPT_TYPE::CONTROLLERSCRIPT:
 		return L"CControllerScript";
+		break;
+
+	case SCRIPT_TYPE::CUTSCENECAMERASCRIPT:
+		return L"CCutSceneCameraScript";
 		break;
 
 	case SCRIPT_TYPE::ENEMYATTSCRIPT:
@@ -171,6 +207,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CHitScript";
 		break;
 
+	case SCRIPT_TYPE::MAINCAMERASCRIPT:
+		return L"CMainCameraScript";
+		break;
+
 	case SCRIPT_TYPE::PLAYERATTSCRIPT:
 		return L"CPlayerAttScript";
 		break;
@@ -185,6 +225,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::TESTSCRIPT:
 		return L"CTestScript";
+		break;
+
+	case SCRIPT_TYPE::UICAMERASCRIPT:
+		return L"CUICameraScript";
 		break;
 
 	case SCRIPT_TYPE::UNITSCRIPT:

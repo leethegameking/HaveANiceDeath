@@ -49,6 +49,7 @@ protected:
     ANIM_DIR GetAnimDirToPlayer();
     Vec2 GetDirToPlayer();
     void SetDir(ANIM_DIR _eDir);
+    bool CurAnimFinish();
 
 public:
     virtual void begin() override;
@@ -66,6 +67,8 @@ public:
     float GetAppearRadius() { return m_fAppearRadius; }
     float GetDetectRadius() { return m_fDetectRadius; }
     CGameObject* GetPlayerObj() { return m_pPlayerObj; }
+
+
 
     void FillFaintGauge(float _fill) { m_fFaintGauge -= _fill; }
 

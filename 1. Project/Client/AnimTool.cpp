@@ -820,12 +820,12 @@ void AnimTool::FrameImageWindow()
 {
 	if (IsEditMode())
 	{
-		ImGuiWindowFlags window_flags = ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_NoMove;
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_AlwaysHorizontalScrollbar | ImGuiWindowFlags_AlwaysVerticalScrollbar | ImGuiWindowFlags_NoMove;
 		ImGui::BeginChild("ChildFrameImage", ImVec2(ImGui::GetContentRegionAvail().x * 0.7f, 0.f), true, window_flags);
 	}
 	else if (IsCreateMode())
 	{
-		ImGuiWindowFlags window_flags = ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_NoMove;
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_AlwaysHorizontalScrollbar | ImGuiWindowFlags_AlwaysVerticalScrollbar | ImGuiWindowFlags_NoMove;
 		ImGui::BeginChild("ChildFrameImage", ImVec2(ImGui::GetContentRegionAvail().x, 500.f), true, window_flags);
 	}
 

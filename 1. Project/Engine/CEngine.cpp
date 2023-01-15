@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "CEngine.h"
 
+#include "CRandomMgr.h"
 #include "CPathMgr.h"
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
@@ -11,6 +12,7 @@
 #include "CDevice.h"
 #include "CCollisionMgr.h"
 #include "CSound.h"
+
 
 #include "CLevel.h"
 #include "CGameObject.h"
@@ -50,6 +52,7 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 		return E_FAIL;
 	}
 
+	CRandomMgr::GetInst()->init();
 	SimpleText::GetInst()->init();
 	CPathMgr::GetInst()->init();
 	CKeyMgr::GetInst()->init();
@@ -69,7 +72,7 @@ void CEngine::progress()
 	tick();
 
 	render();
-	SimpleText::GetInst()->Draw(L"Have A Nice Death!", Vec2(-300.f, 300.f));
+	// SimpleText::GetInst()->Draw(L"Have A Nice Death!", Vec2(-300.f, 300.f));
 }
 
 void CEngine::tick()

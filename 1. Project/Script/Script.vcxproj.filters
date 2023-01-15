@@ -64,6 +64,21 @@
     <ClInclude Include="CWorkwoman.h">
       <Filter>Script\Unit\Enemy\Workwoman</Filter>
     </ClInclude>
+    <ClInclude Include="CBrad.h">
+      <Filter>Script\Unit\Enemy\Brad</Filter>
+    </ClInclude>
+    <ClInclude Include="CCutSceneCameraScript.h">
+      <Filter>Script\GameCamera\CutScene</Filter>
+    </ClInclude>
+    <ClInclude Include="CMainCameraScript.h">
+      <Filter>Script\GameCamera\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="CUICameraScript.h">
+      <Filter>Script\GameCamera\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CCameraMgr.h">
+      <Filter>CameraMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Script.cpp">
@@ -128,6 +143,21 @@
     </ClCompile>
     <ClCompile Include="CWorkwoman.cpp">
       <Filter>Script\Unit\Enemy\Workwoman</Filter>
+    </ClCompile>
+    <ClCompile Include="CBrad.cpp">
+      <Filter>Script\Unit\Enemy\Brad</Filter>
+    </ClCompile>
+    <ClCompile Include="CCutSceneCameraScript.cpp">
+      <Filter>Script\GameCamera\CutScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CMainCameraScript.cpp">
+      <Filter>Script\GameCamera\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="CUICameraScript.cpp">
+      <Filter>Script\GameCamera\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraMgr.cpp">
+      <Filter>CameraMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +226,21 @@
     </Filter>
     <Filter Include="Script\Unit\Enemy\Workwoman">
       <UniqueIdentifier>{09e3a839-142a-4ba9-a1ab-f04217694236}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Unit\Enemy\Brad">
+      <UniqueIdentifier>{160ae4cc-f29d-448a-8091-79020d5d1709}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\GameCamera\Main">
+      <UniqueIdentifier>{c2037cea-d887-4034-955b-774c224961f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\GameCamera\UI">
+      <UniqueIdentifier>{c91a7bc0-27fb-4a2e-88ec-fa6854019980}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\GameCamera\CutScene">
+      <UniqueIdentifier>{19f56ab3-7840-45b0-be5e-83cde09645c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CameraMgr">
+      <UniqueIdentifier>{485c6236-54e9-4d16-8bd7-9557df1fecaa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

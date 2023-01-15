@@ -23,6 +23,8 @@ typedef Vector4 Vec4;
 
 #define MAX_LAYER 32
 
+#define GetRandom_D(int1, int2) CRandomMgr::GetInst()->GetRandom(int1, int2)
+
 #define SINGLETON(class_name) private:\
 class_name();\
 ~class_name();\

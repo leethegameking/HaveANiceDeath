@@ -351,18 +351,6 @@ void CWorkman::DeathState()
 	}
 }
 
-
-
-bool CWorkman::CurAnimFinish()
-{
-	if (Animator2D()->GetCurAnim()->IsFinish())
-		return true;
-	else
-		return false;
-}
-
-
-
 void CWorkman::SaveToFile(FILE* _pFile)
 {
 	CEnemyScript::SaveToFile(_pFile);

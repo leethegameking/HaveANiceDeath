@@ -26,10 +26,6 @@ private:
     virtual void DelayState(); // 공격 후 쫓아가며 
     virtual void DeathState();
 
-
-private:
-    bool CurAnimFinish();
-
 public:
     virtual void SaveToFile(FILE* _pFile) override;
     virtual void LoadFromFile(FILE* _pFile) override;

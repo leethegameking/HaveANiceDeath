@@ -4,7 +4,12 @@
 #include <list>
 #include <map>
 #include <string>
+#include <random>
 
+
+using std::mt19937;
+using std::random_device;
+using std::uniform_int_distribution;
 
 using std::vector;
 using std::list;

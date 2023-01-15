@@ -73,6 +73,17 @@ void CLayer::AddGameObject(CGameObject* _pObject)
 	
 }
 
+CGameObject* CLayer::FindParentObj(const wstring& _name)
+{
+	for (size_t i = 0; i < m_vecParent.size(); ++i)
+	{
+		if (m_vecParent[i]->GetName() == _name)
+		{
+			return m_vecParent[i];
+		}
+	}
+}
+
 void CLayer::DeregisterObject(CGameObject* _pObj)
 {
 	// 아직 로딩 안됨

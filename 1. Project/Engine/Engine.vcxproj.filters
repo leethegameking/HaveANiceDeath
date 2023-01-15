@@ -154,6 +154,9 @@
     <Filter Include="HLSL\Render\block">
       <UniqueIdentifier>{a68d8ec7-791b-4972-ab8f-20ea02bc15d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\03. Manager\09. RandomMgr">
+      <UniqueIdentifier>{4aa4beeb-b23b-4a7e-a3b3-a181361676d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -309,6 +312,9 @@
     <ClInclude Include="SimpleText.h">
       <Filter>Module</Filter>
     </ClInclude>
+    <ClInclude Include="CRandomMgr.h">
+      <Filter>Engine\03. Manager\09. RandomMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -454,6 +460,9 @@
     </ClCompile>
     <ClCompile Include="SimpleText.cpp">
       <Filter>Module</Filter>
+    </ClCompile>
+    <ClCompile Include="CRandomMgr.cpp">
+      <Filter>Engine\03. Manager\09. RandomMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

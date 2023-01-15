@@ -4,3 +4,5 @@ AnimInit.cpp
 define.h
 CPlayerMgr.h
 CPlayerMgr.cpp
+CCameraMgr.h
+CCameraMgr.cpp

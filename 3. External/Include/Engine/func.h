@@ -24,6 +24,8 @@ class CGameObject;
 
 bool InCamera(CGameObject* _obj, Vec2 _cameraExtenseion = Vec2(1.f,1.f));
 
+float GetEllipseY(float _width, float _height, float _x);
+
 template<typename T>
 void Safe_Del_Vec(vector<T*>& _vec)
 {

@@ -40,6 +40,7 @@ public:
         return sum;
     }
     int GetCurIdx() { return m_iCurIdx; }
+    const tAnim2DFrm& GetCurFrm() { return m_vecFrm[m_iCurIdx]; }
 
 public:
     void finaltick();

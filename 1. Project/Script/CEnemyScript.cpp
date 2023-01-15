@@ -122,6 +122,14 @@ void CEnemyScript::EndOverlap(CCollider2D* _pOther)
 {
 }
 
+bool CEnemyScript::CurAnimFinish()
+{
+	if (Animator2D()->GetCurAnim()->IsFinish())
+		return true;
+	else
+		return false;
+}
+
 void CEnemyScript::SaveToFile(FILE* _pFile)
 {
 	CUnitScript::SaveToFile(_pFile);
@@ -163,8 +171,10 @@ Vec2 CEnemyScript::GetDirToPlayer()
 {
 	Vec3 vPos = Transform()->GetRelativePos();
 	Vec3 vPlayerPos = m_pPlayerObj->Transform()->GetRelativePos();
+	Vec2 vDir = Vec2(vPlayerPos.x - vPos.x, vPlayerPos.y - vPos.y);
+	vDir.Normalize();
 
-	return Vec2(vPlayerPos.x - vPos.x, vPlayerPos.y - vPos.y);
+	return vDir;
 }
 
 void CEnemyScript::SetDir(ANIM_DIR _eDir)

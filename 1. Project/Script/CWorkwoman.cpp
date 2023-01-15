@@ -241,7 +241,6 @@ void CWorkwoman::AttackState()
 		CGameObject* pCloneObj = m_pProjectile->Instantiate();
 		Instantiate(pCloneObj, vPos, (int)LAYER_NAME::ENEMY_ATTACK);
 		CProjectileScript* pProjScr = pCloneObj->GetScript<CProjectileScript>();
-		Vec2 tset = GetDirToPlayer();
 		pProjScr->SetDir(GetDirToPlayer()); // Attack Ready에서 받아오기
 		pProjScr->SetAnimationKey(L"animation\\workwoman\\E_Workwoman_Attack_Proj.anim");
 
@@ -345,14 +344,6 @@ void CWorkwoman::DeathState()
 	{
 		Destroy(); // 자신을 지워줌.
 	}
-}
-
-bool CWorkwoman::CurAnimFinish()
-{
-	if (Animator2D()->GetCurAnim()->IsFinish())
-		return true;
-	else
-		return false;
 }
 
 void CWorkwoman::SaveToFile(FILE* _pFile)
