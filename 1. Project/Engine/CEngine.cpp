@@ -19,6 +19,7 @@
 #include "CCollider2D.h"
 #include "CTransform.h"
 #include "SimpleText.h"
+#include "CObjectManager.h"
 
 
 CEngine::CEngine()
@@ -86,6 +87,7 @@ void CEngine::tick()
 
 	CLevelMgr::GetInst()->progress();
 
+	// 나중에 수정 -> 
 	for (int i = 0; i < MAX_LAYER; ++i)
 	{
 		const vector<CGameObject*>& vecObj = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(i)->GetObjects();
@@ -108,7 +110,9 @@ void CEngine::render()
 
 	CTimeMgr::GetInst()->render();
 
-	CRenderMgr::GetInst()->render();		
+	CRenderMgr::GetInst()->render();
+
+	SimpleText::GetInst()->Draw();
 
 	//CEventMgr::GetInst()->tick();
 }

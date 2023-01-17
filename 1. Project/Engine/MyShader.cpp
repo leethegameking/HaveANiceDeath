@@ -5,6 +5,8 @@ void CResMgr::CreateMyGraphicsShader()
 {
 	CreateBlockOuterShader();
 	CreateBlockInnerShader();
+	CreateUIShader();
+	CreatePlayerShader();
 }
 
 void CResMgr::CreateMyCSShader()
@@ -88,4 +90,69 @@ void CResMgr::CreateBlockOuterShader()
 
 	pShader->SetEngineRes();
 	AddRes<CGraphicsShader>(L"BlockOuterShaderAlpha", pShader);
+}
+
+void CResMgr::CreateUIShader()
+{
+	CGraphicsShader* pShader = nullptr;
+	pShader = new CGraphicsShader;
+	pShader->CreateVertexShader(L"shader\\ui.fx", "VS_UI");
+	pShader->CreatePixelShader(L"shader\\ui.fx", "PS_UI_Alpha");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetBSType(BS_TYPE::ALPHABLEND);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_TRANSPARENT);
+
+	pShader->AddTexParam(TEX_0, " Image 1   ");
+	pShader->AddTexParam(TEX_1, " Image 2   ");
+
+	pShader->SetEngineRes();
+	AddRes<CGraphicsShader>(L"UIShaderAlpha", pShader);
+
+	pShader = new CGraphicsShader;
+	pShader->CreateVertexShader(L"shader\\ui.fx", "VS_UI");
+	pShader->CreatePixelShader(L"shader\\ui.fx", "PS_Boss_HP_Bar_Alpha");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetBSType(BS_TYPE::ALPHABLEND);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_TRANSPARENT);
+
+	pShader->AddTexParam(TEX_0, " Image 1   ");
+	pShader->AddScalarParam(FLOAT_0, " Ratio ");
+
+	pShader->SetEngineRes();
+	AddRes<CGraphicsShader>(L"BossHPBarShaderAlpha", pShader);
+
+	pShader = new CGraphicsShader;
+	pShader->CreateVertexShader(L"shader\\ui.fx", "VS_UI");
+	pShader->CreatePixelShader(L"shader\\ui.fx", "PS_Player_HP_Bar_Alpha");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetBSType(BS_TYPE::ALPHABLEND);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_TRANSPARENT);
+
+	pShader->AddTexParam(TEX_0, " Image 1   ");
+	pShader->AddScalarParam(FLOAT_0, " Ratio ");
+	pShader->AddScalarParam(FLOAT_1, " Incli ");
+	pShader->AddScalarParam(INT_0, " Dist ");
+
+	pShader->SetEngineRes();
+	AddRes<CGraphicsShader>(L"PlayerHPBarShaderAlpha", pShader);
+}
+
+void CResMgr::CreatePlayerShader()
+{
+	CGraphicsShader* pShader = nullptr;
+	pShader = new CGraphicsShader;
+	pShader->CreateVertexShader(L"shader\\player.fx", "VS_Player");
+	pShader->CreatePixelShader(L"shader\\player.fx", "PS_Player_Alpha");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetBSType(BS_TYPE::ALPHABLEND);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_TRANSPARENT);
+
+	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_0, "Alpha Ratio ");
+
+	pShader->SetEngineRes();
+	AddRes<CGraphicsShader>(L"PlayerShaderAlpha", pShader);
 }

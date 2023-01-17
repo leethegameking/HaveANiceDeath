@@ -23,6 +23,7 @@ CPlayerScript::~CPlayerScript()
 void CPlayerScript::begin()
 {
 	CUnitScript::begin();
+
 	m_pAnimCon = GetOwner()->GetScript<CAnimController>();
 	CPlayerMgr::GetInst()->SetPlayerObj(GetOwner());
 
@@ -34,6 +35,11 @@ void CPlayerScript::begin()
 	// AnyStateNode 초기화
 	tAnimNode* pAnyStateNode = CAnimController::mapAnimNode.find(L"PlayerAnyNode")->second;
 	m_pAnimCon->SetAnyStateNode(pAnyStateNode);
+
+	float fAlpha = 0.f;
+	MeshRender()->GetCurMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_0, &fAlpha);
+	Rigidbody2D()->SetIgnGravity(true);
+	CPlayerMgr::GetInst()->SetPlayerDisable(true);
 }
 
 void CPlayerScript::tick()

@@ -28,6 +28,8 @@ private:
 
     int                     m_iCamIdx;  // 카메라 우선순위
 
+    bool                    m_bRender;
+
     // 카메라 우선순위 정할때
     // static int CurExistIdx;          // 카메라 생성마다 ++하고 이것을 Idx로 -> 우선순위 교체는 서로의 Idx교체로 이루어짐.
 

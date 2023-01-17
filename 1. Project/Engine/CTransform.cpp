@@ -3,6 +3,7 @@
 
 #include "CDevice.h"
 #include "CConstBuffer.h"
+#include "CMeshRender.h"
 
 CTransform::CTransform()
 	: CComponent(COMPONENT_TYPE::TRANSFORM)

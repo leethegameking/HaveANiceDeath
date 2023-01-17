@@ -3,20 +3,30 @@
 
 #include "CAnimController.h"
 #include "CAttScript.h"
+#include "CBasicTextScript.h"
 #include "CBlockScript.h"
+#include "CBossCameraScript.h"
+#include "CBossHPUIScript.h"
 #include "CBrad.h"
 #include "CControllerScript.h"
 #include "CCutSceneCameraScript.h"
+#include "CElevatorScript.h"
 #include "CEnemyAttScript.h"
 #include "CEnemyController.h"
 #include "CEnemyScript.h"
 #include "CGameCameraScript.h"
 #include "CHitScript.h"
+#include "CLevelSelectScript.h"
 #include "CMainCameraScript.h"
+#include "CMouseColliderScript.h"
 #include "CPlayerAttScript.h"
+#include "CPlayerHPText.h"
+#include "CPlayerHPUIScript.h"
 #include "CPlayerScript.h"
 #include "CProjectileScript.h"
 #include "CTestScript.h"
+#include "CTextScript.h"
+#include "CTitleMenuScript.h"
 #include "CUICameraScript.h"
 #include "CUnitScript.h"
 #include "CWorkman.h"
@@ -26,20 +36,30 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
 	_vec.push_back(L"CAnimController");
 	_vec.push_back(L"CAttScript");
+	_vec.push_back(L"CBasicTextScript");
 	_vec.push_back(L"CBlockScript");
+	_vec.push_back(L"CBossCameraScript");
+	_vec.push_back(L"CBossHPUIScript");
 	_vec.push_back(L"CBrad");
 	_vec.push_back(L"CControllerScript");
 	_vec.push_back(L"CCutSceneCameraScript");
+	_vec.push_back(L"CElevatorScript");
 	_vec.push_back(L"CEnemyAttScript");
 	_vec.push_back(L"CEnemyController");
 	_vec.push_back(L"CEnemyScript");
 	_vec.push_back(L"CGameCameraScript");
 	_vec.push_back(L"CHitScript");
+	_vec.push_back(L"CLevelSelectScript");
 	_vec.push_back(L"CMainCameraScript");
+	_vec.push_back(L"CMouseColliderScript");
 	_vec.push_back(L"CPlayerAttScript");
+	_vec.push_back(L"CPlayerHPText");
+	_vec.push_back(L"CPlayerHPUIScript");
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CProjectileScript");
 	_vec.push_back(L"CTestScript");
+	_vec.push_back(L"CTextScript");
+	_vec.push_back(L"CTitleMenuScript");
 	_vec.push_back(L"CUICameraScript");
 	_vec.push_back(L"CUnitScript");
 	_vec.push_back(L"CWorkman");
@@ -52,14 +72,22 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CAnimController;
 	if (L"CAttScript" == _strScriptName)
 		return new CAttScript;
+	if (L"CBasicTextScript" == _strScriptName)
+		return new CBasicTextScript;
 	if (L"CBlockScript" == _strScriptName)
 		return new CBlockScript;
+	if (L"CBossCameraScript" == _strScriptName)
+		return new CBossCameraScript;
+	if (L"CBossHPUIScript" == _strScriptName)
+		return new CBossHPUIScript;
 	if (L"CBrad" == _strScriptName)
 		return new CBrad;
 	if (L"CControllerScript" == _strScriptName)
 		return new CControllerScript;
 	if (L"CCutSceneCameraScript" == _strScriptName)
 		return new CCutSceneCameraScript;
+	if (L"CElevatorScript" == _strScriptName)
+		return new CElevatorScript;
 	if (L"CEnemyAttScript" == _strScriptName)
 		return new CEnemyAttScript;
 	if (L"CEnemyController" == _strScriptName)
@@ -70,16 +98,28 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CGameCameraScript;
 	if (L"CHitScript" == _strScriptName)
 		return new CHitScript;
+	if (L"CLevelSelectScript" == _strScriptName)
+		return new CLevelSelectScript;
 	if (L"CMainCameraScript" == _strScriptName)
 		return new CMainCameraScript;
+	if (L"CMouseColliderScript" == _strScriptName)
+		return new CMouseColliderScript;
 	if (L"CPlayerAttScript" == _strScriptName)
 		return new CPlayerAttScript;
+	if (L"CPlayerHPText" == _strScriptName)
+		return new CPlayerHPText;
+	if (L"CPlayerHPUIScript" == _strScriptName)
+		return new CPlayerHPUIScript;
 	if (L"CPlayerScript" == _strScriptName)
 		return new CPlayerScript;
 	if (L"CProjectileScript" == _strScriptName)
 		return new CProjectileScript;
 	if (L"CTestScript" == _strScriptName)
 		return new CTestScript;
+	if (L"CTextScript" == _strScriptName)
+		return new CTextScript;
+	if (L"CTitleMenuScript" == _strScriptName)
+		return new CTitleMenuScript;
 	if (L"CUICameraScript" == _strScriptName)
 		return new CUICameraScript;
 	if (L"CUnitScript" == _strScriptName)
@@ -101,8 +141,17 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::ATTSCRIPT:
 		return new CAttScript;
 		break;
+	case (UINT)SCRIPT_TYPE::BASICTEXTSCRIPT:
+		return new CBasicTextScript;
+		break;
 	case (UINT)SCRIPT_TYPE::BLOCKSCRIPT:
 		return new CBlockScript;
+		break;
+	case (UINT)SCRIPT_TYPE::BOSSCAMERASCRIPT:
+		return new CBossCameraScript;
+		break;
+	case (UINT)SCRIPT_TYPE::BOSSHPUISCRIPT:
+		return new CBossHPUIScript;
 		break;
 	case (UINT)SCRIPT_TYPE::BRAD:
 		return new CBrad;
@@ -112,6 +161,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::CUTSCENECAMERASCRIPT:
 		return new CCutSceneCameraScript;
+		break;
+	case (UINT)SCRIPT_TYPE::ELEVATORSCRIPT:
+		return new CElevatorScript;
 		break;
 	case (UINT)SCRIPT_TYPE::ENEMYATTSCRIPT:
 		return new CEnemyAttScript;
@@ -128,11 +180,23 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::HITSCRIPT:
 		return new CHitScript;
 		break;
+	case (UINT)SCRIPT_TYPE::LEVELSELECTSCRIPT:
+		return new CLevelSelectScript;
+		break;
 	case (UINT)SCRIPT_TYPE::MAINCAMERASCRIPT:
 		return new CMainCameraScript;
 		break;
+	case (UINT)SCRIPT_TYPE::MOUSECOLLIDERSCRIPT:
+		return new CMouseColliderScript;
+		break;
 	case (UINT)SCRIPT_TYPE::PLAYERATTSCRIPT:
 		return new CPlayerAttScript;
+		break;
+	case (UINT)SCRIPT_TYPE::PLAYERHPTEXT:
+		return new CPlayerHPText;
+		break;
+	case (UINT)SCRIPT_TYPE::PLAYERHPUISCRIPT:
+		return new CPlayerHPUIScript;
 		break;
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT:
 		return new CPlayerScript;
@@ -142,6 +206,12 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::TESTSCRIPT:
 		return new CTestScript;
+		break;
+	case (UINT)SCRIPT_TYPE::TEXTSCRIPT:
+		return new CTextScript;
+		break;
+	case (UINT)SCRIPT_TYPE::TITLEMENUSCRIPT:
+		return new CTitleMenuScript;
 		break;
 	case (UINT)SCRIPT_TYPE::UICAMERASCRIPT:
 		return new CUICameraScript;
@@ -171,8 +241,20 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CAttScript";
 		break;
 
+	case SCRIPT_TYPE::BASICTEXTSCRIPT:
+		return L"CBasicTextScript";
+		break;
+
 	case SCRIPT_TYPE::BLOCKSCRIPT:
 		return L"CBlockScript";
+		break;
+
+	case SCRIPT_TYPE::BOSSCAMERASCRIPT:
+		return L"CBossCameraScript";
+		break;
+
+	case SCRIPT_TYPE::BOSSHPUISCRIPT:
+		return L"CBossHPUIScript";
 		break;
 
 	case SCRIPT_TYPE::BRAD:
@@ -185,6 +267,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::CUTSCENECAMERASCRIPT:
 		return L"CCutSceneCameraScript";
+		break;
+
+	case SCRIPT_TYPE::ELEVATORSCRIPT:
+		return L"CElevatorScript";
 		break;
 
 	case SCRIPT_TYPE::ENEMYATTSCRIPT:
@@ -207,12 +293,28 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CHitScript";
 		break;
 
+	case SCRIPT_TYPE::LEVELSELECTSCRIPT:
+		return L"CLevelSelectScript";
+		break;
+
 	case SCRIPT_TYPE::MAINCAMERASCRIPT:
 		return L"CMainCameraScript";
 		break;
 
+	case SCRIPT_TYPE::MOUSECOLLIDERSCRIPT:
+		return L"CMouseColliderScript";
+		break;
+
 	case SCRIPT_TYPE::PLAYERATTSCRIPT:
 		return L"CPlayerAttScript";
+		break;
+
+	case SCRIPT_TYPE::PLAYERHPTEXT:
+		return L"CPlayerHPText";
+		break;
+
+	case SCRIPT_TYPE::PLAYERHPUISCRIPT:
+		return L"CPlayerHPUIScript";
 		break;
 
 	case SCRIPT_TYPE::PLAYERSCRIPT:
@@ -225,6 +327,14 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::TESTSCRIPT:
 		return L"CTestScript";
+		break;
+
+	case SCRIPT_TYPE::TEXTSCRIPT:
+		return L"CTextScript";
+		break;
+
+	case SCRIPT_TYPE::TITLEMENUSCRIPT:
+		return L"CTitleMenuScript";
 		break;
 
 	case SCRIPT_TYPE::UICAMERASCRIPT:

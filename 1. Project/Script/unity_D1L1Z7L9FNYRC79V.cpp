@@ -9,7 +9,16 @@
 #include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\CAttScript.cpp"
 
 
+#include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\CBasicTextScript.cpp"
+
+
 #include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\CBlockScript.cpp"
+
+
+#include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\CBossCameraScript.cpp"
+
+
+#include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\CBossHPUIScript.cpp"
 
 
 #include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\CBrad.cpp"
@@ -22,6 +31,9 @@
 
 
 #include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\CCutSceneCameraScript.cpp"
+
+
+#include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\CElevatorScript.cpp"
 
 
 #include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\CEnemyAttScript.cpp"
@@ -39,38 +51,5 @@
 #include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\CHitScript.cpp"
 
 
-#include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\CMainCameraScript.cpp"
-
-
-#include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\CPlayerAttScript.cpp"
-
-
-#include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\CPlayerMgr.cpp"
-
-
-#include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\CPlayerScript.cpp"
-
-
-#include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\CProjectileScript.cpp"
-
-
-#include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\CScriptMgr.cpp"
-
-
-#include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\CUICameraScript.cpp"
-
-
-#include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\CUnitScript.cpp"
-
-
-#include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\CWorkman.cpp"
-
-
-#include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\CWorkwoman.cpp"
-
-
-#include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\Script.cpp"
-
-
-#include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\CTestScript.cpp"
+#include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Script\CLevelSelectScript.cpp"
 

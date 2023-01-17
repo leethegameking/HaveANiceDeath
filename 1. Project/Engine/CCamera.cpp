@@ -24,6 +24,7 @@ CCamera::CCamera()
 	, m_fScale(1.f)
 	, m_iLayerMask(0)
 	, m_iCamIdx(0)
+	, m_bRender(true)
 {
 	Vec2 vRenderResolution = CDevice::GetInst()->GetRenderResolution();
 	m_fAspectRatio = vRenderResolution.x / vRenderResolution.y;
@@ -148,7 +149,7 @@ void CCamera::SortObject()
 			for (size_t j = 0; j < vecObj.size(); ++j)
 			{
 				// 카메라 안에 들어오는 것만 렌더링 
-				if (!InCamera(vecObj[j], Vec2(1.2f, 1.2f)))
+				if (!InCamera(vecObj[j], this, Vec2(1.2f, 1.2f)))
 					continue;
 
 				CRenderComponent* pRenderCom = vecObj[j]->GetRenderComponent();

@@ -6,6 +6,8 @@
 #include <Engine/CLevelMgr.h>
 #include <Engine/CLevel.h>
 
+#include "CPlayerMgr.h"
+
 CBrad::CBrad()
 	: CEnemyScript((int)SCRIPT_TYPE::BRAD)
 {
@@ -26,6 +28,7 @@ void CBrad::begin()
 {
 	CEnemyScript::begin();
 	m_eCurPattern = BRAD_DELAY;
+	CPlayerMgr::GetInst()->SetBossObj(GetOwner());
 }
 
 void CBrad::tick()
@@ -672,7 +675,7 @@ void CBrad::Brad_Uturn()
 
 void CBrad::SelectNextAttackPattern()
 {
-	m_eNextAttackPattern = GetRandom_D(4, 4);
+	m_eNextAttackPattern = GetRandom_D(1, 4);
 }
 
 void CBrad::SelectNextDivePattern()

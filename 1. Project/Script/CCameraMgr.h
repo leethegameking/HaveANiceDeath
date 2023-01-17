@@ -14,5 +14,6 @@ public:
 	CGameObject* GetUICamera();
 	CGameObject* GetMainCamera();
 	CGameObject* GetCutSceneCamera();
+	CGameObject* GetBossCamera();
 };
 

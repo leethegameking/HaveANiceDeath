@@ -78,6 +78,11 @@ void ScriptUI::render_scriptparam()
             break;
         case SCRIPT_PARAM::SOUND:
             break;
+        case SCRIPT_PARAM::STRING:
+        {
+            ParamUI::Param_String(vecParam[i].strParamName, (char*)(vecParam[i].pParam));
+        }
+            break;
         default:
             break;
         }

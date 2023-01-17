@@ -23,6 +23,7 @@ CProjectileScript::CProjectileScript()
 	AddScriptParam(SCRIPT_PARAM::BOOL,  "AnimRepeat   ", &m_bRepeat);
 	AddScriptParam(SCRIPT_PARAM::BOOL,  "End-of-Anim  ", &m_bDestroyAnimFinsh);
 	AddScriptParam(SCRIPT_PARAM::BOOL,  "AnimHasCol   ", &m_bAnimHasCol);
+	AddScriptParam(SCRIPT_PARAM::BOOL,  "Penetrate    ", &m_bPenetrate);
 
 }
 
@@ -38,6 +39,7 @@ CProjectileScript::CProjectileScript(const CProjectileScript& _origin)
 	, m_bDestroyAnimFinsh(_origin.m_bDestroyAnimFinsh)
 	, m_bRepeat(_origin.m_bRepeat)
 	, m_bAnimHasCol(_origin.m_bAnimHasCol)
+	, m_bPenetrate(_origin.m_bPenetrate)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Speed        ", &m_fSpeed);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Att          ", &m_fAtt);
@@ -45,7 +47,8 @@ CProjectileScript::CProjectileScript(const CProjectileScript& _origin)
 	AddScriptParam(SCRIPT_PARAM::BOOL,  "Rot          ", &m_bRot);
 	AddScriptParam(SCRIPT_PARAM::BOOL,  "AnimRepeat   ", &m_bRepeat);
 	AddScriptParam(SCRIPT_PARAM::BOOL,  "End-of-Anim  ", &m_bDestroyAnimFinsh);
-	AddScriptParam(SCRIPT_PARAM::BOOL, "AnimHasCol   ", &m_bAnimHasCol);
+	AddScriptParam(SCRIPT_PARAM::BOOL, "AnimHasCol    ", &m_bAnimHasCol);
+	AddScriptParam(SCRIPT_PARAM::BOOL, "Penetrate     ", &m_bPenetrate);
 }
 
 CProjectileScript::~CProjectileScript()
@@ -111,6 +114,10 @@ void CProjectileScript::tick()
 
 void CProjectileScript::BeginOverlap(CCollider2D* _pOther)
 {
+	if (!m_bPenetrate)
+	{
+		GetOwner()->Destroy();
+	}
 }
 
 void CProjectileScript::Overlap(CCollider2D* _pOther)

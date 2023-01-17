@@ -43,7 +43,7 @@ void CRenderMgr::init()
 
 void CRenderMgr::tick()
 {
-	m_vecCam.clear();
+	// m_vecCam.clear();
 	m_vecLight2D.clear();
 }
 
@@ -96,7 +96,6 @@ void CRenderMgr::render_game()
 	// 렌더링의 기준을 카메라로 설정
 	for (size_t i = 0; i < m_vecCam.size(); ++i)
 	{
-
 		m_vecCam[i]->render();
 	}
 }
@@ -169,4 +168,15 @@ CCamera* CRenderMgr::GetMainCam()
 	{
 		return m_EditorCam;
 	}
+}
+
+void CRenderMgr::RegisterCamera(CCamera* _pCam)
+{
+	for (size_t i = 0; i < m_vecCam.size(); ++i)
+	{
+		if (m_vecCam[i] == _pCam)
+			return;
+	}
+
+	m_vecCam.push_back(_pCam);
 }

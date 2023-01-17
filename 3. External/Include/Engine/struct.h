@@ -9,6 +9,27 @@ struct Vtx
 };
 
 
+struct tText
+{
+	wstring strText;
+	Vec2 vWorldPos;
+	Vec2 vWidth_Height;
+	D2D1_COLOR_F vColor;
+	TEXT_FORMAT eFormat;
+	bool		bScreenPos;
+
+	tText()
+		: strText()
+		, vWorldPos(Vec2::Zero)
+		, eFormat(TEXT_FORMAT::TEXT_MOUSE_POS)
+		, vWidth_Height(Vec2(500.f, 500.f))
+		, bScreenPos(false)
+	{
+		vColor = { 1.f, 1.f, 1.f, 1.f };
+	}
+};
+
+
 struct tEvent
 {
 	EVENT_TYPE	eType;

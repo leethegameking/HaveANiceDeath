@@ -3,6 +3,8 @@
 
 #include "CUnitScript.h"
 
+#include "CPlayerMgr.h"
+
 CAnimController::CAnimController()
 	: CScript(int(SCRIPT_TYPE::ANIMCONTROLLER))
 	, m_eCurAnimDir(ANIM_DIR::ANIM_RIGHT)
@@ -64,10 +66,15 @@ void CAnimController::begin()
 	m_pAttObj->Collider2D()->SetOffsetPos(EXPEL * m_pAttObj->GetLayerIdx());
 
 	m_pUnitScr = GetOwner()->GetScript<CUnitScript>();
+	m_eCurAnimDir = ANIM_DIR::ANIM_RIGHT;
+	Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
 }
 
 void CAnimController::tick()
 {
+	if (CPlayerMgr::GetInst()->GetPlayerDisable())
+		return;
+
 	m_pPrevAnimNode = m_pCurAnimNode;
 	if (m_pNextNode != nullptr)
 	{

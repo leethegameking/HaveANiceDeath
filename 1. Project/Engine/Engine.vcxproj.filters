@@ -157,6 +157,15 @@
     <Filter Include="Engine\03. Manager\09. RandomMgr">
       <UniqueIdentifier>{4aa4beeb-b23b-4a7e-a3b3-a181361676d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HLSL\Render\UI">
+      <UniqueIdentifier>{9e254766-2806-43c0-a954-a11b94520fb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\Render\player">
+      <UniqueIdentifier>{5e5091c0-de63-4e11-86c7-cae253dc8d58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. Manager\10. ObjectManager">
+      <UniqueIdentifier>{f4bf3766-4025-45e5-b91e-1f5bdeb82941}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -315,6 +324,9 @@
     <ClInclude Include="CRandomMgr.h">
       <Filter>Engine\03. Manager\09. RandomMgr</Filter>
     </ClInclude>
+    <ClInclude Include="CObjectManager.h">
+      <Filter>Engine\03. Manager\10. ObjectManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -464,6 +476,9 @@
     <ClCompile Include="CRandomMgr.cpp">
       <Filter>Engine\03. Manager\09. RandomMgr</Filter>
     </ClCompile>
+    <ClCompile Include="CObjectManager.cpp">
+      <Filter>Engine\03. Manager\10. ObjectManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
@@ -528,6 +543,12 @@
     </FxCompile>
     <FxCompile Include="block_inner.fx">
       <Filter>HLSL\Render\block</Filter>
+    </FxCompile>
+    <FxCompile Include="ui.fx">
+      <Filter>HLSL\Render\UI</Filter>
+    </FxCompile>
+    <FxCompile Include="player.fx">
+      <Filter>HLSL\Render\player</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

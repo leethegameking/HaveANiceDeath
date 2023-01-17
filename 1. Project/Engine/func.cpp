@@ -85,9 +85,9 @@ float DistanceF(Vec3 _left, Vec3 _right)
 	return sqrtf(powf(_left.x - _right.x, 2.f) + powf(_left.y - _right.y, 2.f));
 }
 
-bool InCamera(CGameObject* _obj, Vec2 _cameraExtenseion)
+bool InCamera(CGameObject* _obj, CCamera* _cam, Vec2 _cameraExtenseion)
 {
-	CCamera* mainCam = CRenderMgr::GetInst()->GetMainCam();
+	CCamera* mainCam = _cam;
 	float vCamScale = mainCam->GetOrthographicScale();
 	static Vec2 vRenderResol = CDevice::GetInst()->GetRenderResolution();
 	Vec2 vScreenCoord = vCamScale * vRenderResol;

@@ -47,9 +47,15 @@ using namespace Microsoft::WRL;
 #include "SimpleMath.h"
 using namespace DirectX::SimpleMath;
 
+#include <d2d1.h>
+#include <dwrite.h>
+#pragma comment(lib, "D2D1.lib")
+#pragma comment(lib, "Dwrite.lib")
+
 #include "singleton.h"
 #include "define.h"
 #include "struct.h"
 #include "func.h"
+
 
 

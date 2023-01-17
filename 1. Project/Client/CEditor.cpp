@@ -60,10 +60,11 @@ void CEditor::init()
 	pEditorCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAHPICS);
 	pEditorCam->Camera()->SetFar(100000.f);
 	pEditorCam->Camera()->SetLayerAllVisible();
-	pEditorCam->Camera()->SetLayerInvisible(15);
+	// pEditorCam->Camera()->SetLayerInvisible();
 	m_vecEditorObj.push_back(pEditorCam);
 	CRenderMgr::GetInst()->RegisterEditorCamera(pEditorCam->Camera());
 
+	// MouseText
 	CGameObjectEx* pMouseText = new CGameObjectEx;
 	pMouseText->AddComponent(new CTransform);
 	pMouseText->AddComponent(new CMouseTextScript);

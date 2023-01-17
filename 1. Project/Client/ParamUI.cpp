@@ -54,6 +54,14 @@ void ParamUI::Param_Vec4(const string& _ParamName, Vec4* _pInOut)
 
 void ParamUI::Param_Mat(const string& _ParamName, Matrix* _pInOut)
 {
+
+}
+
+void ParamUI::Param_String(const string& _ParamName, char* _pInOut)
+{
+	ImGui::Text(_ParamName.c_str());
+	ImGui::SameLine();
+	ImGui::InputText(("##" + _ParamName).c_str(), _pInOut, 256);
 }
 
 void ParamUI::Param_Prefab(const string& _ParamName, Ptr<CPrefab>& _Pref)

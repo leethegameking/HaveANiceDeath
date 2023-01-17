@@ -11,6 +11,7 @@ class MeshRenderUI :
 private:
     Ptr<CMesh>      m_Mesh;
     Ptr<CMaterial>  m_Mtrl;
+    TEX_PARAM       m_eSelectTexParam;
     bool            m_bDynamicMtrl;
 
 public:
@@ -20,11 +21,13 @@ public:
 private:
     void MtrlBtn();
     void TextureBtn();
+    
 
 private:
     void SetMesh(DWORD_PTR _strMeshKey);
     void SetMaterial(DWORD_PTR _strMaterialKey);
     void SetDynMaterialTex(DWORD_PTR _strTextureKey);
+    void SetTexture(DWORD_PTR _strTexKey);
 
 private:
     virtual void Close() override;

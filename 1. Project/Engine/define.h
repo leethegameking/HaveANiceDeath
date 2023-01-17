@@ -32,6 +32,14 @@ friend class CSingleton<class_name>;
 
 #define CONTENTPATH CPathMgr::GetInst()->GetContentPath()
 
+enum class TEXT_FORMAT
+{
+	TEXT_MOUSE_POS,
+	TEXT_PLAYER_HP,
+	TEXT_START_SCENE,
+	END,
+};
+
 enum class SAMPLER_TYPE
 {
 	ANISOTROPIC, // 이방성
@@ -50,6 +58,10 @@ enum class LAYER_NAME
 	ENEMY_HIT,
 	ENEMY_ATTACK,
 	ENEMY_MOVE,
+	ENEMY_PROJ,
+	PLAYER_PROJ,
+	MOUSE_COL = 14,
+	UI = 15,
 };
 
 enum class CB_TYPE

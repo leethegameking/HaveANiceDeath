@@ -12,6 +12,7 @@
 #include "CLayer.h"
 
 #include "CEventMgr.h"
+#include "CObjectManager.h"
 
 CGameObject::CGameObject()
 	: m_pParent(nullptr)
@@ -77,6 +78,8 @@ void CGameObject::begin()
 	{
 		m_vecChild[i]->begin();
 	}
+
+	CObjectManager::GetInst()->RegisterObject(this);
 }
 
 void CGameObject::tick()

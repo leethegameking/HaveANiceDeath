@@ -10,6 +10,7 @@
 
 #include "CCollisionMgr.h"
 #include "CCollider2D.h"
+#include "CObjectManager.h"
 
 LOAD_LEVEL CEventMgr::Load_Level_Func = nullptr;
 
@@ -63,7 +64,10 @@ void CEventMgr::tick()
 			}
 
 			CLevel* pLevel = CLevelMgr::GetInst()->GetCurLevel();
-			pLevel->AddGameObject(pNewObj, iLayerIdx);			
+			pLevel->AddGameObject(pNewObj, iLayerIdx);
+
+			if( CLevelMgr::GetInst()->GetCurLevel()->GetState() == LEVEL_STATE::PLAY )
+				pNewObj->begin();
 		}
 			break;
 

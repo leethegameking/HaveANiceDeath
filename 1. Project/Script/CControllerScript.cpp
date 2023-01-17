@@ -4,6 +4,7 @@
 #include "CScriptMgr.h"
 #include "CUnitScript.h"
 #include "CAnimController.h"
+#include "CPlayerMgr.h"
 
 CControllerScript::CControllerScript()
 	: CScript((UINT)SCRIPT_TYPE::CONTROLLERSCRIPT)
@@ -34,6 +35,9 @@ void CControllerScript::begin()
 
 void CControllerScript::tick()
 {
+	if (CPlayerMgr::GetInst()->GetPlayerDisable())
+		return;
+
 	if (CalBit(m_sAnimCtrl->GetCurAnimNode()->iPreferences, NO_MOVE, BIT_INCLUDE))
 		return;
 

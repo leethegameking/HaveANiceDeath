@@ -25,6 +25,9 @@ void CBlockScript::tick()
 
 void CBlockScript::BeginOverlap(CCollider2D* _other)
 {
+	if (!IsUnit(_other))
+		return;
+
 	SetMemberData(_other);
 
 	if (m_pColObj->Rigidbody2D())
@@ -72,6 +75,9 @@ void CBlockScript::BeginOverlap(CCollider2D* _other)
 
 void CBlockScript::Overlap(CCollider2D* _other)
 {
+	if (!IsUnit(_other))
+		return;
+
 	SetMemberData(_other);
 
 	if (m_pColObj->Rigidbody2D())
@@ -98,6 +104,9 @@ void CBlockScript::Overlap(CCollider2D* _other)
 
 void CBlockScript::EndOverlap(CCollider2D* _other)
 {
+	if (!IsUnit(_other))
+		return;
+
 	SetMemberData(_other);
 	m_pColObj->Rigidbody2D()->CalcDir();
 	m_sObjDir = m_pColObj->Rigidbody2D()->GetDir();
@@ -183,6 +192,14 @@ void CBlockScript::SetMemberData(CCollider2D* _other)
 
 	m_vObjColPos = m_pColObj->Collider2D()->GetFinalPos();
 	m_vObjColScale = m_pColObj->Collider2D()->GetFinalScale();;
+}
+
+bool CBlockScript::IsUnit(CCollider2D* _other)
+{
+	CGameObject* pObj = _other->GetOwner();
+	if (pObj->GetScript<CUnitScript>())
+		return true;
+	return false;
 }
 
 

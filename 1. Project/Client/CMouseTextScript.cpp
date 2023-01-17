@@ -28,7 +28,13 @@ void CMouseTextScript::tick()
 	{
 	 	Vec2 vMouseWorldPos = CKeyMgr::GetInst()->GetMouseWorldPos();
 		wstring strMousePos = StrToWstr(to_string((int)vMouseWorldPos.x)) + L"/" + StrToWstr(to_string((int)vMouseWorldPos.y));
-		SimpleText::GetInst()->Draw(strMousePos, vMouseWorldPos);
+
+		tText tTx;
+		tTx.eFormat = TEXT_FORMAT::TEXT_MOUSE_POS;
+		tTx.strText = strMousePos;
+		tTx.vWorldPos = vMouseWorldPos;
+
+		SimpleText::GetInst()->AddDrawVec(tTx);
 	}
 }
 

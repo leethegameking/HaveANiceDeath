@@ -35,7 +35,7 @@
       <Filter>Script\Unit\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="CPlayerMgr.h">
-      <Filter>PlayerMgr</Filter>
+      <Filter>Manager\PlayerMgr</Filter>
     </ClInclude>
     <ClInclude Include="CProjectileScript.h">
       <Filter>Script\Unit\Projectile</Filter>
@@ -77,7 +77,37 @@
       <Filter>Script\GameCamera\UI</Filter>
     </ClInclude>
     <ClInclude Include="CCameraMgr.h">
-      <Filter>CameraMgr</Filter>
+      <Filter>Manager\CameraMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CBossCameraScript.h">
+      <Filter>Script\GameCamera\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerHPUIScript.h">
+      <Filter>Script\Unit\Player\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CBossHPUIScript.h">
+      <Filter>Script\Unit\Enemy\Brad\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CTextScript.h">
+      <Filter>Script\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerHPText.h">
+      <Filter>Script\Text\PlayerHP</Filter>
+    </ClInclude>
+    <ClInclude Include="CBasicTextScript.h">
+      <Filter>Script\Text\BaicText</Filter>
+    </ClInclude>
+    <ClInclude Include="CMouseColliderScript.h">
+      <Filter>Script\MouseCol</Filter>
+    </ClInclude>
+    <ClInclude Include="CTitleMenuScript.h">
+      <Filter>Script\Title\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="CElevatorScript.h">
+      <Filter>Script\Elevator</Filter>
+    </ClInclude>
+    <ClInclude Include="CLevelSelectScript.h">
+      <Filter>Script\Elevator\LevelSelect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -115,7 +145,7 @@
       <Filter>Script\Unit\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="CPlayerMgr.cpp">
-      <Filter>PlayerMgr</Filter>
+      <Filter>Manager\PlayerMgr</Filter>
     </ClCompile>
     <ClCompile Include="CProjectileScript.cpp">
       <Filter>Script\Unit\Projectile</Filter>
@@ -157,7 +187,37 @@
       <Filter>Script\GameCamera\UI</Filter>
     </ClCompile>
     <ClCompile Include="CCameraMgr.cpp">
-      <Filter>CameraMgr</Filter>
+      <Filter>Manager\CameraMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossCameraScript.cpp">
+      <Filter>Script\GameCamera\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerHPUIScript.cpp">
+      <Filter>Script\Unit\Player\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossHPUIScript.cpp">
+      <Filter>Script\Unit\Enemy\Brad\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CTextScript.cpp">
+      <Filter>Script\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerHPText.cpp">
+      <Filter>Script\Text\PlayerHP</Filter>
+    </ClCompile>
+    <ClCompile Include="CBasicTextScript.cpp">
+      <Filter>Script\Text\BaicText</Filter>
+    </ClCompile>
+    <ClCompile Include="CMouseColliderScript.cpp">
+      <Filter>Script\MouseCol</Filter>
+    </ClCompile>
+    <ClCompile Include="CTitleMenuScript.cpp">
+      <Filter>Script\Title\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="CElevatorScript.cpp">
+      <Filter>Script\Elevator</Filter>
+    </ClCompile>
+    <ClCompile Include="CLevelSelectScript.cpp">
+      <Filter>Script\Elevator\LevelSelect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -193,9 +253,6 @@
     </Filter>
     <Filter Include="ScriptMgr">
       <UniqueIdentifier>{a4cd9dab-2e89-4297-b684-5e7d5c008792}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="PlayerMgr">
-      <UniqueIdentifier>{e030d0fc-8496-451e-9fe3-c70826c27820}</UniqueIdentifier>
     </Filter>
     <Filter Include="Script\Unit\Projectile">
       <UniqueIdentifier>{c707e6d2-7734-4a2d-8c64-a609a4bbc180}</UniqueIdentifier>
@@ -239,8 +296,47 @@
     <Filter Include="Script\GameCamera\CutScene">
       <UniqueIdentifier>{19f56ab3-7840-45b0-be5e-83cde09645c7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CameraMgr">
+    <Filter Include="Script\GameCamera\Boss">
+      <UniqueIdentifier>{3c15c6d0-0db0-4caf-bc95-1c3a83d86cb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{eb24c411-adb0-4d0f-ad4e-8c2f36447909}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\PlayerMgr">
+      <UniqueIdentifier>{e030d0fc-8496-451e-9fe3-c70826c27820}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\CameraMgr">
       <UniqueIdentifier>{485c6236-54e9-4d16-8bd7-9557df1fecaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Unit\Player\UI">
+      <UniqueIdentifier>{9c8726fe-4fff-48e1-a4aa-19bc3b315606}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Unit\Enemy\Brad\UI">
+      <UniqueIdentifier>{174bd594-a051-4d2b-b9bd-09b740040256}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Text">
+      <UniqueIdentifier>{0ee0733f-b569-4aaf-9c1b-1520c17843b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Text\PlayerHP">
+      <UniqueIdentifier>{9f18dd18-843c-4266-a982-81a025732cae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Text\BaicText">
+      <UniqueIdentifier>{b21ae06e-b5a8-4d63-8da1-d7cd605494df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\MouseCol">
+      <UniqueIdentifier>{34e0d976-e68c-4f49-aedf-76b95511c898}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Title">
+      <UniqueIdentifier>{7550d10c-3454-45f4-888d-08a61e9b01bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Title\Menu">
+      <UniqueIdentifier>{23b1e59e-d10d-4cce-9f2f-a0db121c0e2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Elevator">
+      <UniqueIdentifier>{01f6b0ff-2a26-46ed-b1df-9efbd6e3a435}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Elevator\LevelSelect">
+      <UniqueIdentifier>{230b599b-4899-4b0f-ba4f-f120ef0c0793}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

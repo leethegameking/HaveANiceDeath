@@ -21,8 +21,9 @@ float DistanceF(Vec3 _left, Vec3 _right);
 
 
 class CGameObject;
+class CCamera;
 
-bool InCamera(CGameObject* _obj, Vec2 _cameraExtenseion = Vec2(1.f,1.f));
+bool InCamera(CGameObject* _obj, CCamera* _cam, Vec2 _cameraExtenseion = Vec2(1.f,1.f));
 
 float GetEllipseY(float _width, float _height, float _x);
 

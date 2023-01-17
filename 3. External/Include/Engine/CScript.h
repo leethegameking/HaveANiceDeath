@@ -20,6 +20,7 @@ enum class SCRIPT_PARAM
     MATRERIAL,
     PREFAB,
     SOUND,
+    STRING,
 };
 
 struct tScriptParam

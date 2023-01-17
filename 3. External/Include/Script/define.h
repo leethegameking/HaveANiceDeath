@@ -171,9 +171,16 @@ enum class CAMERA_TYPE
     MAIN,
     UI,
     CUT_SCENE,
+    BOSS,
     END
 };
 
+enum class TITLE_MENU_TYPE
+{
+    PLAY,
+    EXIT,
+    END,
+};
 
 //===========================DUMMY==============================
 

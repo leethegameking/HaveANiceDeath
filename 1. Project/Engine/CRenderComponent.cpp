@@ -21,6 +21,10 @@ CRenderComponent::CRenderComponent(const CRenderComponent& _origin)
 	{
 		GetDynamicMaterial();
 		m_pCurMtrl->m_tConst = _origin.m_pCurMtrl->m_tConst;
+		for (int i = 0; i < TEX_END; ++i)
+		{
+			m_pCurMtrl->m_arrTex[i] = _origin.m_pCurMtrl->m_arrTex[i];
+		}
 	}
 }
 

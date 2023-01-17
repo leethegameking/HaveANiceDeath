@@ -66,6 +66,9 @@
 #include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Engine\CMeshRender.cpp"
 
 
+#include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Engine\CObjectManager.cpp"
+
+
 #include "E:\C++\DIRECTX\Student\MY_PROJ\1. Project\Engine\CPaintShader.cpp"
 
 

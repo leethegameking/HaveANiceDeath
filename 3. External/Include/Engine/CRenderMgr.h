@@ -38,12 +38,14 @@ private:
 	void UpdateLightTex();
 
 public:
-	void RegisterCamera(CCamera* _pCam) { m_vecCam.push_back(_pCam);}
+	void RegisterCamera(CCamera* _pCam);
 	void RegisterEditorCamera(CCamera* _pCam) { m_EditorCam = _pCam; }
 
 	void RegisterLight2D(CLight2D* _pLight2D) { m_vecLight2D.push_back(_pLight2D->GetLightInfo()); }
 
 	CCamera* GetMainCam();
+
+	void ClearCam() { m_vecCam.clear(); }
 
 
 	// 렌더타겟을 카피텍스쳐로 복사

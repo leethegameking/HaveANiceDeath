@@ -13,6 +13,7 @@
 
 MeshRenderUI::MeshRenderUI()
 	: ComponentUI("MeshRender", COMPONENT_TYPE::MESHRENDER)
+	, m_eSelectTexParam(TEX_PARAM::TEX_END)
 	, m_bDynamicMtrl(false)
 {
 }
@@ -130,6 +131,21 @@ void MeshRenderUI::render_update()
 	if (m_bDynamicMtrl)
 	{
 		ParamUI::ShowShaderParam(m_Mtrl.Get());
+
+		// Tex Select
+		const vector<tTextureParam> vecTex = m_Mtrl->GetShader()->GetTextureParam();
+		for (size_t i = 0; i < vecTex.size(); ++i)
+		{
+			Ptr<CTexture> pTex = m_Mtrl->GetTexParam(vecTex[i].eParam);
+			if (ParamUI::Param_Tex(vecTex[i].strName, pTex, this, (FUNC_1)&MeshRenderUI::SetTexture))
+			{
+				m_eSelectTexParam = vecTex[i].eParam;
+			}
+			else
+			{
+				m_Mtrl->SetTexParam(vecTex[i].eParam, pTex);
+			}
+		}
 	}
 
 	// Dynamic Texture 강제 설정
@@ -242,6 +258,17 @@ void MeshRenderUI::Close()
 {
 	UI::Close();
 
+}
+
+void MeshRenderUI::SetTexture(DWORD_PTR _strTexKey)
+{
+	string strKey = (char*)_strTexKey;
+	wstring wstrKey = StrToWstr(strKey);
+
+	Ptr<CTexture> pTex = CResMgr::GetInst()->FindRes<CTexture>(wstrKey);
+	assert(pTex.Get());
+
+	m_Mtrl->SetTexParam(m_eSelectTexParam, pTex);
 }
 
 

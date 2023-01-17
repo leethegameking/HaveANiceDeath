@@ -5,7 +5,9 @@ class CAnimController;
 
 struct tUnitInfo
 {
+    float   m_fMaxHP;
     float   m_fHP;
+    float   m_fMaxMP;
     float   m_fMP;
     float   m_fAtt;
     float   m_fDef;
@@ -17,7 +19,9 @@ struct tUnitInfo
     UNIT_NAME   m_eName;
 
     tUnitInfo()
-        : m_fHP(30.f)
+        : m_fMaxHP(30.f)
+        , m_fHP(30.f)
+        , m_fMaxMP(50.f)
         , m_fMP(50.f)
         , m_fAtt(3.f)
         , m_fDef(1.f)

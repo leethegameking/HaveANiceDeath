@@ -46,3 +46,8 @@ CGameObject* CCameraMgr::GetCutSceneCamera()
 {
 	return m_arrCameraObj[(int)CAMERA_TYPE::CUT_SCENE];
 }
+
+CGameObject* CCameraMgr::GetBossCamera()
+{
+	return m_arrCameraObj[(int)CAMERA_TYPE::BOSS];
+}

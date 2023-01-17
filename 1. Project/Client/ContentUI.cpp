@@ -237,7 +237,7 @@ void ContentUI::SetResourceToInspector(DWORD_PTR _res)
 
 void ContentUI::LoadLevel(DWORD_PTR _levelPath)
 {
-	MenuUI::SaveCurLevel();
+	// MenuUI::SaveCurLevel();
 
 	TreeNode* pNode = (TreeNode*)_levelPath;
 	string& strLevelPath = pNode->GetNodeKey();

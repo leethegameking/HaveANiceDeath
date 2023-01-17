@@ -240,7 +240,7 @@ void CWorkman::AttackState()
 		Vec3 vPos = Transform()->GetRelativePos();
 		vPos.x += (int)m_CurUnitInfo.m_eDir * 200.f;
 		CGameObject* pCloneObj = m_pProjectile->Instantiate();
-		Instantiate(pCloneObj, vPos, (int)LAYER_NAME::ENEMY_ATTACK);
+		Instantiate(pCloneObj, vPos, (int)LAYER_NAME::ENEMY_PROJ);
 		CProjectileScript* pProjScr = pCloneObj->GetScript<CProjectileScript>();
 		pProjScr->SetDir(Vec2((float)m_CurUnitInfo.m_eDir, 0.f)); // Attack Ready에서 받아오기
 		pProjScr->SetAnimOnce();

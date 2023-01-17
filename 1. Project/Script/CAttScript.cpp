@@ -64,17 +64,26 @@ void CAttScript::BeginOverlap(CCollider2D* _other)
 	{
 		float pAtt = m_pUnitScr->GetUnitInfo().m_fAtt;
 		CUnitScript* pTargetUnit = _other->GetOwner()->GetParent()->GetScript<CUnitScript>();
-		float& pTargetHP = pTargetUnit->GetUnitInfo().m_fHP;
-		float  pTargetDef = pTargetUnit->GetUnitInfo().m_fDef;
-		pTargetHP -= pAtt * m_fCoefficient - pTargetDef;
+		if (pTargetUnit)
+		{
+			float& pTargetHP = pTargetUnit->GetUnitInfo().m_fHP;
+			float  pTargetDef = pTargetUnit->GetUnitInfo().m_fDef;
+			pTargetHP -= pAtt * m_fCoefficient - pTargetDef;
+		}
 	}
 	else if(m_pProjScr)
 	{
 		float pAtt = m_pProjScr->GetAtt();
-		CUnitScript* pTargetUnit = _other->GetOwner()->GetParent()->GetScript<CUnitScript>();
-		float& pTargetHP = pTargetUnit->GetUnitInfo().m_fHP;
-		float  pTargetDef = pTargetUnit->GetUnitInfo().m_fDef;
-		pTargetHP -= pAtt * m_fCoefficient - pTargetDef;
+		if (_other->GetOwner()->GetParent())
+		{
+			CUnitScript* pTargetUnit = _other->GetOwner()->GetParent()->GetScript<CUnitScript>();
+			if (pTargetUnit)
+			{
+				float& pTargetHP = pTargetUnit->GetUnitInfo().m_fHP;
+				float  pTargetDef = pTargetUnit->GetUnitInfo().m_fDef;
+				pTargetHP -= pAtt * m_fCoefficient - pTargetDef;
+			}
+		}
 	}
 }
 

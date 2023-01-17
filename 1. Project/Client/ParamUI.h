@@ -20,6 +20,7 @@ public:
 	static void Param_Vec3(const string& _ParamName, Vec3* _pInOut);
 	static void Param_Vec4(const string& _ParamName, Vec4* _pInOut);
 	static void Param_Mat(const string& _ParamName, Matrix* _pInOut);
+	static void Param_String(const string& _ParamName, char* _pInOut);
 
 	static void Param_Prefab(const string& _ParamName, Ptr<CPrefab>& _Pref);
 

@@ -42,6 +42,8 @@ private:
     
     void SetMemberData(CCollider2D* _other);
 
+    bool IsUnit(CCollider2D* _other);
+
 public:
     bool IsPlatform() { return m_bPlatform; }
 

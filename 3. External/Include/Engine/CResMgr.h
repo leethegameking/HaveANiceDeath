@@ -81,6 +81,8 @@ private:
 private:
 	void CreateBlockInnerShader();
 	void CreateBlockOuterShader();
+	void CreateUIShader();
+	void CreatePlayerShader();
 
 public:
 	CResMgr();

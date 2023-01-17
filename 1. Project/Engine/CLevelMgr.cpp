@@ -2,7 +2,8 @@
 #include "CLevelMgr.h"
 
 #include "CLevel.h"
-
+#include "CRenderMgr.h"
+#include "CObjectManager.h"
 
 CLevelMgr::CLevelMgr()
 	: m_pCurLevel(nullptr)
@@ -30,6 +31,9 @@ void CLevelMgr::ChangeLevel(CLevel* _nextLevel)
 {
 	if (m_pCurLevel)
 		delete m_pCurLevel;
+
+	CRenderMgr::GetInst()->ClearCam();
+	CObjectManager::GetInst()->Clear();
 
 	m_pCurLevel = _nextLevel;
 }

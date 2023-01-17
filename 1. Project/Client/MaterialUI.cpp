@@ -96,8 +96,23 @@ void MaterialUI::render_update()
 		ImGui::NewLine();
 		ImGui::Text("Shader Parameter");
 		ParamUI::ShowShaderParam(pMtrl);
-		ParamUI::ShowTexParam(pMtrl , m_eSelectTexParam);
+		//ParamUI::ShowTexParam(pMtrl , m_eSelectTexParam);
+		const vector<tTextureParam> vecTex = pMtrl->GetShader()->GetTextureParam();
+		for (size_t i = 0; i < vecTex.size(); ++i)
+		{
+			Ptr<CTexture> pTex = pMtrl->GetTexParam(vecTex[i].eParam);
+			if (ParamUI::Param_Tex(vecTex[i].strName, pTex, this, (FUNC_1)&MaterialUI::SetTexture))
+			{
+				m_eSelectTexParam = vecTex[i].eParam;
+			}
+			else
+			{
+				pMtrl->SetTexParam(vecTex[i].eParam, pTex);
+			}
+		}
 	}
+
+
 }
 
 void MaterialUI::SetGraphicsShader(DWORD_PTR _ShaderKey)
