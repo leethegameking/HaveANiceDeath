@@ -16,6 +16,7 @@
 #include "CSaveLoadMgr.h"
 
 #include <Script/CAnimController.h>
+#include <Script/CUIMgr.h>
 
 
 HINSTANCE   g_hInst = nullptr;
@@ -52,10 +53,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         MessageBox(nullptr, L"엔진 초기화 실패", L"에러", MB_OK);
         return 0;
     }
-
     CSaveLoadMgr::GetInst()->init();
 
     CreateTestLevel();
+
+
 
     // Editor 초기화
     CEditor::GetInst()->init();
@@ -63,11 +65,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     CImGuiMgr::GetInst()->init(g_hWnd);
 
     CAnimController::AnimConInit();
-
-
-
-
-
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_CLIENT));
 

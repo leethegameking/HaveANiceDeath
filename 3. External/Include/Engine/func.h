@@ -11,6 +11,8 @@ enum BIT_FUNC_OPT
 	BIT_EQUAL_SELECTED_BIT,
 };
 
+void ToScreenPos(Vec2& _vPos);
+
 bool CalBit(UINT _originBit, UINT _cmpBits, BIT_FUNC_OPT _opt, UINT _CompareBit = 0);
 
 void AddBit(UINT& _src, UINT _add);

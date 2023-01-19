@@ -16,7 +16,7 @@ CBasicTextScript::CBasicTextScript()
 CBasicTextScript::CBasicTextScript(const CBasicTextScript& _origin)
 	: CTextScript(_origin)
 	, m_strText(_origin.m_strText)
-	, m_eFormatType()
+	, m_eFormatType(_origin.m_eFormatType)
 {
 	m_strText.reserve(1000);
 	AddScriptParam(SCRIPT_PARAM::STRING, "Text", (char*)m_strText.data());
@@ -37,6 +37,7 @@ void CBasicTextScript::tick()
 	tTx.eFormat = (TEXT_FORMAT)m_eFormatType;
 	tTx.strText = StrToWstr(m_strText.data());
 	tTx.vWorldPos = Transform()->GetWorldPos();
+	tTx.bScreenPos = true;
 
 	SimpleText::GetInst()->AddDrawVec(tTx);
 }

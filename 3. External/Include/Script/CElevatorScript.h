@@ -2,17 +2,23 @@
 #include <Engine/CScript.h>
 
 class CPrefab;
+class CLevelSelectScript;
 
 enum ELEVATOR_STATE
 {
     ELEVATOR_APPEAR,
     ELEVATOR_OPEN,
     ELEVATOR_WAIT,
-    ELEVATOR_DISAPPEAR,
     ELEVATOR_CLOSE,
+    ELEVATOR_DISAPPEAR,
+
 
     ELEVATOR_WAIT_PLAYER,
+    ELEVATOR_IN_RUN,
+    ELEVATOR_IN,
     ELEVATOR_SELECT_LV,
+    ELEVATOR_WAIT_2, // 2 -> ¥Ÿ∏• ∏ ¿∏∑Œ ¿Ãµø
+    ELEVATOR_CLOSE_2,
 };
 
 class CElevatorScript :
@@ -23,7 +29,18 @@ private:
     bool            m_bFirstState;
 
     float           m_fDetectRadius;
-    Ptr<CPrefab>    m_pLVSelectPref;
+    Ptr<CPrefab>    m_pLVSelectPref; // æ» æ∏.
+    bool            m_bSelectUIOn;
+
+    CGameObject*    m_pPlayerObj;
+    CGameObject*    m_pLVSelectUI;
+    
+    CLevelSelectScript* m_scrLVSelect;
+
+    float           m_fDebugAddTime;
+
+public:
+    void SetLVSelectScr(CLevelSelectScript* _pScr) { m_scrLVSelect = _pScr; }
 
 public:
     virtual void begin() override;

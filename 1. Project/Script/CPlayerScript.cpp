@@ -40,6 +40,9 @@ void CPlayerScript::begin()
 	MeshRender()->GetCurMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_0, &fAlpha);
 	Rigidbody2D()->SetIgnGravity(true);
 	CPlayerMgr::GetInst()->SetPlayerDisable(true);
+
+	tMtrlConst tMC = tMtrlConst{};
+	GetOwner()->MeshRender()->GetCurMaterial()->SetConstMtrl(tMC);
 }
 
 void CPlayerScript::tick()

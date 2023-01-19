@@ -62,6 +62,7 @@ int CEngine::init(HWND _hWnd, UINT _iWidth, UINT _iHeight)
 	CResMgr::GetInst()->init();
 	CRenderMgr::GetInst()->init();
 	CLevelMgr::GetInst()->init();
+	
 
 	
 

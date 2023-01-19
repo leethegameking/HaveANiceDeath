@@ -182,6 +182,14 @@ enum class TITLE_MENU_TYPE
     END,
 };
 
+enum class UI_TYPE
+{
+    UI_PLAYER_STATE,
+    UI_BOSS_HP,
+    UI_SELECT_LV,
+    END,
+};
+
 //===========================DUMMY==============================
 
 enum E_ANIM_CONDITION

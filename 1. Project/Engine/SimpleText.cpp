@@ -91,6 +91,10 @@ void SimpleText::Draw()
                 m_vecText[i].vWorldPos.x = (m_vecText[i].vWorldPos.x - vCamWorldPos.x) / fCamScale + resol.x / 2.f;
                 m_vecText[i].vWorldPos.y = resol.y / 2.f - (m_vecText[i].vWorldPos.y - vCamWorldPos.y) / fCamScale;
             }
+            else
+            {
+                ToScreenPos(m_vecText[i].vWorldPos);
+            }
 
             D2D1_SIZE_F targetSize = m_pRT->GetSize();
 

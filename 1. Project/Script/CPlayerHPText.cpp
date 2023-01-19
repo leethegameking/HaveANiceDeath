@@ -36,7 +36,7 @@ void CPlayerHPText::tick()
 	tText tTx;
 	tTx.strText = to_wstring((int)m_pUnitScr->GetUnitInfo().m_fHP) + L" / " +  to_wstring((int)m_pUnitScr->GetUnitInfo().m_fMaxHP);
 	tTx.eFormat = TEXT_FORMAT::TEXT_PLAYER_HP;
-	tTx.vWorldPos = Vec3(800.f + Transform()->GetWorldPos().x, 450.f - Transform()->GetWorldPos().y, 0.f);
+	tTx.vWorldPos = Transform()->GetWorldPos();
 	tTx.bScreenPos = true;
 
 	SimpleText::GetInst()->AddDrawVec(tTx);

@@ -151,7 +151,10 @@ void CResMgr::CreatePlayerShader()
 	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_TRANSPARENT);
 
-	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_0, "Alpha Ratio ");
+	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_0,	"Alpha Ratio          ");
+	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_1,	"Elevator Close Speed ");
+	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_2,	"Elevator Close Ratio ");
+	pShader->AddScalarParam(SCALAR_PARAM::INT_0,	"Elevator Close Bool  ");
 
 	pShader->SetEngineRes();
 	AddRes<CGraphicsShader>(L"PlayerShaderAlpha", pShader);

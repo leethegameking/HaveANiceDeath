@@ -196,6 +196,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CTextScript.h" />
     <ClInclude Include="CTitleMenuScript.h" />
     <ClInclude Include="CUICameraScript.h" />
+    <ClInclude Include="CUIMgr.h" />
     <ClInclude Include="CUnitScript.h" />
     <ClInclude Include="CWorkman.h" />
     <ClInclude Include="CWorkwoman.h" />
@@ -235,6 +236,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CTextScript.cpp" />
     <ClCompile Include="CTitleMenuScript.cpp" />
     <ClCompile Include="CUICameraScript.cpp" />
+    <ClCompile Include="CUIMgr.cpp" />
     <ClCompile Include="CUnitScript.cpp" />
     <ClCompile Include="CWorkman.cpp" />
     <ClCompile Include="CWorkwoman.cpp" />

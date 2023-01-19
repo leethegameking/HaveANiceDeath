@@ -24,6 +24,13 @@ wstring GetNameFromPath(const wstring& _strPath)
 	return strName;
 }
 
+void ToScreenPos(Vec2& _vPos)
+{
+	Vec2 vResol = CDevice::GetInst()->GetRenderResolution();
+	_vPos.y = -_vPos.y;
+	_vPos += vResol / 2.f;
+}
+
 bool CalBit(UINT _originBit, UINT _cmpBits, BIT_FUNC_OPT _opt, UINT _CompareBit)
 {
 	switch (_opt)

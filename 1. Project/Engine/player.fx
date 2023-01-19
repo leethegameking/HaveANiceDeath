@@ -5,6 +5,9 @@
 #include "func.fx"
 
 #define ALPHA_RATIO g_float_0
+#define BOOL_CLOSE  g_int_0
+#define CLOSE_SPEED g_float_1
+#define CLOSED_RATIO g_float_2
 
 struct VTX_IN
 {
@@ -36,6 +39,15 @@ float4 PS_Player_Alpha(VTX_OUT _in) : SV_Target
 {
     float4 vOutColor = float4(1.f, 0.f, 1.f, 1.f);
     
+    if (BOOL_CLOSE)
+    {
+        //if ((g_v3Scale.x - CLOSE_SPEED * g_fDT) / g_v3Scale - CLOSED_RATIO >= _in.vUV.x || _in.vUV.x >= CLOSED_RATIO + CLOSE_SPEED * g_fDT / g_v3Scale.x)
+        if (CLOSED_RATIO / 2.f >= _in.vUV.x || _in.vUV.x >= 1.f - CLOSED_RATIO / 2.f)
+        {
+            discard;
+        }
+    }
+
     if (g_iAnim2DUse)
     {
         float2 vDiff = (g_vFullSize - g_vSlice) / 2.f;
@@ -54,7 +66,9 @@ float4 PS_Player_Alpha(VTX_OUT _in) : SV_Target
     {
         vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
     }
+
     
+
     
     vOutColor.a *= ALPHA_RATIO;
 

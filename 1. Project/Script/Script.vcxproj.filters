@@ -109,6 +109,9 @@
     <ClInclude Include="CLevelSelectScript.h">
       <Filter>Script\Elevator\LevelSelect</Filter>
     </ClInclude>
+    <ClInclude Include="CUIMgr.h">
+      <Filter>Manager\UIMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Script.cpp">
@@ -218,6 +221,9 @@
     </ClCompile>
     <ClCompile Include="CLevelSelectScript.cpp">
       <Filter>Script\Elevator\LevelSelect</Filter>
+    </ClCompile>
+    <ClCompile Include="CUIMgr.cpp">
+      <Filter>Manager\UIMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +343,9 @@
     </Filter>
     <Filter Include="Script\Elevator\LevelSelect">
       <UniqueIdentifier>{230b599b-4899-4b0f-ba4f-f120ef0c0793}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\UIMgr">
+      <UniqueIdentifier>{0a9e742f-550e-474c-92d2-fc15c7aa5b63}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -6,3 +6,5 @@ CPlayerMgr.h
 CPlayerMgr.cpp
 CCameraMgr.h
 CCameraMgr.cpp
+CUIMgr.h
+CUIMgr.cpp

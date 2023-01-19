@@ -12,6 +12,7 @@
 
 
 #include <Script/CScriptMgr.h>
+#include <Script/CUIMgr.h>
 
 bool CSaveLoadMgr::m_bFirstLoad = true;
 bool CSaveLoadMgr::m_bPrefabLoad = false;
