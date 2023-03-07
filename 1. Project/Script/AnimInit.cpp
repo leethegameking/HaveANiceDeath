@@ -46,7 +46,7 @@ void CAnimController::CreatePlayerAnimCon()
 	tAnimNode* pNode = nullptr;
 	tTransitionNode* pTrNode = nullptr;
 	// ============================== Dash ==============================
-	pNode = FindNode(animation\\player\\PlayerDash.anim); pNode->AddPreferences( DIR_CHANGE_END | ANY_STATE | NO_MOVE | IGNORE_GRAVITY | INVINCIBLE );
+	pNode = FindNode(animation\\player\\PlayerDash.anim); pNode->AddPreferences( DIR_CHANGE_END | ANY_STATE | NO_MOVE | IGNORE_GRAVITY | INVINCIBLE | FX_DASH_CIRCLE | FX_DASH_FEATHER ); pNode->SetSound(L"sound\\player\\Player_Dash.wav");
 	PushTranNode(animation\\player\\PlayerIdle.anim); pTrNode->AddInclude(ANIM_FINISHED);
 	
 	// ============================== Ground ==============================
@@ -107,17 +107,21 @@ void CAnimController::CreatePlayerAnimCon()
 	pTrNode->AddInclude(GROUND | MOUSE_LEFT);
 
 	// ============================== Jump ==============================
-	pNode = FindNode(animation\\player\\PlayerJumpStart.anim);
+	pNode = FindNode(animation\\player\\PlayerJumpStart.anim); pNode->AddPreferences(FX_JUMP); pNode->SetSound(L"sound\\player\\Player_Jump.wav");
 	PushTranNode(animation\\player\\PlayerFalling.anim);
 	pTrNode->AddInclude(SPEED_Y_NEGATIVE);
 	PushTranNode(animation\\player\\PlayerAirCombo1.anim);
-	pTrNode->AddInclude(MOUSE_LEFT);
+	pTrNode->AddInclude(MOUSE_LEFT | CAN_AIR_ATTACK, KEY_S);
+	PushTranNode(animation\\player\\LandingAttack.anim);
+	pTrNode->AddInclude(MOUSE_LEFT | KEY_S);
 
 	pNode = FindNode(animation\\player\\PlayerFalling.anim); pNode->AddPreferences(REPEAT);
 	PushTranNode(animation\\player\\PlayerLanding.anim);
 	pTrNode->AddInclude(GROUND);
 	PushTranNode(animation\\player\\PlayerAirCombo1.anim);
-	pTrNode->AddInclude(MOUSE_LEFT);
+	pTrNode->AddInclude(MOUSE_LEFT | CAN_AIR_ATTACK, KEY_S);
+	PushTranNode(animation\\player\\LandingAttack.anim);
+	pTrNode->AddInclude(MOUSE_LEFT | KEY_S);
 
 	pNode = FindNode(animation\\player\\PlayerLanding.anim); /*pNode->AddPreferences(NO_MOVE);*/
 	PushTranNode(animation\\player\\PlayerIdle.anim); 
@@ -132,7 +136,9 @@ void CAnimController::CreatePlayerAnimCon()
 	PushTranNode(animation\\player\\PlayerIdle.anim); 
 	pTrNode->AddInclude(ANIM_FINISHED);
 
-	pNode = FindNode(animation\\player\\PlayerCombo1.anim);  pNode->AddPreferences(DIR_CHANGE_END | HAS_RESERVE | NO_MOVE | COMBO_ANIM | HAS_COLLIDER | IGNORE_GRAVITY);
+	pNode = FindNode(animation\\player\\PlayerCombo1.anim);  pNode->AddPreferences(DIR_CHANGE_END | HAS_RESERVE | NO_MOVE | COMBO_ANIM | HAS_COLLIDER | IGNORE_GRAVITY); pNode->SetSound(L"sound\\player\\Player_Att_Combo_1.wav");
+	PushTranNode(animation\\player\\LandingAttack.anim);
+	pTrNode->AddInclude(MOUSE_LEFT | KEY_S, GROUND);
 	PushTranNode(animation\\player\\PlayerCombo2.anim);
 	pTrNode->AddInclude(ANIM_FINISHED | GROUND | COMBO_PROGRESS); pNode->SetReserve(pTrNode->pAnimKey);
 	PushTranNode(animation\\player\\PlayerAirCombo2.anim);
@@ -140,47 +146,58 @@ void CAnimController::CreatePlayerAnimCon()
 	PushTranNode(animation\\player\\PlayerFightToIdle2.anim); 
 	pTrNode->AddInclude(ANIM_FINISHED);
 
-	pNode = FindNode(animation\\player\\PlayerCombo2.anim);  pNode->AddPreferences(DIR_CHANGE_END | HAS_RESERVE | NO_MOVE | COMBO_ANIM | HAS_COLLIDER);
+	pNode = FindNode(animation\\player\\PlayerCombo2.anim);  pNode->AddPreferences(DIR_CHANGE_END | HAS_RESERVE | NO_MOVE | COMBO_ANIM | HAS_COLLIDER); pNode->SetSound(L"sound\\player\\Player_Att_Combo_2.wav");
 	PushTranNode(animation\\player\\PlayerCombo3.anim);
 	pTrNode->AddInclude(ANIM_FINISHED | GROUND | COMBO_PROGRESS); pNode->SetReserve(pTrNode->pAnimKey);
 	PushTranNode(animation\\player\\PlayerFightToIdle.anim); 
 	pTrNode->AddInclude(ANIM_FINISHED);
 
-	pNode = FindNode(animation\\player\\PlayerCombo3.anim);  pNode->AddPreferences(DIR_CHANGE_END | HAS_RESERVE | NO_MOVE | COMBO_ANIM | HAS_COLLIDER);
+	pNode = FindNode(animation\\player\\PlayerCombo3.anim);  pNode->AddPreferences(DIR_CHANGE_END | HAS_RESERVE | NO_MOVE | COMBO_ANIM | HAS_COLLIDER); pNode->SetSound(L"sound\\player\\Player_Att_Combo_3.wav");
 	PushTranNode(animation\\player\\PlayerCombo4.anim);
 	pTrNode->AddInclude(ANIM_FINISHED | GROUND | COMBO_PROGRESS); pNode->SetReserve(pTrNode->pAnimKey);
 	PushTranNode(animation\\player\\PlayerFightToIdle.anim); 
 	pTrNode->AddInclude(ANIM_FINISHED);
 
-	pNode = FindNode(animation\\player\\PlayerCombo4.anim);  pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE | COMBO_ANIM | HAS_COLLIDER);
+	pNode = FindNode(animation\\player\\PlayerCombo4.anim);  pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE | COMBO_ANIM | HAS_COLLIDER); pNode->SetSound(L"sound\\player\\Player_Att_Combo_4a.wav");
 	PushTranNode(animation\\player\\PlayerCombo4_2.anim); 
 	pTrNode->AddInclude(ANIM_FINISHED);
 
-	pNode = FindNode(animation\\player\\PlayerCombo4_2.anim);  pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE | COMBO_ANIM | HAS_COLLIDER);
+	pNode = FindNode(animation\\player\\PlayerCombo4_2.anim);  pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE | COMBO_ANIM | HAS_COLLIDER | CAMERA_EVENT_SHAKE); pNode->SetSound(L"sound\\player\\Player_Att_Combo_4b.wav");  pNode->SetMumbleSound(L"sound\\player\\Player_Fight_Mumble.wav");
 	PushTranNode(animation\\player\\PlayerIdle.anim); 
 	pTrNode->AddInclude(ANIM_FINISHED);
 
-	pNode = FindNode(animation\\player\\PlayerJumpAttack.anim);  pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE | HAS_COLLIDER);
+	// JUMPATT
+	pNode = FindNode(animation\\player\\PlayerJumpAttack.anim);  pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE | HAS_COLLIDER | IGNORE_GRAVITY); pNode->SetSound(L"sound\\player\\Player_Att_Up.wav");
 	PushTranNode(animation\\player\\PlayerIdle.anim);
 	pTrNode->AddInclude(ANIM_FINISHED);
 
 	// ============================== JumpAttack ==============================
-	pNode = FindNode(animation\\player\\PlayerAirCombo1.anim);  pNode->AddPreferences(DIR_CHANGE_END | HAS_RESERVE | NO_MOVE | COMBO_ANIM | HAS_COLLIDER | IGNORE_GRAVITY);
+	pNode = FindNode(animation\\player\\PlayerAirCombo1.anim);  pNode->AddPreferences(DIR_CHANGE_END | HAS_RESERVE | NO_MOVE | COMBO_ANIM | HAS_COLLIDER | IGNORE_GRAVITY); pNode->SetSound(L"sound\\player\\Player_Att_Air_1.wav");
 	PushTranNode(animation\\player\\PlayerCombo1.anim);
-	pTrNode->AddInclude(ANIM_FINISHED | COMBO_PROGRESS, GROUND); pNode->SetReserve(pTrNode->pAnimKey, AERIALANIM); 
+	pTrNode->AddInclude(ANIM_FINISHED | COMBO_PROGRESS , GROUND); pNode->SetReserve(pTrNode->pAnimKey, AERIALANIM);
+	PushTranNode(animation\\player\\LandingAttack.anim); 
+	pTrNode->AddInclude(MOUSE_LEFT | KEY_S, GROUND);
 	PushTranNode(animation\\player\\PlayerIdle.anim); 
 	pTrNode->AddInclude(ANIM_FINISHED); 
 
-	pNode = FindNode(animation\\player\\PlayerAirCombo2.anim);  pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE | COMBO_ANIM | HAS_COLLIDER | IGNORE_GRAVITY);
+	pNode = FindNode(animation\\player\\PlayerAirCombo2.anim);  pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE | COMBO_ANIM | HAS_COLLIDER | IGNORE_GRAVITY | AIR_ATTACK_DELAY); pNode->SetSound(L"sound\\player\\Player_Att_Air_2.wav");
+	PushTranNode(animation\\player\\LandingAttack.anim);
+	pTrNode->AddInclude(MOUSE_LEFT | KEY_S, GROUND);
 	PushTranNode(animation\\player\\PlayerIdle.anim); 
 	pTrNode->AddInclude(ANIM_FINISHED);
 
-	// ============================== Hit ==============================
-	pNode = FindNode(animation\\player\\PlayerHit.anim);  pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE | COMBO_ANIM | INVINCIBLE_START);
+
+	// ============================== LandingAttack ==============================
+	pNode = FindNode(animation\\player\\LandingAttack.anim);  pNode->AddPreferences(NO_MOVE | HAS_COLLIDER | LANDING_ATTACK | CAMERA_EVENT_SHAKE); pNode->SetSound(L"sound\\player\\Player_Att_Landing.wav");
 	PushTranNode(animation\\player\\PlayerIdle.anim);
 	pTrNode->AddInclude(ANIM_FINISHED);
 
-	pNode = FindNode(animation\\player\\PlayerDisappear.anim);  pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE | COMBO_ANIM);
+	// ============================== Hit ==============================
+	pNode = FindNode(animation\\player\\PlayerHit.anim);  pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE | COMBO_ANIM | INVINCIBLE_START | DISABLE); pNode->SetSound(L"sound\\player\\Player_Hit.wav");  pNode->SetMumbleSound(L"sound\\player\\Player_Hit_Mumble.wav");
+	PushTranNode(animation\\player\\PlayerIdle.anim);
+	pTrNode->AddInclude(ANIM_FINISHED);
+
+	pNode = FindNode(animation\\player\\PlayerDisappear.anim);  pNode->AddPreferences(DIR_CHANGE_END | NO_MOVE | COMBO_ANIM | DEATH);
 }
 
 void CAnimController::AddPlayerAnyNode()
@@ -192,7 +209,7 @@ void CAnimController::AddPlayerAnyNode()
 	PushTranNode(animation\\player\\PlayerDash.anim);
 	pTrNode->AddInclude(KEY_SHIFT | CAN_DASH);
 
-	PushTranNode(animation\\player\\PlayerHit.anim);
+	PushTranNode(animation\\player\\PlayerHit.anim); 
 	pTrNode->AddInclude(HP_DOWN);
 
 	PushTranNode(animation\\player\\PlayerDisappear.anim);

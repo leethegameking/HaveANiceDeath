@@ -88,6 +88,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)3. External\Library\$(ProjectName)\</OutDir>
+    <IncludePath>$(SolutionDir)3. External\Include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)3. External\Library\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -168,6 +170,7 @@ call CodeGen.exe</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CAnimController.h" />
+    <ClInclude Include="CAnimStarter.h" />
     <ClInclude Include="CAttScript.h" />
     <ClInclude Include="CBasicTextScript.h" />
     <ClInclude Include="CBlockScript.h" />
@@ -175,17 +178,28 @@ call CodeGen.exe</Command>
     <ClInclude Include="CBossHPUIScript.h" />
     <ClInclude Include="CBrad.h" />
     <ClInclude Include="CCameraMgr.h" />
+    <ClInclude Include="CCameraPoint.h" />
+    <ClInclude Include="CCamPointWall.h" />
     <ClInclude Include="CControllerScript.h" />
     <ClInclude Include="CCutSceneCameraScript.h" />
+    <ClInclude Include="CCutSceneMgr.h" />
+    <ClInclude Include="CDamageText.h" />
+    <ClInclude Include="CEffectMgr.h" />
+    <ClInclude Include="CEffectScaler.h" />
     <ClInclude Include="CElevatorScript.h" />
     <ClInclude Include="CEnemyAttScript.h" />
     <ClInclude Include="CEnemyController.h" />
     <ClInclude Include="CEnemyScript.h" />
+    <ClInclude Include="CFarBack.h" />
+    <ClInclude Include="CFarFront.h" />
     <ClInclude Include="CGameCameraScript.h" />
     <ClInclude Include="CHitScript.h" />
+    <ClInclude Include="CItemScript.h" />
     <ClInclude Include="CLevelSelectScript.h" />
     <ClInclude Include="CMainCameraScript.h" />
     <ClInclude Include="CMouseColliderScript.h" />
+    <ClInclude Include="COrderTextScript.h" />
+    <ClInclude Include="CParticleEnder.h" />
     <ClInclude Include="CPlayerAttScript.h" />
     <ClInclude Include="CPlayerHPText.h" />
     <ClInclude Include="CPlayerHPUIScript.h" />
@@ -193,8 +207,12 @@ call CodeGen.exe</Command>
     <ClInclude Include="CPlayerScript.h" />
     <ClInclude Include="CProjectileScript.h" />
     <ClInclude Include="CScriptMgr.h" />
+    <ClInclude Include="CSoundMgr.h" />
+    <ClInclude Include="CSoundPlay.h" />
     <ClInclude Include="CTextScript.h" />
     <ClInclude Include="CTitleMenuScript.h" />
+    <ClInclude Include="CTriggerMgr.h" />
+    <ClInclude Include="CTriggerScript.h" />
     <ClInclude Include="CUICameraScript.h" />
     <ClInclude Include="CUIMgr.h" />
     <ClInclude Include="CUnitScript.h" />
@@ -208,6 +226,7 @@ call CodeGen.exe</Command>
   <ItemGroup>
     <ClCompile Include="AnimInit.cpp" />
     <ClCompile Include="CAnimController.cpp" />
+    <ClCompile Include="CAnimStarter.cpp" />
     <ClCompile Include="CAttScript.cpp" />
     <ClCompile Include="CBasicTextScript.cpp" />
     <ClCompile Include="CBlockScript.cpp" />
@@ -215,17 +234,28 @@ call CodeGen.exe</Command>
     <ClCompile Include="CBossHPUIScript.cpp" />
     <ClCompile Include="CBrad.cpp" />
     <ClCompile Include="CCameraMgr.cpp" />
+    <ClCompile Include="CCameraPoint.cpp" />
+    <ClCompile Include="CCamPointWall.cpp" />
     <ClCompile Include="CControllerScript.cpp" />
     <ClCompile Include="CCutSceneCameraScript.cpp" />
+    <ClCompile Include="CCutSceneMgr.cpp" />
+    <ClCompile Include="CDamageText.cpp" />
+    <ClCompile Include="CEffectMgr.cpp" />
+    <ClCompile Include="CEffectScaler.cpp" />
     <ClCompile Include="CElevatorScript.cpp" />
     <ClCompile Include="CEnemyAttScript.cpp" />
     <ClCompile Include="CEnemyController.cpp" />
     <ClCompile Include="CEnemyScript.cpp" />
+    <ClCompile Include="CFarBack.cpp" />
+    <ClCompile Include="CFarFront.cpp" />
     <ClCompile Include="CGameCameraScript.cpp" />
     <ClCompile Include="CHitScript.cpp" />
+    <ClCompile Include="CItemScript.cpp" />
     <ClCompile Include="CLevelSelectScript.cpp" />
     <ClCompile Include="CMainCameraScript.cpp" />
     <ClCompile Include="CMouseColliderScript.cpp" />
+    <ClCompile Include="COrderTextScript.cpp" />
+    <ClCompile Include="CParticleEnder.cpp" />
     <ClCompile Include="CPlayerAttScript.cpp" />
     <ClCompile Include="CPlayerHPText.cpp" />
     <ClCompile Include="CPlayerHPUIScript.cpp" />
@@ -233,13 +263,19 @@ call CodeGen.exe</Command>
     <ClCompile Include="CPlayerScript.cpp" />
     <ClCompile Include="CProjectileScript.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
+    <ClCompile Include="CSoundMgr.cpp" />
+    <ClCompile Include="CSoundPlay.cpp" />
     <ClCompile Include="CTextScript.cpp" />
     <ClCompile Include="CTitleMenuScript.cpp" />
+    <ClCompile Include="CTriggerFunc.cpp" />
+    <ClCompile Include="CTriggerMgr.cpp" />
+    <ClCompile Include="CTriggerScript.cpp" />
     <ClCompile Include="CUICameraScript.cpp" />
     <ClCompile Include="CUIMgr.cpp" />
     <ClCompile Include="CUnitScript.cpp" />
     <ClCompile Include="CWorkman.cpp" />
     <ClCompile Include="CWorkwoman.cpp" />
+    <ClCompile Include="extern.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -37,7 +37,7 @@ public:
 
     void Clear();
 public:
-    void ChangeBuffer(UINT _iElementCount, void* _pSrc);
+    void ChangeBuffer(UINT _iElementCount, void* _pSrc, bool _CPUACESS = false);
 
 public:
     CLONE(CStructuredBuffer);

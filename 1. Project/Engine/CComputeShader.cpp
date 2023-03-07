@@ -43,9 +43,10 @@ void CComputeShader::CreateComputeShader(const wstring& _strRelativePath, const 
 
 void CComputeShader::Execute()
 {
+
 	UpdateData();
 
-	// 상수 업데이트	
+	// 상수 업데이트
 	CConstBuffer* pCB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::MATERIAL);
 	pCB->SetData(&m_Param);
 	pCB->UpdateData_CS();

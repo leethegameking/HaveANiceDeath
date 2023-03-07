@@ -73,22 +73,6 @@ void CAnimator2D::finaltick()
 	m_pCurAnim->finaltick();
 }
 
-//void CAnimator2D::CreateAnimation(const wstring& _strKey, Ptr<CTexture> _AtlasTex, Vec2 _vLeftTop, Vec2 _vOffset, Vec2 _vSlice, float _fStep, int _iMaxFrm, float _FPS)
-//{
-//	assert(_AtlasTex.Get());
-//
-//	CAnimation2D* pAnim = FindAnimation(_strKey);
-//	assert(!pAnim);
-//
-//	pAnim = new CAnimation2D;
-//	pAnim->Create(_strKey, _AtlasTex, _vLeftTop, _vOffset, _vSlice, _fStep, _iMaxFrm, _FPS);
-//
-//	CAnimation2D* pAnimClone = pAnim->Clone();
-//	pAnimClone->m_pMasterAnim = pAnim;
-//	m_mapAnim.insert(make_pair(pAnimClone->GetKey(), pAnimClone));
-//	pAnimClone->m_pOwner = this;
-//}
-
 Ptr<CAnimation2D> CAnimator2D::FindAnimation(const wstring& _strKey)
 {
 	map<wstring, Ptr<CAnimation2D>>::iterator iter = m_mapAnim.find(_strKey);
@@ -113,6 +97,7 @@ void CAnimator2D::AddAnimation(wstring _key)
 		m_mapAnim.insert(make_pair(pAnimClone->GetKey(), pAnimClone));
 		pAnimClone->m_pOwner = this;
 		pAnimClone->m_pMasterAnim = pAnim;
+		pAnimClone->SetOwner(this);
 		pAnim->m_vecChildAnim.push_back(pAnimClone);
 	}
 }
@@ -123,6 +108,7 @@ void CAnimator2D::Play(const wstring& _strKey, bool _bRepeat)
 
 	if (IsValid(pAnim.Get()))
 	{
+		pAnim->SetOwner(this);
 		//if(m_pCurAnim.Get())
 		//	m_pCurAnim->Reset();
 		m_pCurAnim = pAnim;
@@ -143,6 +129,17 @@ void CAnimator2D::UpdateData()
 	
 	m_pCurAnim->UpdateData();
 }
+
+void CAnimator2D::UpdateData_CS()
+{
+	if (!IsValid(m_pCurAnim.Get()))
+		return;
+
+
+	m_pCurAnim->UpdateData_CS();
+}
+
+
 
 void CAnimator2D::Clear()
 {

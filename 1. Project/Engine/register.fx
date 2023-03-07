@@ -13,6 +13,7 @@ cbuffer TRANSFORM : register(b0)
     
     row_major matrix g_matWV;    
     row_major matrix g_matWVP;
+    row_major matrix g_matRot;
     
     float3 g_v3Scale;
     int padding;
@@ -81,12 +82,8 @@ cbuffer ANIM2DINFO : register(b3)
     float2  g_vFullSize;
  
     int     g_iAnim2DUse;
-    
-    int     g_bColliderOn;
-    float2  g_iColliderPos;
-    float2  g_iColliderScale;
-    
-    int2    iPadding;
+    float2  g_vAtlasSize;
+    int     iPadding;
 }
 
 

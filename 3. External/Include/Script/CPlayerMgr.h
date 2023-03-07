@@ -11,12 +11,15 @@ private:
 
 	bool		m_bPlayerDisable;
 
+	tUnitInfo	m_pPlayerInfo;
+
 public:
 	CGameObject* GetPlayerObj() { return m_pPlayerObj; };
-	void SetPlayerObj(CGameObject* _obj) { m_pPlayerObj = _obj; }
+	void SetPlayerObj(CGameObject* _obj);
 	bool GetPlayerDisable() { return m_bPlayerDisable; }
 	void SetPlayerDisable(bool _b) { m_bPlayerDisable = _b; }
 
+	void SavePlayerInfo();
 
 
 	CGameObject* GetBossObj() { return m_pBossObj; }

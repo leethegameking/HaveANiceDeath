@@ -367,7 +367,11 @@ int CDevice::CreateBlendState()
 
 void CDevice::TargetClear()
 {
+#ifdef _DEBUG
 	float arrColor[4] = { 0.2f, 0.2f, 0.2f, 1.f };
+#else
+	float arrColor[4] = { 0.f, 0.f, 0.f, 1.f };
+#endif
 	m_pDeviceContext->ClearRenderTargetView(m_pRenderTargetTex->GetRTV().Get(), arrColor);
 	m_pDeviceContext->ClearDepthStencilView(m_pDepthStencilTex->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 }

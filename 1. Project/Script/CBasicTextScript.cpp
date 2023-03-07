@@ -13,6 +13,16 @@ CBasicTextScript::CBasicTextScript()
 	AddScriptParam(SCRIPT_PARAM::INT, "Format", &m_eFormatType);
 }
 
+CBasicTextScript::CBasicTextScript(int _iScriptType)
+	: CTextScript(_iScriptType)
+	, m_strText("Test")
+	, m_eFormatType()
+{
+	m_strText.reserve(1000);
+	AddScriptParam(SCRIPT_PARAM::STRING, "Text", (char*)m_strText.data());
+	AddScriptParam(SCRIPT_PARAM::INT, "Format", &m_eFormatType);
+}
+
 CBasicTextScript::CBasicTextScript(const CBasicTextScript& _origin)
 	: CTextScript(_origin)
 	, m_strText(_origin.m_strText)

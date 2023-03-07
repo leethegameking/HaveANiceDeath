@@ -34,7 +34,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ int       nCmdShow)
 {
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);    
-    // _CrtSetBreakAlloc(4110);
+    //_CrtSetBreakAlloc(2902733);
 
     g_hInst = hInstance;
 
@@ -57,12 +57,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     CreateTestLevel();
 
-
-
     // Editor 초기화
     CEditor::GetInst()->init();
 
+
     CImGuiMgr::GetInst()->init(g_hWnd);
+
 
     CAnimController::AnimConInit();
 

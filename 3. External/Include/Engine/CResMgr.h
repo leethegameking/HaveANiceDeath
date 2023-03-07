@@ -83,6 +83,19 @@ private:
 	void CreateBlockOuterShader();
 	void CreateUIShader();
 	void CreatePlayerShader();
+	void CreateEnemyShader();
+	void CreateCarpetShader();
+	void CreateGrayBoxShader();
+	void CreateDistOrderShader();
+
+	void CreateStarParticleShader();
+	void CreateFrontParticleShader();
+
+private: // CS
+	void CreateStunStarCS();
+	void CreateGhostDeathCS();
+	void CreateSpawnDirCS();
+
 
 public:
 	CResMgr();

@@ -28,6 +28,8 @@ public:
     Ptr<CMaterial> GetCurMaterial() { return m_pCurMtrl; }
     Ptr<CMaterial> GetDynamicMaterial();
 
+    void ClearDynamicMtrl() { m_pDynamicMtrl = nullptr; }
+
     bool IsDynamicMtrl();
     bool HasDynamicMtrl();
 

@@ -52,12 +52,11 @@ void CUnitScript::tick()
 	{
 		AddBit(m_CurUnitInfo.m_iStateBits, UNIT_HP_DOWN);
 	}
-	else if (m_CurUnitInfo.m_fHP == 0.f)
+	else if (m_CurUnitInfo.m_fHP <= 0.f)
 	{
 		AddBit(m_CurUnitInfo.m_iStateBits, UNIT_HP_ZERO);
-		m_CurUnitInfo.m_fHP = -1.f;
+		m_CurUnitInfo.m_fHP = 0.f;
 	}
-	m_PrevUnitInfo = m_CurUnitInfo;
 
 	// 넉백 처리.
 	if (m_tKnockBack.bOn)

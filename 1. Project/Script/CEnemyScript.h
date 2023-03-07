@@ -25,6 +25,12 @@ protected:
 
     Ptr<CPrefab> m_pProjectile;
 
+    Ptr<CPrefab> m_FX_Detect;
+    Ptr<CPrefab> m_FX_Death_1;
+    Ptr<CPrefab> m_FX_Death_2;
+    Ptr<CPrefab> m_FX_StunStar;
+    Ptr<CPrefab> m_FX_Alert;
+
 protected:
     bool m_bUturn;
     bool m_bStateEnter;
@@ -50,6 +56,12 @@ protected:
     Vec2 GetDirToPlayer();
     void SetDir(ANIM_DIR _eDir);
     bool CurAnimFinish();
+
+    void FX_Death_1();
+    void FX_Death_2();
+    void FX_StunStar();
+    void FX_Detect();
+    void FX_Alert();
 
 public:
     virtual void begin() override;

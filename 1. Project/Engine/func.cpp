@@ -297,8 +297,6 @@ bool IsValid(CGameObject*& _pObj)
 
 void Instantiate(CGameObject* _pNewObj, Vec3 _vWorldPos, int _iLayerIdx)
 {
-	
-
 	tEvent evn = {};
 	evn.eType = EVENT_TYPE::CREATE_OBJECT;
 	evn.wParam = (DWORD_PTR)_pNewObj;
@@ -313,6 +311,16 @@ void Instantiate(CGameObject* _pNewObj, Vec3 _vWorldPos, int _iLayerIdx)
 	{
 		_pNewObj->Transform()->SetRelativePos(_vWorldPos);
 	}
+
+	CEventMgr::GetInst()->AddEvent(evn);
+}
+
+void AddChild(CGameObject* _pChild, CGameObject* _pParent)
+{
+	tEvent evn = {};
+	evn.eType = EVENT_TYPE::ADD_CHILD;
+	evn.wParam = (DWORD_PTR)_pChild;
+	evn.lParam = (DWORD_PTR)_pParent;
 
 	CEventMgr::GetInst()->AddEvent(evn);
 }

@@ -29,6 +29,14 @@ enum ANIM_PREFERENCES
     HAS_COLLIDER = 0x00000200, // Collider를 애니메이션 정보에 따라 키고 끔.
     INVINCIBLE = 0x00000400, // 애니메이션 동안 무적판정
     INVINCIBLE_START = 0x00000800,
+    DISABLE = 0x00001000, // 아무런 행동 불가
+    DEATH = 0x0002000, // 죽음
+    AIR_ATTACK_DELAY = 0x0004000, // 마지막 공중 공격 딜레이
+    LANDING_ATTACK = 0x0008000, // 하강 공격 -> 그라운드시 y속도 없앰
+    FX_JUMP = 0x0010000, // FX 점프 효과
+    CAMERA_EVENT_SHAKE = 0x00200000, // camera event
+    FX_DASH_FEATHER = 0x00400000,
+    FX_DASH_CIRCLE = 0x00800000,
 };
 
 enum class ANIM_DIR
@@ -71,6 +79,8 @@ enum ANIM_CONDITION
     HP_ZERO                 = 0x00008000,
     CAN_JUMP_ATTACK         = 0x00010000,
     KEY_W                   = 0x00020000,
+    CAN_AIR_ATTACK          = 0x00040000,
+    KEY_S                   = 0x00080000,
 };
 
 enum UNIT_STATE
@@ -187,8 +197,80 @@ enum class UI_TYPE
     UI_PLAYER_STATE,
     UI_BOSS_HP,
     UI_SELECT_LV,
+    UI_CUTSCENE,
     END,
 };
+
+enum class FX_TYPE
+{
+    TRANSITION_START,
+    TRANSITION_END,
+    END
+};
+
+enum class TRIGGER_TYPE
+{
+    PLAYER_STOP,
+    PLAYER_GO,
+    
+    CHANGE_CAMERA_BOSS_TYPE,
+    END
+};
+
+enum class TRIGGER_COND
+{
+    BEGIN_OVERLAP,
+    OVERLAP,
+    END_OVERLAP,
+    END
+};
+
+enum class CAMERA_POINT_TYPE
+{
+    BOSS_ROOM,
+    END,
+};
+
+enum class MAIN_CAM_STATE
+{
+    MOVE_TO_NEW_POS,
+    GENERAL,
+    BOSS_BRAD,
+};
+
+extern const char* CHAR_CUTSCENE_TEXT_NAME[3];
+extern const char* CHAR_CUTSCENE_TEXT_CONTENT[3];
+
+struct tUnitInfo
+{
+    float   m_fMaxHP;
+    float   m_fHP;
+    float   m_fMaxMP;
+    float   m_fMP;
+    float   m_fAtt;
+    float   m_fDef;
+
+    float   m_fSpeed;
+    ANIM_DIR m_eDir;
+
+    UINT    m_iStateBits;
+    UNIT_NAME   m_eName;
+
+    tUnitInfo()
+        : m_fMaxHP(30.f)
+        , m_fHP(30.f)
+        , m_fMaxMP(50.f)
+        , m_fMP(50.f)
+        , m_fAtt(3.f)
+        , m_fDef(1.f)
+        , m_fSpeed(100.f)
+        , m_eDir(ANIM_DIR::ANIM_RIGHT)
+        , m_iStateBits(0)
+        , m_eName(UNIT_NAME::END)
+    {
+    }
+};
+
 
 //===========================DUMMY==============================
 

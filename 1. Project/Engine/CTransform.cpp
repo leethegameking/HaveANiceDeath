@@ -36,16 +36,16 @@ void CTransform::finaltick()
 
 	Matrix matTrans = XMMatrixTranslation(m_vRelativePos.x, m_vRelativePos.y, m_vRelativePos.z);
 
-	Matrix matRot = XMMatrixRotationX(m_vRelativeRotation.x);
-	matRot *= XMMatrixRotationY(m_vRelativeRotation.y);
-	matRot *= XMMatrixRotationZ(m_vRelativeRotation.z);
+	m_matRot = XMMatrixRotationX(m_vRelativeRotation.x);
+	m_matRot *= XMMatrixRotationY(m_vRelativeRotation.y);
+	m_matRot *= XMMatrixRotationZ(m_vRelativeRotation.z);
 
 	// 회전행렬을 이용해서 현재 물체의 우, 상, 전 방향을 구해놓는다.
-	m_vRelativeDir[(UINT)DIR::RIGHT] = m_vWorldDir[(UINT)DIR::RIGHT] = XMVector3TransformNormal(Vec3(1.f, 0.f, 0.f), matRot);
-	m_vRelativeDir[(UINT)DIR::UP]	 = m_vWorldDir[(UINT)DIR::UP]	 = XMVector3TransformNormal(Vec3(0.f, 1.f, 0.f), matRot);
-	m_vRelativeDir[(UINT)DIR::FRONT] = m_vWorldDir[(UINT)DIR::FRONT] = XMVector3TransformNormal(Vec3(0.f, 0.f, 1.f), matRot);
+	m_vRelativeDir[(UINT)DIR::RIGHT] = m_vWorldDir[(UINT)DIR::RIGHT] = XMVector3TransformNormal(Vec3(1.f, 0.f, 0.f), m_matRot);
+	m_vRelativeDir[(UINT)DIR::UP]	 = m_vWorldDir[(UINT)DIR::UP]	 = XMVector3TransformNormal(Vec3(0.f, 1.f, 0.f), m_matRot);
+	m_vRelativeDir[(UINT)DIR::FRONT] = m_vWorldDir[(UINT)DIR::FRONT] = XMVector3TransformNormal(Vec3(0.f, 0.f, 1.f), m_matRot);
 
-	m_matWorld = matScale * matRot * matTrans;
+	m_matWorld = matScale * m_matRot * matTrans;
 
 	// 부모 오브젝트가 있다면
 	if (GetOwner()->GetParent())
@@ -109,6 +109,7 @@ void CTransform::UpdateData()
 	g_transform.matWV = g_transform.matWorld * g_transform.matView;
 	g_transform.matWVP = g_transform.matWV * g_transform.matProj;
 	g_transform.vScale = m_vRelativeScale;
+	g_transform.matRot = m_matRot;
 	
 	pCB->SetData(&g_transform);
 	pCB->UpdateData(PIPELINE_STAGE::ALL_STAGE);

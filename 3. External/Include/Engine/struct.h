@@ -1,6 +1,33 @@
 ﻿#pragma once
 
 
+enum class CAMERA_EVENT_TYPE
+{
+	ATTACK,
+	UP_DOWN_SHAKE,
+	END,
+};
+
+struct tCameraEvent
+{
+	CAMERA_EVENT_TYPE eType;
+	float fAccTime;
+	float fMaxTime;
+
+	tCameraEvent()
+		: fAccTime(0.f)
+		, eType(CAMERA_EVENT_TYPE::END)
+	{
+	}
+
+	tCameraEvent(float _maxTime)
+		: fMaxTime(_maxTime)
+		, fAccTime(0.f)
+		, eType(CAMERA_EVENT_TYPE::END)
+	{
+	}
+};
+
 struct Vtx
 {
 	Vec3 vPos;
@@ -91,7 +118,26 @@ struct tParticleShare
 	UINT	iPadding[3];
 };
 
+struct tParticleAnim
+{
+	Vec2 vLeftTop;
+	Vec2 vSlice;
+	Vec2 vOffset;
+	Vec2 vFullSize;
+	float fDuration;
+	float fAcc;
 
+	int iEnd;
+	int iPadding;
+};
+
+struct tAnimIdx
+{
+	int iAnimIdx;
+	float fAcc;
+
+	int iPadding[2];
+};
 
 // ================
 // Debug Shape Info
@@ -120,6 +166,8 @@ struct tTransform
 
 	Matrix matWV;
 	Matrix matWVP;
+
+	Matrix matRot;
 
 	Vec3 vScale;
 	int padding;
@@ -164,6 +212,8 @@ struct tGlobalData
 
 extern tGlobalData g_global;
 
+
+
 struct tAnim2DInfo
 {	
 	Vec2 vLeftTop;
@@ -172,8 +222,16 @@ struct tAnim2DInfo
 	Vec2 vFullSize;
 
 	int iAnim2DUse;
-	int iPadding[3];
+
+	Vec2 vAtlasSize;
+	int iPadding;
 };
+
+struct tParticleAnim2DInfo
+{
+	tAnim2DInfo arrAnim2DInfo[50];
+};
+
 
 struct tTile
 {

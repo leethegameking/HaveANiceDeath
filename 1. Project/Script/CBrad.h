@@ -5,7 +5,28 @@ class CBrad :
 {
 private:
     UINT    m_eNextAttackPattern;
+    UINT    m_ePrevAttackPattern;
+
+
     UINT    m_eNextDivePattern;
+
+    float   m_fPoseMoveSpeed;
+    float   m_fSpinMoveSpeed;
+    float   m_fDiveMoveSpeed;
+
+    float   m_fSpinAttackSpeed;
+    float   m_fDiveAttackSpeed;
+
+    Vec2    m_vToGroundSpeed;
+
+    float   m_fDelayTime;
+
+    float   m_fAerialHeight; // relative pos Campoint
+
+    Ptr<CPrefab> m_FX_StompPref;
+    Ptr<CPrefab> m_FX_FlashPref;
+
+    bool        m_bOnce;
 
 public:
     virtual void begin() override;
@@ -45,18 +66,11 @@ private:
 
     void Brad_Hit();
 
-    void Brad_IntroIdle();
-    void Brad_IntroDesk();
-    void Brad_IntroMove();
-    void Brad_IntroPingPong();
-    void Brad_IntroToFight();
-    void Brad_IntroWelcome();
-
     void Brad_StompPose();
     void Brad_StompReady();
     void Brad_StompRock();
-    void Brad_StompSpinAir();
-    void Brad_StompSpinGround();
+    void Brad_StompSpinAir(); //  -> Pose
+    void Brad_StompSpinGround(); // -> Rock
     void Brad_StompToIdle();
 
     void Brad_StunStart();
@@ -69,6 +83,15 @@ private:
 
     void Brad_ToGround();
 
+
+    // ========================================INTRO
+
+    void Brad_IntroIdle();
+    void Brad_IntroPingPong();
+    void Brad_IntroMove();
+    void Brad_IntroWelcome();
+    void Brad_IntroToFight();
+
 private:
     void SelectNextAttackPattern();
     void SelectNextDivePattern();
@@ -77,7 +100,12 @@ private:
     void StompFX();
     void CreateSpinRock();
     void MoveToTarget(Vec3 _vTarget, Vec2 _vSpeed, Vec3 _vDir);
+    void MoveToTarget(Vec3 _vTarget, Vec2 _vSpeed);
+    void MoveToTarget(Vec3 _vTarget, float _fSpeed);
+    void MoveToTarget(Vec3 _vTarget, float _fSpeed, Vec3 _vDir);
     void MoveFromAnimInfo();
+    void ColFromAnimInfo();
+    void ColExpel();
     void ReverseDir();
 };
 

@@ -25,6 +25,7 @@ public:
     void Play(const wstring& _strKey, bool _bRepeat = true);
 
     void UpdateData();
+    void UpdateData_CS();
     void Clear();
 
     Ptr<CAnimation2D> GetCurAnim(){return m_pCurAnim.Get(); }

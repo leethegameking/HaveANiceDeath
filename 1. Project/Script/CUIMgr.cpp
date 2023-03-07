@@ -12,6 +12,7 @@ CUIMgr::CUIMgr()
 	RegisterUI(mapPref.find(L"prefab\\UI_BossHP.pref")->second, UI_TYPE::UI_BOSS_HP);
 	RegisterUI(mapPref.find(L"prefab\\UI_LevelSelect.pref")->second, UI_TYPE::UI_SELECT_LV);
 	RegisterUI(mapPref.find(L"prefab\\UI_PlayerState.pref")->second, UI_TYPE::UI_PLAYER_STATE);
+	RegisterUI(mapPref.find(L"prefab\\UI_CutScene_.pref")->second, UI_TYPE::UI_CUTSCENE);
 }
 
 CUIMgr::~CUIMgr()

@@ -95,7 +95,7 @@
       <Filter>Script\Text\PlayerHP</Filter>
     </ClInclude>
     <ClInclude Include="CBasicTextScript.h">
-      <Filter>Script\Text\BaicText</Filter>
+      <Filter>Script\Text\BasicText</Filter>
     </ClInclude>
     <ClInclude Include="CMouseColliderScript.h">
       <Filter>Script\MouseCol</Filter>
@@ -111,6 +111,54 @@
     </ClInclude>
     <ClInclude Include="CUIMgr.h">
       <Filter>Manager\UIMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CTriggerScript.h">
+      <Filter>Script\Trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="CTriggerMgr.h">
+      <Filter>Manager\TriggerMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CCameraPoint.h">
+      <Filter>Script\GameCamera\CameraPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="COrderTextScript.h">
+      <Filter>Script\Text\BasicText\OrderText</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimStarter.h">
+      <Filter>Script\AnimationStarter</Filter>
+    </ClInclude>
+    <ClInclude Include="CCutSceneMgr.h">
+      <Filter>Script\CutSceneMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CCamPointWall.h">
+      <Filter>Script\GameCamera\CameraPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="CFarBack.h">
+      <Filter>Script\DistOrder\FarBack</Filter>
+    </ClInclude>
+    <ClInclude Include="CFarFront.h">
+      <Filter>Script\DistOrder\FarFront</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffectMgr.h">
+      <Filter>Manager\EffectMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffectScaler.h">
+      <Filter>Script\EffectScale</Filter>
+    </ClInclude>
+    <ClInclude Include="CParticleEnder.h">
+      <Filter>Script\Particle\Ender</Filter>
+    </ClInclude>
+    <ClInclude Include="CDamageText.h">
+      <Filter>Script\Text\DamageText</Filter>
+    </ClInclude>
+    <ClInclude Include="CSoundMgr.h">
+      <Filter>Manager\SoundMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CSoundPlay.h">
+      <Filter>Script\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="CItemScript.h">
+      <Filter>Script\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -208,7 +256,7 @@
       <Filter>Script\Text\PlayerHP</Filter>
     </ClCompile>
     <ClCompile Include="CBasicTextScript.cpp">
-      <Filter>Script\Text\BaicText</Filter>
+      <Filter>Script\Text\BasicText</Filter>
     </ClCompile>
     <ClCompile Include="CMouseColliderScript.cpp">
       <Filter>Script\MouseCol</Filter>
@@ -224,6 +272,60 @@
     </ClCompile>
     <ClCompile Include="CUIMgr.cpp">
       <Filter>Manager\UIMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CTriggerScript.cpp">
+      <Filter>Script\Trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="CTriggerFunc.cpp">
+      <Filter>Script\Trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="CTriggerMgr.cpp">
+      <Filter>Manager\TriggerMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraPoint.cpp">
+      <Filter>Script\GameCamera\CameraPoint</Filter>
+    </ClCompile>
+    <ClCompile Include="COrderTextScript.cpp">
+      <Filter>Script\Text\BasicText\OrderText</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimStarter.cpp">
+      <Filter>Script\AnimationStarter</Filter>
+    </ClCompile>
+    <ClCompile Include="extern.cpp">
+      <Filter>Header</Filter>
+    </ClCompile>
+    <ClCompile Include="CCutSceneMgr.cpp">
+      <Filter>Script\CutSceneMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CCamPointWall.cpp">
+      <Filter>Script\GameCamera\CameraPoint</Filter>
+    </ClCompile>
+    <ClCompile Include="CFarBack.cpp">
+      <Filter>Script\DistOrder\FarBack</Filter>
+    </ClCompile>
+    <ClCompile Include="CFarFront.cpp">
+      <Filter>Script\DistOrder\FarFront</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffectMgr.cpp">
+      <Filter>Manager\EffectMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffectScaler.cpp">
+      <Filter>Script\EffectScale</Filter>
+    </ClCompile>
+    <ClCompile Include="CParticleEnder.cpp">
+      <Filter>Script\Particle\Ender</Filter>
+    </ClCompile>
+    <ClCompile Include="CDamageText.cpp">
+      <Filter>Script\Text\DamageText</Filter>
+    </ClCompile>
+    <ClCompile Include="CSoundMgr.cpp">
+      <Filter>Manager\SoundMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CSoundPlay.cpp">
+      <Filter>Script\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="CItemScript.cpp">
+      <Filter>Script\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -326,9 +428,6 @@
     <Filter Include="Script\Text\PlayerHP">
       <UniqueIdentifier>{9f18dd18-843c-4266-a982-81a025732cae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script\Text\BaicText">
-      <UniqueIdentifier>{b21ae06e-b5a8-4d63-8da1-d7cd605494df}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Script\MouseCol">
       <UniqueIdentifier>{34e0d976-e68c-4f49-aedf-76b95511c898}</UniqueIdentifier>
     </Filter>
@@ -346,6 +445,60 @@
     </Filter>
     <Filter Include="Manager\UIMgr">
       <UniqueIdentifier>{0a9e742f-550e-474c-92d2-fc15c7aa5b63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Trigger">
+      <UniqueIdentifier>{da3133ae-97a8-4536-9f7c-0633ee9f08a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\TriggerMgr">
+      <UniqueIdentifier>{823d6cb6-d870-45c6-bf69-8a3b3e93e237}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\AnimationStarter">
+      <UniqueIdentifier>{712c74a0-d048-442e-8a8f-27b564b065ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\CutSceneMgr">
+      <UniqueIdentifier>{62dd4a2e-4471-4ee0-b2ec-b4bb65f93afb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\GameCamera\CameraPoint">
+      <UniqueIdentifier>{4cea5a37-5d2b-4515-b0ff-2b8168457541}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\DistOrder">
+      <UniqueIdentifier>{ac830957-c505-496e-8040-5bd3fb5b9e5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\DistOrder\FarBack">
+      <UniqueIdentifier>{d260a6f5-765d-4cc6-a8f0-a3778718a852}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\DistOrder\FarFront">
+      <UniqueIdentifier>{34b63e59-30b0-4a20-89e5-e5ea7645cdfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\EffectMgr">
+      <UniqueIdentifier>{b496f6e4-3ed8-413b-9c33-108146895ec8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Text\DamageText">
+      <UniqueIdentifier>{a2f89da6-787f-4ba9-87c2-a40f2bc8db19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Text\BasicText">
+      <UniqueIdentifier>{b21ae06e-b5a8-4d63-8da1-d7cd605494df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Text\BasicText\OrderText">
+      <UniqueIdentifier>{cb9322f2-b54a-4dea-ac4d-c3ca94b8d812}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\EffectScale">
+      <UniqueIdentifier>{89586c33-40d6-4518-8b33-7f9f79845e9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Particle">
+      <UniqueIdentifier>{6564fbb7-3d70-4edc-8d39-e5ed93b289f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Particle\Ender">
+      <UniqueIdentifier>{9068143f-47e9-4008-8ee1-f12dbde35149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\SoundMgr">
+      <UniqueIdentifier>{ad3aa9c5-32a7-4941-b5a1-553a6fdb9a5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Sound">
+      <UniqueIdentifier>{fa23214e-abfb-4e2c-acdf-8a6e287928c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Item">
+      <UniqueIdentifier>{2a59ef4c-30d2-4428-81ce-07bd4d05d416}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

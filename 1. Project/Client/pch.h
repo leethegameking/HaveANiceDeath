@@ -21,5 +21,5 @@
 #ifdef _DEBUG
 #pragma comment(lib, "Script\\Script_debug.lib")
 #else
-#pragma comment(lib, "Engine\\Engine.lib")
+#pragma comment(lib, "Script\\Script.lib")
 #endif

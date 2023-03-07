@@ -26,9 +26,17 @@ private:
     vector<CGameObject*>    m_vecPostProcess;
     vector<CGameObject*>    m_vecBlock;
 
+    vector<CGameObject*>    m_vecFarBack;
+    vector<CGameObject*>    m_vecBack;
+    vector<CGameObject*>    m_vecMiddle;
+    vector<CGameObject*>    m_vecFront;
+    vector<CGameObject*>    m_vecFarFront;
+
+    vector<CGameObject*>    m_vecUI;
+
     int                     m_iCamIdx;  // 카메라 우선순위
 
-    bool                    m_bRender;
+    bool                    m_bRegister;
 
     // 카메라 우선순위 정할때
     // static int CurExistIdx;          // 카메라 생성마다 ++하고 이것을 Idx로 -> 우선순위 교체는 서로의 Idx교체로 이루어짐.
@@ -39,6 +47,9 @@ public:
 
 
 public:
+    bool RegisteredCam() { return m_bRegister; }
+    void SetRegister(bool _b) { m_bRegister = _b; }
+
     float GetOrthographicScale() { return m_fScale; }
     void SetOrthographicScale(float _fScale) { m_fScale = _fScale; }
 
@@ -71,11 +82,21 @@ protected:
 
 private:
     void SortObject();
+    void ClearVec();
+ //===========================
     void render_opaque();
     void render_mask();
     void render_transparent();
     void render_postprocess();
     void render_block();
+
+    void render_far_back();
+    void render_back();
+    void render_middle();
+    void render_front();
+    void render_far_front();
+
+    void render_ui();
 
 public:
     virtual void SaveToFile(FILE* _File) override;

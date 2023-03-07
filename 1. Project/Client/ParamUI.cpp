@@ -64,6 +64,7 @@ void ParamUI::Param_String(const string& _ParamName, char* _pInOut)
 	ImGui::InputText(("##" + _ParamName).c_str(), _pInOut, 256);
 }
 
+
 void ParamUI::Param_Prefab(const string& _ParamName, Ptr<CPrefab>& _Pref)
 {
 	ImGui::Text(_ParamName.c_str());
@@ -202,7 +203,10 @@ void ParamUI::ShowShaderParam(CMaterial* _pMtrl)
 		case VEC4_2:
 		case VEC4_3:
 		{
-
+			Vec4 vData = Vec4(0.f, 0.f, 0.f, 0.f);
+			_pMtrl->GetScalarParam(vecScalar[i].eParam, &vData);
+			ParamUI::Param_Vec4(vecScalar[i].strName, &vData);
+			_pMtrl->SetScalarParam(vecScalar[i].eParam, &vData);
 		}
 		break;
 		case MAT_0:

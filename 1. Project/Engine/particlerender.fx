@@ -78,7 +78,6 @@ void GS_ParticleRender(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _OutStr
     float3 vWorldPos = Particle.vRelativePos.xyz;
     
     // rectmesh를 돌려주고 뷰포즈에서 뺀다.
-    
     float4 vViewPos = mul(float4(vWorldPos, 1.f), g_matView);
     
     float3x3 RotMatrix = RotZMatrix(float2(Particle.vDir.x, Particle.vDir.y));
@@ -99,38 +98,16 @@ void GS_ParticleRender(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _OutStr
         }
     }
     
-    //if (RenderType == 2)
-    //{
-    //    NewPos[0] = vViewPos - float3(-0.5f, 0.15f, 0.f) * vScale;
-    //    NewPos[1] = vViewPos - float3(0.5f, 0.15f, 0.f) * vScale;
-    //    NewPos[2] = vViewPos - float3(0.5f, -0.15f, 0.f) * vScale;
-    //    NewPos[3] = vViewPos - float3(-0.5f, -0.15f, 0.f) * vScale;
-    //}
-    //else
-    //{
-    //    NewPos[0] = vViewPos - float3(-0.5f, 0.5f, 0.f) * vScale;
-    //    NewPos[1] = vViewPos - float3(0.5f, 0.5f, 0.f) * vScale;
-    //    NewPos[2] = vViewPos - float3(0.5f, -0.5f, 0.f) * vScale;
-    //    NewPos[3] = vViewPos - float3(-0.5f, -0.5f, 0.f) * vScale;
-    //}
-    
     for (int i = 0; i < 4; ++i)
     {
         output[i].vPosition = mul(float4(vNewViewPos[i], 1.f), g_matProj);
         output[i].iInstance = _in[0].iInstance;
     }
     
-    
     output[0].vUV = float2(0.f, 0.f);
     output[1].vUV = float2(1.f, 0.f);
     output[2].vUV = float2(1.f, 1.f);
     output[3].vUV = float2(0.f, 1.f);
-    
-    //output[0].vUV = float2(1.f, 0.f);
-    //output[1].vUV = float2(0.f, 0.f);
-    //output[2].vUV = float2(0.f, 1.f);
-    //output[3].vUV = float2(1.f, 1.f);
-       
     
     // 0 -- 1
     // | \  |
@@ -155,14 +132,8 @@ float4 PS_ParticleRender(GS_OUT _in) : SV_Target
         
     vColor = g_tex_0.Sample(g_sam_0, _in.vUV);    
     
-    //if(RenderType == SPARK)
-    //{
-    //    float fRatio = ParticleBuffer[_in.iInstance].fCurTime / ParticleBuffer[_in.iInstance].fMaxTime;
-    //    vColor.rgb *= lerp(StartColor, EndColor, fRatio).rgb;
-    //}
     float fRatio = ParticleBuffer[_in.iInstance].fCurTime / ParticleBuffer[_in.iInstance].fMaxTime;
     vColor.rgb *= lerp(StartColor, EndColor, fRatio).rgb;
-    // vColor.rgb = lerp(StartColor, EndColor, fRatio).rgb;
     
     return vColor;
 }

@@ -124,9 +124,6 @@ int CStructuredBuffer::Create(UINT _iElementSize, UINT _iElementCount, SB_TYPE _
 		}		
 	}
 
-
-
-
 	return hr;
 }
 
@@ -156,7 +153,8 @@ void CStructuredBuffer::SetData(void* _pSrc, UINT _iElementCount)
 
 void CStructuredBuffer::GetData(void* _pDst, UINT _iSizeByte)
 {
-	assert(!(_iSizeByte != 0 && _iSizeByte < m_iElementSize * m_iElementCount));
+	// assert(!(_iSizeByte != 0 && _iSizeByte < m_iElementSize * m_iElementCount));
+
 
 	// 메인버퍼 -> 읽기버퍼
 	CONTEXT->CopyResource(m_ReadBuffer.Get(), m_SB.Get());
@@ -229,7 +227,7 @@ void CStructuredBuffer::Clear()
 	CONTEXT->CSSetUnorderedAccessViews(m_iRecentRegisterNumRW, 1, &pUAV, &i);
 }
 
-void CStructuredBuffer::ChangeBuffer(UINT _iElementCount, void* _pSrc)
+void CStructuredBuffer::ChangeBuffer(UINT _iElementCount, void* _pSrc, bool _CPUACCESS)
 {
-	Create(m_iElementSize, _iElementCount, m_eType, _pSrc);
+	Create(m_iElementSize, _iElementCount, m_eType, _pSrc, _CPUACCESS);
 }

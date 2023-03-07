@@ -85,7 +85,12 @@ void CBlockScript::Overlap(CCollider2D* _other)
 		m_pColObj->Rigidbody2D()->CalcDir();
 		m_sObjDir = m_pColObj->Rigidbody2D()->GetDir();
 
-		if (m_sObjDir & RB_UP && m_vBlockColPos.y - m_vBlockColScale.y / 2.f > m_pColObj->Rigidbody2D()->GetPrevPos().y + m_vObjColScale.y / 2.f
+/*		if (m_sObjDir & RB_DOWN && m_vBlockColPos.y + m_vBlockColScale.y / 2.f >= m_pColObj->Rigidbody2D()->GetPrevPos().y - m_vObjColScale.y / 2.f)
+		{
+			UpCollision(_other);
+		}
+		else */
+		if(m_sObjDir & RB_UP && m_vBlockColPos.y - m_vBlockColScale.y / 2.f > m_pColObj->Rigidbody2D()->GetPrevPos().y + m_vObjColScale.y / 2.f
 			&& !m_bPlatform)
 		{
 			DownCollision();

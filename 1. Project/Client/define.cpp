@@ -6,6 +6,8 @@
 #include <Engine/CRenderMgr.h>
 #include <Engine/CDevice.h>
 
+#include "imgui.h"
+
 Vec2 GetClickedIdx(Vec2 _vImgSize, Vec2 _vCursorPos, Vec2 _vImageScale)
 {
 	ImGuiIO& io = ImGui::GetIO();

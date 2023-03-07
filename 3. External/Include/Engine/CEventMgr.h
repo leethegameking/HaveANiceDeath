@@ -20,6 +20,8 @@ private:
     bool m_bResChangeFlag;
     bool m_bLevelChangeFlag;
 
+    bool m_bHasLevelChange;
+
 public:
     static LOAD_LEVEL Load_Level_Func;
 

@@ -102,7 +102,7 @@ const wchar_t* ToWString(RES_TYPE _type);
 // ===============
 class CGameObject;
 void Instantiate(CGameObject* _pNewObj, Vec3 _vWorldPos, int _iLayerIdx = 0);
-
+void AddChild(CGameObject* _pChild, CGameObject* _pParent);
 
 // ==========
 // Debug Draw
@@ -111,6 +111,7 @@ void Instantiate(CGameObject* _pNewObj, Vec3 _vWorldPos, int _iLayerIdx = 0);
 void DebugDrawRect(Vec4 _vColor, Vec3 _vPosition, Vec3 _vScale, Vec3 _vRotation, float _fDuration = 0.f);
 void DebugDrawCircle(Vec4 _vColor, Vec3 _vPosition, float _fRadius, float _fDuration = 0.f);
 
+#endif
 //void DebugDrawCube();
 //void DebugDrawSphere();
 
@@ -157,5 +158,3 @@ void LoadResourceRef(Ptr<T>& _res, FILE* _pFile)
 		_res = CResMgr::GetInst()->Load<T>(strKey, strRelativePath);
 	}
 }
-
-#endif

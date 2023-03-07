@@ -58,6 +58,8 @@ public:
     CComponent* GetComponent(COMPONENT_TYPE _eComType) { return m_arrCom[(UINT)_eComType]; }
     void AddChild(CGameObject* _pChild);
 
+    CGameObject* FindChildObj(const wstring& _name);
+
 
 
     template<typename T>

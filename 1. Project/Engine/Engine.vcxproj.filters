@@ -166,6 +166,30 @@
     <Filter Include="Engine\03. Manager\10. ObjectManager">
       <UniqueIdentifier>{f4bf3766-4025-45e5-b91e-1f5bdeb82941}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HLSL\Render\carpet">
+      <UniqueIdentifier>{29177ce4-055c-4d39-9b2e-4fca1d978fce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\Render\graybox">
+      <UniqueIdentifier>{73cdd076-780c-4711-b426-d4bf656a71bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\Render\dist_order">
+      <UniqueIdentifier>{d5860c7f-9d4d-4ab2-a1f9-e1fed9a367ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\Compute\ParticleUpdateShader\ParticleStar">
+      <UniqueIdentifier>{7babba09-fc66-457b-8def-511e589564a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\Render\particle">
+      <UniqueIdentifier>{fe48f2ee-c8a5-47ae-9c45-a25dddff537e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\Compute\ParticleUpdateShader\ParticleGhost">
+      <UniqueIdentifier>{c9f480cf-9a20-448f-bb4c-0d08112e060b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\Compute\ParticleUpdateShader\ParticleSpawnDir">
+      <UniqueIdentifier>{1846f337-6575-4f90-8dc7-03199454f240}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\Render\enemy">
+      <UniqueIdentifier>{82a00b63-d90c-4416-b16e-be728a0d23ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -511,9 +535,6 @@
     <FxCompile Include="compute.fx">
       <Filter>HLSL\Compute\PaintShader</Filter>
     </FxCompile>
-    <FxCompile Include="particlerender.fx">
-      <Filter>HLSL\Render</Filter>
-    </FxCompile>
     <FxCompile Include="particleupdate.fx">
       <Filter>HLSL\Compute\ParticleUpdateShader</Filter>
     </FxCompile>
@@ -549,6 +570,36 @@
     </FxCompile>
     <FxCompile Include="player.fx">
       <Filter>HLSL\Render\player</Filter>
+    </FxCompile>
+    <FxCompile Include="carpet.fx">
+      <Filter>HLSL\Render\carpet</Filter>
+    </FxCompile>
+    <FxCompile Include="graybox.fx">
+      <Filter>HLSL\Render\graybox</Filter>
+    </FxCompile>
+    <FxCompile Include="distorder.fx">
+      <Filter>HLSL\Render\dist_order</Filter>
+    </FxCompile>
+    <FxCompile Include="stunstar_cs.fx">
+      <Filter>HLSL\Compute\ParticleUpdateShader\ParticleStar</Filter>
+    </FxCompile>
+    <FxCompile Include="particlerender.fx">
+      <Filter>HLSL\Render\particle</Filter>
+    </FxCompile>
+    <FxCompile Include="ghostdeath_cs.fx">
+      <Filter>HLSL\Compute\ParticleUpdateShader\ParticleGhost</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\2. OutputFile\bin\content\shader\starparticlerender.fx">
+      <Filter>HLSL\Render\particle</Filter>
+    </FxCompile>
+    <FxCompile Include="particlefrontrender.fx">
+      <Filter>HLSL\Render\particle</Filter>
+    </FxCompile>
+    <FxCompile Include="spawndir_cs.fx">
+      <Filter>HLSL\Compute\ParticleUpdateShader\ParticleSpawnDir</Filter>
+    </FxCompile>
+    <FxCompile Include="enemy.fx">
+      <Filter>HLSL\Render\enemy</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

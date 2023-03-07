@@ -34,12 +34,24 @@ private:
 
     ComboBox*                   m_CSComboBox;
 
+    ////--------------------------------------------
+
+    Ptr<CMesh>      m_Mesh;
+    Ptr<CMaterial>  m_Mtrl;
+    bool            m_bDynamicMtrl;
+
 public:
     void SetTexture(DWORD_PTR _texKey);
 
 public:
+    void init() override;
     void update();
     void render_update();
+
+private:
+    void MtrlBtn();
+    void SetMaterial(DWORD_PTR _strMaterialKey);
+    void SetMesh(DWORD_PTR _strMeshKey);
 
 public:
     void SetCSKey(DWORD_PTR _CSKey);

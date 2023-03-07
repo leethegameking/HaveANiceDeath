@@ -262,6 +262,17 @@ void CGameObject::AddChild(CGameObject* _pChild)
 	m_vecChild.push_back(_pChild);
 }
 
+CGameObject* CGameObject::FindChildObj(const wstring& _name)
+{
+	for (size_t i = 0; i < m_vecChild.size(); ++i)
+	{
+		if (m_vecChild[i]->GetName() == _name)
+			return m_vecChild[i];
+	}
+
+	return nullptr;
+}
+
 #include "CEventMgr.h"
 void CGameObject::Destroy()
 {

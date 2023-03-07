@@ -6,6 +6,10 @@ class CTitleMenuScript :
 private:
     int m_eType; // TILE_MENU_TYPE
 
+    CGameObject* m_pTransition_End;
+
+    bool m_bOnce;
+
 public:
     virtual void begin() override;
     virtual void tick() override;

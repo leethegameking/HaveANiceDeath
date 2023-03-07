@@ -18,6 +18,10 @@ private:
     bool    m_bAnimHasCol;
     
     bool    m_bPenetrate;
+
+    Ptr<CPrefab> m_FXPref;
+    Ptr<CPrefab> m_SoundPref;
+    Ptr<CPrefab> m_FXStartPref;
     
 public:
     void SetDir(Vec2 _vDir) { m_vDir = _vDir; }

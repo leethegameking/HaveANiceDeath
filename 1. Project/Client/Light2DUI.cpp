@@ -37,7 +37,6 @@ void Light2DUI::render_update()
 		m_fAngle = tInfo.fAngle;
 	}
 
-
 	ComponentUI::render_update();
 	if (!IsOpen())
 		return;

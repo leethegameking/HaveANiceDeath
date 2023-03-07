@@ -3,36 +3,6 @@
 
 class CAnimController;
 
-struct tUnitInfo
-{
-    float   m_fMaxHP;
-    float   m_fHP;
-    float   m_fMaxMP;
-    float   m_fMP;
-    float   m_fAtt;
-    float   m_fDef;
-
-    float   m_fSpeed;
-    ANIM_DIR m_eDir;
-
-    UINT    m_iStateBits;
-    UNIT_NAME   m_eName;
-
-    tUnitInfo()
-        : m_fMaxHP(30.f)
-        , m_fHP(30.f)
-        , m_fMaxMP(50.f)
-        , m_fMP(50.f)
-        , m_fAtt(3.f)
-        , m_fDef(1.f)
-        , m_fSpeed(100.f)
-        , m_eDir(ANIM_DIR::ANIM_RIGHT)
-        , m_iStateBits(0)
-        , m_eName(UNIT_NAME::END)
-    {
-    }
-};
-
 class CUnitScript :
     public CScript
 {

@@ -1,7 +1,11 @@
 ﻿#pragma once
 #include <Engine/CScript.h>
 
+
+
+
 class CUnitScript;
+class CSound;
 
 struct tTransitionNode
 {
@@ -40,12 +44,14 @@ struct tAnimNode
     UNIT_NAME                   eUnitName;
 
     UINT                        ePattern;
+    wstring                     strSoundKey[2];
 
     tAnimNode()
         : iPreferences(0)
         , iCond(0)
         , ePattern(0)
         , arrReserveAnim{}
+        , strSoundKey{}
     {
 
     }
@@ -54,6 +60,8 @@ struct tAnimNode
     void SetPattern(UINT _Pattern) { ePattern = _Pattern; }
     void SetReserve(const wstring& _pAnimPath, bool _bGroundAnim = true);
     void SetCond(UINT _Cond) { iCond = _Cond; }
+    void SetSound(const wstring& _relPath) { strSoundKey[0] = _relPath; }
+    void SetMumbleSound(const wstring& _relPath) { strSoundKey[1] = _relPath; }
 };
 
 
@@ -91,8 +99,25 @@ protected:
     bool            m_bCanDash;
     bool            m_bJumpAttackUsed;
 
+    bool            m_bCanAirAttack;
+
     vector<tAnimNode*> m_vecAnyStateNode;
+
+
+private: // FX
+    Ptr<CPrefab>    m_FX_Jump;
+
+    float           m_fGroundY;
+    bool            m_bFXJump;
+
+    Ptr<CPrefab>    m_FX_Dash_Circle;
+    Ptr<CPrefab>    m_FX_Dash_Feather;
+    bool            m_bFXDash;
+
+
 private:
+    virtual void SoundPlay();
+    virtual void AddCameraEvent();
 
 public:
     virtual void begin() override;
@@ -121,7 +146,10 @@ public:
 
 protected:
     // m_pPrevAnimNode = m_pCurAnimNode;
+    virtual void Timer();
     virtual void PlayNextNode();
+    virtual void InstantiateFX();
+
     virtual void SetCurDir();
     virtual void SetCondBit();
     virtual void SetGravity();
@@ -133,8 +161,9 @@ protected:
     virtual void SetDir();
 
 private:
-    virtual void Timer();
     void CalDashTime();
+    void AirAttackDelay();
+    void LandingAttack();
 
 public:
 

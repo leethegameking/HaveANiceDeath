@@ -3,6 +3,10 @@
 class CPlayerAttScript :
     public CAttScript
 {
+private:
+    Ptr<CPrefab> m_TextDamagePref;
+    Ptr<CPrefab> m_FXAttPref;
+
 public:
     virtual void begin() override;
     virtual void tick() override;

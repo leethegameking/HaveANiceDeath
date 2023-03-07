@@ -6,6 +6,8 @@
 #include <Engine/CLayer.h>
 #include <Engine/CObjectManager.h>
 
+#include "CSoundMgr.h"
+
 CLevelSelectScript::CLevelSelectScript()
 	: CScript((int)SCRIPT_TYPE::LEVELSELECTSCRIPT)
 	, m_strLevelPath()
@@ -47,6 +49,7 @@ void CLevelSelectScript::BeginOverlap(CCollider2D* _pOther)
 {
 	int iTexNumber = 1;
 	MeshRender()->GetCurMaterial()->SetScalarParam(SCALAR_PARAM::INT_0, &iTexNumber);
+	CSoundMgr::GetInst()->Play(L"sound\\ui\\ui_overlap.wav", 1, 0.8f, true);
 
 	m_pBossIcon->Transform()->AddRelativePos(Vec3(5.f, 0.f, 0.f));
 }
@@ -56,6 +59,7 @@ void CLevelSelectScript::Overlap(CCollider2D* _pOther)
 	if (KEY_TAP(KEY::LBTN))
 	{
 		m_bLevelSelected = true;
+		CSoundMgr::GetInst()->Play(L"sound\\ui\\ui_select.wav", 1, 0.8f, true);
 		/*tEvent evn;
 		evn.eType = EVENT_TYPE::CHANGE_LEVEL;
 		evn.wParam = (DWORD_PTR)strLevelPath.data();

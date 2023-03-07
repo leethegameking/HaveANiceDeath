@@ -4,6 +4,9 @@
 class CMouseColliderScript :
     public CScript
 {
+
+
+
 public:
     virtual void begin() override;
     virtual void tick() override;

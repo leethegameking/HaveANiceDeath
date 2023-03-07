@@ -48,8 +48,9 @@ void CPlayerScript::begin()
 void CPlayerScript::tick()
 {
 	CUnitScript::tick();
-}
 
+	m_PrevUnitInfo = m_CurUnitInfo;
+}
 
 void CPlayerScript::BeginOverlap(CCollider2D* _pOther)
 {

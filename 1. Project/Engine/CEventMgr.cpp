@@ -10,7 +10,7 @@
 
 #include "CCollisionMgr.h"
 #include "CCollider2D.h"
-#include "CObjectManager.h"
+#include "CObjectManager.h"	
 
 LOAD_LEVEL CEventMgr::Load_Level_Func = nullptr;
 
@@ -18,6 +18,7 @@ CEventMgr::CEventMgr()
 	: m_bLevelChanged(false)
 	, m_bResChanged(false)
 	, m_bResChangeFlag(false)
+	, m_bHasLevelChange(false)
 {
 }
 
@@ -31,18 +32,26 @@ void CEventMgr::tick()
 	m_bResChanged = false;
 	// 메모리 정리
 	for (size_t i = 0; i < m_vecGarbage.size(); ++i)
-	{		
+	{
 		delete m_vecGarbage[i];
 	}
 	m_vecGarbage.clear();
 
-	for (size_t i = 0; i < m_vecGrave.size(); ++i)
-	{
-		m_vecGrave[i]->Collider2D()->Deactivate();
-		m_vecGrave[i]->m_bGrave = false;
-	}
-	m_vecGrave.clear();
+	//for (size_t i = 0; i < m_vecGrave.size(); ++i)
+	//{
+	//	m_vecGrave[i]->Collider2D()->Deactivate();
+	//	m_vecGrave[i]->m_bGrave = false;
+	//}
+	//m_vecGrave.clear();
 
+	for (size_t i = 0; i < m_vecEvent.size(); ++i)
+	{
+		if (m_vecEvent[i].eType == EVENT_TYPE::CHANGE_LEVEL)
+		{
+			m_bHasLevelChange = true;
+			break;
+		}
+	}
 
 	// 이벤트 처리
 	for (size_t i = 0; i < m_vecEvent.size(); ++i)
@@ -54,7 +63,7 @@ void CEventMgr::tick()
 		{
 			m_bLevelChanged = true;
 			// wParam : GameObject Adress
-			// lParam : Layer Index
+			// lParam : Layer Indexa
 			CGameObject* pNewObj = (CGameObject*)m_vecEvent[i].wParam;
 			int iLayerIdx = (int)m_vecEvent[i].lParam;
 
@@ -73,31 +82,34 @@ void CEventMgr::tick()
 
 		case EVENT_TYPE::DELETE_OBJECT:
 		{
-			m_bLevelChanged = true;
-			// wParam : GameObject Adress
-			CGameObject* pObj = (CGameObject*)m_vecEvent[i].wParam;
+			if (!m_bHasLevelChange)
+			{
+				m_bLevelChanged = true;
+				// wParam : GameObject Adress
+				CGameObject* pObj = (CGameObject*)m_vecEvent[i].wParam;
 
-			if (!pObj->IsDead())
-			{				
-				// 삭제처리할 최상위 부모만 가비지에 넣는다.
-				m_vecGarbage.push_back(pObj);
-
-				// 삭제할 오브젝트 포함, 모든 자식오브젝트를 Dead 체크한다.
-				static list<CGameObject*> queue;				
-				queue.push_back(pObj);
-				while (!queue.empty())
+				if (!pObj->IsDead())
 				{
-					CGameObject* pObj = queue.front();
-					queue.pop_front();
+					// 삭제처리할 최상위 부모만 가비지에 넣는다.
+					m_vecGarbage.push_back(pObj);
 
-					const vector<CGameObject*>& vecChild = pObj->GetChildObject();
-					for (size_t i = 0; i < vecChild.size(); ++i)
+					// 삭제할 오브젝트 포함, 모든 자식오브젝트를 Dead 체크한다.
+					static list<CGameObject*> queue;
+					queue.push_back(pObj);
+					while (!queue.empty())
 					{
-						queue.push_back(vecChild[i]);
-						m_vecGarbage.push_back(vecChild[i]);
-					}
+						CGameObject* pObj = queue.front();
+						queue.pop_front();
 
-					pObj->m_bDead = true;
+						const vector<CGameObject*>& vecChild = pObj->GetChildObject();
+						for (size_t i = 0; i < vecChild.size(); ++i)
+						{
+							queue.push_back(vecChild[i]);
+							m_vecGarbage.push_back(vecChild[i]);
+						}
+
+						pObj->m_bDead = true;
+					}
 				}
 			}
 		}
@@ -122,6 +134,9 @@ void CEventMgr::tick()
 			CGameObject* pParentObj = (CGameObject*)m_vecEvent[i].lParam;
 
 			pParentObj->AddChild(pChildObj);
+
+			if (CLevelMgr::GetInst()->GetCurLevel()->GetState() == LEVEL_STATE::PLAY)
+				pChildObj->begin();
 		}
 			break;
 
@@ -207,6 +222,7 @@ void CEventMgr::tick()
 	}
 
 	m_vecEvent.clear();
+	m_bHasLevelChange = false;
 
 	if (m_bLevelChangeFlag)
 	{
@@ -220,4 +236,6 @@ void CEventMgr::tick()
 		m_bResChanged = true;
 		m_bResChangeFlag = false;
 	}
+
+	
 }

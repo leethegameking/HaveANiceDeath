@@ -42,6 +42,8 @@ public:
     int GetCurIdx() { return m_iCurIdx; }
     const tAnim2DFrm& GetCurFrm() { return m_vecFrm[m_iCurIdx]; }
 
+    void SetOwner(CAnimator2D* _pAnimator) { m_pOwner = _pAnimator; }
+
 public:
     void finaltick();
 
@@ -63,6 +65,7 @@ public:
     void Reallocate();
 
     void UpdateData();
+    void UpdateData_CS();
     void Clear();
 
 private:

@@ -15,6 +15,8 @@ CProjectileScript::CProjectileScript()
 	, m_bDestroyAnimFinsh(false)
 	, m_bRepeat(true)
 	, m_bAnimHasCol(true)
+	, m_FXPref(nullptr)
+	, m_SoundPref(nullptr)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Speed        ", &m_fSpeed);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Att          ", &m_fAtt);
@@ -24,7 +26,9 @@ CProjectileScript::CProjectileScript()
 	AddScriptParam(SCRIPT_PARAM::BOOL,  "End-of-Anim  ", &m_bDestroyAnimFinsh);
 	AddScriptParam(SCRIPT_PARAM::BOOL,  "AnimHasCol   ", &m_bAnimHasCol);
 	AddScriptParam(SCRIPT_PARAM::BOOL,  "Penetrate    ", &m_bPenetrate);
-
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "End-FX    ", &m_FXPref);
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "Start-FX    ", &m_FXStartPref);
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "Sound    ", &m_SoundPref);
 }
 
 CProjectileScript::CProjectileScript(const CProjectileScript& _origin)
@@ -40,6 +44,9 @@ CProjectileScript::CProjectileScript(const CProjectileScript& _origin)
 	, m_bRepeat(_origin.m_bRepeat)
 	, m_bAnimHasCol(_origin.m_bAnimHasCol)
 	, m_bPenetrate(_origin.m_bPenetrate)
+	, m_FXPref(_origin.m_FXPref)
+	, m_SoundPref(_origin.m_SoundPref)
+	, m_FXStartPref(_origin.m_FXStartPref)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Speed        ", &m_fSpeed);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Att          ", &m_fAtt);
@@ -49,6 +56,9 @@ CProjectileScript::CProjectileScript(const CProjectileScript& _origin)
 	AddScriptParam(SCRIPT_PARAM::BOOL,  "End-of-Anim  ", &m_bDestroyAnimFinsh);
 	AddScriptParam(SCRIPT_PARAM::BOOL, "AnimHasCol    ", &m_bAnimHasCol);
 	AddScriptParam(SCRIPT_PARAM::BOOL, "Penetrate     ", &m_bPenetrate);
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "End-FX    ", &m_FXPref);
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "Start-FX    ", &m_FXStartPref);
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "Sound    ", &m_SoundPref);
 }
 
 CProjectileScript::~CProjectileScript()
@@ -59,6 +69,10 @@ CProjectileScript::~CProjectileScript()
 
 void CProjectileScript::begin()
 {
+	if (m_FXStartPref.Get())
+	{
+		Instantiate(m_FXStartPref->Instantiate(), Transform()->GetRelativePos());
+	}
 }
 
 void CProjectileScript::tick()
@@ -89,7 +103,7 @@ void CProjectileScript::tick()
 	// 이동
 	Vec3 vPos = Transform()->GetRelativePos();
 	vPos.x += m_vDir.x * m_fSpeed * DT;
-	vPos.y += m_vDir.y * m_fSpeed * DT; 
+	vPos.y += m_vDir.y * m_fSpeed * DT;
 	Transform()->SetRelativePos(vPos);
 
 
@@ -99,11 +113,13 @@ void CProjectileScript::tick()
 		Ptr<CAnimation2D> pAnim = Animator2D()->GetCurAnim();
 		int iIdx = pAnim->GetCurIdx();
 		const vector<tAnim2DFrm>& vecFrm = pAnim->GetFrmVecRef();
+		Vec2 fInterpolation = Transform()->GetWorldScale() / vecFrm[iIdx].vFullSize;
+		fInterpolation /= pAnim->GetAtlas()->GetSize();
 		if (vecFrm[iIdx].bColiiderOn)
 		{
 			// offset
-			Collider2D()->SetOffsetPos(vecFrm[iIdx].iColliderPos);
-			Collider2D()->SetScale(vecFrm[iIdx].iColliderScale);
+			Collider2D()->SetOffsetPos(vecFrm[iIdx].iColliderPos * fInterpolation);
+			Collider2D()->SetScale(vecFrm[iIdx].iColliderScale * fInterpolation);
 		}
 		else
 		{
@@ -117,6 +133,19 @@ void CProjectileScript::BeginOverlap(CCollider2D* _pOther)
 	if (!m_bPenetrate)
 	{
 		GetOwner()->Destroy();
+
+		if (m_FXPref.Get())
+		{
+			CGameObject* pFXObj = m_FXPref->Instantiate();
+			pFXObj->Transform()->SetRelativeRotation(Transform()->GetRelativeRotation());
+			Instantiate(pFXObj, Transform()->GetWorldPos());
+		}
+
+		if (m_SoundPref.Get())
+		{
+			CGameObject* pSoundObj = m_SoundPref->Instantiate();
+			Instantiate(pSoundObj, Vec3::Zero);
+		}
 	}
 }
 
@@ -139,6 +168,9 @@ void CProjectileScript::SaveToFile(FILE* _pFile)
 	fwrite(&m_fAtt, sizeof(float), 1, _pFile);
 	fwrite(&m_bAnimHasCol, sizeof(bool), 1, _pFile);
 	fwrite(&m_bPenetrate, sizeof(bool), 1, _pFile);
+	SaveResourceRef(m_FXPref, _pFile);
+	SaveResourceRef(m_SoundPref, _pFile);
+	SaveResourceRef(m_FXStartPref, _pFile);
 }
 
 void CProjectileScript::LoadFromFile(FILE* _pFile)
@@ -152,6 +184,9 @@ void CProjectileScript::LoadFromFile(FILE* _pFile)
 	fread(&m_fAtt, sizeof(float), 1, _pFile);
 	fread(&m_bAnimHasCol, sizeof(bool), 1, _pFile);
 	fread(&m_bPenetrate, sizeof(bool), 1, _pFile);
+	LoadResourceRef(m_FXPref, _pFile);
+	LoadResourceRef(m_SoundPref, _pFile);
+	LoadResourceRef(m_FXStartPref, _pFile);
 }
 
 void CProjectileScript::FirstTick()

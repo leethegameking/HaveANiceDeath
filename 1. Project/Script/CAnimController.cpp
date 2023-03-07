@@ -5,6 +5,12 @@
 
 #include "CPlayerMgr.h"
 
+#include "CSoundMgr.h"
+#include <Engine/CSound.h>
+
+#include "CCameraMgr.h"
+#include "CMainCameraScript.h"
+
 CAnimController::CAnimController()
 	: CScript(int(SCRIPT_TYPE::ANIMCONTROLLER))
 	, m_eCurAnimDir(ANIM_DIR::ANIM_RIGHT)
@@ -22,6 +28,9 @@ CAnimController::CAnimController()
 	, m_bJumpAttackUsed(false)
 	, m_eNextDir(ANIM_DIR::END)
 {
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "FX-JUMP", &m_FX_Jump);
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "FX-Circle", &m_FX_Dash_Circle);
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "FX-Feather", &m_FX_Dash_Feather);
 }
 
 CAnimController::CAnimController(int _ScriptType)
@@ -42,10 +51,38 @@ CAnimController::CAnimController(int _ScriptType)
 	, m_bJumpAttackUsed(false)
 	, m_bCanDash(true)
 {
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "FX-JUMP", &m_FX_Jump);
 }
 
 CAnimController::~CAnimController()
 {
+}
+
+void CAnimController::SoundPlay()
+{
+	// ATK
+	if (m_pCurAnimNode->strSoundKey[0] != L"")
+	{
+		CSoundMgr::GetInst()->PlayPlayerATK(m_pCurAnimNode->strSoundKey[0], 1, 0.5f);
+	}
+
+	// mumble
+	if (m_pCurAnimNode->strSoundKey[1] != L"")
+	{
+		CSoundMgr::GetInst()->PlayPlayerMumble(m_pCurAnimNode->strSoundKey[1], 1, 0.5f);
+	}
+}
+
+void CAnimController::AddCameraEvent()
+{
+	if (CalBit(m_pCurAnimNode->iPreferences, CAMERA_EVENT_SHAKE, BIT_INCLUDE))
+	{
+		tCameraEvent evn;
+		evn.eType = CAMERA_EVENT_TYPE::UP_DOWN_SHAKE;
+		evn.fMaxTime = 0.4f;
+
+		CCameraMgr::GetInst()->GetMainCamera()->GetScript<CMainCameraScript>()->SetEvent(evn);
+	}
 }
 
 void CAnimController::begin()
@@ -80,6 +117,7 @@ void CAnimController::tick()
 	{
 		PlayNextNode();
 	}
+	InstantiateFX();
 	Timer();
 	SetCurDir();
 	SetCondBit();
@@ -87,7 +125,8 @@ void CAnimController::tick()
 	SetAttackCollider();
 	SetInvincible();
 	PosChangeProgress();
-	
+	LandingAttack();
+
 	// 기본적인 애니메이션 선택 절차 + 콤보 지연
 	NodeProgress();
 
@@ -95,7 +134,7 @@ void CAnimController::tick()
 	SetDir();
 }	
 
-void CAnimController::SetCondBit()
+void CAnimController::SetCondBit() 
 {
 	m_pCurAnimNode->iCond = 0;
 
@@ -106,6 +145,8 @@ void CAnimController::SetCondBit()
 		m_bGround = true;
 		AddBit(m_pCurAnimNode->iCond, GROUND);
 		m_bJumpAttackUsed = false;
+		m_bFXJump = true;
+		m_fGroundY = Transform()->GetRelativePos().y - Collider2D()->GetFinalScale().y / 2.f;
 	}
 	else
 	{
@@ -225,6 +266,12 @@ void CAnimController::SetCondBit()
 		Rigidbody2D()->ResetSpeedY(); // reset gravity speed
 		m_bJumpAttackUsed = true;
 	}
+
+	if (KEY_PRESSED(KEY::S))
+		AddBit(m_pCurAnimNode->iCond, KEY_S);
+
+	// CAN_AIR_ATTACK
+	AirAttackDelay();
 }
 
 void CAnimController::SetGravity()
@@ -285,14 +332,9 @@ void CAnimController::SetInvincible()
 		{
 			m_pHitObj->Collider2D()->SetOffsetPos(EXPEL * iIdx);
 		}
-		else
-		{
-			m_pHitObj->Collider2D()->SetOffsetPos(Vec2::Zero);
-		}
 	}
 
-	// 피격시 몇초간 무적.
-
+	// 피격시 몇초간 무적
 	static bool InvincibleStart = false;
 	if (CalBit(m_pCurAnimNode->iPreferences, INVINCIBLE_START, BIT_INCLUDE))
 	{
@@ -303,14 +345,13 @@ void CAnimController::SetInvincible()
 		}
 	}
 
-	static float fInvinclbieMaxtime = 2.f;
+	static float fInvinclbieMaxtime = 1.f;
 	static float fInvincibleAccTime = 0.f;
 
 	if (InvincibleStart)
 	{
 		if (fInvinclbieMaxtime <= fInvincibleAccTime)
 		{
-			m_pHitObj->Collider2D()->SetOffsetPos(Vec2::Zero);
 			fInvincibleAccTime = 0.f;
 			InvincibleStart = false;
 		}
@@ -318,6 +359,12 @@ void CAnimController::SetInvincible()
 		{
 			fInvincibleAccTime += DT;
 		}
+	}
+
+	// 복원 부
+	if (!InvincibleStart && !CalBit(m_pCurAnimNode->iPreferences, INVINCIBLE, BIT_INCLUDE))
+	{
+		m_pHitObj->Collider2D()->SetOffsetPos(Vec2::Zero);
 	}
 }
 
@@ -363,11 +410,17 @@ void CAnimController::EndOverlap(CCollider2D* _other)
 void CAnimController::SaveToFile(FILE* _pFile)
 {
 	CScript::SaveToFile(_pFile);
+	SaveResourceRef(m_FX_Jump, _pFile);
+	SaveResourceRef(m_FX_Dash_Circle, _pFile);
+	SaveResourceRef(m_FX_Dash_Feather, _pFile);
 }
 
 void CAnimController::LoadFromFile(FILE* _pFile)
 {
 	CScript::LoadFromFile(_pFile);
+	LoadResourceRef(m_FX_Jump, _pFile);
+	LoadResourceRef(m_FX_Dash_Circle, _pFile);
+	LoadResourceRef(m_FX_Dash_Feather, _pFile);
 }
 
 void CAnimController::PlayNextNode()
@@ -375,6 +428,41 @@ void CAnimController::PlayNextNode()
 	Animator2D()->Play(m_pNextNode->pAnimKey, CalBit(m_pNextNode->iPreferences, REPEAT ,BIT_INCLUDE));
 	m_pCurAnimNode = m_pNextNode;
 	m_pNextNode = nullptr;
+
+	SoundPlay();
+	AddCameraEvent();
+}
+
+void CAnimController::InstantiateFX()
+{
+	if (CalBit(m_pCurAnimNode->iPreferences, FX_JUMP, BIT_INCLUDE) && m_bFXJump) // 죽음 분기
+	{
+		CGameObject* pFXJump = m_FX_Jump->Instantiate();
+		Vec3 vPos = Rigidbody2D()->GetPrevPos();
+		vPos.y = m_fGroundY + 20.f;
+		Instantiate(pFXJump, vPos);
+
+		m_bFXJump = false;
+	}
+
+	if (CalBit(m_pCurAnimNode->iPreferences, FX_DASH_FEATHER, BIT_INCLUDE) && m_bFXDash) // 죽음 분기
+	{
+		CGameObject* pFXDashCircle = m_FX_Dash_Circle->Instantiate();
+		Vec3 vPos = Transform()->GetWorldPos();
+		vPos.x += (int)m_eCurAnimDir * 20.f;
+		Instantiate(pFXDashCircle, vPos);
+
+		CGameObject* pFXFeather = m_FX_Dash_Feather->Instantiate();
+		vPos = Transform()->GetWorldPos();
+
+		tEvent evn;
+		evn.eType = EVENT_TYPE::ADD_CHILD;
+		evn.wParam = (DWORD_PTR)pFXFeather;
+		evn.lParam = (DWORD_PTR)GetOwner();
+		CEventMgr::GetInst()->AddEvent(evn);
+
+		m_bFXDash = false;
+	}
 }
 
 void CAnimController::Timer()
@@ -395,6 +483,11 @@ void CAnimController::NodeProgress()
 
 
 	// ------------------------------------------------------------------------------------------------------------------
+	if (CalBit(m_pCurAnimNode->iPreferences, DEATH, BIT_INCLUDE)) // 죽음 분기
+		return;
+
+	if (CalBit(m_pCurAnimNode->iPreferences, DISABLE, BIT_INCLUDE) && !CalBit(m_pCurAnimNode->iCond, ANIM_FINISHED, BIT_INCLUDE))
+		return;
 
 	// AnyState Node 분기
 	for (size_t i = 0; i < m_pAnyStateNode->vecNextAnim.size(); ++i)
@@ -547,7 +640,46 @@ void CAnimController::CalDashTime()
 		{
 			fDashAcc = 0.f;
 			m_bCanDash = true;
+			m_bFXDash = true;
 		}
+	}
+}
+
+void CAnimController::AirAttackDelay()
+{
+	static float fAirAttCool = 1.5f;
+	static float fAirAttAcc = 0.f;
+	static bool bAirAttackDelay = false;
+
+	if (CalBit(m_pCurAnimNode->iPreferences, AIR_ATTACK_DELAY, BIT_INCLUDE))
+	{ 
+		bAirAttackDelay = true;
+	}
+
+	if (bAirAttackDelay)
+	{
+		if (fAirAttAcc >= fAirAttCool)
+		{
+			bAirAttackDelay = false;
+			fAirAttAcc = 0.f;
+		}
+		else
+		{
+			fAirAttAcc += DT;
+		}
+	}
+	else
+	{
+		AddBit(m_pCurAnimNode->iCond, CAN_AIR_ATTACK);
+	}
+}
+ 
+void CAnimController::LandingAttack()
+{
+	if (CalBit(m_pCurAnimNode->iPreferences, LANDING_ATTACK, BIT_INCLUDE))
+	{
+		if (!Rigidbody2D()->IsGround())
+			Rigidbody2D()->SetForceSpeedY(-3000.f);
 	}
 }
 

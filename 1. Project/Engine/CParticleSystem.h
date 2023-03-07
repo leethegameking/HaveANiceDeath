@@ -31,6 +31,9 @@ private:
 
     CStructuredBuffer*          m_ParticleBuffer;
     CStructuredBuffer*          m_ParticleShare;
+    CStructuredBuffer*          m_ParticleAnim;
+    CStructuredBuffer*          m_ParticleAnimFrm;
+
     Ptr<CParticleUpdateShader>  m_UpdateCS;
     //Ptr<CComputeShader>  m_UpdateCS;
 
@@ -40,7 +43,11 @@ private:
     wstring                     TEX_KEY;
     wstring                     LIGHT_TEX_KEY;
 
+    bool                        m_FirstEntry;
+
 public:
+    CStructuredBuffer* GetParticleAnimBuf() { return m_ParticleAnim; }
+
     UINT GetMaxCount() { return m_iMaxCount; }
     UINT GetAliveCount() { return m_iAliveCount; }
 
@@ -60,6 +67,7 @@ public:
 
     int GetWorldSpawn() { return m_WorldSpawn; }
     wstring GetTexKey() { return TEX_KEY; }
+    wstring GetCSKey() { return CS_KEY; }
 
     void SetWorldSpawn(bool _bSet) { m_WorldSpawn = (int)_bSet; }
     void SetRenderType(UINT _iType) { m_RenderType = _iType; }
@@ -101,6 +109,7 @@ public:
 
 public:
     void ChangeBuffer();
+    void ChangeBuffer_Anim();
 
 public:
     virtual void finaltick() override;

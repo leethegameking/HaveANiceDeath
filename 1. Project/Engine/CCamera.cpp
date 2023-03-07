@@ -24,7 +24,7 @@ CCamera::CCamera()
 	, m_fScale(1.f)
 	, m_iLayerMask(0)
 	, m_iCamIdx(0)
-	, m_bRender(true)
+	, m_bRegister(true)
 {
 	Vec2 vRenderResolution = CDevice::GetInst()->GetRenderResolution();
 	m_fAspectRatio = vRenderResolution.x / vRenderResolution.y;
@@ -41,7 +41,8 @@ void CCamera::finaltick()
 	CalcProjMat();
 
 	// 카메라 등록
-	CRenderMgr::GetInst()->RegisterCamera(this);
+	if(m_bRegister)
+		CRenderMgr::GetInst()->RegisterCamera(this);
 }
 
 void CCamera::render()
@@ -52,13 +53,22 @@ void CCamera::render()
 
 	// Shader Domain 에 따른 물체 분류
 	SortObject();
+	render_far_back();
 
 	// Domain 분류에 따른 렌더링
+	render_back();
+	render_block();
+	render_middle();
 	render_opaque();
 	render_mask();
 	render_transparent();
 	render_postprocess();
-	render_block();
+
+
+	render_front();
+	render_far_front();
+
+	render_ui();
 }
 
 
@@ -126,11 +136,7 @@ void CCamera::CalcProjMat()
 
 void CCamera::SortObject()
 {
-	m_vecQpaque.clear();
-	m_vecMask.clear();
-	m_vecTransparent.clear();
-	m_vecPostProcess.clear();
-	m_vecBlock.clear();
+	ClearVec();
 
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
 
@@ -183,10 +189,43 @@ void CCamera::SortObject()
 				case SHADER_DOMAIN::DOMAIN_BLOCK:
 					m_vecBlock.push_back(vecObj[j]);
 					break;
+				case SHADER_DOMAIN::DOMAIN_FAR_BACK:
+					m_vecFarBack.push_back(vecObj[j]);
+					break;
+				case SHADER_DOMAIN::DOMAIN_BACK:
+					m_vecBack.push_back(vecObj[j]);
+					break;
+				case SHADER_DOMAIN::DOMAIN_MIDDLE:
+					m_vecMiddle.push_back(vecObj[j]);
+					break;
+				case SHADER_DOMAIN::DOMAIN_FRONT:
+					m_vecFront.push_back(vecObj[j]);
+					break;
+				case SHADER_DOMAIN::DOMAIN_FAR_FRONT:
+					m_vecFarFront.push_back(vecObj[j]);
+					break;
+				case SHADER_DOMAIN::DOMAIN_UI:
+					m_vecUI.push_back(vecObj[j]);
+					break;
 				}
 			}
 		}
 	}
+}
+
+void CCamera::ClearVec()
+{
+	m_vecQpaque.clear();
+	m_vecMask.clear();
+	m_vecTransparent.clear();
+	m_vecPostProcess.clear();
+	m_vecBlock.clear();
+	m_vecFarBack.clear();
+	m_vecBack.clear();
+	m_vecMiddle.clear();
+	m_vecFront.clear();
+	m_vecFarFront.clear();
+	m_vecUI.clear();
 }
 
 void CCamera::render_opaque()
@@ -267,8 +306,54 @@ void CCamera::render_block()
 	{
 		vecTransition[i]->render();
 	}
+}
 
+void CCamera::render_far_back()
+{
+	for (size_t i = 0; i < m_vecFarBack.size(); ++i)
+	{
+		m_vecFarBack[i]->render();
+	}
+}
 
+void CCamera::render_back()
+{
+	for (size_t i = 0; i < m_vecBack.size(); ++i)
+	{
+		m_vecBack[i]->render();
+	}
+}
+
+void CCamera::render_middle()
+{
+	for (size_t i = 0; i < m_vecMiddle.size(); ++i)
+	{
+		m_vecMiddle[i]->render();
+	}
+}
+
+void CCamera::render_front()
+{
+	for (size_t i = 0; i < m_vecFront.size(); ++i)
+	{
+		m_vecFront[i]->render();
+	}
+}
+
+void CCamera::render_far_front()
+{
+	for (size_t i = 0; i < m_vecFarFront.size(); ++i)
+	{
+		m_vecFarFront[i]->render();
+	}
+}
+
+void CCamera::render_ui()
+{
+	for (size_t i = 0; i < m_vecUI.size(); ++i)
+	{
+		m_vecUI[i]->render();
+	}
 }
 
 void CCamera::SaveToFile(FILE* _File)

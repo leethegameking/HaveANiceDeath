@@ -19,6 +19,7 @@ enum ELEVATOR_STATE
     ELEVATOR_SELECT_LV,
     ELEVATOR_WAIT_2, // 2 -> 다른 맵으로 이동
     ELEVATOR_CLOSE_2,
+    ELEVATOR_DISAPPEAR_2,
 };
 
 class CElevatorScript :
@@ -39,8 +40,15 @@ private:
 
     float           m_fDebugAddTime;
 
+    string          m_ChangeTargetLV;
+
+    float           m_fDelayTime;
+    float           m_fAccTime;
+
 public:
     void SetLVSelectScr(CLevelSelectScript* _pScr) { m_scrLVSelect = _pScr; }
+
+    void SetChangeTargetLV(string _relPathLV) { m_ChangeTargetLV = _relPathLV; }
 
 public:
     virtual void begin() override;

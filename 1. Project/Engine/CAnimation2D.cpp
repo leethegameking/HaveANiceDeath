@@ -8,7 +8,9 @@
 
 #include "CTimeMgr.h"
 #include "CTexture.h"
-
+#include "CAnimator2D.h"
+#include "CParticleSystem.h"
+#include "CStructuredBuffer.h"
 
 
 CAnimation2D::CAnimation2D()
@@ -152,9 +154,42 @@ void CAnimation2D::UpdateData()
 	info.vSlice = m_vecFrm[m_iCurIdx].vSlice;
 	info.vFullSize = m_vecFrm[m_iCurIdx].vFullSize;
 	info.vOffset = m_vecFrm[m_iCurIdx].vOffset;
+	info.vAtlasSize = m_AtlasTex->GetSize();
 	
 	pCB->SetData(&info);
 	pCB->UpdateData(PIPELINE_STAGE::PS);
+}
+
+void CAnimation2D::UpdateData_CS()
+{
+	//============= particle ===============
+	if (m_pOwner && m_pOwner->ParticleSystem())
+	{
+		tParticleAnim tParticleAnimInfo[50] = {};
+		int idx = 0;
+		for (size_t i = 0; i < m_vecFrm.size(); ++i)
+		{
+			if (i >= 49)
+				break;
+
+			tParticleAnim tParAnim = {};
+			tParAnim.vLeftTop = m_vecFrm[i].vLeftTop;
+			tParAnim.vSlice = m_vecFrm[i].vSlice;
+			tParAnim.vFullSize = m_vecFrm[i].vFullSize;
+			tParAnim.vOffset = m_vecFrm[i].vOffset;
+			tParAnim.fDuration = m_vecFrm[i].fDuration;
+
+			tParticleAnimInfo[i] = tParAnim;
+			idx = i;
+		}
+		tParticleAnimInfo[idx + 1].iEnd = 1; // end marking
+
+		m_pOwner->ParticleSystem()->GetParticleAnimBuf()->SetData(&tParticleAnimInfo, 50);
+
+		//tParticleAnim test[50] = {};
+		//m_pOwner->ParticleSystem()->GetParticleAnimBuf()->GetData(test, sizeof(tParticle) * 50);
+		//int debug = 0;
+	}
 }
 
 void CAnimation2D::Clear()

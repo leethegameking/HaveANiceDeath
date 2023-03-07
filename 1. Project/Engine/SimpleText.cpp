@@ -67,6 +67,12 @@ void SimpleText::init()
         DWRITE_FONT_STYLE::DWRITE_FONT_STYLE_NORMAL,
         DWRITE_FONT_STRETCH::DWRITE_FONT_STRETCH_CONDENSED,
         60, L"en-us", m_pTextFormat[(int)TEXT_FORMAT::TEXT_START_SCENE].GetAddressOf());
+
+    hr = m_pDWriteFactory->CreateTextFormat(
+        L"Juice ITC", 0, DWRITE_FONT_WEIGHT::DWRITE_FONT_WEIGHT_NORMAL,
+        DWRITE_FONT_STYLE::DWRITE_FONT_STYLE_NORMAL,
+        DWRITE_FONT_STRETCH::DWRITE_FONT_STRETCH_CONDENSED,
+        30, L"en-us", m_pTextFormat[(int)TEXT_FORMAT::TEXT_DAMAGE].GetAddressOf());
 }
 
 

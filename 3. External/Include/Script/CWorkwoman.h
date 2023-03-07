@@ -3,6 +3,11 @@
 class CWorkwoman :
     public CEnemyScript
 {
+private:
+
+private:
+    Vec2 m_vDirToPlayer;
+
 public:
     virtual void begin() override;
     virtual void tick() override;

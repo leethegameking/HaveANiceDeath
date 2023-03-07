@@ -5,6 +5,8 @@
 #include "CEnemyController.h"
 #include "CProjectileScript.h"
 
+#include "CSoundMgr.h"
+
 CWorkman::CWorkman()
 	: CEnemyScript((int)SCRIPT_TYPE::WORKMAN)
 {
@@ -72,6 +74,8 @@ void CWorkman::tick()
 	case PATTERN_DEATH:
 		DeathState();
 	}
+
+	m_PrevUnitInfo = m_CurUnitInfo;
 }
 
 void CWorkman::BeginOverlap(CCollider2D* _pOther)
@@ -183,11 +187,14 @@ void CWorkman::DetectState()
 	if (m_bStateEnter)
 	{
 		Animator2D()->Play(L"animation\\workman\\EWorkmanDetect.anim", false);
+		CSoundMgr::GetInst()->Play(L"sound\\ghost_man\\ghostman_Detect.wav", 1, 0.7f);
 		m_bStateEnter = false;
 
 		// 플레이어 보는 방향으로 설정
 		ANIM_DIR eDir = GetAnimDirToPlayer();
 		SetDir(eDir);
+
+		FX_Detect();
 	}
 
 	if (CurAnimFinish())
@@ -222,7 +229,9 @@ void CWorkman::AttackReadyState()
 	if (m_bStateEnter)
 	{
 		Animator2D()->Play(L"animation\\workman\\EWorkmanAttackReady.anim", false);
+		CSoundMgr::GetInst()->Play(L"sound\\ghost_man\\ghostman_Att_Pre.wav", 1, 0.7f);
 		m_bStateEnter = false;
+		FX_Alert();
 	}
 
 	if (CurAnimFinish())
@@ -236,6 +245,7 @@ void CWorkman::AttackState()
 	if (m_bStateEnter)
 	{
 		Animator2D()->Play(L"animation\\workman\\EWorkmanAttack.anim", false);
+		CSoundMgr::GetInst()->Play(L"sound\\ghost_man\\ghostman_Att.wav", 1, 0.7f);
 
 		Vec3 vPos = Transform()->GetRelativePos();
 		vPos.x += (int)m_CurUnitInfo.m_eDir * 200.f;
@@ -260,6 +270,9 @@ void CWorkman::HitStartState()
 	if (m_bStateEnter)
 	{
 		Animator2D()->Play(L"animation\\workman\\EWorkmanHit2_1.anim", false);
+		CSoundMgr::GetInst()->Play(L"sound\\ghost_man\\ghostman_Hit.wav", 1, 0.7f);
+		FX_StunStar();
+
 		m_bStateEnter = false;
 	}
 
@@ -342,6 +355,9 @@ void CWorkman::DeathState()
 	if (m_bStateEnter)
 	{
 		Animator2D()->Play(L"animation\\workman\\EWorkmanDeath.anim", false);
+		CSoundMgr::GetInst()->Play(L"sound\\ghost_man\\ghostman_Death.wav", 1, 0.7f);
+
+		FX_Death_1();
 		m_bStateEnter = false;
 	}
 

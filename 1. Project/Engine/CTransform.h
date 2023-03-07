@@ -14,6 +14,8 @@ private:
 	Vec3		m_vWorldDir[(UINT)DIR::END];
 	Matrix		m_matWorld;
 
+	Matrix		m_matRot;
+
 	bool		m_bIgnParentScale;
 
 public:

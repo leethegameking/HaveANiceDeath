@@ -244,8 +244,10 @@ void InspectorUI::last_render()
 	{
 		if (!m_TargetRes.Get() && m_TargetObj)
 		{
+#ifdef _DEBUG
 			DebugDrawRect(Vec4(1.0f, 0.f, 1.0f, 1.f), m_TargetObj->Transform()->GetWorldPos(), m_TargetObj->Transform()->GetWorldScale() - Vec3(5.f, 5.f, 0.f), m_TargetObj->Transform()->GetWorldRotation());
 			DebugDrawRect(Vec4(1.0f, 0.f, 1.0f, 1.f), m_TargetObj->Transform()->GetWorldPos(), m_TargetObj->Transform()->GetWorldScale() + Vec3(5.f, 5.f, 0.f), m_TargetObj->Transform()->GetWorldRotation());
+#endif
 		}
 	}
 }

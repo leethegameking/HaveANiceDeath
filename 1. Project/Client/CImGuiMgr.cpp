@@ -69,6 +69,7 @@ void CImGuiMgr::progress()
     // 알림 확인
     ObserveContent();
 
+#ifdef _DEBUG
     ImGuiIO& io = ImGui::GetIO();
 
     // ImGui Update    
@@ -118,6 +119,8 @@ void CImGuiMgr::progress()
             ImGui::RenderPlatformWindowsDefault();
         }
     }
+#endif
+
 }
 
 void CImGuiMgr::clear()

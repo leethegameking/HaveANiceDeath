@@ -93,7 +93,7 @@ float4 PS_PostProcess(VS_OUT _in) : SV_Target
             float4 vNearColor = g_RTCopyTex.Sample(g_sam_0, vNearUV);
             if (vNearColor.r == 1.0f && vNearColor.g == 1.0f)
             {
-                vColor.a += 0.001f;
+                vColor.a += 0.0005f;
             }
         }
 
@@ -110,7 +110,8 @@ float4 PS_PostProcess(VS_OUT _in) : SV_Target
         }
         return float4(0.f, 0.f, 0.f, 0.f);
     }
-        return vColor;
+    
+    return vColor;
 }
 
 // Light Post Process

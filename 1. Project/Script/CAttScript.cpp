@@ -16,6 +16,16 @@ CAttScript::CAttScript()
 {
 }
 
+CAttScript::CAttScript(const CAttScript& _origin)
+	: CScript(_origin)
+	, m_pUnitScr(nullptr)
+	, m_pAnimCon(nullptr)
+	, m_pProjScr(nullptr)
+	, m_fCoefficient(1.f)
+	, m_bFirstTick(true)
+{
+}
+
 CAttScript::CAttScript(int _iScriptType)
 	: CScript(_iScriptType)
 	, m_pUnitScr(nullptr)

@@ -2,7 +2,7 @@
 #include "CEnemyScript.h"
 
 #include "CPlayerMgr.h"
-
+#include <Engine/CEventMgr.h>
 
 CEnemyScript::CEnemyScript()
 {
@@ -22,6 +22,14 @@ CEnemyScript::CEnemyScript(int _iScriptType)
 	, m_bDeath(false)
 {
 	AddScriptParam(SCRIPT_PARAM::PREFAB, "Projectile", &m_pProjectile);
+
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "FX-Detect", &m_FX_Detect);
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "FX-Death_1", &m_FX_Death_1);
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "FX-Death_2", &m_FX_Death_2);
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "FX-StunStar", &m_FX_StunStar);
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "FX-Alert", &m_FX_Alert);
+
+	AddScriptParam(SCRIPT_PARAM::INT, "pattern", &m_eCurPattern);
 }
 
 CEnemyScript::CEnemyScript(const CEnemyScript& _origin)
@@ -36,8 +44,22 @@ CEnemyScript::CEnemyScript(const CEnemyScript& _origin)
 	, m_fFaintTime(3.f)
 	, m_bUturn(false)
 	, m_bDeath(false)
+	, m_FX_Detect(_origin.m_FX_Detect)
+	, m_FX_Death_1(_origin.m_FX_Death_1)
+	, m_FX_Death_2(_origin.m_FX_Death_2)
+	, m_FX_StunStar(_origin.m_FX_StunStar)
+	, m_FX_Alert(_origin.m_FX_Alert)
+
 {
 	AddScriptParam(SCRIPT_PARAM::PREFAB, "Projectile", &m_pProjectile);
+
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "FX-Detect", &m_FX_Detect);
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "FX-Death_1", &m_FX_Death_1);
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "FX-Death_2", &m_FX_Death_2);
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "FX-StunStar", &m_FX_StunStar);
+	AddScriptParam(SCRIPT_PARAM::PREFAB, "FX-Alert", &m_FX_Alert);
+
+	AddScriptParam(SCRIPT_PARAM::INT, "pattern", &m_eCurPattern);
 }
 
 CEnemyScript::~CEnemyScript()
@@ -80,8 +102,8 @@ void CEnemyScript::tick()
 	if (m_fFaintGauge < 0.f && !CalBit(m_eCurPattern, PATTERN_HIT_START | PATTERN_HIT_LOOP | PATTERN_HIT_END | PATTERN_DEATH, BIT_LEAST_ONE))
 	{
 		m_bStateEnter = true;
-		m_ePrevPattern = m_eCurPattern;
 		m_eCurPattern = PATTERN_HIT_START;
+		m_ePrevPattern = m_eCurPattern;
 	}
 
 	// Death
@@ -89,8 +111,8 @@ void CEnemyScript::tick()
 	{
 		m_bDeath = true;
 		m_bStateEnter = true;
-		m_ePrevPattern = m_eCurPattern;
 		m_eCurPattern = PATTERN_DEATH;
+		m_ePrevPattern = m_eCurPattern;
 	}
 }
 
@@ -130,6 +152,71 @@ bool CEnemyScript::CurAnimFinish()
 		return false;
 }
 
+void CEnemyScript::FX_Detect()
+{
+	if (m_FX_Detect.Get())
+	{
+		CGameObject* pFXObj = m_FX_Detect->Instantiate();
+		Vec3 v3InstPos = Vec3( 50.f , Collider2D()->GetFinalScale().y / 2.f + 30.f, 0.f);
+		pFXObj->Transform()->SetRelativePos(v3InstPos);
+
+		tEvent evn;
+		evn.eType = EVENT_TYPE::ADD_CHILD;
+		evn.wParam = (DWORD_PTR)pFXObj;
+		evn.lParam = (DWORD_PTR)GetOwner();
+
+		CEventMgr::GetInst()->AddEvent(evn);
+	}
+}
+
+void CEnemyScript::FX_Alert()
+{
+	if (m_FX_Alert.Get())
+	{
+		CGameObject* pFXObj = m_FX_Alert->Instantiate();
+		tEvent evn;
+		evn.eType = EVENT_TYPE::ADD_CHILD;
+		evn.wParam = (DWORD_PTR)pFXObj;
+		evn.lParam = (DWORD_PTR)GetOwner();
+
+		CEventMgr::GetInst()->AddEvent(evn);
+	}
+}
+
+void CEnemyScript::FX_Death_1()
+{
+	if (m_FX_Death_1.Get())
+	{
+		CGameObject* pFXObj =  m_FX_Death_1->Instantiate();
+		Instantiate(pFXObj, Transform()->GetWorldPos());
+	}
+}
+
+void CEnemyScript::FX_Death_2()
+{
+	if (m_FX_Death_2.Get())
+	{
+		CGameObject* pFXObj = m_FX_Death_2->Instantiate();
+		Instantiate(pFXObj, Transform()->GetWorldPos());
+	}
+}
+
+void CEnemyScript::FX_StunStar()
+{
+	
+	if (m_FX_StunStar.Get())
+	{
+		static float fCorrection = 30.f;
+
+		CGameObject* pFXObj = m_FX_StunStar->Instantiate();
+		Vec3 vPos = Vec3(0.f, m_pHitObj->Collider2D()->GetFinalScale().y / 2.f + fCorrection, 0.f);
+		pFXObj->Transform()->SetRelativePos(vPos);
+		AddChild(pFXObj, GetOwner());
+	}
+}
+
+
+
 void CEnemyScript::SaveToFile(FILE* _pFile)
 {
 	CUnitScript::SaveToFile(_pFile);
@@ -141,6 +228,12 @@ void CEnemyScript::SaveToFile(FILE* _pFile)
 	fwrite(&bProjectile, sizeof(bool), 1, _pFile);
 	if (bProjectile)
 		SaveResourceRef<CPrefab>(m_pProjectile, _pFile);
+
+	SaveResourceRef(m_FX_Detect, _pFile);
+	SaveResourceRef(m_FX_Death_1, _pFile);
+	SaveResourceRef(m_FX_Death_2, _pFile);
+	SaveResourceRef(m_FX_StunStar, _pFile);
+	SaveResourceRef(m_FX_Alert, _pFile);
 }
 
 void CEnemyScript::LoadFromFile(FILE* _pFile)
@@ -151,6 +244,12 @@ void CEnemyScript::LoadFromFile(FILE* _pFile)
 	fread(&bProjectile, sizeof(bool), 1, _pFile);
 	if (bProjectile)
 		LoadResourceRef<CPrefab>(m_pProjectile, _pFile);
+
+	LoadResourceRef(m_FX_Detect, _pFile);
+	LoadResourceRef(m_FX_Death_1, _pFile);
+	LoadResourceRef(m_FX_Death_2, _pFile);
+	LoadResourceRef(m_FX_StunStar, _pFile);
+	LoadResourceRef(m_FX_Alert, _pFile);
 }
 
 ANIM_DIR CEnemyScript::GetAnimDirToPlayer()

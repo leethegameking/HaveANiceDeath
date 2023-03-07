@@ -3,11 +3,13 @@
 class CBasicTextScript :
     public CTextScript
 {
-private:
+protected:
     string  m_strText;
 
     int     m_eFormatType;
 
+public:
+    void SetText(const string& _text) { m_strText = _text; }
 
 public:
     virtual void begin() override;
@@ -24,6 +26,7 @@ public:
     CLONE(CBasicTextScript);
 public:
     CBasicTextScript();
+    CBasicTextScript(int _iScriptType);
     CBasicTextScript(const CBasicTextScript& _origin);
     ~CBasicTextScript();
 };

@@ -8,3 +8,11 @@ CCameraMgr.h
 CCameraMgr.cpp
 CUIMgr.h
 CUIMgr.cpp
+CTriggerFunc.cpp
+CTriggerMgr.h
+CTriggerMgr.cpp
+extern.cpp
+CEffectMgr.h
+CEffectMgr.cpp
+CSoundMgr.h
+CSoundMgr.cpp

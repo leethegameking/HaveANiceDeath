@@ -69,6 +69,24 @@ void CRigidbody2D::finaltick()
 		// 속도 변화량
 	vSpeed += DT * vFinalForce / m_fMass;
 
+	// 보정
+	if (fabs(vSpeed.x) > fabs(m_fMaxSpeed))
+	{
+		if (vSpeed.x < 0.f)
+			vSpeed.x = -m_fMaxSpeed;
+		else
+			vSpeed.x = m_fMaxSpeed;
+	}
+
+	// 중력 속도 보정
+	if (vSpeed.y < 0.f)
+	{
+		if (fabs(vSpeed.y) > fabs(m_fMaxGravitySpeed))
+		{
+			vSpeed.y = -m_fMaxGravitySpeed;
+		}
+	}
+
 	// 강제적인 속도 세팅  /s 
 	if (m_ForceX.Flag)
 	{
@@ -93,25 +111,6 @@ void CRigidbody2D::finaltick()
 		else
 		{
 			m_ForceY.Flag = false;
-		}
-	}
-	
-
-	// 보정
-	if (fabs(vSpeed.x) > fabs(m_fMaxSpeed))
-	{
-		if (vSpeed.x < 0.f)
-			vSpeed.x = -m_fMaxSpeed;
-		else
-			vSpeed.x = m_fMaxSpeed;
-	}
-
-	// 중력 속도 보정
-	if (vSpeed.y < 0.f)
-	{
-		if (fabs(vSpeed.y) > fabs(m_fMaxGravitySpeed))
-		{
-			vSpeed.y = -m_fMaxGravitySpeed;
 		}
 	}
 

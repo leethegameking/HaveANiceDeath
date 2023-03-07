@@ -21,7 +21,18 @@
 
 void CreateTestLevel()
 {
+	tEvent evn;
+	//evn.eType = EVENT_TYPE::CHANGE_LEVEL;
+	//evn.wParam = 
 	CLevelMgr::GetInst()->ChangeLevel(CSaveLoadMgr::GetInst()->LoadLevel(L"level\\Start_Level.lv"));
+	//CEventMgr::GetInst()->AddEvent(evn);
+	
+#ifdef _DEBUG
+#else
+	evn.eType = EVENT_TYPE::CHANGE_LEVEL_STATE;
+	evn.wParam = (DWORD_PTR)LEVEL_STATE::PLAY;
+	CEventMgr::GetInst()->AddEvent(evn);
+#endif
 	/*CLevelMgr::GetInst()->ChangeLevel(CSaveLoadMgr::GetInst()->LoadLevel(L"level\\TestLevel.lv"));*/
 	return;
 

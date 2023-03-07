@@ -5,6 +5,8 @@
 #include "CEnemyController.h"
 #include "CProjectileScript.h"
 
+#include "CSoundMgr.h"
+
 CWorkwoman::CWorkwoman()
 	: CEnemyScript((int)SCRIPT_TYPE::WORKWOMAN)
 {
@@ -71,6 +73,8 @@ void CWorkwoman::tick()
 	case PATTERN_DEATH:
 		DeathState();
 	}
+
+	m_PrevUnitInfo = m_CurUnitInfo;
 }
 
 void CWorkwoman::BeginOverlap(CCollider2D* _pOther)
@@ -182,11 +186,15 @@ void CWorkwoman::DetectState()
 	if (m_bStateEnter)
 	{
 		Animator2D()->Play(L"animation\\workwoman\\E_Workwoman_Detect.anim", false);
+		CSoundMgr::GetInst()->Play(L"sound\\ghost_woman\\ghostwoman_Detect.wav", 1, 0.7f);
 		m_bStateEnter = false;
 
 		// 플레이어 보는 방향으로 설정
 		ANIM_DIR eDir = GetAnimDirToPlayer();
 		SetDir(eDir);
+
+		// Instantitate FX Detect
+		FX_Detect();
 	}
 
 	if (CurAnimFinish())
@@ -198,7 +206,7 @@ void CWorkwoman::DetectState()
 
 void CWorkwoman::RunState()
 {
-	if (m_bStateEnter)
+	if (m_bStateEnter) 
 	{
 		Animator2D()->Play(L"animation\\workwoman\\E_Workwoman_Idle.anim");
 		m_bStateEnter = false;
@@ -222,6 +230,8 @@ void CWorkwoman::AttackReadyState()
 	{
 		Animator2D()->Play(L"animation\\workwoman\\E_Workwoman_Attack_Start.anim", false);
 		m_bStateEnter = false;
+		m_vDirToPlayer = GetDirToPlayer();
+		FX_Alert();
 	}
 
 	if (CurAnimFinish())
@@ -235,13 +245,14 @@ void CWorkwoman::AttackState()
 	if (m_bStateEnter)
 	{
 		Animator2D()->Play(L"animation\\workwoman\\E_Workwoman_Attack.anim", false);
+		CSoundMgr::GetInst()->Play(L"sound\\ghost_woman\\ghostwoman_Att.wav", 1, 0.7f);
 
 		Vec3 vPos = Transform()->GetRelativePos();
-		vPos.x += (int)m_CurUnitInfo.m_eDir * 200.f;
+		vPos.x += (int)m_CurUnitInfo.m_eDir * 50.f;
 		CGameObject* pCloneObj = m_pProjectile->Instantiate();
 		Instantiate(pCloneObj, vPos, (int)LAYER_NAME::ENEMY_PROJ);
 		CProjectileScript* pProjScr = pCloneObj->GetScript<CProjectileScript>();
-		pProjScr->SetDir(GetDirToPlayer()); // Attack Ready에서 받아오기
+		pProjScr->SetDir(m_vDirToPlayer); // Attack Ready에서 받아오기
 		pProjScr->SetAnimationKey(L"animation\\workwoman\\E_Workwoman_Attack_Proj.anim");
 
 		m_bStateEnter = false;
@@ -258,6 +269,9 @@ void CWorkwoman::HitStartState()
 	if (m_bStateEnter)
 	{
 		Animator2D()->Play(L"animation\\workwoman\\E_Workwoman_Hit_Start.anim", false);
+		CSoundMgr::GetInst()->Play(L"sound\\ghost_woman\\ghostwoman_HIt.wav", 1, 0.7f);
+		FX_StunStar();
+
 		m_bStateEnter = false;
 	}
 
@@ -337,6 +351,9 @@ void CWorkwoman::DeathState()
 	if (m_bStateEnter)
 	{
 		Animator2D()->Play(L"animation\\workwoman\\E_Workwoman_Death.anim", false);
+		CSoundMgr::GetInst()->Play(L"sound\\ghost_woman\\ghostwoman_Death.wav", 1, 0.7f);
+
+		FX_Death_1();
 		m_bStateEnter = false;
 	}
 

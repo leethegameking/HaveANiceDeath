@@ -28,6 +28,11 @@ void CCameraMgr::RegisterCamera(CGameObject* _pObj)
 	m_arrCameraObj[(int)eType] = _pObj;
 }
 
+void CCameraMgr::RegisterCameraPoint(CGameObject* _pObj, CAMERA_POINT_TYPE _eType)
+{
+	m_arrCamPoint[(int)_eType] = _pObj;
+}
+
 void CCameraMgr::Clear()
 {
 }
@@ -50,4 +55,9 @@ CGameObject* CCameraMgr::GetCutSceneCamera()
 CGameObject* CCameraMgr::GetBossCamera()
 {
 	return m_arrCameraObj[(int)CAMERA_TYPE::BOSS];
+}
+
+CGameObject* CCameraMgr::GetCamPoint(CAMERA_POINT_TYPE _eType)
+{
+	return  m_arrCamPoint[(int)_eType];
 }

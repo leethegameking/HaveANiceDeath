@@ -41,6 +41,7 @@ public:
     CLONE(CAttScript)
 public:
     CAttScript();
+    CAttScript(const CAttScript& _origin);
     CAttScript(int _iScriptType);
     ~CAttScript();
 };

@@ -32,7 +32,14 @@ struct tParticle
     float   fMaxTime;
     float   fCurTime;
     float   fSpeed;
-    uint    iActive;
+    uint    iActive; // 0 Ready | 1 Play | 2 Dead
+};
+
+struct tAnimIdx
+{
+    int iAnimIdx;
+    float fAcc;
+    int iPadding[2];
 };
 
 struct tParticleShare
@@ -41,6 +48,29 @@ struct tParticleShare
     uint3 iPadding;
 };
 
+struct tParticleAnim
+{
+    float2 vLeftTop;
+    float2 vSlice;
+    float2 vOffset;
+    float2 vFullSize;
+    float fDuration;
+    float fAcc;
+    
+    int iEnd;
+    int iPadding;
+};
+
+struct tAnim2DInfo
+{
+    float2 vLeftTop;
+    float2 vSlice;
+    float2 vOffset;
+    float2 vFullSize;
+
+    int iAnim2DUse;
+    int iPadding[3];
+};
 
 
 

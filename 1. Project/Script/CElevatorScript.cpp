@@ -3,9 +3,12 @@
 
 #include "CPlayerMgr.h"
 #include <Engine/CPrefab.h>
-#include <Script/CUIMgr.h>
+#include "CUIMgr.h"
 #include "CLevelSelectScript.h"
 #include <Engine/CGameObject.h>
+#include "CEffectMgr.h"
+#include "CCameraMgr.h"
+#include "CSoundMgr.h"
 
 CElevatorScript::CElevatorScript()
 	: CScript((int)SCRIPT_TYPE::ELEVATORSCRIPT)
@@ -35,14 +38,14 @@ void CElevatorScript::begin()
 	m_bFirstState = true;
 	m_fDetectRadius = 300.f;
 	m_fDebugAddTime = 0.25f;
+
+	m_fDelayTime = 2.5f;
+	m_fAccTime = 0.f;
 }
 
 void CElevatorScript::tick()
 {  
-	static float fDelayTime = 2.f;
-	static float fAccTime = 0.f;
-
-	if (fDelayTime <= fAccTime)
+	if (m_fDelayTime <= m_fAccTime)
 	{
 		switch (m_eElevatorState)
 		{
@@ -51,6 +54,7 @@ void CElevatorScript::tick()
 			if (m_bFirstState)
 			{
 				Animator2D()->Play(L"animation\\elevator\\ElevatorAppear.anim", false);
+				CSoundMgr::GetInst()->Play(L"sound\\effect\\elevator_open_up.wav", 1, 0.8f);
 				m_bFirstState = false;
 			}
 
@@ -68,6 +72,7 @@ void CElevatorScript::tick()
 			if (m_bFirstState)
 			{
 				Animator2D()->Play(L"animation\\elevator\\ElevatorOpen.anim", false);
+				CSoundMgr::GetInst()->Play(L"sound\\effect\\elevator_open_door.wav", 1, 0.8f);
 				m_bFirstState = false;
 			}
 
@@ -78,6 +83,7 @@ void CElevatorScript::tick()
 
 				// 엘레베이터 애니메이션 재생
 				CPlayerMgr::GetInst()->GetPlayerObj()->Animator2D()->Play(L"animation\\player\\PlayerElevatorIn_Loop.anim");
+				Instantiate(CUIMgr::GetInst()->GetUIObj(UI_TYPE::UI_PLAYER_STATE), Vec3::Zero);
 			}
 		}
 		break;
@@ -155,6 +161,7 @@ void CElevatorScript::tick()
 				if (KEY_TAP(KEY::F))
 				{
 					CPlayerMgr::GetInst()->SetPlayerDisable(true);
+					CUIMgr::GetInst()->DestroyUI(UI_TYPE::UI_PLAYER_STATE);
 					m_pPlayerObj->Rigidbody2D()->SetIgnGravity(true);
 					m_eElevatorState = ELEVATOR_IN_RUN;
 					m_bFirstState = true;
@@ -210,6 +217,7 @@ void CElevatorScript::tick()
 			if (m_bFirstState)
 			{
 				m_pPlayerObj->Animator2D()->Play(L"animation\\player\\PlayerElevatorIn_Loop.anim", true);
+				CSoundMgr::GetInst()->PlayBGM(L"sound\\bgm\\bgm_elevator.wav", 0.8f);
 				m_bFirstState = false;
 				vScaleOrigin = m_pPlayerObj->Transform()->GetRelativeScale();
 			}
@@ -223,11 +231,11 @@ void CElevatorScript::tick()
 			else
 			{
 				// Height change
-				float vHeightChange = fAccTime / fUpTime * DT * fUpHeight;
+				float vHeightChange = m_fAccTime / fUpTime * DT * fUpHeight;
 				m_pPlayerObj->Transform()->AddRelativePos(Vec3(0.f, vHeightChange, 0.f));
 
 				// Scale Change
-				float vScaleChange = 1.f - fReduceRatio * fAccTime / fUpTime;
+				float vScaleChange = 1.f - fReduceRatio * m_fAccTime / fUpTime;
 				Vec3 vScaleChanged = vScaleOrigin * vScaleChange;
 				m_pPlayerObj->Transform()->SetRelativeScale(vScaleChanged);
 
@@ -292,6 +300,7 @@ void CElevatorScript::tick()
 			if (m_bFirstState)
 			{
 				Animator2D()->Play(L"animation\\elevator\\ElevatorClose.anim", false);
+				CSoundMgr::GetInst()->Play(L"sound\\effect\\elevator_close_door.wav", 1, 0.8f);
 				m_bFirstState = false;
 				fSumDuration = Animator2D()->GetCurAnim()->GetSumDuration();
 				pPlayerMtrl = m_pPlayerObj->MeshRender()->GetCurMaterial();
@@ -299,13 +308,13 @@ void CElevatorScript::tick()
 
 			if (Animator2D()->GetCurAnim()->IsFinish())
 			{
-				// Player가 서서히 등장.
-				m_eElevatorState = ELEVATOR_DISAPPEAR;
+				m_eElevatorState = ELEVATOR_DISAPPEAR_2;
 				m_bFirstState = true;
 				fAccTime = 0.f;
 			}
 			else
 			{
+				// player dissapear
 				float fRatio = (fAccTime + m_fDebugAddTime) / fSumDuration;
 				int iElevatorCloseBool = 1;
 				
@@ -319,11 +328,59 @@ void CElevatorScript::tick()
 		}
 		break;
 
+		case ELEVATOR_DISAPPEAR_2:
+		{
+			static bool bOnce;
+			static bool bElevatorFinish;
+			static CGameObject* pTranstionFX;
+			if (m_bFirstState)
+			{
+				Animator2D()->Play(L"animation\\elevator\\ElevatorEnd.anim", false);
+				CSoundMgr::GetInst()->Play(L"sound\\effect\\elevator_close_down.wav", 1, 0.8f);
+				m_bFirstState = false;
+
+				bOnce = true;
+				bElevatorFinish = false;
+				pTranstionFX = CEffectMgr::GetInst()->GetFXObj(FX_TYPE::TRANSITION_END);
+			}
+
+			if (Animator2D()->GetCurAnim()->IsFinish() && bOnce)
+			{
+				// Transition Instantiate -> Finish -> Level Change
+				Vec3 vInstantiatePos = CCameraMgr::GetInst()->GetMainCamera()->Transform()->GetWorldPos();
+				Instantiate(pTranstionFX, vInstantiatePos);
+				bOnce = false;
+				bElevatorFinish = true;
+			}
+
+			if (bElevatorFinish && pTranstionFX->Animator2D()->GetCurAnim().Get())
+			{
+				if (pTranstionFX->Animator2D()->GetCurAnim()->IsFinish())
+				{
+					 CEffectMgr::GetInst()->DestroyFX(FX_TYPE::TRANSITION_END);
+					m_ChangeTargetLV = "level\\BossRoom.lv";
+
+					tEvent evn;
+					evn.eType = EVENT_TYPE::CHANGE_LEVEL;
+					evn.wParam = (DWORD_PTR)m_ChangeTargetLV.data();
+					CEventMgr::GetInst()->AddEvent(evn);
+
+					evn.eType = EVENT_TYPE::CHANGE_LEVEL_STATE;
+					evn.wParam = (DWORD_PTR)LEVEL_STATE::PLAY;
+					CEventMgr::GetInst()->AddEvent(evn);
+					bElevatorFinish = false;
+
+					CPlayerMgr::GetInst()->SavePlayerInfo(); // 저장
+				}
+			}
+		}
+		break;
+
 		}
 	}
 	else
 	{
-		fAccTime += DT;
+		m_fAccTime += DT;
 	}
 }
 

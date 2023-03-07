@@ -167,9 +167,8 @@ void ListUI::Close()
 	m_SelectInst = nullptr;
 	m_SelectFunc = nullptr;
 
-
-	UI* m_ConfirmInst = nullptr;
-	FUNC_1 m_ConfirmFunc = nullptr;
+	m_ConfirmInst = nullptr;
+	m_ConfirmFunc = nullptr;
 
 	m_bMultiSelectIdx.clear();
 	m_bIntialized = false;

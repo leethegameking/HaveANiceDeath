@@ -8,31 +8,13 @@
 
 #include <Engine/CParticleSystem.h>
 #include <Engine/CResMgr.h>
+#include "ParamUI.h"
+#include "TreeUI.h"
 
 ParticleSystemUI::ParticleSystemUI()
 	: ComponentUI("ParticleSystemUI", COMPONENT_TYPE::PARTICLESYSTEM)
 {
 	m_CSComboBox = new ComboBox;
-	map<wstring, Ptr<CRes>> mapCS = CResMgr::GetInst()->GetResource(RES_TYPE::COMPUTE_SHADER);
-	map<wstring, Ptr<CRes>>::const_iterator iter = mapCS.begin();
-	int i = 0;
-	int idx = 0;
-	vector<string> vecItemList;
-	vecItemList.reserve(mapCS.size());
-	for (; iter != mapCS.end(); ++iter)
-	{
-		vecItemList.push_back(WstrToStr(iter->first));
-		if (iter->first == L"ParticleUpdateShader")
-		{
-			idx = i;
-		}
-		else
-		{
-			++i;
-		}
-	}
-	m_CSComboBox->init<CComputeShader>(vecItemList, idx);
-	m_CSComboBox->AddSelectedFunc(this, (FUNC_1)&ParticleSystemUI::SetCSKey);
 }
 
 ParticleSystemUI::~ParticleSystemUI()
@@ -49,6 +31,33 @@ void ParticleSystemUI::SetTexture(DWORD_PTR _texKey)
 	GetTarget()->ParticleSystem()->SetTexture(wstrKey);
 }
 
+void ParticleSystemUI::init()
+{
+	wstring strCSKey = GetTarget()->ParticleSystem()->GetCSKey();
+
+	map<wstring, Ptr<CRes>> mapCS = CResMgr::GetInst()->GetResource(RES_TYPE::COMPUTE_SHADER);
+	map<wstring, Ptr<CRes>>::const_iterator iter = mapCS.begin();
+	int i = 0;
+	int idx = 0;
+	vector<string> vecItemList;
+	vecItemList.reserve(mapCS.size());
+	for (; iter != mapCS.end(); ++iter)
+	{
+		vecItemList.push_back(WstrToStr(iter->first));
+		if (iter->first == strCSKey)
+		{
+			idx = i;
+		}
+		else
+		{
+			++i;
+		}
+	}
+
+	m_CSComboBox->init<CComputeShader>(vecItemList, idx);
+	m_CSComboBox->AddSelectedFunc(this, (FUNC_1)&ParticleSystemUI::SetCSKey);
+}
+
 void ParticleSystemUI::update()
 {
 
@@ -58,6 +67,103 @@ void ParticleSystemUI::update()
 
 void ParticleSystemUI::render_update()
 {
+	if (GetTarget())
+	{
+		m_Mesh = GetTarget()->ParticleSystem()->GetMesh();
+		m_Mtrl = GetTarget()->ParticleSystem()->GetCurMaterial();
+		if (GetTarget()->ParticleSystem()->IsDynamicMtrl())
+		{
+			m_bDynamicMtrl = true;
+		}
+		else
+		{
+			m_bDynamicMtrl = false;
+		}
+	}
+
+	// 컴포넌트 타입 텍스트 버튼
+	ComponentUI::render_update();
+	if (!IsOpen())
+		return;
+
+	string MeshName, MtrlName;
+
+	if (m_Mesh.Get())
+	{
+		MeshName = string(m_Mesh->GetKey().begin(), m_Mesh->GetKey().end());
+	}
+
+	if (m_Mtrl.Get())
+	{
+		MtrlName = string(m_Mtrl->GetKey().begin(), m_Mtrl->GetKey().end());
+	}
+
+	ImGui::Text("Mesh     ");
+	ImGui::SameLine();
+	ImGui::InputText("##MeshName", (char*)MeshName.data(), MeshName.length(), ImGuiInputTextFlags_ReadOnly);
+
+
+
+	ImGui::SameLine();
+	if (ImGui::Button("##MeshBtn", Vec2(15.f, 15.f)))
+	{
+		ListUI* pListUI = dynamic_cast<ListUI*>(CImGuiMgr::GetInst()->FindUI("ListUIModal"));
+		assert(pListUI);
+
+		// 메쉬 목록을 받아와서 ListUI에 전달
+		const map<wstring, Ptr<CRes>>& mapRes = CResMgr::GetInst()->GetResource(RES_TYPE::MESH);
+		static vector<wstring> vecRes;
+		vecRes.clear();
+
+		// 맵에서 이름만 뽑아서 벡터에 전달해줌.
+		map<wstring, Ptr<CRes>>::const_iterator iter = mapRes.begin();
+		for (; iter != mapRes.end(); ++iter)
+		{
+			vecRes.push_back(iter->first);
+		}
+		// 이름 ItemList로 복사
+		pListUI->init(WstrToStrVec(vecRes));
+
+		// Item이 DoubleClick되었을때 이 객체의 SetMesh함수를 호출한다. 
+		pListUI->AddDynamicDBClicked(this, (FUNC_1)&ParticleSystemUI::SetMesh);
+
+		pListUI->Open();
+	}
+
+	ImGui::Text("Material ");
+	ImGui::SameLine();
+	ImGui::InputText("##MtrlName", (char*)MtrlName.data(), MtrlName.length(), ImGuiInputTextFlags_ReadOnly);
+
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("##ContentTree"))
+		{
+			TreeNode* pNode = (TreeNode*)payload->Data;
+			CRes* pRes = (CRes*)pNode->GetData();
+
+			if (RES_TYPE::MATERIAL == pRes->GetResType())
+			{
+				GetTarget()->ParticleSystem()->SetSharedMaterial((CMaterial*)pRes);
+			}
+		}
+
+
+		ImGui::EndDragDropTarget();
+	}
+	ImGui::SameLine();
+	MtrlBtn();
+
+
+	if (ImGui::RadioButton("Shared", !m_bDynamicMtrl))
+	{
+		GetTarget()->ParticleSystem()->GetSharedMaterial();
+	}
+	ImGui::SameLine();
+	if (ImGui::RadioButton("Dynamic", m_bDynamicMtrl))
+	{
+		GetTarget()->ParticleSystem()->GetDynamicMaterial();
+	}
+
 	if (GetTarget())
 	{
 		m_iMaxCount = GetTarget()->ParticleSystem()->GetMaxCount();
@@ -85,6 +191,19 @@ void ParticleSystemUI::render_update()
 
 		wstring CSKey = GetTarget()->ParticleSystem()->GetUpdateCS()->GetKey();
 		m_CSKey = WstrToStr(CSKey);
+
+		//========================================================================
+
+		m_Mesh = GetTarget()->ParticleSystem()->GetMesh();
+		m_Mtrl = GetTarget()->ParticleSystem()->GetCurMaterial();
+		if (GetTarget()->ParticleSystem()->IsDynamicMtrl())
+		{
+			m_bDynamicMtrl = true;
+		}
+		else
+		{
+			m_bDynamicMtrl = false;
+		}
 	}
 
 	ComponentUI::render_update();
@@ -173,6 +292,12 @@ void ParticleSystemUI::render_update()
 		GetTarget()->ParticleSystem()->SetFrequency(m_Frequency);
 		GetTarget()->ParticleSystem()->SetWorldSpawn(m_WorldSpawn);
 	}
+
+	ImGui::NewLine();
+	if (m_bDynamicMtrl)
+	{
+		ParamUI::ShowShaderParam(m_Mtrl.Get());
+	}
 }
 
 void ParticleSystemUI::SetCSKey(DWORD_PTR _CSKey)
@@ -182,3 +307,53 @@ void ParticleSystemUI::SetCSKey(DWORD_PTR _CSKey)
 }
 
 
+void ParticleSystemUI::MtrlBtn()
+{
+	if (ImGui::Button("##MtrlBtn", Vec2(15.f, 15.f)))
+	{
+		ListUI* pListUI = dynamic_cast<ListUI*>(CImGuiMgr::GetInst()->FindUI("ListUIModal"));
+		assert(pListUI);
+
+		// 재질 목록을 받아와서 ListUI에 전달
+		const map<wstring, Ptr<CRes>>& mapRes = CResMgr::GetInst()->GetResource(RES_TYPE::MATERIAL);
+		static vector<wstring> vecRes;
+		vecRes.clear();
+
+		// 맵에서 이름만 뽑아서 벡터에 전달해줌.
+		map<wstring, Ptr<CRes>>::const_iterator iter = mapRes.begin();
+		for (; iter != mapRes.end(); ++iter)
+		{
+			vecRes.push_back(iter->first);
+		}
+		// 이름 ItemList로 복사
+		pListUI->SetItemList(vecRes);
+
+		// Item이 DoubleClick되었을때 이 객체의 SetMesh함수를 호출한다. 
+		pListUI->AddDynamicDBClicked(this, (FUNC_1)&ParticleSystemUI::SetMaterial);
+
+		pListUI->Open();
+	}
+}
+
+void ParticleSystemUI::SetMaterial(DWORD_PTR _strMaterialKey)
+{
+	string strKey = (char*)_strMaterialKey;
+	wstring wstrKey = wstring(strKey.begin(), strKey.end());
+
+	Ptr<CMaterial> pMtrl = CResMgr::GetInst()->FindRes<CMaterial>(wstrKey);
+	assert(nullptr != pMtrl);
+
+	GetTarget()->ParticleSystem()->SetSharedMaterial(pMtrl);
+	GetTarget()->ParticleSystem()->ClearDynamicMtrl();
+}
+
+void ParticleSystemUI::SetMesh(DWORD_PTR _strMeshKey)
+{
+	string strKey = (char*)_strMeshKey;
+	wstring wstrKey = wstring(strKey.begin(), strKey.end());
+
+	Ptr<CMesh> pMesh = CResMgr::GetInst()->FindRes<CMesh>(wstrKey);
+	assert(nullptr != pMesh);
+
+	GetTarget()->ParticleSystem()->SetMesh(pMesh);
+}
